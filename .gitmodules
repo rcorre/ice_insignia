@@ -1,0 +1,3 @@
+[submodule "ext/dallegro5"]
+	path = ext/dallegro5
+	url = https://github.com/SiegeLord/DAllegro5
