@@ -16,32 +16,29 @@ import std.typecons : staticIota;
 public enum jsonize;
 
 // Primitive Type Conversions -----------------------------------------------------------
+/// convert a bool to a JSONValue
+JSONValue toJSON(T : bool)(T val) {
+  return JSONValue(val);
+}
+
 /// convert a string to a JSONValue
 JSONValue toJSON(T : string)(T val) {
-  JSONValue json;
-  json.str = val;
-  return json;
+  return JSONValue(val);
 }
 
 /// convert a floating point value to a JSONValue
 JSONValue toJSON(T : real)(T val) if (!is(T == enum)) {
-  JSONValue json;
-  json.floating = val;
-  return json;
+  return JSONValue(val);
 }
 
 /// convert a signed integer to a JSONValue
 JSONValue toJSON(T : long)(T val) if (isSigned!T && !is(T == enum)) {
-  JSONValue json;
-  json.integer = val;
-  return json;
+  return JSONValue(val);
 }
 
 /// convert an unsigned integer to a JSONValue
 JSONValue toJSON(T : ulong)(T val) if (isUnsigned!T && !is(T == enum)) {
-  JSONValue json;
-  json.uinteger = val;
-  return json;
+  return JSONValue(val);
 }
 
 /// convert an enum name to a JSONValue
@@ -96,6 +93,19 @@ private void assertJsonType(T)(JSONValue json, JSON_TYPE[] expected ...) {
 }
 
 /// extract a string type from a json value
+T extract(T : bool)(JSONValue json) {
+  if (json.type == JSON_TYPE.TRUE) {
+    return true;
+  }
+  else if (json.type == JSON_TYPE.FALSE) {
+    return false;
+  }
+  else {
+    assert(0, format("tried to extract bool from json of type %s", json.type));
+  }
+}
+
+/// extract a string type from a json value
 T extract(T : string)(JSONValue json) {
   assertJsonType!T(json, JSON_TYPE.STRING);
   return cast(T) json.str;
@@ -111,7 +121,7 @@ T extract(T : real)(JSONValue json) if (!is(T == enum)) {
     case JSON_TYPE.UINTEGER:
       return cast(T) json.uinteger;
     default:
-      enforce(0, format("tried to extract %s  from json of type %s", T.stringof, json.type));
+      enforce(0, format("tried to extract %s from json of type %s", T.stringof, json.type));
   }
   assert(0);
 }
