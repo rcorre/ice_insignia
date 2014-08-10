@@ -1,7 +1,8 @@
-module jsonizer;
+module util.jsonizer;
 
 import std.json;
 import std.file;
+import std.conv;
 import std.range;
 import std.traits;
 import std.string;
@@ -23,23 +24,30 @@ JSONValue toJSON(T : string)(T val) {
 }
 
 /// convert a floating point value to a JSONValue
-JSONValue toJSON(T : real)(T val) {
+JSONValue toJSON(T : real)(T val) if (!is(T == enum)) {
   JSONValue json;
   json.floating = val;
   return json;
 }
 
 /// convert a signed integer to a JSONValue
-JSONValue toJSON(T : long)(T val) if (isIntegral!T && isSigned!T) {
+JSONValue toJSON(T : long)(T val) if (isSigned!T && !is(T == enum)) {
   JSONValue json;
   json.integer = val;
   return json;
 }
 
 /// convert an unsigned integer to a JSONValue
-JSONValue toJSON(T : ulong)(T val) if (isIntegral!T && isUnsigned!T) {
+JSONValue toJSON(T : ulong)(T val) if (isUnsigned!T && !is(T == enum)) {
   JSONValue json;
   json.uinteger = val;
+  return json;
+}
+
+/// convert an enum name to a JSONValue
+JSONValue toJSON(T)(T val) if (is(T == enum)) {
+  JSONValue json;
+  json.str = to!string(val);
   return json;
 }
 
@@ -94,7 +102,7 @@ T extract(T : string)(JSONValue json) {
 }
 
 /// extract a numeric type from a json value
-T extract(T : real)(JSONValue json) {
+T extract(T : real)(JSONValue json) if (!is(T == enum)) {
   switch(json.type) {
     case JSON_TYPE.FLOAT:
       return cast(T) json.floating;
@@ -103,9 +111,14 @@ T extract(T : real)(JSONValue json) {
     case JSON_TYPE.UINTEGER:
       return cast(T) json.uinteger;
     default:
-      enforce(0, "tried to extract " ~ T.stringof ~ " from json of type " ~ json.type);
+      enforce(0, format("tried to extract %s  from json of type %s", T.stringof, json.type));
   }
   assert(0);
+}
+
+T extract(T)(JSONValue json) if (is(T == enum)) {
+  assertJsonType!T(json, JSON_TYPE.STRING);
+  return to!T(json.str);
 }
 
 /// extract an array from a JSONValue
@@ -246,6 +259,7 @@ void writeJSON(T)(T obj, string file) {
 /// json conversion of primitive types
 unittest {
   import std.math : approxEqual;
+  enum Category { one, two }
 
   auto j1 = toJSON("bork");
   assert(j1.type == JSON_TYPE.STRING && j1.str == "bork");
@@ -266,6 +280,14 @@ unittest {
   assert(j4.type == JSON_TYPE.UINTEGER && j4.uinteger == 41u);
   assert(extract!uint(j4) == 41u);
   assert(extract!ulong(j4) == 41u);
+
+  auto jenum = toJSON!Category(Category.one);
+  debug {
+    import std.stdio;
+    writeln(jenum);
+  }
+  assert(jenum.type == JSON_TYPE.STRING);
+  assert(jenum.extract!Category == Category.one);
 
   // homogenous json array
   auto j5 = toJSON([9, 8, 7, 6]);
