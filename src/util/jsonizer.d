@@ -282,10 +282,6 @@ unittest {
   assert(extract!ulong(j4) == 41u);
 
   auto jenum = toJSON!Category(Category.one);
-  debug {
-    import std.stdio;
-    writeln(jenum);
-  }
   assert(jenum.type == JSON_TYPE.STRING);
   assert(jenum.extract!Category == Category.one);
 
