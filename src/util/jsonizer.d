@@ -241,7 +241,7 @@ mixin template JsonizeMe() {
     JSONValue[string] keyValPairs;
     // look for members marked with @jsonize, ignore __ctor
     foreach(member ; Erase!("__ctor", __traits(allMembers, T))) {
-      static if ( staticIndexOf!(jsonize, __traits(getAttributes, mixin(member))) >= 0) {
+      static if (staticIndexOf!(jsonize, __traits(getAttributes, mixin(member))) >= 0) {
         auto val = mixin(member);          // get the member's value
         keyValPairs[member] = toJSON(val); // add the pair <membername> : <membervalue>
       }
@@ -374,7 +374,7 @@ unittest {
   auto a = [
     new Fields(1, 4.2, "tally ho!", [9, 8, 7, 6], "blarg"),
         new Fields(7, 42.2, "yea merrily", [1, 4, 6, 4], "asparagus")
-          ];
+  ];
 
   // serialize array of user objects to json
   auto jsonArray = toJSON!(Fields[])(a);
@@ -532,4 +532,90 @@ unittest {
   writeJSON(aa, file);
   auto aaReadBack = readJSON!(Data[string])(file);
   assert(aaReadBack == aa);
+}
+
+/// inheritance
+unittest {
+  import std.math : approxEqual;
+  static class Parent {
+    mixin JsonizeMe;
+    @jsonize {
+      int x;
+      string s;
+    }
+  }
+
+  static class Child : Parent {
+    mixin JsonizeMe;
+    @jsonize {
+      float f;
+    }
+  }
+
+  auto c = new Child;
+  c.x = 5;
+  c.s = "hello";
+  c.f = 2.1;
+
+  auto json = c.toJSON;
+  assert(json.extract!int("x") == 5);
+  assert(json.extract!string("s") == "hello");
+  assert(json.extract!float("f").approxEqual(2.1));
+
+  auto child = json.extract!Child;
+  assert(child.x == 5 && child.s == "hello" && child.f.approxEqual(2.1));
+
+  auto parent = json.extract!Parent;
+  assert(parent.x == 5 && parent.s == "hello");
+}
+
+/// inheritance with  ctors
+unittest {
+  import std.math : approxEqual;
+  static class Parent {
+    mixin JsonizeMe;
+
+    @jsonize this(int x, string s) {
+      _x = x;
+      _s = s;
+    }
+
+    @jsonize @property {
+      int x()    { return _x; }
+      string s() { return _s; }
+    }
+
+    private:
+    int _x;
+    string _s;
+  }
+
+  static class Child : Parent {
+    mixin JsonizeMe;
+
+    @jsonize this(int x, string s, float f) {
+      super(x, s);
+      _f = f;
+    }
+
+    @jsonize @property {
+      float f() { return _f; }
+    }
+    
+    private:
+    float _f;
+  }
+
+  auto c = new Child(5, "hello", 2.1);
+
+  auto json = c.toJSON;
+  assert(json.extract!int("x") == 5);
+  assert(json.extract!string("s") == "hello");
+  assert(json.extract!float("f").approxEqual(2.1));
+
+  auto child = json.extract!Child;
+  assert(child.x == 5 && child.s == "hello" && child.f.approxEqual(2.1));
+
+  auto parent = json.extract!Parent;
+  assert(parent.x == 5 && parent.s == "hello");
 }
