@@ -1,0 +1,54 @@
+{ "height":4,
+ "layers":[
+        {
+         "data":[10, 10, 10, 10, 10, 10, 10, 10, 10, 61, 61, 10, 10, 10, 10, 10],
+         "height":4,
+         "name":"Tile Layer 1",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":4,
+         "x":0,
+         "y":0
+        }],
+ "orientation":"orthogonal",
+ "properties":
+    {
+
+    },
+ "tileheight":32,
+ "tilesets":[
+        {
+         "firstgid":1,
+         "image":"..\/image\/angband_terrain.png",
+         "imageheight":608,
+         "imagewidth":288,
+         "margin":0,
+         "name":"angband_terrain",
+         "properties":
+            {
+
+            },
+         "spacing":0,
+         "tileheight":32,
+         "tileproperties":
+            {
+             "60":
+                {
+                 "Avoid":"20",
+                 "Defense":"2",
+                 "MoveCost":"2",
+                 "TerrainName":"Forest"
+                },
+             "9":
+                {
+                 "MoveCost":"1",
+                 "TerrainName":"Grass"
+                }
+            },
+         "tilewidth":32
+        }],
+ "tilewidth":32,
+ "version":1,
+ "width":4
+}

@@ -6,8 +6,7 @@ import std.conv;
 import allegro;
 import geometry.vector;
 import graphics.texture;
-import data.config;
-import data.config;
+import util.config;
 
 /// displays a single frame of a texture
 class Sprite {

@@ -3,7 +3,7 @@ module graphics.texture;
 import std.string;
 import std.conv;
 import allegro;
-import data.config;
+import util.config;
 import geometry.all;
 
 class Texture {

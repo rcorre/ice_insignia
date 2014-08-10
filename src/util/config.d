@@ -1,4 +1,4 @@
-module data.config;
+module util.config;
 
 import std.conv;
 import std.algorithm;
