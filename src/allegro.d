@@ -32,16 +32,17 @@ ALLEGRO_TIMER* frame_timer;
 /// global settings
 enum Settings {
   fps     = 30,   /// frames-per-second of update/draw loop
-  screenW = 1024, /// screen width
-  screenH = 768,  /// screen height
+  screenW = 800,  /// screen width
+  screenH = 600,  /// screen height
 }
 
 /// paths to configuration files and content
 enum Paths {
   textureData   = "content/textures.cfg",
-  iconData      = "content/icons.cfg",
+  spriteData    = "content/sprites.cfg",
   fontData      = "content/fonts.cfg",
   backgroundDir = "content/image/background/",
+  mapDir        = "content/maps/",
 }
 
 /// common colors

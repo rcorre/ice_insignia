@@ -2,6 +2,7 @@ module graphics.texture;
 
 import std.string;
 import std.conv;
+import std.file : exists;
 import allegro;
 import util.config;
 import geometry.all;
@@ -9,9 +10,9 @@ import geometry.all;
 class Texture {
   @property {
     /// number of frame columns in the texture
-    int numRows() { return width / frameWidth; }
+    int numRows() { return height / frameHeight; }
     /// number of frame rows in the texture
-    int numCols() { return height / frameHeight; }
+    int numCols() { return width / frameWidth; }
     /// width of entire texture (px)
     int width()  { return _width; }
     /// height of entire texture (px)
@@ -36,6 +37,12 @@ class Texture {
         angle, 0);                                    // rotation and flats
   }
 
+  void draw(int idx, Vector2i pos, float scale = 1, ALLEGRO_COLOR tint = Color.white, float angle = 0) {
+    int row = idx / numCols;
+    int col = idx % numCols;
+    draw(row, col, pos, scale, tint, angle);
+  }
+
   private:
   ALLEGRO_BITMAP* _bmp;
   const int _width, _height;
@@ -49,6 +56,11 @@ class Texture {
     _width       = al_get_bitmap_width(bmp);
     _height      = al_get_bitmap_height(bmp);
     _frameCenter = Vector2i(frameWidth / 2, frameHeight / 2);
+
+    debug {
+      import std.stdio;
+      writeln(numRows, numCols);
+    }
   }
 }
 
@@ -63,9 +75,10 @@ static this() { // automatically load a texture for each entry in the texture sh
   auto textureData = loadConfigFile(Paths.textureData);
   auto textureDir = textureData.globals["texture_dir"];
   foreach (textureName, textureInfo; textureData.entries) {
-    auto path = toStringz(textureDir ~ "/" ~ textureInfo["filename"]);
-    auto bmp = al_load_bitmap(path);
-    assert(bmp, format("failed to load image %s", to!string(path)));
+    auto path = (textureDir ~ "/" ~ textureInfo["filename"]);
+    assert(path.exists, format("texture path %s does not exist", path));
+    auto bmp = al_load_bitmap(toStringz(path));
+    assert(bmp, format("failed to load image %s", path));
     auto frameSize = split(textureInfo["frameSize"], ",");
     _textureStore[textureName] = new Texture(bmp, to!int(frameSize[0]), to!int(frameSize[1]));
   }

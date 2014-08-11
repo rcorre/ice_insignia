@@ -601,7 +601,7 @@ unittest {
     @jsonize @property {
       float f() { return _f; }
     }
-    
+
     private:
     float _f;
   }

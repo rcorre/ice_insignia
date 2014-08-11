@@ -13,10 +13,18 @@ class Sprite {
   this(string spriteName) {
     assert(spriteName in _spriteData.entries, spriteName ~ " is not defined in " ~ Paths.spriteData);
     auto data = _spriteData.entries[spriteName];
+    _name = spriteName;
     _texture = getTexture(data["texture"]);
     _row = to!int(data["row"]);
     _col = to!int(data["col"]);
     _baseScale = to!int(data.get("baseScale", "1"));
+  }
+
+  this(Texture spriteSheet, int spriteIdx, float baseScale = 1) {
+    _texture = spriteSheet;
+    _row = spriteIdx / _texture.numCols;
+    _col = spriteIdx % _texture.numCols;
+    _baseScale = baseScale;
   }
 
   void draw(Vector2i pos) {
@@ -24,6 +32,8 @@ class Sprite {
   }
 
   @property {
+    /// unique name used to look up sprite data
+    string name() { return _name; }
     /// width of the sprite after scaling (px)
     auto width() { return _texture.frameWidth * totalScale; }
     /// height of the sprite after scaling (px)
@@ -42,6 +52,7 @@ class Sprite {
   }
 
   private:
+  string _name;
   Texture _texture;
   const float _baseScale;
   int _row, _col;

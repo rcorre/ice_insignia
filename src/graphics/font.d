@@ -5,7 +5,7 @@ import std.conv;
 import std.range;
 import allegro;
 import geometry.all;
-import data.config;
+import util.config;
 
 /// Wrapper around ALLEGRO_FONT
 class Font {
