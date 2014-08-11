@@ -1,7 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="4" height="4" tilewidth="32" tileheight="32">
- <tileset firstgid="1" source="angband_terrain.tsx"/>
- <layer name="Tile Layer 1" width="4" height="4">
+ <tileset firstgid="1" name="terrain" tilewidth="32" tileheight="32">
+  <image source="../../../../../home/erethar/project/ice_insignia/content/image/angband_terrain.png" width="288" height="608"/>
+  <tile id="9">
+   <properties>
+    <property name="terrainName" value="Grass"/>
+   </properties>
+  </tile>
+  <tile id="60">
+   <properties>
+    <property name="avoid" value="20"/>
+    <property name="defense" value="2"/>
+    <property name="horsePenalty" value="3"/>
+    <property name="moveCost" value="2"/>
+    <property name="terrainName" value="Forest"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="172" name="features" tilewidth="32" tileheight="32">
+  <image source="../../../../../home/erethar/project/ice_insignia/content/image/features.png" width="288" height="416"/>
+ </tileset>
+ <tileset firstgid="289" name="classes" tilewidth="32" tileheight="32">
+  <image source="../../../../../home/erethar/project/ice_insignia/content/image/classes.png" trans="ffffff" width="256" height="352"/>
+ </tileset>
+ <layer name="Terrain" width="4" height="4">
   <data>
    <tile gid="10"/>
    <tile gid="10"/>
@@ -21,4 +43,5 @@
    <tile gid="10"/>
   </data>
  </layer>
+ <objectgroup name="Enemies" width="4" height="4"/>
 </map>
