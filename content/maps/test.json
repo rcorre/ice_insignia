@@ -3,9 +3,34 @@
         {
          "data":[10, 10, 10, 10, 10, 10, 10, 10, 10, 61, 61, 10, 10, 10, 10, 10],
          "height":4,
-         "name":"Tile Layer 1",
+         "name":"Terrain",
          "opacity":1,
          "type":"tilelayer",
+         "visible":true,
+         "width":4,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "height":4,
+         "name":"Enemies",
+         "objects":[
+                {
+                 "gid":54,
+                 "height":0,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":0,
+                 "y":32
+                }],
+         "opacity":1,
+         "type":"objectgroup",
          "visible":true,
          "width":4,
          "x":0,
@@ -35,18 +60,49 @@
             {
              "60":
                 {
-                 "Avoid":"20",
-                 "Defense":"2",
-                 "MoveCost":"2",
-                 "TerrainName":"Forest"
+                 "avoid":"20",
+                 "defense":"2",
+                 "horsePenalty":"3",
+                 "moveCost":"2",
+                 "terrainName":"Forest"
                 },
              "9":
                 {
-                 "MoveCost":"1",
-                 "TerrainName":"Grass"
+                 "terrainName":"Grass"
                 }
             },
          "tilewidth":32
+        }, 
+        {
+         "firstgid":172,
+         "image":"..\/image\/features.png",
+         "imageheight":416,
+         "imagewidth":288,
+         "margin":0,
+         "name":"features",
+         "properties":
+            {
+
+            },
+         "spacing":0,
+         "tileheight":32,
+         "tilewidth":32
+        }, 
+        {
+         "firstgid":289,
+         "image":"..\/image\/classes.png",
+         "imageheight":352,
+         "imagewidth":256,
+         "margin":0,
+         "name":"classes",
+         "properties":
+            {
+
+            },
+         "spacing":0,
+         "tileheight":32,
+         "tilewidth":32,
+         "transparentcolor":"#ffffff"
         }],
  "tilewidth":32,
  "version":1,
