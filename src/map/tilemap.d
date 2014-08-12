@@ -9,10 +9,6 @@ class TileMap {
     _tiles = tiles;
     _tileWidth = tileWidth;
     _tileHeight = tileHeight;
-    debug {
-      import std.stdio;
-      writeln(tileWidth, tileHeight);
-    }
   }
 
   @property {
@@ -21,6 +17,8 @@ class TileMap {
 
     int height() { return _tileHeight * numRows; }
     int width()  { return _tileWidth * numCols; }
+
+    Rect2i bounds() { return Rect2i(0, 0, width, height); }
   }
 
   Tile tileAt(int row, int col) {
@@ -31,8 +29,8 @@ class TileMap {
   void draw(Vector2i topLeft, Rect2i cameraRect) {
     int firstCol = cameraRect.x / _tileWidth;
     int firstRow = cameraRect.y / _tileHeight;
-    int lastRow = firstRow + cameraRect.height / _tileHeight;
-    int lastCol = firstCol + cameraRect.width  / _tileWidth;
+    int lastRow = clamp(firstRow + cameraRect.height / _tileHeight + 2, 0, numRows);
+    int lastCol = clamp(firstCol + cameraRect.width  / _tileWidth + 2, 0, numCols);
     Vector2i offset = -Vector2i(cameraRect.x % _tileWidth, cameraRect.y % _tileHeight);
     Vector2i pos = topLeft + offset + Vector2i(_tileWidth, _tileHeight) / 2;
 

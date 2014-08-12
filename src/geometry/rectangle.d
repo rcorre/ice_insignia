@@ -63,6 +63,13 @@ struct Rect2(T) {
   bool contains(Vector2!T point) {
     return point.x >= x && point.x <= right && point.y >= y && point.y <= bottom;
   }
+
+  void keepInside(Rect2!T bounds) {
+    if (x < bounds.x) { x = bounds.x; }
+    if (y < bounds.y) { y = bounds.y; }
+    if (right  > bounds.right)  { right = bounds.right; }
+    if (bottom > bounds.bottom) { bottom = bounds.bottom; }
+  }
 }
 
 // int rects

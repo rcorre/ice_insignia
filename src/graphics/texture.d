@@ -56,11 +56,6 @@ class Texture {
     _width       = al_get_bitmap_width(bmp);
     _height      = al_get_bitmap_height(bmp);
     _frameCenter = Vector2i(frameWidth / 2, frameHeight / 2);
-
-    debug {
-      import std.stdio;
-      writeln(numRows, numCols);
-    }
   }
 }
 

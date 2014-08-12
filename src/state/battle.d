@@ -6,6 +6,8 @@ import map.all;
 import geometry.all;
 import util.input;
 
+enum scrollSpeed = 300;
+
 class Battle : GameState {
   this(string mapName) {
     _map = loadMap(mapName);
@@ -15,6 +17,8 @@ class Battle : GameState {
 
   override GameState update(float time) {
     _input.update();
+    _camera.topLeft = _camera.topLeft + cast(Vector2i) (_input.scrollDirection * time * scrollSpeed);
+    _camera.keepInside(_map.bounds);
     return null;
   }
 
