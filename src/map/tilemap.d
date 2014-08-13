@@ -1,5 +1,6 @@
 module map.tilemap;
 
+import allegro;
 import map.tile;
 import geometry.all;
 import util.math;
@@ -34,6 +35,7 @@ class TileMap {
     Vector2i offset = -Vector2i(cameraRect.x % _tileWidth, cameraRect.y % _tileHeight);
     Vector2i pos = topLeft + offset + Vector2i(_tileWidth, _tileHeight) / 2;
 
+    al_hold_bitmap_drawing(true);
     foreach(row ; _tiles[firstRow .. lastRow]) {
       foreach(tile ; row[firstCol .. lastCol]) {
         tile.draw(pos);
@@ -42,6 +44,7 @@ class TileMap {
       pos.x = topLeft.x + offset.x + _tileWidth / 2;
       pos.y += _tileHeight;
     }
+    al_hold_bitmap_drawing(false);
   }
 
   private:

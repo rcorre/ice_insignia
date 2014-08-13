@@ -137,8 +137,13 @@ T extract(T)(JSONValue json) if (isArray!T && !isSomeString!(T)) {
   alias ElementType = ForeachType!T;
   assert(json.type == JSON_TYPE.ARRAY);
   T vals;
-  foreach(val ; json.array) {
-    vals ~= extract!ElementType(val);
+  foreach(idx, val ; json.array) {
+    static if (isStaticArray!T) {
+      vals[idx] = val.extract!ElementType;
+    }
+    else {
+      vals ~= val.extract!ElementType;
+    }
   }
   return vals;
 }
@@ -169,7 +174,7 @@ T extract(T)(JSONValue json) if (!isBuiltinType!T) {
   static if (__traits(hasMember, T, "__ctor")) {
     alias Overloads = TypeTuple!(__traits(getOverloads, T, "__ctor"));
     foreach(overload ; Overloads) {
-      if (staticIndexOf!(jsonize, __traits(getAttributes, overload)) >= 0) {
+      static if (staticIndexOf!(jsonize, __traits(getAttributes, overload)) >= 0) {
         return invokeCustomJsonCtor!(T, overload)(json);
       }
     }
@@ -220,18 +225,34 @@ private T invokeDefaultCtor(T)(JSONValue json) {
   return obj;
 }
 
+bool hasCustomJsonCtor(T)() {
+  static if (__traits(hasMember, T, "__ctor")) {
+    alias Overloads = TypeTuple!(__traits(getOverloads, T, "__ctor"));
+    foreach(overload ; Overloads) {
+      static if (staticIndexOf!(jsonize, __traits(getAttributes, overload)) >= 0) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
 mixin template JsonizeMe() {
   import std.json : JSONValue;
   import std.typetuple : staticIndexOf, Erase;
+  import std.traits : isAssignable;
   void populateFromJSON(this T)(JSONValue json) {
-    auto keyValPairs = json.object;
-    // check if each member is actually a member and is marked with the @jsonize attribute
-    foreach(member ; Erase!("__ctor", __traits(allMembers, T))) {
-      static if (staticIndexOf!(jsonize, __traits(getAttributes, mixin(member))) >= 0) {
-        if (member in keyValPairs) { // this member is specified in the json object
-          alias MemberType = typeof(mixin(member));            // deduce member type
-          auto val = extract!MemberType(keyValPairs[member]); // extract value from json
-          mixin(member ~ "= val;");                            // assign value to member
+    static if (!hasCustomJsonCtor!T) {
+      auto keyValPairs = json.object;
+      // check if each member is actually a member and is marked with the @jsonize attribute
+      foreach(member ; Erase!("__ctor", __traits(allMembers, T))) {
+        static if (__traits(compiles, __traits(getAttributes, mixin(member))) &&
+            staticIndexOf!(jsonize, __traits(getAttributes, mixin(member))) >= 0) {
+          if (member in keyValPairs) { // this member is specified in the json object
+            alias MemberType = typeof(mixin(member));           // deduce member type
+            auto val = extract!MemberType(keyValPairs[member]); // extract value from json
+            mixin(member ~ "= val;");                           // assign value to member
+          }
         }
       }
     }
@@ -241,7 +262,8 @@ mixin template JsonizeMe() {
     JSONValue[string] keyValPairs;
     // look for members marked with @jsonize, ignore __ctor
     foreach(member ; Erase!("__ctor", __traits(allMembers, T))) {
-      static if (staticIndexOf!(jsonize, __traits(getAttributes, mixin(member))) >= 0) {
+      static if (__traits(compiles, __traits(getAttributes, mixin(member))) &&
+          staticIndexOf!(jsonize, __traits(getAttributes, mixin(member))) >= 0) {
         auto val = mixin(member);          // get the member's value
         keyValPairs[member] = toJSON(val); // add the pair <membername> : <membervalue>
       }
