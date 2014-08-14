@@ -25,7 +25,7 @@ struct ValueSet(T) if (is(T == enum)) {
     }
   }
 
-  this(const ValueStore values) {
+  this(ValueStore values) {
     _values = values;
   }
 
@@ -57,6 +57,15 @@ struct ValueSet(T) if (is(T == enum)) {
   }
 }
 
+ValueSet!T map(alias fun, T)(ValueSet!T valSet) {
+  alias ValueStore = typeof(valSet._values);
+  ValueStore vals = valSet._values.dup;
+  foreach(ref val ; vals) {
+    val = fun(val);
+  }
+  return ValueSet!T(vals);
+}
+
 // Elemental test
 unittest {
   import std.json;
@@ -82,4 +91,7 @@ unittest {
   auto result = dmg - resist;
   assert (result.physical == 0  && result.mind == 1 && result.heat == 4 && result.shock == -3);
   assert(hasMember!(Element, "physical") && !hasMember!(Element, "foobar"));
+
+  auto vals = new ValueSet!Element([1,2,3,4]);
+  auto addOne = map!(x => x + 1)(result);
 }
