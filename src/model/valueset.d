@@ -37,7 +37,7 @@ struct ValueSet(T) if (is(T == enum)) {
   }
 
   /// "create" a property to access the value corresponding to each enum name
-  int opDispatch(string m)() const {
+  int opDispatch(string m)() const if (hasMember!(T, m)) {
     return _values[to!T(m)];
   }
 
@@ -93,5 +93,5 @@ unittest {
   assert(hasMember!(Element, "physical") && !hasMember!(Element, "foobar"));
 
   auto vals = new ValueSet!Element([1,2,3,4]);
-  auto addOne = map!(x => x + 1)(result);
+  auto addOne = result.map!(x => x + 1);
 }
