@@ -22,6 +22,8 @@ class Weapon : Item {
     int hit()    { return _hit; }
     int avoid()  { return _avoid; }
     int weight() { return _weight; }
+
+    static Weapon none() { return new Weapon; }
   }
 
   @jsonize private {
@@ -30,4 +32,9 @@ class Weapon : Item {
     int _avoid;
     int _weight;
   }
+}
+
+unittest {
+  auto none = Weapon.none;
+  assert(none.damage == 0 && none.avoid == 0);
 }

@@ -35,9 +35,11 @@ class Sprite {
     /// unique name used to look up sprite data
     string name() { return _name; }
     /// width of the sprite after scaling (px)
-    auto width() { return _texture.frameWidth * totalScale; }
+    int width() { return cast(int) (_texture.frameWidth * totalScale); }
     /// height of the sprite after scaling (px)
-    auto height() { return _texture.frameHeight * totalScale; }
+    int height() { return cast(int) (_texture.frameHeight * totalScale); }
+    /// width and height of sprite after scaling
+    auto size() { return Vector2i(width, height); }
     /// tint color of the sprite
     auto tint()                    { return _tint; }
     auto tint(ALLEGRO_COLOR color) { return _tint = color; }

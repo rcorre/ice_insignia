@@ -28,10 +28,10 @@ struct Rect2(T) {
   }
 
   @property {
-    T bottom()        { return y + height; }
+    T bottom()      { return y + height; }
     T bottom(T val) { return y = val - height; }
 
-    T right()        { return x + width; }
+    T right()      { return x + width; }
     T right(T val) { return x = val - width; }
 
     auto center() { return Vector2!T(x + width / 2, y + height / 2); }
@@ -41,7 +41,7 @@ struct Rect2(T) {
       return center;
     }
 
-    auto topLeft()     { return Vector2!T(x, y); }
+    auto topLeft() { return Vector2!T(x, y); }
     auto topLeft(Vector2!T val) {
       x = val.x;
       y = val.y;
@@ -64,6 +64,10 @@ struct Rect2(T) {
     return point.x >= x && point.x <= right && point.y >= y && point.y <= bottom;
   }
 
+  bool contains(Rect2!T rect) {
+    return rect.x >= x && rect.right <= right && rect.y >= y && rect.bottom <= bottom;
+  }
+
   void keepInside(Rect2!T bounds) {
     if (x < bounds.x) { x = bounds.x; }
     if (y < bounds.y) { y = bounds.y; }
@@ -82,6 +86,10 @@ unittest {
   // assignments
   r1.bottom = 10;
   assert(r1.y == 6 && r1.center == Vector2i(2, 8));
+
+  auto r2 = Rect2i(0, 0, 20, 20);
+
+  assert(!r1.contains(r2) && r2.contains(r1));
 }
 
 // float rects

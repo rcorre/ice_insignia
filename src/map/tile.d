@@ -7,10 +7,11 @@ import graphics.sprite;
 import geometry.vector;
 
 class Tile {
-  this(int row, int col, Sprite sprite) {
+  this(int row, int col, Sprite terrainSprite, Sprite featureSprite) {
     _row = row;
     _col = col;
-    _sprite = sprite;
+    _terrainSprite = terrainSprite;
+    _featureSprite = featureSprite;
   }
 
   @property {
@@ -24,11 +25,12 @@ class Tile {
   }
 
   void draw(Vector2i pos) {
-    _sprite.draw(pos);
+    _terrainSprite.draw(pos);
+    _featureSprite.draw(pos);
   }
 
   private:
     int _row, _col;
-    Sprite _sprite;
+    Sprite _terrainSprite, _featureSprite;
     Character _character;
 }

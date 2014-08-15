@@ -3,6 +3,8 @@ module model.character;
 import std.conv;
 import std.string : format;
 import std.random : uniform;
+import std.algorithm : max, min;
+import allegro;
 import util.jsonizer;
 import model.item;
 import model.weapon;
@@ -31,8 +33,13 @@ class Character {
   @property {
     ValueSet!Attribute potential() { return _potential; }
     ValueSet!Attribute attributes() { return _attributes; }
-    Item equippedItem() { return _items[0]; }
+    Weapon equippedWeapon() {
+      return (typeid(_items[0]) == typeid(Weapon)) ? cast(Weapon) _items[0] : Weapon.none;
+    }
 
+    int avoid() { return _attributes.speed * 4; }
+
+    // experience
     int xp() { return _xp; }
     void xp(int val) {
       if (_xp + val >= 100) {
@@ -60,7 +67,6 @@ class Character {
   }
 
   private:
-  int _hp;
   @jsonize {
     string _name;
     int _xp;
@@ -69,6 +75,17 @@ class Character {
     ValueSet!Attribute _potential;
     Item[itemCapacity] _items;
   }
+}
+
+Character loadCharacter(string name) {
+  assert(name in _characterData);
+  return _characterData[Paths.characterData];
+}
+
+private Character[string] _characterData;
+
+static this() {
+  _characterData = readJSON!(Character[string])(Paths.characterData);
 }
 
 unittest {

@@ -1,17 +1,32 @@
 module map.loader;
 
+import std.conv;
+import std.range : empty;
 import std.algorithm : find;
 import allegro;
 import util.jsonizer;
 import map.tile;
 import map.tilemap;
+import model.battler;
+import model.character;
 import graphics.sprite;
 import graphics.texture;
+import geometry.vector;
 
-TileMap loadMap(string mapName) {
+LevelData loadBattle(string mapName) {
   string path = Paths.mapDir ~ mapName ~ ".json";
   auto mapData = readJSON!MapData(path);
-  return mapData.constructMap();
+  auto level = new LevelData;
+  level.map = mapData.constructMap();
+  level.enemies = mapData.constructEnemies();
+  return level;
+}
+
+class LevelData {
+  TileMap map;
+  Battler[] friendlies;
+  Battler[] enemies;
+  Battler[] neutrals;
 }
 
 private:
@@ -30,22 +45,34 @@ class MapData {
 
   TileMap constructMap() {
     auto terrainData = layers[0].data;
+    auto featureData = layers[1].data;
     auto tiles = new Tile[][height];
     for(int row = 0 ; row < height ; ++row) {
       tiles[row] = new Tile[width];
       for(int col = 0 ; col < width ; ++col) {
-        tiles[row][col] = constructTile(row, col, terrainData[row * width + col], tilesets);
+        auto terrainID = terrainData[row * width + col];
+        auto featureID = featureData[row * width + col];
+        tiles[row][col] = constructTile(row, col, terrainID, featureID, tilesets);
       }
     }
 
     return new TileMap(tiles, tilewidth, tileheight);
   }
 
-  Tile constructTile(int row, int col, int gid, TileSet[] tilesets) {
-    // match gid to tileset
-    auto tileSet = tilesets.find!((tileset) => tileset.firstgid <= gid)[0];
-    auto sprite = tileSet.createTileSprite(gid);
-    return new Tile(row, col, sprite);
+  Battler[] constructEnemies() {
+    Battler[] enemies;
+    auto enemyLayer = layers.find!(x => x.name == "Enemies");
+    assert(!enemyLayer.empty, "could not find layer named Enemies");
+    foreach(obj ; enemyLayer[0].objects) {
+      enemies ~= obj.generateEnemy(tilewidth, tileheight, tilesets);
+    }
+    return enemies;
+  }
+
+  Tile constructTile(int row, int col, int terrainGid, int featureGid, TileSet[] tilesets) {
+    auto terrainSprite = gidToSprite(terrainGid, tilesets);
+    auto featureSprite = gidToSprite(featureGid, tilesets);
+    return new Tile(row, col, terrainSprite, featureSprite);
   }
 
   @jsonize {
@@ -58,15 +85,44 @@ class MapData {
   }
 }
 
-
 class MapLayer {
   mixin JsonizeMe;
   @jsonize {
     int[] data;
+    MapObject[] objects;
     int width, height;
     string name;
     float opacity;
     LayerType type;
+    bool visible;
+    int x, y;
+  }
+}
+
+class MapObject {
+  mixin JsonizeMe;
+
+  Battler generateEnemy(int tileWidth, int tileHeight, TileSet[] tilesets) {
+    auto character = loadCharacter(name);
+    auto level = to!int(properties.get("level", "1"));
+    for(int i = 1 ; i < level ; i++) {
+      character.levelUp();
+    }
+
+    auto sprite = gidToSprite(gid, tilesets);
+    int col = x / tileWidth;
+    int row = y / tileHeight;
+    auto pos = Vector2i(x, y) + sprite.size / 2;
+
+    return new Battler(character, row, col, pos, sprite);
+  }
+
+  @jsonize @property {
+    int gid;
+    int width, height;
+    string name;
+    string[string] properties;
+    string type;
     bool visible;
     int x, y;
   }
@@ -97,6 +153,12 @@ class TileProperties {
     int moveCost       = 1;
     string terrainName = "";
   }
+}
+
+Sprite gidToSprite(int gid, TileSet[] tilesets) {
+  // match gid to tileset
+  auto tileSet = tilesets.find!((tileset) => tileset.firstgid <= gid)[0];
+  return tileSet.createTileSprite(gid);
 }
 
 unittest {

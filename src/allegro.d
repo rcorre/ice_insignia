@@ -43,6 +43,7 @@ enum Paths {
   fontData      = "content/fonts.cfg",
   backgroundDir = "content/image/background/",
   mapDir        = "content/maps/",
+  characterData = "content/data/characters.json",
 }
 
 /// common colors
