@@ -64,7 +64,105 @@
         {
          "height":32,
          "name":"Allies",
-         "objects":[],
+         "objects":[
+                {
+                 "gid":101,
+                 "height":0,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "type":"spawn",
+                 "visible":true,
+                 "width":0,
+                 "x":512,
+                 "y":1024
+                }, 
+                {
+                 "gid":101,
+                 "height":0,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "type":"spawn",
+                 "visible":true,
+                 "width":0,
+                 "x":480,
+                 "y":992
+                }, 
+                {
+                 "gid":101,
+                 "height":0,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "type":"spawn",
+                 "visible":true,
+                 "width":0,
+                 "x":448,
+                 "y":1024
+                }, 
+                {
+                 "gid":101,
+                 "height":0,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "type":"spawn",
+                 "visible":true,
+                 "width":0,
+                 "x":416,
+                 "y":992
+                }, 
+                {
+                 "gid":101,
+                 "height":0,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "type":"spawn",
+                 "visible":true,
+                 "width":0,
+                 "x":384,
+                 "y":1024
+                }, 
+                {
+                 "gid":101,
+                 "height":0,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "type":"spawn",
+                 "visible":true,
+                 "width":0,
+                 "x":352,
+                 "y":992
+                }, 
+                {
+                 "gid":101,
+                 "height":0,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "type":"spawn",
+                 "visible":true,
+                 "width":0,
+                 "x":320,
+                 "y":1024
+                }],
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
@@ -92,7 +190,7 @@
  "tilesets":[
         {
          "firstgid":1,
-         "image":"..\/image\/terrain.png",
+         "image":"..\/..\/..\/..\/..\/..\/data\/project\/ice_insignia\/content\/image\/terrain.png",
          "imageheight":320,
          "imagewidth":320,
          "margin":0,
@@ -107,7 +205,7 @@
         }, 
         {
          "firstgid":101,
-         "image":"..\/image\/units.png",
+         "image":"..\/..\/..\/..\/..\/..\/data\/project\/ice_insignia\/content\/image\/units.png",
          "imageheight":320,
          "imagewidth":320,
          "margin":0,

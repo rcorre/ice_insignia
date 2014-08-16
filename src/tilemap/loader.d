@@ -1,12 +1,13 @@
-module map.loader;
+module tilemap.loader;
 
 import std.conv;
 import std.range : empty;
-import std.algorithm : find, sort;
+import std.array : array;
+import std.algorithm : find, sort, filter, map;
 import allegro;
 import util.jsonizer;
-import map.tile;
-import map.tilemap;
+import tilemap.tile;
+import tilemap.tilemap;
 import model.battler;
 import model.character;
 import graphics.sprite;
@@ -19,12 +20,13 @@ LevelData loadBattle(string mapName) {
   auto level = new LevelData;
   level.map = mapData.constructMap();
   level.enemies = mapData.constructEnemies();
+  level.spawnPoints = mapData.getSpawnPoints();
   return level;
 }
 
 class LevelData {
   TileMap map;
-  Battler[] allies;
+  Vector2i[] spawnPoints;
   Battler[] enemies;
   Battler[] neutrals;
 }
@@ -69,6 +71,14 @@ class MapData {
       enemies ~= obj.generateEnemy(tilewidth, tileheight, tilesets);
     }
     return enemies;
+  }
+
+  Vector2i[] getSpawnPoints() {
+    auto allyLayer = layers.find!(x => x.name == "Allies");
+    assert(!allyLayer.empty, "could not find layer named Allies");
+    auto spawners = allyLayer[0].objects.filter!(x => x.type == "spawn");
+    auto points = array(map!(p => Vector2i(p.x / tilewidth, p.y / tileheight))(spawners));
+    return points;
   }
 
   Tile constructTile(int row, int col, int terrainGid, int featureGid, TileSet[] tilesets) {
