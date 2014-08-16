@@ -4,7 +4,7 @@
   <image source="../../content/image/terrain.png" width="320" height="320"/>
  </tileset>
  <tileset firstgid="101" name="units" tilewidth="32" tileheight="32">
-  <image source="../../../../../home/erethar/project/ice_insignia/content/image/units.png" width="320" height="320"/>
+  <image source="../../content/image/units.png" width="320" height="320"/>
  </tileset>
  <layer name="Terrain" width="32" height="32">
   <data encoding="base64" compression="zlib">
@@ -17,12 +17,12 @@
   </data>
  </layer>
  <objectgroup name="Enemies" width="32" height="32">
-  <object name="Bandit" type="Enemy" gid="101" x="512" y="512">
+  <object name="Bandit" type="Enemy" gid="133" x="416" y="640">
    <properties>
     <property name="level" value="1"/>
    </properties>
   </object>
-  <object name="Bandit" type="Enemy" gid="101" x="448" y="576">
+  <object name="Bandit" type="Enemy" gid="133" x="544" y="576">
    <properties>
     <property name="level" value="2"/>
    </properties>

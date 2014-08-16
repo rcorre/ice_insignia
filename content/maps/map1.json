@@ -27,7 +27,7 @@
          "name":"Enemies",
          "objects":[
                 {
-                 "gid":101,
+                 "gid":133,
                  "height":0,
                  "name":"Bandit",
                  "properties":
@@ -37,11 +37,11 @@
                  "type":"Enemy",
                  "visible":true,
                  "width":0,
-                 "x":512,
-                 "y":512
+                 "x":416,
+                 "y":640
                 }, 
                 {
-                 "gid":101,
+                 "gid":133,
                  "height":0,
                  "name":"Bandit",
                  "properties":
@@ -51,7 +51,7 @@
                  "type":"Enemy",
                  "visible":true,
                  "width":0,
-                 "x":448,
+                 "x":544,
                  "y":576
                 }],
          "opacity":1,
@@ -92,7 +92,7 @@
  "tilesets":[
         {
          "firstgid":1,
-         "image":"..\/..\/..\/..\/..\/..\/data\/project\/ice_insignia\/content\/image\/terrain.png",
+         "image":"..\/image\/terrain.png",
          "imageheight":320,
          "imagewidth":320,
          "margin":0,
