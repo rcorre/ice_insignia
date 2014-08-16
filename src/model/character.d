@@ -78,8 +78,8 @@ class Character {
 }
 
 Character loadCharacter(string name) {
-  assert(name in _characterData);
-  return _characterData[Paths.characterData];
+  assert(name in _characterData, "could not match character " ~ name);
+  return _characterData[name];
 }
 
 private Character[string] _characterData;

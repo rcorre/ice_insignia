@@ -157,8 +157,10 @@ class TileProperties {
 
 Sprite gidToSprite(int gid, TileSet[] tilesets) {
   // match gid to tileset
-  auto tileSet = tilesets.find!((tileset) => tileset.firstgid <= gid)[0];
-  return tileSet.createTileSprite(gid);
+  if (gid == 0) { return null; }
+  auto tileSet = tilesets.find!((tileset) => tileset.firstgid <= gid);
+  assert(!tileSet.empty, "could not match gid " ~ to!string(gid));
+  return tileSet[0].createTileSprite(gid);
 }
 
 unittest {

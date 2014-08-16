@@ -25,8 +25,12 @@ class Tile {
   }
 
   void draw(Vector2i pos) {
-    _terrainSprite.draw(pos);
-    _featureSprite.draw(pos);
+    if (_terrainSprite) {
+      _terrainSprite.draw(pos);
+    }
+    if (_featureSprite) {
+      _featureSprite.draw(pos);
+    }
   }
 
   private:

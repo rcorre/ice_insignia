@@ -8,6 +8,7 @@ private bool _frameTick = false; /// if true, time for an update/draw cycle
 
 private GameState _currentState;
 
+
 int main(char[][] args) {
   _currentState = new Battle("map1");
 
