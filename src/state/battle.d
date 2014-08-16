@@ -14,6 +14,9 @@ class Battle : GameState {
     auto data = loadBattle(mapName);
     _map = data.map;
     _enemies = data.enemies;
+    _allies = data.allies;
+    _neutrals = data.neutrals;
+    _battlers = _enemies ~ _allies ~ _neutrals;
     _camera = Rect2i(0, 0, Settings.screenW, Settings.screenH);
     _input = new InputManager;
   }
@@ -30,8 +33,8 @@ class Battle : GameState {
     foreach(battler ; _battlers) {
       auto sprite = battler.sprite;
       auto rect = Rect2i.CenteredAt(battler.pos, sprite.width, sprite.height);
-      if (_camera.contains(rect)) {
-        sprite.draw(rect.center);
+      if (_camera.intersects(rect)) {
+        sprite.draw(rect.center - _camera.topLeft);
       }
     }
   }
@@ -45,7 +48,7 @@ class Battle : GameState {
   Vector2i _scrollVelocity;
   InputManager _input;
   Battler[] _battlers;
-  Battler[] _friendlies;
+  Battler[] _allies;
   Battler[] _enemies;
   Battler[] _neutrals;
 }

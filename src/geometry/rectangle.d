@@ -68,6 +68,10 @@ struct Rect2(T) {
     return rect.x >= x && rect.right <= right && rect.y >= y && rect.bottom <= bottom;
   }
 
+  bool intersects(Rect2!T rect) {
+    return !(rect.right < x || rect.x > right || rect.bottom < y || rect.y > bottom);
+  }
+
   void keepInside(Rect2!T bounds) {
     if (x < bounds.x) { x = bounds.x; }
     if (y < bounds.y) { y = bounds.y; }

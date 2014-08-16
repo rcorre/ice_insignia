@@ -2,7 +2,7 @@ module map.loader;
 
 import std.conv;
 import std.range : empty;
-import std.algorithm : find;
+import std.algorithm : find, sort;
 import allegro;
 import util.jsonizer;
 import map.tile;
@@ -24,7 +24,7 @@ LevelData loadBattle(string mapName) {
 
 class LevelData {
   TileMap map;
-  Battler[] friendlies;
+  Battler[] allies;
   Battler[] enemies;
   Battler[] neutrals;
 }
@@ -47,6 +47,8 @@ class MapData {
     auto terrainData = layers[0].data;
     auto featureData = layers[1].data;
     auto tiles = new Tile[][height];
+    // order tilesets with highest firstgid first
+    tilesets.sort!((a,b) => a.firstgid > b.firstgid);
     for(int row = 0 ; row < height ; ++row) {
       tiles[row] = new Tile[width];
       for(int col = 0 ; col < width ; ++col) {
@@ -158,7 +160,7 @@ class TileProperties {
 Sprite gidToSprite(int gid, TileSet[] tilesets) {
   // match gid to tileset
   if (gid == 0) { return null; }
-  auto tileSet = tilesets.find!((tileset) => tileset.firstgid <= gid);
+  auto tileSet = tilesets.find!(x => x.firstgid <= gid);
   assert(!tileSet.empty, "could not match gid " ~ to!string(gid));
   return tileSet[0].createTileSprite(gid);
 }

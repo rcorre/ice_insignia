@@ -17,6 +17,8 @@ class Sprite {
     _texture = getTexture(data["texture"]);
     _row = to!int(data["row"]);
     _col = to!int(data["col"]);
+    assert(_row >= 0 && _col >= 0 && _row < _texture.numRows && _col < _texture.numCols, 
+        format("sprite coord %d, %d is out of bounds", _row, _col));
     _baseScale = to!int(data.get("baseScale", "1"));
   }
 
@@ -24,6 +26,8 @@ class Sprite {
     _texture = spriteSheet;
     _row = spriteIdx / _texture.numCols;
     _col = spriteIdx % _texture.numCols;
+    assert(_row >= 0 && _col >= 0 && _row < _texture.numRows && _col < _texture.numCols, 
+        format("sprite coord %d, %d is out of bounds", _row, _col));
     _baseScale = baseScale;
   }
 
