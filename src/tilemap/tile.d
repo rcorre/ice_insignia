@@ -1,4 +1,4 @@
-module map.tile;
+module tilemap.tile;
 
 import std.string : format;
 import util.jsonizer;

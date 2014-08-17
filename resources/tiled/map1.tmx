@@ -28,6 +28,14 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup name="Allies" width="32" height="32"/>
+ <objectgroup name="Allies" width="32" height="32">
+  <object type="spawn" gid="101" x="512" y="1024"/>
+  <object type="spawn" gid="101" x="480" y="992"/>
+  <object type="spawn" gid="101" x="448" y="1024"/>
+  <object type="spawn" gid="101" x="416" y="992"/>
+  <object type="spawn" gid="101" x="384" y="1024"/>
+  <object type="spawn" gid="101" x="352" y="992"/>
+  <object type="spawn" gid="101" x="320" y="1024"/>
+ </objectgroup>
  <objectgroup name="Neutrals" width="32" height="32"/>
 </map>

@@ -2,7 +2,7 @@ module state.battle;
 
 import allegro;
 import state.gamestate;
-import map.all;
+import tilemap.all;
 import geometry.all;
 import util.input;
 import model.battler;
@@ -14,7 +14,13 @@ class Battle : GameState {
     auto data = loadBattle(mapName);
     _map = data.map;
     _enemies = data.enemies;
-    _allies = data.allies;
+    //_allies = data.allies;
+    debug {
+      import std.stdio;
+      foreach(point ; data.spawnPoints) {
+        writeln("spawn point at " , point.x, " ", point.y);
+      }
+    }
     _neutrals = data.neutrals;
     _battlers = _enemies ~ _allies ~ _neutrals;
     _camera = Rect2i(0, 0, Settings.screenW, Settings.screenH);

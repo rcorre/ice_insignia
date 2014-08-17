@@ -1,7 +1,7 @@
-module map.tilemap;
+module tilemap.tilemap;
 
 import allegro;
-import map.tile;
+import tilemap.tile;
 import geometry.all;
 import util.math;
 
