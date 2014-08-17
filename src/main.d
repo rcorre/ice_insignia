@@ -2,15 +2,20 @@ import allegro;
 import state.gamestate;
 import state.battle;
 import util.config;
+import model.character;
 
 private bool _run = true;        /// if false, shutdown game
 private bool _frameTick = false; /// if true, time for an update/draw cycle
 
 private GameState _currentState;
 
-
 int main(char[][] args) {
-  _currentState = new Battle("map1");
+  Character[] playerCharacters = [
+    loadCharacter("Recruit"),
+    loadCharacter("Recruit"),
+    loadCharacter("Recruit"),
+  ];
+  _currentState = new Battle("map1", playerCharacters);
 
   return al_run_allegro({
       while(_run) {

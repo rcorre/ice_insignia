@@ -77,7 +77,7 @@ class MapData {
     auto allyLayer = layers.find!(x => x.name == "Allies");
     assert(!allyLayer.empty, "could not find layer named Allies");
     auto spawners = allyLayer[0].objects.filter!(x => x.type == "spawn");
-    auto points = array(map!(p => Vector2i(p.x / tilewidth, p.y / tileheight))(spawners));
+    auto points = array(map!(p => Vector2i(p.x + tilewidth / 2, p.y - tileheight / 2))(spawners));
     return points;
   }
 

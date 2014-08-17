@@ -22,6 +22,18 @@ class TileMap {
     Rect2i bounds() { return Rect2i(0, 0, width, height); }
   }
 
+  Vector2i tileCoordToPos(int row, int col) {
+    return Vector2i(col * _tileWidth, row * _tileHeight) + Vector2i(_tileWidth, _tileHeight) / 2;
+  }
+
+  int rowAt(Vector2i pos) {
+    return pos.y / _tileHeight;
+  }
+
+  int colAt(Vector2i pos) {
+    return pos.x / _tileWidth;
+  }
+
   Tile tileAt(int row, int col) {
     assert(row >= 0 && col >= 0 && row < numRows && col < numCols);
     return _tiles[row][col];

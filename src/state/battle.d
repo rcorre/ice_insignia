@@ -5,23 +5,26 @@ import state.gamestate;
 import tilemap.all;
 import geometry.all;
 import util.input;
+import graphics.sprite;
 import model.battler;
+import model.character;
 
-enum scrollSpeed = 300;
+enum scrollSpeed = 500;
 
 class Battle : GameState {
-  this(string mapName) {
+  this(string mapName, Character[] playerUnits) {
     auto data = loadBattle(mapName);
     _map = data.map;
     _enemies = data.enemies;
-    //_allies = data.allies;
-    debug {
-      import std.stdio;
-      foreach(point ; data.spawnPoints) {
-        writeln("spawn point at " , point.x, " ", point.y);
-      }
+    foreach(idx, character ; playerUnits) {
+      assert(idx < data.spawnPoints.length, "not enough spawn points for player units");
+      auto pos = data.spawnPoints[idx];
+      int row = _map.rowAt(pos);
+      int col = _map.colAt(pos);
+      auto sprite = new Sprite("blue_recruit");
+      _allies ~= new Battler(character, row, col, pos, sprite);
     }
-    _neutrals = data.neutrals;
+    _neutrals = [];
     _battlers = _enemies ~ _allies ~ _neutrals;
     _camera = Rect2i(0, 0, Settings.screenW, Settings.screenH);
     _input = new InputManager;
