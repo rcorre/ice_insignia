@@ -126,7 +126,7 @@ class MapObject {
     int row = y / tileHeight;
     auto pos = Vector2i(x, y) + sprite.size / 2;
 
-    return new Battler(character, row, col, pos, sprite);
+    return new Battler(character, row, col, pos, sprite, BattleTeam.enemy);
   }
 
   @jsonize @property {

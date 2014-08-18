@@ -57,11 +57,13 @@ class Sprite {
     auto totalScale() { return _scaleFactor * _baseScale; }
   }
 
+  protected:
+  int _row, _col;
+
   private:
   string _name;
   Texture _texture;
   const float _baseScale;
-  int _row, _col;
   float _scaleFactor  = 1;
   float _angle        = 0;
   ALLEGRO_COLOR _tint = Color.white;

@@ -4,15 +4,22 @@ import geometry.vector;
 import graphics.sprite;
 import model.character;
 
+enum BattleTeam {
+  ally,
+  enemy,
+  neutral
+}
+
 class Battler {
   alias character this;
 
-  this(Character c, int row, int col, Vector2i pos, Sprite sprite) {
+  this(Character c, int row, int col, Vector2i pos, Sprite sprite, BattleTeam team) {
     _character = c;
     _row = row;
     _col = col;
     _pos = pos;
     _sprite = sprite;
+    this.team = team;
   }
 
   @property {
@@ -26,6 +33,8 @@ class Battler {
   void draw() {
     _sprite.draw(pos);
   }
+
+  const BattleTeam team;
 
   private:
   Sprite _sprite;

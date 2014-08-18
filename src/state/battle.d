@@ -5,8 +5,7 @@ import state.gamestate;
 import tilemap.all;
 import geometry.all;
 import util.input;
-import graphics.sprite;
-import graphics.primitive;
+import graphics.all;
 import model.battler;
 import model.character;
 
@@ -22,7 +21,7 @@ class Battle : GameState {
       auto pos = data.spawnPoints[idx];
       auto tile = _map.tileAtPos(pos);
       auto sprite = new Sprite("blue_recruit");
-      Battler b = new Battler(character, tile.row, tile.col, pos, sprite);
+      Battler b = new Battler(character, tile.row, tile.col, pos, sprite, BattleTeam.ally);
       _allies ~= b;
       placeBattler(b, tile);
     }
@@ -112,23 +111,30 @@ class Battle : GameState {
       _battler = battler;
       _tile = tile;
       _pathFinder = new PathFinder(_map, _tile, _battler.move);
+      _tileSelector = new AnimatedSprite("tile_highlight");
     }
 
     override State update(float time) {
+      _tileSelector.update(time);
       return null;
     }
 
     override void draw() {
       foreach (tile ; _pathFinder.tilesInRange) {
         auto pos = _map.tileToPos(tile) - _camera.topLeft;
-        auto rect = Rect2i.CenteredAt(pos, _map.tileWidth, _map.tileHeight);
-        drawFilled(rect, al_map_rgba_f(0,1,1,0.5));
+        _tileSelector.draw(pos);
       }
     }
 
     private:
+    enum {
+      minAlpha = 0.2f,
+      maxAlpha = 0.5f,
+      pulseRate = 0.6f
+    }
     Battler _battler;
     Tile _tile;
     PathFinder _pathFinder;
+    AnimatedSprite _tileSelector;
   }
 }
