@@ -61,7 +61,7 @@ class Character {
 
   /// level up and return attribute increase values
   ValueSet!Attribute levelUp() {
-    auto bonuses = _potential.map!(p => uniform(0, 10 + p) / 10);
+    auto bonuses = _potential.map!(p => uniform!"[]"(0, 100) > p ? 0 : 1);
     _attributes = attributes + bonuses;
     return bonuses;
   }

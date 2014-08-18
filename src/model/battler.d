@@ -5,7 +5,7 @@ import graphics.sprite;
 import model.character;
 
 class Battler {
-  alias _character this;
+  alias character this;
 
   this(Character c, int row, int col, Vector2i pos, Sprite sprite) {
     _character = c;

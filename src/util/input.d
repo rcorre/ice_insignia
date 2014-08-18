@@ -3,6 +3,11 @@ module util.input;
 import allegro;
 import geometry.vector;
 
+enum MouseButton {
+  lmb = 1,
+  rmb = 2
+}
+
 class InputManager {
   void update() {
     _prevKeyboardState = _curKeyboardState;
@@ -30,20 +35,29 @@ class InputManager {
     }
   }
 
+  bool mouseClicked(MouseButton button) {
+    int b = cast(int) button;
+    return !al_mouse_button_down(&_prevMouseState, b) && al_mouse_button_down(&_curMouseState, b);
+  }
+
+  Vector2i mousePos() {
+    return Vector2i(_curMouseState.x, _curMouseState.y);
+  }
+
   private:
-    bool keyHeld(int keycode) {
-      return al_key_down(&_curKeyboardState, keycode);
-    }
+  bool keyHeld(int keycode) {
+    return al_key_down(&_curKeyboardState, keycode);
+  }
 
-    bool keyPressed(int keycode) {
-      return !al_key_down(&_prevKeyboardState, keycode) && al_key_down(&_curKeyboardState, keycode);
-    }
+  bool keyPressed(int keycode) {
+    return !al_key_down(&_prevKeyboardState, keycode) && al_key_down(&_curKeyboardState, keycode);
+  }
 
-    bool keyReleased(int keycode) {
-      return al_key_down(&_prevKeyboardState, keycode) && !al_key_down(&_curKeyboardState, keycode);
-    }
+  bool keyReleased(int keycode) {
+    return al_key_down(&_prevKeyboardState, keycode) && !al_key_down(&_curKeyboardState, keycode);
+  }
 
-    ALLEGRO_KEYBOARD_STATE _curKeyboardState, _prevKeyboardState;
-    ALLEGRO_MOUSE_STATE _curMouseState, _prevMouseState;
+  ALLEGRO_KEYBOARD_STATE _curKeyboardState, _prevKeyboardState;
+  ALLEGRO_MOUSE_STATE _curMouseState, _prevMouseState;
 }
 
