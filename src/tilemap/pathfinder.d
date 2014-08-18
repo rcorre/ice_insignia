@@ -26,6 +26,20 @@ class PathFinder {
 
   @property Tile[] tilesInRange() { return _tilesInRange; }
 
+  Tile[] pathTo(Tile end) {
+    int idx = tileToIdx(end);
+    if (_dist[idx] > _moveRange) {
+      return null;
+    }
+    int startIdx = tileToIdx(_start);
+    Tile[] tiles;
+    while (idx != startIdx) {
+      tiles ~= idxToTile(idx);
+      idx = _prev[idx];
+    }
+    return tiles;
+  }
+
   private:
   TileMap _map;
   Tile _start;

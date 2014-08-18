@@ -1,5 +1,7 @@
 module state.battle;
 
+import std.array : array;
+import std.algorithm : map;
 import allegro;
 import state.gamestate;
 import tilemap.all;
@@ -116,6 +118,10 @@ class Battle : GameState {
 
     override State update(float time) {
       _tileSelector.update(time);
+      auto tileUnderMouse = _map.tileAtPos(_input.mousePos + _camera.topLeft);
+      if (tileUnderMouse) {
+        _selectedPath = _pathFinder.pathTo(tileUnderMouse);
+      }
       return null;
     }
 
@@ -123,6 +129,11 @@ class Battle : GameState {
       foreach (tile ; _pathFinder.tilesInRange) {
         auto pos = _map.tileToPos(tile) - _camera.topLeft;
         _tileSelector.draw(pos);
+      }
+
+      if (_selectedPath) {
+        auto nodes = array(_selectedPath.map!(t => _map.tileToPos(t) - _camera.topLeft));
+        nodes.draw(3, al_map_rgba_f(0,1,1,0.5));
       }
     }
 
@@ -134,6 +145,8 @@ class Battle : GameState {
     }
     Battler _battler;
     Tile _tile;
+    Tile[] _selectedPath;
+    Vector2i _pathPoints;
     PathFinder _pathFinder;
     AnimatedSprite _tileSelector;
   }
