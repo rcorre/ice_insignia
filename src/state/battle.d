@@ -1,6 +1,6 @@
 module state.battle;
 
-import std.array : array;
+import std.array;
 import std.algorithm : map;
 import allegro;
 import state.gamestate;
@@ -11,7 +11,10 @@ import graphics.all;
 import model.battler;
 import model.character;
 
-enum scrollSpeed = 500;
+private enum {
+  scrollSpeed = 500,     /// camera scroll rate (pixels/sec)
+  battlerMoveSpeed = 300 /// battler move speed (pixels/sec)
+}
 
 class Battle : GameState {
   this(string mapName, Character[] playerUnits) {
@@ -92,7 +95,7 @@ class Battle : GameState {
 
   class PlayerTurn : State {
     override State update(float time) {
-      if (_input.mouseClicked(MouseButton.lmb)) {
+      if (_input.confirm) {
         auto tile = _map.tileAtPos(_camera.topLeft + _input.mousePos);
         debug {
           import std.stdio;
@@ -121,6 +124,9 @@ class Battle : GameState {
       auto tileUnderMouse = _map.tileAtPos(_input.mousePos + _camera.topLeft);
       if (tileUnderMouse) {
         _selectedPath = _pathFinder.pathTo(tileUnderMouse);
+        if (_selectedPath && _input.confirm) {
+          return new MoveBattler(_battler, _tile, _selectedPath);
+        }
       }
       return null;
     }
@@ -149,5 +155,62 @@ class Battle : GameState {
     Vector2i _pathPoints;
     PathFinder _pathFinder;
     AnimatedSprite _tileSelector;
+  }
+
+  class MoveBattler : State {
+    this(Battler battler, Tile currentTile, Tile[] path) {
+      _battler = battler;
+      _path = path;
+      _pos = cast(Vector2f) _battler.pos;
+      _originTile = currentTile;
+      currentTile.battler = null;  // remove battler from current tile
+      path.back.battler = battler; // place battler on final tile
+    }
+
+    override State update(float time) {
+      if (_path.empty) { /// completed move
+        return new ChooseBattlerAction(_battler, _originTile);
+      }
+
+      auto target = cast(Vector2f) _map.tileToPos(_path.front); 
+      auto disp = target - _pos;
+      float dist = battlerMoveSpeed * time;
+      if (disp.len <= dist) {
+        _pos = target;
+        _path.popFront;
+      }
+      else {
+        _pos += disp.unit * dist;
+      }
+      _battler.pos = _pos;
+
+      return null;
+    }
+
+    private:
+    Battler _battler;
+    Tile[] _path;
+    Tile _originTile;
+    Vector2f _pos;
+  }
+
+  /// Battler has moved and must take an action or revert to the pre-move position
+  class ChooseBattlerAction : State {
+    this(Battler battler, Tile prevTile) {
+      _battler = battler;
+      _prevTile = prevTile;
+    }
+
+    override State update(float time) {
+      if (_input.cancel) {
+        placeBattler(_battler, _prevTile);
+        return new PlayerTurn;
+      }
+      return null;
+    }
+
+    private:
+    Battler _battler;
+    Tile _prevTile;
   }
 }

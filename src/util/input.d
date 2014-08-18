@@ -33,11 +33,9 @@ class InputManager {
       }
       return scroll;
     }
-  }
 
-  bool mouseClicked(MouseButton button) {
-    int b = cast(int) button;
-    return !al_mouse_button_down(&_prevMouseState, b) && al_mouse_button_down(&_curMouseState, b);
+    bool confirm() { return mouseClicked(MouseButton.lmb); }
+    bool cancel()  { return mouseClicked(MouseButton.rmb); }
   }
 
   Vector2i mousePos() {
@@ -56,6 +54,12 @@ class InputManager {
   bool keyReleased(int keycode) {
     return al_key_down(&_prevKeyboardState, keycode) && !al_key_down(&_curKeyboardState, keycode);
   }
+
+  bool mouseClicked(MouseButton button) {
+    int b = cast(int) button;
+    return !al_mouse_button_down(&_prevMouseState, b) && al_mouse_button_down(&_curMouseState, b);
+  }
+
 
   ALLEGRO_KEYBOARD_STATE _curKeyboardState, _prevKeyboardState;
   ALLEGRO_MOUSE_STATE _curMouseState, _prevMouseState;

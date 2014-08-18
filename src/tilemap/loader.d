@@ -174,13 +174,3 @@ Sprite gidToSprite(int gid, TileSet[] tilesets) {
   assert(!tileSet.empty, "could not match gid " ~ to!string(gid));
   return tileSet[0].createTileSprite(gid);
 }
-
-unittest {
-  auto map = readJSON!MapData("content/maps/test.json");
-  assert(map.width == 4 && map.height == 4);
-  auto layer = map.layers[0];
-  assert(layer.data.length == 16);
-  assert(layer.data[0] == 10 && layer.data[9] == 61);
-  assert(layer.name == "Terrain" && layer.type == LayerType.tilelayer);
-  assert(layer.visible == true && layer.opacity == 1);
-}

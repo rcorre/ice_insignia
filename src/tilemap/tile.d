@@ -22,7 +22,7 @@ class Tile {
 
     Battler battler() { return _battler; }
     void battler(Battler b) {
-      assert(_battler is null, format("tile at %d,%d is already occupied", row, col));
+      assert(_battler is null || b is null, format("tile at %d,%d is already occupied", row, col));
       _battler = b;
     }
   }
