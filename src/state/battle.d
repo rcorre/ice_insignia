@@ -13,7 +13,7 @@ import model.character;
 
 private enum {
   scrollSpeed = 500,     /// camera scroll rate (pixels/sec)
-  battlerMoveSpeed = 300 /// battler move speed (pixels/sec)
+  battlerMoveSpeed = 200 /// battler move speed (pixels/sec)
 }
 
 class Battle : GameState {
@@ -80,11 +80,6 @@ class Battle : GameState {
     b.row = t.row;
     b.col = t.col;
     b.pos = _map.tileCoordToPos(t.row, t.col);
-    debug {
-      import std.stdio;
-      writeln("placing battler at " , t.row, " " , t.col);
-      assert(t.battler !is null);
-    }
   }
 
   abstract class State {
@@ -97,12 +92,6 @@ class Battle : GameState {
     override State update(float time) {
       if (_input.confirm) {
         auto tile = _map.tileAtPos(_camera.topLeft + _input.mousePos);
-        debug {
-          import std.stdio;
-          writeln(tile !is null);
-          writeln(tile.row , " " , tile.col);
-          writeln(tile.battler !is null);
-        }
         if (tile && tile.battler) {
           return new PlayerUnitSelected(tile.battler, tile);
         }
@@ -117,6 +106,7 @@ class Battle : GameState {
       _tile = tile;
       _pathFinder = new PathFinder(_map, _tile, _battler.move);
       _tileSelector = new AnimatedSprite("tile_highlight");
+      _tileSelector.tint = moveTint;
     }
 
     override State update(float time) {
@@ -139,7 +129,7 @@ class Battle : GameState {
 
       if (_selectedPath) {
         auto nodes = array(_selectedPath.map!(t => _map.tileToPos(t) - _camera.topLeft));
-        nodes.draw(3, al_map_rgba_f(0,1,1,0.5));
+        nodes.draw(lineWidth, lineTint);
       }
     }
 
@@ -147,7 +137,10 @@ class Battle : GameState {
     enum {
       minAlpha = 0.2f,
       maxAlpha = 0.5f,
-      pulseRate = 0.6f
+      pulseRate = 0.6f,
+      moveTint = ALLEGRO_COLOR(0,0.0,0.9,0.7),
+      lineTint = ALLEGRO_COLOR(0,1,1,0.5),
+      lineWidth = 3
     }
     Battler _battler;
     Tile _tile;
@@ -172,7 +165,7 @@ class Battle : GameState {
         return new ChooseBattlerAction(_battler, _originTile);
       }
 
-      auto target = cast(Vector2f) _map.tileToPos(_path.front); 
+      auto target = cast(Vector2f) _map.tileToPos(_path.front);
       auto disp = target - _pos;
       float dist = battlerMoveSpeed * time;
       if (disp.len <= dist) {
