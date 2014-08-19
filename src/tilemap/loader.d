@@ -84,7 +84,17 @@ class MapData {
   Tile constructTile(int row, int col, int terrainGid, int featureGid, TileSet[] tilesets) {
     auto terrainSprite = gidToSprite(terrainGid, tilesets);
     auto featureSprite = gidToSprite(featureGid, tilesets);
-    return new Tile(row, col, terrainSprite, featureSprite);
+    TileProperties props;
+    if (featureGid != 0) { // use terrain props only if feature props don't exist
+      props = gidToProperties(featureGid, tilesets);
+    }
+    else {
+      props = gidToProperties(terrainGid, tilesets);
+    }
+    auto moveCost = props.moveCost;
+    auto avoid = props.avoid;
+    auto defense = props.defense;
+    return new Tile(row, col, terrainSprite, featureSprite, moveCost, avoid, defense);
   }
 
   @jsonize {
@@ -167,10 +177,21 @@ class TileProperties {
   }
 }
 
-Sprite gidToSprite(int gid, TileSet[] tilesets) {
-  // match gid to tileset
+TileSet gidToTileset(int gid, TileSet[] tilesets) {
   if (gid == 0) { return null; }
   auto tileSet = tilesets.find!(x => x.firstgid <= gid);
   assert(!tileSet.empty, "could not match gid " ~ to!string(gid));
-  return tileSet[0].createTileSprite(gid);
+  return tileSet[0];
+}
+
+Sprite gidToSprite(int gid, TileSet[] tilesets) {
+  // match gid to tileset
+  if (gid == 0) { return null; }
+  auto tileSet = gidToTileset(gid, tilesets);
+  return tileSet.createTileSprite(gid);
+}
+
+TileProperties gidToProperties(int gid, TileSet[] tilesets) {
+  auto tileset = gidToTileset(gid, tilesets);
+  return tileset.tileproperties.get(to!string(gid), new TileProperties);
 }

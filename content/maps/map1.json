@@ -201,6 +201,31 @@
             },
          "spacing":0,
          "tileheight":32,
+         "tileproperties":
+            {
+             "10":
+                {
+                 "avoid":"20",
+                 "cavalryCost":"3",
+                 "defense":"2",
+                 "moveCost":"2"
+                },
+             "11":
+                {
+                 "avoid":"30",
+                 "cavalryCost":"6",
+                 "defense":"3",
+                 "moveCost":"3"
+                },
+             "2":
+                {
+                 "moveCost":"20"
+                },
+             "31":
+                {
+                 "moveCost":"20"
+                }
+            },
          "tilewidth":32
         }, 
         {
