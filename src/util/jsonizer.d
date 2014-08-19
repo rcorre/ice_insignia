@@ -120,6 +120,9 @@ T extract(T : real)(JSONValue json) if (!is(T == enum)) {
       return cast(T) json.integer;
     case JSON_TYPE.UINTEGER:
       return cast(T) json.uinteger;
+    case JSON_TYPE.STRING:
+      enforce(json.str.isNumeric, format("tried to extract %s from json string %s", T.stringof, json.str));
+      return to!T(json.str); // try to parse string as int
     default:
       enforce(0, format("tried to extract %s from json of type %s", T.stringof, json.type));
   }
