@@ -6,7 +6,7 @@ import graphics.all;
 import model.character;
 
 private enum {
-  movedTint = color(100,100,100,0.5)
+  movedTint = color(0.7,0.7,0.7,1.0)
 }
 
 enum BattleTeam {

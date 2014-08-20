@@ -107,7 +107,7 @@ class Battle : GameState {
     override State update(float time) {
       if (_input.confirm) {
         auto tile = _map.tileAtPos(_camera.topLeft + _input.mousePos);
-        if (tile && tile.battler) {
+        if (tile && tile.battler && !tile.battler.moved) {
           return new PlayerUnitSelected(tile.battler, tile);
         }
       }
@@ -212,6 +212,8 @@ class Battle : GameState {
       if (_battler.moved) { // move has completed
         return new PlayerTurn;
       }
+
+      _selectionView.handleMouse(_input.mousePos, _input.confirm);
 
       if (_input.cancel) {
         placeBattler(_battler, _prevTile);

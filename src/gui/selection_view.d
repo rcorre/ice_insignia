@@ -3,6 +3,7 @@ module gui.selection_view;
 import std.algorithm : max;
 import graphics.all;
 import geometry.all;
+import util.input;
 
 private enum {
   fontName = "selection_font",
@@ -31,6 +32,20 @@ class SelectionView {
       totalArea.width = max(totalArea.width, selectionArea.width);
     }
     _totalArea = totalArea;
+  }
+
+  void handleMouse(Vector2i mousePos, bool lmbClick) {
+    if (!_totalArea.contains(mousePos)) {
+      return; // not in selection view at all
+    }
+    // check each entry
+    foreach(selection ; _selections) {
+      if (selection.clickArea.contains(mousePos)) {
+        if (lmbClick) {
+          selection.onClick();
+        }
+      }
+    }
   }
 
   void draw() {
