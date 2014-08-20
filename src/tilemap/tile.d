@@ -7,7 +7,7 @@ import graphics.sprite;
 import geometry.vector;
 
 class Tile {
-  this(int row, int col, Sprite terrainSprite, Sprite featureSprite, int moveCost, int defense, int avoid) {
+  this(int row, int col, Sprite terrainSprite, Sprite featureSprite, string name, int moveCost, int defense, int avoid) {
     _row = row;
     _col = col;
     _terrainSprite = terrainSprite;
@@ -15,9 +15,11 @@ class Tile {
     _moveCost = moveCost;
     _defense = defense;
     _avoid = avoid;
+    _name = name;
   }
 
   @property {
+    string name() { return _name; }
     int row() { return _row; }
     int col() { return _col; }
     int moveCost() { return _moveCost; }
@@ -44,6 +46,7 @@ class Tile {
     int _row, _col;
     int _moveCost;
     int _defense, _avoid;
+    string _name;
     Sprite _terrainSprite, _featureSprite;
     Battler _battler;
 }

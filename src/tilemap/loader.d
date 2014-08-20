@@ -91,10 +91,11 @@ class MapData {
     else {
       props = gidToProperties(terrainGid, tilesets);
     }
+    auto name = props.name;
     auto moveCost = props.moveCost;
     auto avoid = props.avoid;
     auto defense = props.defense;
-    return new Tile(row, col, terrainSprite, featureSprite, moveCost, avoid, defense);
+    return new Tile(row, col, terrainSprite, featureSprite, name, moveCost, defense, avoid);
   }
 
   @jsonize {
@@ -173,7 +174,7 @@ class TileProperties {
     int avoid          = 0;
     int defense        = 0;
     int moveCost       = 1;
-    string terrainName = "";
+    string name = "Unknown";
   }
 }
 
@@ -193,5 +194,5 @@ Sprite gidToSprite(int gid, TileSet[] tilesets) {
 
 TileProperties gidToProperties(int gid, TileSet[] tilesets) {
   auto tileset = gidToTileset(gid, tilesets);
-  return tileset.tileproperties.get(to!string(gid), new TileProperties);
+  return tileset.tileproperties.get(to!string(gid - 1), new TileProperties);
 }

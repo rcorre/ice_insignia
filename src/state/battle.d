@@ -10,10 +10,12 @@ import util.input;
 import graphics.all;
 import model.battler;
 import model.character;
+import gui.all;
 
 private enum {
   scrollSpeed = 500,     /// camera scroll rate (pixels/sec)
-  battlerMoveSpeed = 200 /// battler move speed (pixels/sec)
+  battlerMoveSpeed = 200,/// battler move speed (pixels/sec)
+  tileInfoPos = cast(Vector2i) Vector2f(Settings.screenW * 0.9f, Settings.screenH * 0.9f)
 }
 
 class Battle : GameState {
@@ -46,6 +48,15 @@ class Battle : GameState {
       _state.onExit();
       _state = newState;
     }
+
+    // handle mouse -- display tile info
+    auto tile = _map.tileAtPos(_camera.topLeft + _input.mousePos);
+    if (tile) {
+      _tileInfoBox = new TileInfoBox(tileInfoPos, tile.name, tile.defense, tile.avoid);
+    }
+    else {
+      _tileInfoBox = null;
+    }
     return null;
   }
 
@@ -59,6 +70,9 @@ class Battle : GameState {
       }
     }
     _state.draw();
+    if (_tileInfoBox) {
+      _tileInfoBox.draw();
+    }
   }
 
   override void onExit() {
@@ -74,6 +88,7 @@ class Battle : GameState {
   Battler[] _enemies;
   Battler[] _neutrals;
   State _state;
+  TileInfoBox _tileInfoBox;
 
   void placeBattler(Battler b, Tile t) {
     t.battler = b;
@@ -135,9 +150,6 @@ class Battle : GameState {
 
     private:
     enum {
-      minAlpha = 0.2f,
-      maxAlpha = 0.5f,
-      pulseRate = 0.6f,
       moveTint = ALLEGRO_COLOR(0,0.0,0.9,0.7),
       lineTint = ALLEGRO_COLOR(0,1,1,0.5),
       lineWidth = 3

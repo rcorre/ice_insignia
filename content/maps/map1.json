@@ -203,27 +203,140 @@
          "tileheight":32,
          "tileproperties":
             {
+             "0":
+                {
+                 "name":"Field"
+                },
              "10":
                 {
                  "avoid":"20",
                  "cavalryCost":"3",
                  "defense":"2",
-                 "moveCost":"2"
+                 "moveCost":"2",
+                 "name":"Forest"
                 },
              "11":
                 {
                  "avoid":"30",
                  "cavalryCost":"6",
                  "defense":"3",
-                 "moveCost":"3"
+                 "moveCost":"3",
+                 "name":"Hill"
                 },
              "2":
                 {
-                 "moveCost":"20"
+                 "moveCost":"20",
+                 "name":"Water"
+                },
+             "21":
+                {
+                 "moveCost":"20",
+                 "name":"Wall"
+                },
+             "22":
+                {
+                 "moveCost":"20",
+                 "name":"Wall"
+                },
+             "23":
+                {
+                 "moveCost":"20",
+                 "name":"Wall"
+                },
+             "24":
+                {
+                 "moveCost":"20",
+                 "name":"Wall"
                 },
              "31":
                 {
-                 "moveCost":"20"
+                 "moveCost":"20",
+                 "name":"Wall"
+                },
+             "32":
+                {
+                 "name":"Stone"
+                },
+             "33":
+                {
+                 "name":"Stone"
+                },
+             "34":
+                {
+                 "moveCost":"20",
+                 "name":"Wall"
+                },
+             "35":
+                {
+                 "name":"Shore"
+                },
+             "36":
+                {
+                 "name":"Shore"
+                },
+             "37":
+                {
+                 "name":"Shore"
+                },
+             "38":
+                {
+                 "name":"Shore"
+                },
+             "39":
+                {
+                 "name":"Shore"
+                },
+             "41":
+                {
+                 "moveCost":"20",
+                 "name":"Wall"
+                },
+             "42":
+                {
+                 "moveCost":"20",
+                 "name":"Wall"
+                },
+             "43":
+                {
+                 "moveCost":"20",
+                 "name":"Door"
+                },
+             "44":
+                {
+                 "moveCost":"20",
+                 "name":"Wall"
+                },
+             "45":
+                {
+                 "name":"Shore"
+                },
+             "46":
+                {
+                 "name":"Shore"
+                },
+             "47":
+                {
+                 "name":"Shore"
+                },
+             "48":
+                {
+                 "name":"Shore"
+                },
+             "49":
+                {
+                 "name":"Shore"
+                },
+             "57":
+                {
+                 "name":"Shore"
+                },
+             "58":
+                {
+                 "name":"Shore"
+                },
+             "59":
+                {
+                 "name":"Shore"
                 }
             },
          "tilewidth":32
