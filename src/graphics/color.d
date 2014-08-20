@@ -4,21 +4,21 @@ import allegro;
 
 /// common colors
 enum Color {
-  white = ALLEGRO_COLOR(1, 1, 1, 1),
-  black = ALLEGRO_COLOR(0, 0, 0, 1),
-  red   = ALLEGRO_COLOR(1, 0, 0, 1),
-  green = ALLEGRO_COLOR(0, 1, 0, 1),
-  blue  = ALLEGRO_COLOR(0, 0, 1, 1),
+  white = color(1, 1, 1, 1),
+  black = color(0, 0, 0, 1),
+  red   = color(1, 0, 0, 1),
+  green = color(0, 1, 0, 1),
+  blue  = color(0, 0, 1, 1),
 }
 
 /// shortcut to create colors from float values
 ALLEGRO_COLOR color(float r, float g, float b, float a = 1.0f) {
-  return al_map_rgba_f(r, g, b, a);
+  return ALLEGRO_COLOR(r, g, b, a);
 }
 
 /// shortcut to create colors from unsigned byte values
 ALLEGRO_COLOR ucolor(ubyte r, ubyte g, ubyte b, ubyte a = 255u) {
-  return al_map_rgba(r, g, b, a);
+  return ALLEGRO_COLOR(r / 255f, g / 255f, b / 255f, a / 255f);
 }
 
 unittest {
