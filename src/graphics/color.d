@@ -3,6 +3,7 @@ module graphics.color;
 import allegro;
 
 /// common colors
+/*
 enum Color {
   white = color(1, 1, 1, 1),
   black = color(0, 0, 0, 1),
@@ -10,6 +11,7 @@ enum Color {
   green = color(0, 1, 0, 1),
   blue  = color(0, 0, 1, 1),
 }
+*/
 
 /// shortcut to create colors from float values
 ALLEGRO_COLOR color(float r, float g, float b, float a = 1.0f) {

@@ -16,7 +16,7 @@ class TileInfoBox {
 
   void draw() {
     _bgSprite.draw(_pos);
-    _font.draw(_textLines, _pos + titleOffset);
+    _font.draw(_textLines, _pos + textOffset);
   }
 
   private:
@@ -31,8 +31,7 @@ class TileInfoBox {
   enum {
     bgSpriteName = "tile_info_box",
     fontName = "tileInfoFont",
-    titleOffset = Vector2i(-40, -20),
-    infoOffset = Vector2i(-40, 20)
+    textOffset = Vector2i(-40, -20),
   }
 
   static this() {

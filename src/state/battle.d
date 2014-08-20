@@ -204,9 +204,15 @@ class Battle : GameState {
     this(Battler battler, Tile prevTile) {
       _battler = battler;
       _prevTile = prevTile;
+      auto selectPos = _battler.pos - _camera.topLeft - Vector2i(50, 50);
+      _selectionView = new SelectionView(selectPos, getActions());
     }
 
     override State update(float time) {
+      if (_battler.moved) { // move has completed
+        return new PlayerTurn;
+      }
+
       if (_input.cancel) {
         placeBattler(_battler, _prevTile);
         return new PlayerTurn;
@@ -214,8 +220,24 @@ class Battle : GameState {
       return null;
     }
 
+    override void draw() {
+      _selectionView.draw();
+    }
+
     private:
     Battler _battler;
     Tile _prevTile;
+    SelectionView _selectionView;
+
+    SelectionView.Action[string] getActions() {
+      return ["Inventory": &itemAction, "Wait": &waitAction];
+    }
+
+    void itemAction() {
+    }
+
+    void waitAction() {
+      _battler.moved = true;
+    }
   }
 }

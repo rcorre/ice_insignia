@@ -1,8 +1,13 @@
 module model.battler;
 
-import geometry.vector;
-import graphics.sprite;
+import allegro;
+import geometry.all;
+import graphics.all;
 import model.character;
+
+private enum {
+  movedTint = color(100,100,100,0.5)
+}
 
 enum BattleTeam {
   ally,
@@ -28,10 +33,21 @@ class Battler {
     ref int col() { return _col; }
     ref Vector2i pos() { return _pos; }
     Character character() { return _character; }
+
+    bool moved() { return _moved; }
+    void moved(bool val) {
+      _moved = val;
+      // shade sprite if moved
+      _sprite.tint = val ? movedTint : Color.white;
+    }
   }
 
   void draw() {
     _sprite.draw(pos);
+  }
+
+  void passTurn() {
+    _moved = false;
   }
 
   const BattleTeam team;
@@ -42,4 +58,5 @@ class Battler {
   Vector2i _pos;
   Character _character;
   int _hp;
+  bool _moved;
 }
