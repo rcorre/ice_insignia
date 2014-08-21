@@ -59,7 +59,7 @@ struct Vector2(T : real) {
     auto unit() const {
       return len == 0 ? Zero : Vector2!(T)(x / len, y / len);
     }
-
+    /// replace unit with normalized eventually
     alias normalized = unit;
   }
 
@@ -81,18 +81,26 @@ struct Vector2(T : real) {
     angle = angle + rotation_angle;
   }
 
+  /// return a vector moved distance from this to dest
+  auto movedTo(this T, U : real, V : real)(Vector2!U dest, V distance, out bool destReached) {
+    auto disp = dest - this;
+    if (disp.len < distance) {
+      destReached = true;
+      return dest;
+    }
+    else {
+      destReached = false;
+      return cast(T) (this + disp.normalized * distance);
+    }
+  }
+
+
   /// move vector distance toward dest, or place on dest if closer than distance
   /// return true if dest reached
   bool moveTo(V)(Vector2!V dest, real distance) {
-    auto disp = dest - this;
-    if (disp.len < distance) {
-      this = dest;
-      return true;
-    }
-    else {
-      this += disp.normalized * distance;
-      return false;
-    }
+    bool destReached;
+    this = this.movedTo(dest, distance, destReached);
+    return destReached;
   }
 
   auto clamp(Vector2 min, Vector2 max) {
