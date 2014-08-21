@@ -1,17 +1,16 @@
 module graphics.color;
 
 import allegro;
+import util.math;
 
 /// common colors
-/*
-enum Color {
+enum Tint {
   white = color(1, 1, 1, 1),
   black = color(0, 0, 0, 1),
   red   = color(1, 0, 0, 1),
   green = color(0, 1, 0, 1),
   blue  = color(0, 0, 1, 1),
 }
-*/
 
 /// shortcut to create colors from float values
 ALLEGRO_COLOR color(float r, float g, float b, float a = 1.0f) {
@@ -21,6 +20,14 @@ ALLEGRO_COLOR color(float r, float g, float b, float a = 1.0f) {
 /// shortcut to create colors from unsigned byte values
 ALLEGRO_COLOR ucolor(ubyte r, ubyte g, ubyte b, ubyte a = 255u) {
   return ALLEGRO_COLOR(r / 255f, g / 255f, b / 255f, a / 255f);
+}
+
+ALLEGRO_COLOR lerp(ALLEGRO_COLOR start, ALLEGRO_COLOR end, float factor) {
+  auto r = util.math.lerp(start.r, end.r, factor);
+  auto g = util.math.lerp(start.g, end.g, factor);
+  auto b = util.math.lerp(start.b, end.b, factor);
+  auto a = util.math.lerp(start.a, end.a, factor);
+  return color(r, g, b, a);
 }
 
 unittest {
@@ -52,4 +59,7 @@ unittest {
   assert(c4.g.approxEqual(  0 / 255f));
   assert(c4.b.approxEqual(255 / 255f));
   assert(c4.a.approxEqual(127 / 255f));
+
+  auto c5 = Tint.black.lerp(Tint.white, 0.5);
+  assert(c5 == color(0.5, 0.5, 0.5, 1));
 }

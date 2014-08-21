@@ -15,6 +15,10 @@ int roundDown(real val) {
   return cast(int) floor(val);
 }
 
+T lerp(T : real, U : float)(T start, T end, U factor) {
+  return cast(T) (start + (end - start) * factor);
+}
+
 unittest {
   assert(5.clamp(0, 3) == 3);
   assert((-2).clamp(0, 3) == 0);
@@ -23,4 +27,7 @@ unittest {
   assert(clamp(0.5, 0, 1) == 0.5);
   assert(clamp(1.5, 0, 1) == 1);
   assert(clamp(-1.5, 0, 1) == 0);
+
+  assert(lerp(0, 20, 0.5) == 10);
+  assert(lerp(10, -10, 0.8) == -6);
 }
