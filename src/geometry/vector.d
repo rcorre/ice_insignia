@@ -59,6 +59,8 @@ struct Vector2(T : real) {
     auto unit() const {
       return len == 0 ? Zero : Vector2!(T)(x / len, y / len);
     }
+
+    alias normalized = unit;
   }
 
   /** Methods *****************************************************************/
@@ -77,6 +79,20 @@ struct Vector2(T : real) {
   /// rotate the vector by angle
   void rotate(AngleType rotation_angle) {
     angle = angle + rotation_angle;
+  }
+
+  /// move vector distance toward dest, or place on dest if closer than distance
+  /// return true if dest reached
+  bool moveTo(V)(Vector2!V dest, real distance) {
+    auto disp = dest - this;
+    if (disp.len < distance) {
+      this = dest;
+      return true;
+    }
+    else {
+      this += disp.normalized * distance;
+      return false;
+    }
   }
 
   auto clamp(Vector2 min, Vector2 max) {
@@ -220,6 +236,16 @@ unittest {
   // clamp
   auto v6 = Vector2f(12, -2);
   assert(v6.clamp(Vector2f(0, 0), Vector2f(10, 10)) == Vector2f(10, 0));
+
+  // moveTo
+  bool reachedDest;
+  auto v7 = Vector2f(10, 10);
+  reachedDest = v7.moveTo(Vector2f(10, 20), 5);
+  approx(v7, Vector2f(10, 15));
+  assert(!reachedDest);
+  reachedDest = v7.moveTo(Vector2f(10, 20), 6);
+  assert(reachedDest);
+  approx(v7, Vector2f(10, 20));
 }
 
 // int vector
