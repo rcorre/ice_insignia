@@ -53,6 +53,16 @@ class Character {
     return _items[slot];
   }
 
+  bool addItem(Item newItem) {
+    foreach(ref item ; _items) { // look for empty slot to place item in
+      if (item is null) {
+        item = newItem;
+        return true;
+      }
+    }
+    return false;
+  }
+
   /// access an attribute by name
   int opDispatch(string m)() const if (hasMember!(Attribute, m)) {
     return _attributes.opDispatch!m;
@@ -66,13 +76,27 @@ class Character {
   }
 
   private:
+  Item[itemCapacity] _items;
   @jsonize {
     string _name;
     int _xp;
     int _level;
     ValueSet!Attribute _attributes;
     ValueSet!Attribute _potential;
-    Item[itemCapacity] _items;
+    /// load items from names
+    @property {
+      string[] inventory() { 
+        import std.algorithm : map;
+        import std.array : array;
+        return array(_items[].map!"a.name");
+      }
+      void inventory(string[] inv) {
+        assert(inv.length < itemCapacity);
+        foreach(name ; inv) {
+          addItem(loadItem(name));
+        }
+      }
+    }
   }
 }
 
