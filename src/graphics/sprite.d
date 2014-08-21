@@ -6,17 +6,19 @@ import std.conv;
 import allegro;
 import geometry.vector;
 import graphics.texture;
+import graphics.color;
 import util.config;
 
 /// displays a single frame of a texture
 class Sprite {
-  this(string spriteName) {
+  this(string spriteName, ALLEGRO_COLOR tint = Color.white) {
     assert(spriteName in _spriteData.entries, spriteName ~ " is not defined in " ~ Paths.spriteData);
     auto data = _spriteData.entries[spriteName];
     _name = spriteName;
     _texture = getTexture(data["texture"]);
     _row = to!int(data["row"]);
     _col = to!int(data["col"]);
+    _tint = tint;
     assert(_row >= 0 && _col >= 0 && _row < _texture.numRows && _col < _texture.numCols, 
         format("sprite coord %d, %d is out of bounds", _row, _col));
     _baseScale = to!int(data.get("baseScale", "1"));

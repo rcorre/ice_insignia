@@ -36,6 +36,7 @@ class InputManager {
 
     bool confirm() { return mouseClicked(MouseButton.lmb); }
     bool cancel()  { return mouseClicked(MouseButton.rmb); }
+    bool endTurn() { return keyPressed(ALLEGRO_KEY_SPACE); }
   }
 
   Vector2i mousePos() {

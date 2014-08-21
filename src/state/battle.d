@@ -23,7 +23,11 @@ class Battle : GameState {
     auto data = loadBattle(mapName);
     _map = data.map;
     _enemies = data.enemies;
-    foreach(idx, character ; playerUnits) {
+    foreach(enemy ; _enemies) { // place enemies
+      placeBattler(enemy, _map.tileAt(enemy.row, enemy.col));
+    }
+
+    foreach(idx, character ; playerUnits) { // place player units at spawn points
       assert(idx < data.spawnPoints.length, "not enough spawn points for player units");
       auto pos = data.spawnPoints[idx];
       auto tile = _map.tileAtPos(pos);
@@ -32,6 +36,7 @@ class Battle : GameState {
       _allies ~= b;
       placeBattler(b, tile);
     }
+
     _neutrals = [];
     _battlers = _enemies ~ _allies ~ _neutrals;
     _camera = Rect2i(0, 0, Settings.screenW, Settings.screenH);
@@ -109,7 +114,7 @@ class Battle : GameState {
     }
 
     override State update(float time) {
-      if (_turnOver) {
+      if (_turnOver || _input.endTurn) {
         foreach(battler ; _allies) {
           battler.moved = false;
         }
@@ -183,7 +188,7 @@ class Battle : GameState {
       _pos = cast(Vector2f) _battler.pos;
       _originTile = currentTile;
       currentTile.battler = null;  // remove battler from current tile
-      path.back.battler = battler; // place battler on final tile
+      placeBattler(_battler, path.back); // place battler on final tile
     }
 
     override State update(float time) {
@@ -215,12 +220,14 @@ class Battle : GameState {
 
   /// Battler has moved and must take an action or revert to the pre-move position
   class ChooseBattlerAction : State {
+    private enum targetShade = ucolor(255, 0, 0, 255);
+
     this(Battler battler, Tile prevTile) {
       _battler = battler;
       _prevTile = prevTile;
       auto selectPos = _battler.pos - _camera.topLeft - Vector2i(50, 50);
       _selectionView = new SelectionView(selectPos, getActions());
-      _targetSprite = new AnimatedSprite("target");
+      _targetSprite = new AnimatedSprite("target", targetShade);
     }
 
     override State update(float time) {
@@ -242,7 +249,7 @@ class Battle : GameState {
       _selectionView.draw();
       foreach(enemy ; _enemies) {
         if (_battler.canAttack(enemy)) {
-          _targetSprite.draw(enemy.pos);
+          _targetSprite.draw(enemy.pos - _camera.topLeft);
         }
       }
     }

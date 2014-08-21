@@ -4,10 +4,11 @@ import allegro;
 import util.config;
 import std.conv;
 import graphics.sprite;
+import graphics.color;
 
 class AnimatedSprite : Sprite {
-  this(string name) {
-    super(name);
+  this(string name, ALLEGRO_COLOR tint = Color.white) {
+    super(name, tint);
 
     auto data = _animationData.entries[name];
     _startCol = _col;
