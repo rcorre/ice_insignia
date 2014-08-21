@@ -1,7 +1,7 @@
 module state.battle;
 
 import std.array;
-import std.algorithm : map;
+import std.algorithm : map, all;
 import allegro;
 import state.gamestate;
 import tilemap.all;
@@ -104,7 +104,18 @@ class Battle : GameState {
   }
 
   class PlayerTurn : State {
+    this() {
+      _turnOver = _allies.all!"a.moved";
+    }
+
     override State update(float time) {
+      if (_turnOver) {
+        foreach(battler ; _allies) {
+          battler.moved = false;
+        }
+        return new PlayerTurn;
+      }
+
       if (_input.confirm) {
         auto tile = _map.tileAtPos(_camera.topLeft + _input.mousePos);
         if (tile && tile.battler && !tile.battler.moved) {
@@ -113,6 +124,9 @@ class Battle : GameState {
       }
       return null;
     }
+
+    private:
+    bool _turnOver;
   }
 
   class PlayerUnitSelected : State {

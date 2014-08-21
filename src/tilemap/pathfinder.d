@@ -7,10 +7,7 @@ import tilemap.tilemap;
 import tilemap.tile;
 
 class PathFinder {
-  enum {
-    impasseCost = 500,
-    noParent = -1
-  }
+  private enum noParent = -1;
 
   this(TileMap map, Tile start, int moveRange) {
     _map = map;

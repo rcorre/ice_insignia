@@ -6,6 +6,8 @@ import model.battler;
 import graphics.sprite;
 import geometry.vector;
 
+enum impasseCost = 500; /// represents an impassable tile
+
 class Tile {
   this(int row, int col, Sprite terrainSprite, Sprite featureSprite, string name, int moveCost, int defense, int avoid) {
     _row = row;
@@ -22,7 +24,10 @@ class Tile {
     string name() { return _name; }
     int row() { return _row; }
     int col() { return _col; }
-    int moveCost() { return _moveCost; }
+    /// returns the move cost of the terrain, or impasseCost if tile is occupied
+    int moveCost() {
+      return (battler is null) ? _moveCost : impasseCost;
+    }
     int defense() { return _defense; }
     int avoid() { return _avoid; }
 
