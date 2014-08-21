@@ -1,0 +1,85 @@
+{
+  "Dirk": {
+    "_name"     : "Dirk",
+    "_type"     : "sword",
+    "_uses"     : 30,
+    "_damage"   : 4,
+    "_hit"      : 90,
+    "_crit"     : 10,
+    "_minRange" : 1,
+    "_maxRange" : 1,
+    "_weight"   : 3
+  },
+
+  "Broadsword": {
+    "_name"     : "Broadsword",
+    "_type"     : "sword",
+    "_uses"     : 40,
+    "_damage"   : 7,
+    "_hit"      : 80,
+    "_crit"     : 0,
+    "_minRange" : 1,
+    "_maxRange" : 1,
+    "_weight"   : 6
+  },
+
+  "Quarterstaff": {
+    "_name"     : "Quarterstaff",
+    "_type"     : "lance",
+    "_uses"     : 40,
+    "_damage"   : 4,
+    "_hit"      : 100,
+    "_crit"     : 0,
+    "_minRange" : 1,
+    "_maxRange" : 1,
+    "_weight"   : 4
+  },
+
+  "Spear": {
+    "_name"     : "Spear",
+    "_type"     : "lance",
+    "_uses"     : 35,
+    "_damage"   : 6,
+    "_hit"      : 85,
+    "_crit"     : 0,
+    "_minRange" : 1,
+    "_maxRange" : 1,
+    "_weight"   : 5
+  },
+
+  "Handaxe": {
+    "_name"     : "Handaxe",
+    "_type"     : "axe",
+    "_uses"     : 25,
+    "_damage"   : 6,
+    "_hit"      : 60,
+    "_crit"     : 0,
+    "_minRange" : 1,
+    "_maxRange" : 2,
+    "_weight"   : 5
+  },
+
+  "Mace": {
+    "_name"     : "Mace",
+    "_type"     : "axe",
+    "_uses"     : 40,
+    "_damage"   : 7,
+    "_hit"      : 70,
+    "_crit"     : 0,
+    "_minRange" : 1,
+    "_maxRange" : 1,
+    "_weight"   : 7
+  },
+
+  "Shortbow": {
+    "_name"     : "Shortbow",
+    "_type"     : "bow",
+    "_uses"     : 40,
+    "_damage"   : 6,
+    "_hit"      : 80,
+    "_crit"     : 0,
+    "_minRange" : 2,
+    "_maxRange" : 2,
+    "_weight"   : 4
+  }
+}

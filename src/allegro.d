@@ -44,6 +44,7 @@ enum Paths {
   backgroundDir = "content/image/background/",
   mapDir        = "content/maps/",
   characterData = "content/data/characters.json",
+  itemData      = "content/data/items.json",
 }
 
 /// common colors

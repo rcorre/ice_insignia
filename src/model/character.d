@@ -7,7 +7,6 @@ import std.algorithm : max, min;
 import allegro;
 import util.jsonizer;
 import model.item;
-import model.weapon;
 import model.valueset;
 
 enum Attribute {
@@ -33,8 +32,8 @@ class Character {
   @property {
     ValueSet!Attribute potential() { return _potential; }
     ValueSet!Attribute attributes() { return _attributes; }
-    Weapon equippedWeapon() {
-      return (typeid(_items[0]) == typeid(Weapon)) ? cast(Weapon) _items[0] : Weapon.none;
+    Item equippedWeapon() {
+      return (_items[0] && _items[0].isWeapon) ? _items[0] : Item.none;
     }
 
     int avoid() { return _attributes.speed * 4; }

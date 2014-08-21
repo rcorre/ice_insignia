@@ -220,6 +220,7 @@ class Battle : GameState {
       _prevTile = prevTile;
       auto selectPos = _battler.pos - _camera.topLeft - Vector2i(50, 50);
       _selectionView = new SelectionView(selectPos, getActions());
+      _targetSprite = new AnimatedSprite("target");
     }
 
     override State update(float time) {
@@ -227,6 +228,7 @@ class Battle : GameState {
         return new PlayerTurn;
       }
 
+      _targetSprite.update(time);
       _selectionView.handleMouse(_input.mousePos, _input.confirm);
 
       if (_input.cancel) {
@@ -238,12 +240,18 @@ class Battle : GameState {
 
     override void draw() {
       _selectionView.draw();
+      foreach(enemy ; _enemies) {
+        if (_battler.canAttack(enemy)) {
+          _targetSprite.draw(enemy.pos);
+        }
+      }
     }
 
     private:
     Battler _battler;
     Tile _prevTile;
     SelectionView _selectionView;
+    AnimatedSprite _targetSprite;
 
     SelectionView.Action[string] getActions() {
       return ["Inventory": &itemAction, "Wait": &waitAction];

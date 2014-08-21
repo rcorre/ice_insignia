@@ -1,5 +1,6 @@
 module model.battler;
 
+import std.math : abs;
 import allegro;
 import geometry.all;
 import graphics.all;
@@ -48,6 +49,11 @@ class Battler {
 
   void passTurn() {
     _moved = false;
+  }
+
+  bool canAttack(Battler other) {
+    auto dist = abs(row - other.row) + abs(col - other.col);
+    return dist >= equippedWeapon.minRange && dist <= equippedWeapon.maxRange;
   }
 
   const BattleTeam team;
