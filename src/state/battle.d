@@ -14,8 +14,12 @@ import gui.all;
 
 private enum {
   scrollSpeed = 500,     /// camera scroll rate (pixels/sec)
-  battlerMoveSpeed = 200,/// battler move speed (pixels/sec)
-  tileInfoPos = cast(Vector2i) Vector2f(Settings.screenW * 0.9f, Settings.screenH * 0.9f)
+  battlerMoveSpeed = 250,/// battler move speed (pixels/sec)
+  tileInfoPos = cast(Vector2i) Vector2f(Settings.screenW * 0.9f, Settings.screenH * 0.9f),
+  attackSpeed = 80,     /// movement rate of attack animation
+  attackShiftDist = 8,  /// pixels to shift when showing attack
+  damageFlashTime = 0.1 /// duration of flash used to indicate damage
+
 }
 
 class Battle : GameState {
@@ -192,12 +196,13 @@ class Battle : GameState {
       _path = path;
       _pos = cast(Vector2f) _battler.pos;
       _originTile = currentTile;
+      _endTile = path.back;
       currentTile.battler = null;  // remove battler from current tile
-      placeBattler(_battler, path.back); // place battler on final tile
     }
 
     override State update(float time) {
       if (_path.empty) { /// completed move
+        placeBattler(_battler, _endTile); // place battler on final tile
         return new ChooseBattlerAction(_battler, _originTile);
       }
 
@@ -219,7 +224,7 @@ class Battle : GameState {
     private:
     Battler _battler;
     Tile[] _path;
-    Tile _originTile;
+    Tile _originTile, _endTile;
     Vector2f _pos;
   }
 
@@ -284,11 +289,6 @@ class Battle : GameState {
   }
 
   class ExecuteAttack : State {
-    enum {
-      attackSpeed = 30,   /// movement rate of attack animation
-      attackShiftDist = 8 /// pixels to shift when showing attack
-    }
-
     this(Battler attacker, Battler defender) {
       assert(attacker.equippedWeapon.isWeapon);
       _attacker = attacker;
@@ -300,15 +300,15 @@ class Battle : GameState {
 
     override State update(float time) {
       if (!_destReached) {
-        _dist += attackShiftDist * time;
-         _attacker.pos = _attacker.pos.movedTo(_endPos, _dist, _destReached);
-         if (_destReached) {
-           _dist = 0;
-           _defender.sprite.flash(0.2, Tint.black);
-         }
+        _dist += attackSpeed * time;
+        _attacker.pos = _attacker.pos.movedTo(_endPos, _dist, _destReached);
+        if (_destReached) {
+          _dist = 0;
+          _defender.sprite.flash(damageFlashTime, Tint.black);
+        }
       }
       else {
-        _dist += attackShiftDist * time;
+        _dist += attackSpeed * time;
         _attacker.pos = _attacker.pos.movedTo(_startPos, _dist, _returned);
         if (_returned) {
           _attacker.moved = true; // end attacker's turn
