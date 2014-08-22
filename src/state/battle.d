@@ -48,6 +48,11 @@ class Battle : GameState {
     _input.update();
     _camera.topLeft = _camera.topLeft + cast(Vector2i) (_input.scrollDirection * time * scrollSpeed);
     _camera.keepInside(_map.bounds);
+
+    foreach(battler ; _battlers) {
+      battler.sprite.update(time);
+    }
+
     auto newState = _state.update(time);
     if (newState) {
       _state.onExit();
@@ -242,6 +247,12 @@ class Battle : GameState {
         placeBattler(_battler, _prevTile);
         return new PlayerTurn;
       }
+      if (_input.confirm ) {
+        auto tile = _map.tileAtPos(_input.mousePos + _camera.topLeft);
+        if (tile.battler && _battler.canAttack(tile.battler)) {
+          return new ExecuteAttack(_battler, tile.battler);
+        }
+      }
       return null;
     }
 
@@ -270,5 +281,47 @@ class Battle : GameState {
     void waitAction() {
       _battler.moved = true;
     }
+  }
+
+  class ExecuteAttack : State {
+    enum {
+      attackSpeed = 30,   /// movement rate of attack animation
+      attackShiftDist = 8 /// pixels to shift when showing attack
+    }
+
+    this(Battler attacker, Battler defender) {
+      assert(attacker.equippedWeapon.isWeapon);
+      _attacker = attacker;
+      _defender = defender;
+      auto attackDirection = (defender.pos - attacker.pos).normalized;
+      _startPos = attacker.pos;
+      _endPos = attacker.pos + attackDirection * attackShiftDist;
+    }
+
+    override State update(float time) {
+      if (!_destReached) {
+        _dist += attackShiftDist * time;
+         _attacker.pos = _attacker.pos.movedTo(_endPos, _dist, _destReached);
+         if (_destReached) {
+           _dist = 0;
+           _defender.sprite.flash(0.2, Tint.black);
+         }
+      }
+      else {
+        _dist += attackShiftDist * time;
+        _attacker.pos = _attacker.pos.movedTo(_startPos, _dist, _returned);
+        if (_returned) {
+          _attacker.moved = true; // end attacker's turn
+          return new PlayerTurn;
+        }
+      }
+      return null;
+    }
+
+    private:
+    Battler _attacker, _defender;
+    Vector2i _startPos, _endPos;
+    bool _destReached, _returned;
+    float _dist = 0;
   }
 }

@@ -17,7 +17,8 @@ class AnimatedSprite : Sprite {
     _timer = _frameTime;
   }
 
-  void update(float time) {
+  override void update(float time) {
+    super.update(time);
     _timer -= time;
     if (_timer < 0) {
       _timer = _frameTime;

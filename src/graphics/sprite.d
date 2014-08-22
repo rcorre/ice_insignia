@@ -3,6 +3,7 @@ module graphics.sprite;
 import std.string;
 import std.array;
 import std.conv;
+import std.algorithm : min;
 import allegro;
 import geometry.vector;
 import graphics.texture;
@@ -19,7 +20,7 @@ class Sprite {
     _row = to!int(data["row"]);
     _col = to!int(data["col"]);
     _tint = tint;
-    assert(_row >= 0 && _col >= 0 && _row < _texture.numRows && _col < _texture.numCols, 
+    assert(_row >= 0 && _col >= 0 && _row < _texture.numRows && _col < _texture.numCols,
         format("sprite coord %d, %d is out of bounds", _row, _col));
     _baseScale = to!int(data.get("baseScale", "1"));
   }
@@ -28,9 +29,29 @@ class Sprite {
     _texture = spriteSheet;
     _row = spriteIdx / _texture.numCols;
     _col = spriteIdx % _texture.numCols;
-    assert(_row >= 0 && _col >= 0 && _row < _texture.numRows && _col < _texture.numCols, 
+    assert(_row >= 0 && _col >= 0 && _row < _texture.numRows && _col < _texture.numCols,
         format("sprite coord %d, %d is out of bounds", _row, _col));
     _baseScale = baseScale;
+  }
+
+  void flash(float time, ALLEGRO_COLOR flashColor) {
+    _flashTimer = 0;
+    _totalFlashTime = time;
+    _flashColor = flashColor;
+  }
+
+  void update(float time) {
+    if (_totalFlashTime > 0) {
+      _flashTimer += time;
+      if (_flashTimer > _totalFlashTime) {
+        _totalFlashTime = 0;
+        _flashTimer = 0;
+        _tint = Tint.white;
+      }
+      else {
+        _tint = lerp([color(1,1,1), _flashColor, color(1,1,1)], _flashTimer / _totalFlashTime);
+      }
+    }
   }
 
   void draw(Vector2i pos) {
@@ -69,6 +90,9 @@ class Sprite {
   float _scaleFactor  = 1;
   float _angle        = 0;
   ALLEGRO_COLOR _tint = Color.white;
+
+  float _flashTimer, _totalFlashTime;
+  ALLEGRO_COLOR _flashColor;
 }
 
 private ConfigData _spriteData;
