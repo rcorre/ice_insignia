@@ -36,8 +36,6 @@ class Character {
       return (_items[0] && _items[0].isWeapon) ? _items[0] : Item.none;
     }
 
-    int avoid() { return _attributes.speed * 4; }
-
     // experience
     int xp() { return _xp; }
     void xp(int val) {
@@ -85,7 +83,7 @@ class Character {
     ValueSet!Attribute _potential;
     /// load items from names
     @property {
-      string[] inventory() { 
+      string[] inventory() {
         import std.algorithm : map;
         import std.array : array;
         return array(_items[].map!"a.name");

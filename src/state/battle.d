@@ -255,7 +255,7 @@ class Battle : GameState {
       if (_input.confirm ) {
         auto tile = _map.tileAtPos(_input.mousePos + _camera.topLeft);
         if (tile.battler && _battler.canAttack(tile.battler)) {
-          return new ExecuteAttack(_battler, tile.battler);
+          return new ConsiderAttack(_battler, tile);
         }
       }
       return null;
@@ -286,6 +286,24 @@ class Battle : GameState {
     void waitAction() {
       _battler.moved = true;
     }
+  }
+
+  class ConsiderAttack {
+    this(Battler attacker, Tile terrain) {
+      _attacker = attacker;
+      _terrain = terrain;
+      _defender = terrain.battler
+    }
+
+    State update() {
+    }
+
+    void draw() {
+    }
+
+    private:
+    Battler _attacker, _defender;
+    Tile _terrain; /// tile defender is standing on
   }
 
   class ExecuteAttack : State {
