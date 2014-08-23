@@ -15,7 +15,9 @@ int roundDown(real val) {
   return cast(int) floor(val);
 }
 
-T lerp(T : real, U : float)(T start, T end, U factor) {
+/// linearly interpolate between start and end. factor is clamped between 0 (start) and 1 (end)
+T lerp(T, U : real)(T start, T end, U factor) {
+  factor = clamp(factor, 0, 1);
   return cast(T) (start + (end - start) * factor);
 }
 
@@ -30,4 +32,19 @@ unittest {
 
   assert(lerp(0, 20, 0.5) == 10);
   assert(lerp(10, -10, 0.8) == -6);
+}
+
+/// vector lerp
+unittest {
+  import geometry.vector;
+
+  auto v1 = Vector2i.Zero;
+  auto v2 = Vector2i.UnitX * 10;
+  assert(lerp(v1, v2, 0) == v1);
+  assert(lerp(v1, v2, 0.5) == Vector2i(5, 0));
+  assert(lerp(v1, v2, 1) == Vector2i(10, 0));
+
+  auto v3 = Vector2f(3, 4);
+  auto v4 = Vector2f(6, -3);
+  assert(lerp(v3, v4, 0.5).approxEqual(Vector2f(4.5, 0.5)));
 }

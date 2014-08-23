@@ -94,7 +94,6 @@ struct Vector2(T : real) {
     }
   }
 
-
   /// move vector distance toward dest, or place on dest if closer than distance
   /// return true if dest reached
   bool moveTo(V)(Vector2!V dest, real distance) {
@@ -149,6 +148,10 @@ struct Vector2(T : real) {
   // == other vector, even if types differ
   bool opEquals(V)(auto ref const Vector2!V rhs) {
     return x == rhs.x && y == rhs.y;
+  }
+
+  bool approxEqual(V)(Vector2!V other) {
+    return std.math.approxEqual(x, other.x) && std.math.approxEqual(y, other.y);
   }
 
   /// cast to another vector type
@@ -254,6 +257,8 @@ unittest {
   reachedDest = v7.moveTo(Vector2f(10, 20), 6);
   assert(reachedDest);
   approx(v7, Vector2f(10, 20));
+
+  assert(Vector2f(0, 0).approxEqual(Vector2f(0.0000001, -0.0000001)));
 }
 
 // int vector
