@@ -59,7 +59,10 @@
         "move"         : 0,
         "constitution" : 2
       }
-    }
+    },
+    "inventory" : [
+      "Broadsword"
+    ]
   },
 
   "Brigand" : {
@@ -89,7 +92,10 @@
         "move"         : 0,
         "constitution" : 2
       }
-    }
+    },
+    "inventory" : [
+      "Mace"
+    ]
   },
 
   "Vagabond" : {
@@ -119,6 +125,9 @@
         "move"         : 0,
         "constitution" : 1
       }
-    }
+    },
+    "inventory" : [
+      "Shortbow"
+    ]
   }
 }

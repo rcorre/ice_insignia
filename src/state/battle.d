@@ -313,7 +313,7 @@ class Battle : GameState {
         else if (_defender.canAttack(_attacker) && _counter.doubleHit) {
           attacks ~= _counter.resolve();
         }
-        return new ExecuteCombat(attacks);
+        return new ExecuteCombat(attacks, _attacker);
       }
       return null;
     }
@@ -330,13 +330,14 @@ class Battle : GameState {
   }
 
   class ExecuteCombat : State {
-    this(CombatResult[] attacks) {
+    this(CombatResult[] attacks, Battler initialAttacker) {
       _attacks = attacks;
       _attacker = attacks[0].attacker;
       _defender = attacks[0].defender;
       auto attackDirection = (_defender.pos - _attacker.pos).normalized;
       _startPos = _attacker.pos;
       _endPos = _attacker.pos + attackDirection * attackShiftDist;
+      _initialAttacker = initialAttacker;
     }
 
     override State update(float time) {
@@ -353,12 +354,12 @@ class Battle : GameState {
         _attacker.pos = _attacker.pos.movedTo(_startPos, _dist, _returned);
         if (_returned) {
           _attacks.popFront;
-          if (_attacks.empty) {
-            _attacker.moved = true; // end attacker's turn
+          if (_attacks.empty) { // no attacks left to show
+            _initialAttacker.moved = true; // end attacker's turn
             return new PlayerTurn;
           }
           else {
-            return new ExecuteCombat(_attacks);
+            return new ExecuteCombat(_attacks, _initialAttacker);
           }
         }
       }
@@ -368,6 +369,7 @@ class Battle : GameState {
     private:
     CombatResult[] _attacks;
     Battler _attacker, _defender;
+    Battler _initialAttacker;
     Vector2i _startPos, _endPos;
     bool _destReached, _returned;
     float _dist = 0;

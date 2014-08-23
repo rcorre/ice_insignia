@@ -29,7 +29,7 @@
                 {
                  "gid":133,
                  "height":0,
-                 "name":"Bandit",
+                 "name":"Brigand",
                  "properties":
                     {
                      "level":"1"
@@ -43,7 +43,7 @@
                 {
                  "gid":133,
                  "height":0,
-                 "name":"Bandit",
+                 "name":"Brigand",
                  "properties":
                     {
                      "level":"2"
@@ -53,6 +53,20 @@
                  "width":0,
                  "x":544,
                  "y":576
+                }, 
+                {
+                 "gid":133,
+                 "height":0,
+                 "name":"Brigand",
+                 "properties":
+                    {
+                     "level":"2"
+                    },
+                 "type":"Enemy",
+                 "visible":true,
+                 "width":0,
+                 "x":512,
+                 "y":960
                 }],
          "opacity":1,
          "type":"objectgroup",
