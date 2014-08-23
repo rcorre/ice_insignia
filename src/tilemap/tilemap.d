@@ -52,7 +52,9 @@ class TileMap {
   }
 
   Tile tileAt(int row, int col) {
-    assert(row >= 0 && col >= 0 && row < numRows && col < numCols);
+    if (row < 0 || col < 0 || row >= numRows || col >= numCols) {
+      return null;
+    }
     return _tiles[row][col];
   }
 

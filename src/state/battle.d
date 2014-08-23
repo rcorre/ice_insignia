@@ -20,7 +20,6 @@ private enum {
   attackSpeed = 80,     /// movement rate of attack animation
   attackShiftDist = 8,  /// pixels to shift when showing attack
   damageFlashTime = 0.1 /// duration of flash used to indicate damage
-
 }
 
 class Battle : GameState {
@@ -47,12 +46,17 @@ class Battle : GameState {
     _camera = Rect2i(0, 0, Settings.screenW, Settings.screenH);
     _input = new InputManager;
     _state = new PlayerTurn;
+    _tileCursor = new TileCursor;
   }
 
   override GameState update(float time) {
-    _input.update();
+    _input.update(time);
+    /*
     _camera.topLeft = _camera.topLeft + cast(Vector2i) (_input.scrollDirection * time * scrollSpeed);
     _camera.keepInside(_map.bounds);
+    */
+    _tileCursor.update(time);
+    _tileCursor.move(_input.scrollDirection);
 
     foreach(battler ; _battlers) {
       battler.sprite.update(time);
@@ -65,7 +69,7 @@ class Battle : GameState {
     }
 
     // handle mouse -- display tile info
-    auto tile = _map.tileAtPos(_camera.topLeft + _input.mousePos);
+    auto tile = _tileCursor.tile;
     if (tile) {
       _tileInfoBox = new TileInfoBox(tileInfoPos, tile.name, tile.defense, tile.avoid);
     }
@@ -88,6 +92,7 @@ class Battle : GameState {
     if (_tileInfoBox) {
       _tileInfoBox.draw();
     }
+    _tileCursor.draw();
   }
 
   override void onExit() {
@@ -104,6 +109,8 @@ class Battle : GameState {
   Battler[] _neutrals;
   State _state;
   TileInfoBox _tileInfoBox;
+  int _cursorRow, _cursorCol;
+  TileCursor _tileCursor;
 
   void placeBattler(Battler b, Tile t) {
     t.battler = b;
@@ -131,8 +138,11 @@ class Battle : GameState {
         return new PlayerTurn;
       }
 
+      _cursorRow = clamp(_cursorRow + _input.scrollDirection.y, 0, _map.numRows - 1);
+      _cursorCol = clamp(_cursorCol + _input.scrollDirection.x, 0, _map.numCols - 1);
+
       if (_input.confirm) {
-        auto tile = _map.tileAtPos(_camera.topLeft + _input.mousePos);
+        auto tile = _map.tileAt(_cursorRow, _cursorCol);
         if (tile && tile.battler && !tile.battler.moved) {
           return new PlayerUnitSelected(tile.battler, tile);
         }
@@ -373,5 +383,34 @@ class Battle : GameState {
     Vector2i _startPos, _endPos;
     bool _destReached, _returned;
     float _dist = 0;
+  }
+
+  private class TileCursor {
+    this() {
+      _sprite = new AnimatedSprite("target", shade);
+    }
+
+    /// tile under cursor
+    @property Tile tile() {
+      return _map.tileAt(_row, _col);
+    }
+
+    void update(float time) {
+      _sprite.update(time);
+    }
+
+    void move(Vector2i direction) {
+      _col = clamp(_col + direction.x, 0, _map.numCols);
+      _row = clamp(_row + direction.y, 0, _map.numRows);
+    }
+
+    void draw() {
+      _sprite.draw(_map.tileCoordToPos(_row, _col));
+    }
+
+    private:
+    enum shade = ucolor(255, 0, 0, 255);
+    int _row, _col;
+    Sprite _sprite;
   }
 }

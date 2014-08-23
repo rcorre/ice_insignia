@@ -1,5 +1,6 @@
 module util.input;
 
+import std.algorithm : max, min;
 import allegro;
 import geometry.vector;
 
@@ -8,34 +9,58 @@ enum MouseButton {
   rmb = 2
 }
 
+private enum {
+  scrollSpeed = 1.5
+}
+
 class InputManager {
-  void update() {
+  void update(float time) {
     _prevKeyboardState = _curKeyboardState;
     _prevMouseState = _curMouseState;
     al_get_keyboard_state(&_curKeyboardState);
     al_get_mouse_state(&_curMouseState);
+
+    if (keyHeld(ALLEGRO_KEY_W)) {
+      _scrollAccumulator.y -= scrollSpeed * time;
+    }
+    else if (keyHeld(ALLEGRO_KEY_S)) {
+      _scrollAccumulator.y += scrollSpeed * time;
+    }
+    if (keyHeld(ALLEGRO_KEY_A)) {
+      _scrollAccumulator.x -= scrollSpeed * time;
+    }
+    else if (keyHeld(ALLEGRO_KEY_D)) {
+      _scrollAccumulator.x += scrollSpeed * time;
+    }
+
+    if (keyReleased(ALLEGRO_KEY_W) || keyReleased(ALLEGRO_KEY_S)) {
+      _scrollAccumulator.y = 0;
+    }
+    if (keyReleased(ALLEGRO_KEY_A) || keyReleased(ALLEGRO_KEY_D)) {
+      _scrollAccumulator.x = 0;
+    }
   }
 
   @property {
     Vector2i scrollDirection() {
       Vector2i scroll;
-      if (keyHeld(ALLEGRO_KEY_W)) {
+      if (keyPressed(ALLEGRO_KEY_W) || _scrollAccumulator.y <= -1) {
         scroll.y = -1;
       }
-      else if (keyHeld(ALLEGRO_KEY_S)) {
+      else if (keyPressed(ALLEGRO_KEY_S) || _scrollAccumulator.y >= 1) {
         scroll.y = 1;
       }
-      if (keyHeld(ALLEGRO_KEY_A)) {
+      if (keyPressed(ALLEGRO_KEY_A) || _scrollAccumulator.x <= -1) {
         scroll.x = -1;
       }
-      else if (keyHeld(ALLEGRO_KEY_D)) {
+      else if (keyPressed(ALLEGRO_KEY_D) || _scrollAccumulator.x >= 1) {
         scroll.x = 1;
       }
       return scroll;
     }
 
-    bool confirm() { return mouseClicked(MouseButton.lmb); }
-    bool cancel()  { return mouseClicked(MouseButton.rmb); }
+    bool confirm() { return keyPressed(ALLEGRO_KEY_J); }
+    bool cancel()  { return keyPressed(ALLEGRO_KEY_K); }
     bool endTurn() { return keyPressed(ALLEGRO_KEY_SPACE); }
   }
 
@@ -61,6 +86,7 @@ class InputManager {
     return !al_mouse_button_down(&_prevMouseState, b) && al_mouse_button_down(&_curMouseState, b);
   }
 
+  Vector2f _scrollAccumulator = Vector2f.Zero;
 
   ALLEGRO_KEYBOARD_STATE _curKeyboardState, _prevKeyboardState;
   ALLEGRO_MOUSE_STATE _curMouseState, _prevMouseState;
