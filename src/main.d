@@ -68,7 +68,7 @@ void process_events() {
 }
 
 void main_update() {
-  static float last_update_time;
+  static float last_update_time = 0;
   float current_time = al_get_time();
   float delta = current_time - last_update_time;
   last_update_time = current_time;
