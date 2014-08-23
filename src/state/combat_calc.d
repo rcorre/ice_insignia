@@ -1,16 +1,17 @@
-module state.combat_calc.d;
+module state.combat_calc;
 
 import std.random : uniform;
 import std.algorithm : max, min;
 import util.math : clamp;
 import model.battler;
-import model.weapon;
+import model.item;
 import tilemap.tile;
 
-struct CombatPrediction {
+class CombatPrediction {
   this(Battler attacker, Battler defender, Tile defenderTerrain) {
     this.attacker = attacker;
     this.defender = defender;
+    this.defenderTerrain = defenderTerrain;
   }
 
   @property {
@@ -37,26 +38,29 @@ struct CombatPrediction {
     }
   }
 
-  CombatResult resolve() {
-    return new CombatResult(this);
-  }
-
   Battler attacker, defender;
   Tile defenderTerrain;
 }
 
-struct CombatResult {
+CombatResult resolve(CombatPrediction pred) {
+  return new CombatResult(pred);
+}
+
+class CombatResult {
   this(CombatPrediction pred) {
     hit = pred.hit > uniform(0,100);
     if (hit) {
       critted = pred.crit > uniform(0, 100);
       damageDealt = critted ? pred.damage * 2 : pred.damage;
     }
+    attacker = pred.attacker;
+    defender = pred.defender;
   }
 
   const int damageDealt; /// amount of damage dealt by attack
   const bool hit;        /// true if hit connected, false if it missed
   const bool critted;    /// true if critical hit, false otherwise
+  Battler attacker, defender;
 }
 
 private:

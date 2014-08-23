@@ -4,6 +4,7 @@ import std.array;
 import std.algorithm : map, all;
 import allegro;
 import state.gamestate;
+import state.combat_calc;
 import tilemap.all;
 import geometry.all;
 import util.input;
@@ -203,7 +204,7 @@ class Battle : GameState {
     override State update(float time) {
       if (_path.empty) { /// completed move
         placeBattler(_battler, _endTile); // place battler on final tile
-        return new ChooseBattlerAction(_battler, _originTile);
+        return new ChooseBattlerAction(_battler, _endTile, _originTile);
       }
 
       auto target = cast(Vector2f) _map.tileToPos(_path.front);
@@ -232,8 +233,9 @@ class Battle : GameState {
   class ChooseBattlerAction : State {
     private enum targetShade = ucolor(255, 0, 0, 255);
 
-    this(Battler battler, Tile prevTile) {
+    this(Battler battler, Tile currentTile, Tile prevTile) {
       _battler = battler;
+      _currentTile = currentTile;
       _prevTile = prevTile;
       auto selectPos = _battler.pos - _camera.topLeft - Vector2i(50, 50);
       _selectionView = new SelectionView(selectPos, getActions());
@@ -255,7 +257,7 @@ class Battle : GameState {
       if (_input.confirm ) {
         auto tile = _map.tileAtPos(_input.mousePos + _camera.topLeft);
         if (tile.battler && _battler.canAttack(tile.battler)) {
-          return new ConsiderAttack(_battler, tile);
+          return new ConsiderAttack(_currentTile, tile);
         }
       }
       return null;
@@ -272,7 +274,7 @@ class Battle : GameState {
 
     private:
     Battler _battler;
-    Tile _prevTile;
+    Tile _currentTile, _prevTile;
     SelectionView _selectionView;
     AnimatedSprite _targetSprite;
 
@@ -288,32 +290,53 @@ class Battle : GameState {
     }
   }
 
-  class ConsiderAttack {
-    this(Battler attacker, Tile terrain) {
-      _attacker = attacker;
-      _terrain = terrain;
-      _defender = terrain.battler
+  class ConsiderAttack : State {
+    this(Tile attackTerrain, Tile defendTerrain) {
+      _attackTerrain = attackTerrain;
+      _defendTerrain = defendTerrain;
+      _attacker = attackTerrain.battler;
+      _defender = defendTerrain.battler;
+      _attack = new CombatPrediction(_attacker, _defender, defendTerrain);
+      _counter = new CombatPrediction(_defender, _attacker, attackTerrain);
+      _view = new CombatView(Vector2i(20, 20), _attack, _counter);
     }
 
-    State update() {
+    override State update(float time) {
+      if (_input.confirm) {
+        CombatResult[] attacks = [_attack.resolve()];
+        if (_defender.canAttack(_attacker)) {
+          attacks ~= _counter.resolve();
+        }
+        if (_attack.doubleHit) {
+          attacks ~= _attack.resolve();
+        }
+        else if (_defender.canAttack(_attacker) && _counter.doubleHit) {
+          attacks ~= _counter.resolve();
+        }
+        return new ExecuteCombat(attacks);
+      }
+      return null;
     }
 
-    void draw() {
+    override void draw() {
+      _view.draw();
     }
 
     private:
     Battler _attacker, _defender;
-    Tile _terrain; /// tile defender is standing on
+    Tile _attackTerrain, _defendTerrain;
+    CombatPrediction _attack, _counter;
+    CombatView _view;
   }
 
-  class ExecuteAttack : State {
-    this(Battler attacker, Battler defender) {
-      assert(attacker.equippedWeapon.isWeapon);
-      _attacker = attacker;
-      _defender = defender;
-      auto attackDirection = (defender.pos - attacker.pos).normalized;
-      _startPos = attacker.pos;
-      _endPos = attacker.pos + attackDirection * attackShiftDist;
+  class ExecuteCombat : State {
+    this(CombatResult[] attacks) {
+      _attacks = attacks;
+      _attacker = attacks[0].attacker;
+      _defender = attacks[0].defender;
+      auto attackDirection = (_defender.pos - _attacker.pos).normalized;
+      _startPos = _attacker.pos;
+      _endPos = _attacker.pos + attackDirection * attackShiftDist;
     }
 
     override State update(float time) {
@@ -329,14 +352,21 @@ class Battle : GameState {
         _dist += attackSpeed * time;
         _attacker.pos = _attacker.pos.movedTo(_startPos, _dist, _returned);
         if (_returned) {
-          _attacker.moved = true; // end attacker's turn
-          return new PlayerTurn;
+          _attacks.popFront;
+          if (_attacks.empty) {
+            _attacker.moved = true; // end attacker's turn
+            return new PlayerTurn;
+          }
+          else {
+            return new ExecuteCombat(_attacks);
+          }
         }
       }
       return null;
     }
 
     private:
+    CombatResult[] _attacks;
     Battler _attacker, _defender;
     Vector2i _startPos, _endPos;
     bool _destReached, _returned;

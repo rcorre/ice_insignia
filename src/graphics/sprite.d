@@ -9,6 +9,7 @@ import geometry.vector;
 import graphics.texture;
 import graphics.color;
 import util.config;
+import util.math;
 
 /// displays a single frame of a texture
 class Sprite {
@@ -40,6 +41,10 @@ class Sprite {
     _flashColor = flashColor;
   }
 
+  void jiggle(Vector2i offset, float frequency, int repetitions) {
+    _jiggleEffect = JiggleEffect(Vector2i.Zero, offset, frequency, repetitions);
+  }
+
   void update(float time) {
     if (_totalFlashTime > 0) {
       _flashTimer += time;
@@ -52,10 +57,12 @@ class Sprite {
         _tint = lerp([color(1,1,1), _flashColor, color(1,1,1)], _flashTimer / _totalFlashTime);
       }
     }
+    _jiggleEffect.update(time);
   }
 
   void draw(Vector2i pos) {
-    _texture.draw(_row, _col, pos, totalScale, _tint, _angle);
+    auto adjustedPos = pos + _jiggleEffect.offset;
+    _texture.draw(_row, _col, adjustedPos, totalScale, _tint, _angle);
   }
 
   @property {
@@ -93,9 +100,50 @@ class Sprite {
 
   float _flashTimer, _totalFlashTime;
   ALLEGRO_COLOR _flashColor;
+
+  JiggleEffect _jiggleEffect;
+}
+private:
+struct JiggleEffect {
+  this(Vector2i start, Vector2i end, float frequency, int repetitions) {
+    assert(frequency > 0, "cannot jiggle sprite with frequency <= 0");
+    _start = start;
+    _end = _end;
+    _period = 1 / frequency;
+    _repetitions = repetitions;
+  }
+
+  void update(float time) {
+    _lerpFactor += time / _period;
+    if (_lerpFactor > 2) {
+      _lerpFactor = 0;
+      --_repetitions;
+    }
+  }
+
+  @property Vector2i offset() {
+    if (_repetitions <= 0) {
+      return Vector2i.Zero;
+    }
+    else if (_lerpFactor < 1) {
+      return lerp(_start, _end, _lerpFactor);
+    }
+    else if (_lerpFactor < 2) {
+      return lerp(_end, _start, _lerpFactor - 1);
+    }
+    else {
+      assert(0, "internal failure : _lerpFactor > 2");
+    }
+  }
+
+  private:
+  Vector2i _start, _end;
+  float _period;
+  float _lerpFactor;
+  int _repetitions = 0;
 }
 
-private ConfigData _spriteData;
+ConfigData _spriteData;
 
 static this() {
   _spriteData = loadConfigFile(Paths.spriteData);

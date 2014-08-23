@@ -36,6 +36,8 @@ class Character {
       return (_items[0] && _items[0].isWeapon) ? _items[0] : Item.none;
     }
 
+    string name() { return _name; }
+
     // experience
     int xp() { return _xp; }
     void xp(int val) {
