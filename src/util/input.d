@@ -10,7 +10,7 @@ enum MouseButton {
 }
 
 private enum {
-  scrollSpeed = 1.5
+  scrollSpeed = 14
 }
 
 class InputManager {
@@ -21,15 +21,19 @@ class InputManager {
     al_get_mouse_state(&_curMouseState);
 
     if (keyHeld(ALLEGRO_KEY_W)) {
+      if (_scrollAccumulator.y < -1) { _scrollAccumulator.y = 0; }
       _scrollAccumulator.y -= scrollSpeed * time;
     }
     else if (keyHeld(ALLEGRO_KEY_S)) {
+      if (_scrollAccumulator.y > 1) { _scrollAccumulator.y = 0; }
       _scrollAccumulator.y += scrollSpeed * time;
     }
     if (keyHeld(ALLEGRO_KEY_A)) {
+      if (_scrollAccumulator.x < -1) { _scrollAccumulator.x = 0; }
       _scrollAccumulator.x -= scrollSpeed * time;
     }
     else if (keyHeld(ALLEGRO_KEY_D)) {
+      if (_scrollAccumulator.x > 1) { _scrollAccumulator.x = 0; }
       _scrollAccumulator.x += scrollSpeed * time;
     }
 
@@ -44,16 +48,16 @@ class InputManager {
   @property {
     Vector2i scrollDirection() {
       Vector2i scroll;
-      if (keyPressed(ALLEGRO_KEY_W) || _scrollAccumulator.y <= -1) {
+      if ( _scrollAccumulator.y <= -1) {
         scroll.y = -1;
       }
-      else if (keyPressed(ALLEGRO_KEY_S) || _scrollAccumulator.y >= 1) {
+      else if ( _scrollAccumulator.y >= 1) {
         scroll.y = 1;
       }
-      if (keyPressed(ALLEGRO_KEY_A) || _scrollAccumulator.x <= -1) {
+      if ( _scrollAccumulator.x <= -1) {
         scroll.x = -1;
       }
-      else if (keyPressed(ALLEGRO_KEY_D) || _scrollAccumulator.x >= 1) {
+      else if ( _scrollAccumulator.x >= 1) {
         scroll.x = 1;
       }
       return scroll;
