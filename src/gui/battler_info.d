@@ -6,7 +6,7 @@ import gui.progress_bar;
 
 private enum {
   width = 100,
-  height = 100,
+  height = 60,
   bgColor = Color(0.5, 0, 0, 0.5),
   healthFg = Color(1.0, 1.0, 0, 0.8),
   healthBg = Color(0.5, 0.5, 0.5, 0.8),
@@ -18,7 +18,7 @@ class BattlerInfoBox {
     _area = Rect2i.CenteredAt(pos, width, height);
     _name = name;
     auto healthArea = Rect2i.CenteredAt(pos, 80, 12);
-    _healthBar = new ProgressBar!int(healthArea, maxHp, healthFg, Color.red);
+    _healthBar = new ProgressBar!int(healthArea, hp, maxHp, healthFg, healthBg);
   }
 
   void draw() {

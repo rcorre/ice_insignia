@@ -5,23 +5,23 @@ import graphics.all;
 import geometry.all;
 
 class ProgressBar(T : real) {
-  this(Rect2i area, T maxVal, Color bgColor, Color fgColor, Color textColor = Color.black, Font font = defaultFont,
-      string fmt = "%d/%d")
+  this(Rect2i area, T currentVal, T maxVal, Color fgColor, Color bgColor = Color.clear, Color textColor = Color.black,
+      Font font = defaultFont, string fmt = "%d/%d")
   {
     _area = area;
     _filledArea = _area;
     _maxVal = maxVal;
     _font = font;
     _format = fmt;
-    _bgColor = bgColor;
     _fgColor = fgColor;
-    _textColor = _textColor;
-    val = 0;
+    _bgColor = bgColor;
+    _textColor = textColor;
+    val = currentVal;
   }
 
   @property {
     void val(T val) {
-      _filledArea.width = _area.width * val / _maxVal;
+      _filledArea.width = cast(int) (_area.width * cast(float)val / _maxVal);
       _text = format(_format, val, _maxVal);
     }
   }
@@ -29,7 +29,7 @@ class ProgressBar(T : real) {
   void draw() {
     _area.drawFilled(_bgColor);
     _filledArea.drawFilled(_fgColor);
-    _font.draw(_text, _area.center, _textColor);
+    _font.draw(_text, _area.topLeft, _textColor);
   }
 
   private:

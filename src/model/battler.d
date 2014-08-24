@@ -26,6 +26,7 @@ class Battler {
     _pos = pos;
     _sprite = sprite;
     this.team = team;
+    _hp = c.maxHp;
   }
 
   @property {

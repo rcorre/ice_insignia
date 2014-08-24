@@ -24,7 +24,7 @@ private enum {
   damageFlashTime = 0.1,/// duration of flash used to indicate damage
 
   tileInfoPos    = cast(Vector2i) Vector2f(Settings.screenW * 0.9f, Settings.screenH * 0.9f),
-  battlerInfoPos = cast(Vector2i) Vector2f(Settings.screenW * 0.9f, Settings.screenH * 0.2f),
+  battlerInfoPos = cast(Vector2i) Vector2f(Settings.screenW * 0.1f, Settings.screenH * 0.9f),
 }
 
 class Battle : GameState {

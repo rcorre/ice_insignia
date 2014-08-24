@@ -19,6 +19,7 @@ struct Color {
     Color red  () { return Color(1, 0, 0, 1); }
     Color green() { return Color(0, 1, 0, 1); }
     Color blue () { return Color(0, 0, 1, 1); }
+    Color clear() { return Color(0, 0, 0, 0); }
   }
 }
 
