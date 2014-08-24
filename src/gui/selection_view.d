@@ -53,7 +53,7 @@ class SelectionView {
     _totalArea.draw();
     foreach(idx, selection ; _selections) {
       if (idx == _cursorIdx) {
-        selection.clickArea.drawFilled(Tint.white, 5, 5);
+        selection.clickArea.drawFilled(Color.white, 5, 5);
       }
       selection.draw();
     }

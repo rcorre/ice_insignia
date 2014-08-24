@@ -7,7 +7,7 @@ import graphics.sprite;
 import graphics.color;
 
 class AnimatedSprite : Sprite {
-  this(string name, ALLEGRO_COLOR tint = Color.white) {
+  this(string name, Color tint = Color.white) {
     super(name, tint);
 
     auto data = _animationData.entries[name];

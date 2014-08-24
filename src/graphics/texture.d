@@ -6,6 +6,7 @@ import std.file : exists;
 import allegro;
 import util.config;
 import geometry.all;
+import graphics.color;
 
 class Texture {
   @property {
@@ -25,7 +26,7 @@ class Texture {
     Vector2i frameCenter() { return _frameCenter; }
   }
 
-  void draw(int row, int col, Vector2i pos, float scale = 1, ALLEGRO_COLOR tint = Color.white, float angle = 0) {
+  void draw(int row, int col, Vector2i pos, float scale = 1, Color tint = Color.white, float angle = 0) {
     assert(col >= 0 && col < numCols && row >= 0 && row < numRows);
     auto frame = Rect2i(col * frameWidth, row * frameHeight, frameWidth, frameHeight);
     al_draw_tinted_scaled_rotated_bitmap_region(_bmp, // bitmap
@@ -37,7 +38,7 @@ class Texture {
         angle, 0);                                    // rotation and flats
   }
 
-  void draw(int idx, Vector2i pos, float scale = 1, ALLEGRO_COLOR tint = Color.white, float angle = 0) {
+  void draw(int idx, Vector2i pos, float scale = 1, Color tint = Color.white, float angle = 0) {
     int row = idx / numCols;
     int col = idx % numCols;
     draw(row, col, pos, scale, tint, angle);

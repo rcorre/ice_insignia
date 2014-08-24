@@ -208,8 +208,8 @@ class Battle : GameState {
 
     private:
     enum {
-      moveTint = ALLEGRO_COLOR(0,0.0,0.9,0.7),
-      lineTint = ALLEGRO_COLOR(0,1,1,0.5),
+      moveTint = Color(0,0.0,0.9,0.7),
+      lineTint = Color(0,1,1,0.5),
       lineWidth = 3
     }
     Battler _battler;
@@ -401,7 +401,7 @@ class Battle : GameState {
         _attacker.pos = _attacker.pos.movedTo(_endPos, _dist, _destReached);
         if (_destReached) {
           _dist = 0;
-          _defender.sprite.flash(damageFlashTime, Tint.black);
+          _defender.sprite.flash(damageFlashTime, Color.black);
         }
       }
       else {

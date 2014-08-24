@@ -47,15 +47,6 @@ enum Paths {
   itemData      = "content/data/items.json",
 }
 
-/// common colors
-enum Color {
-  white = ALLEGRO_COLOR(1, 1, 1, 1),
-  black = ALLEGRO_COLOR(0, 0, 0, 1),
-  red   = ALLEGRO_COLOR(1, 0, 0, 1),
-  green = ALLEGRO_COLOR(0, 1, 0, 1),
-  blue  = ALLEGRO_COLOR(0, 0, 1, 1),
-}
-
 // allegro initialization
 static this() {
   al_init();

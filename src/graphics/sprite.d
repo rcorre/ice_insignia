@@ -13,7 +13,7 @@ import util.math;
 
 /// displays a single frame of a texture
 class Sprite {
-  this(string spriteName, ALLEGRO_COLOR tint = Color.white) {
+  this(string spriteName, Color tint = Color.white) {
     assert(spriteName in _spriteData.entries, spriteName ~ " is not defined in " ~ Paths.spriteData);
     auto data = _spriteData.entries[spriteName];
     _name = spriteName;
@@ -35,7 +35,7 @@ class Sprite {
     _baseScale = baseScale;
   }
 
-  void flash(float time, ALLEGRO_COLOR flashColor) {
+  void flash(float time, Color flashColor) {
     _flashTimer = 0;
     _totalFlashTime = time;
     _flashColor = flashColor;
@@ -51,7 +51,7 @@ class Sprite {
       if (_flashTimer > _totalFlashTime) {
         _totalFlashTime = 0;
         _flashTimer = 0;
-        _tint = Tint.white;
+        _tint = Color.white;
       }
       else {
         _tint = lerp([color(1,1,1), _flashColor, color(1,1,1)], _flashTimer / _totalFlashTime);
@@ -76,7 +76,7 @@ class Sprite {
     auto size() { return Vector2i(width, height); }
     /// tint color of the sprite
     auto tint()                    { return _tint; }
-    auto tint(ALLEGRO_COLOR color) { return _tint = color; }
+    auto tint(Color color) { return _tint = color; }
     /// get the rotation angle of the sprite (radians)
     auto angle()            { return _angle; }
     auto angle(float angle) { return _angle = angle; }
@@ -96,10 +96,10 @@ class Sprite {
   const float _baseScale;
   float _scaleFactor  = 1;
   float _angle        = 0;
-  ALLEGRO_COLOR _tint = Color.white;
+  Color _tint = Color.white;
 
   float _flashTimer, _totalFlashTime;
-  ALLEGRO_COLOR _flashColor;
+  Color _flashColor;
 
   JiggleEffect _jiggleEffect;
 }

@@ -5,6 +5,7 @@ import std.conv;
 import std.range;
 import allegro;
 import geometry.all;
+import graphics.color;
 import util.config;
 
 /// Wrapper around ALLEGRO_FONT
@@ -27,12 +28,12 @@ class Font {
   }
 
   /// draw text at the given vector position in the given color
-  void draw(string text, Vector2i pos, ALLEGRO_COLOR color = Color.black) {
+  void draw(string text, Vector2i pos, Color color = Color.black) {
     al_draw_text(_font, color, pos.x, pos.y, 0, toStringz(text));
   }
 
   /// draw multiple lines of text at position pos
-  void draw(string[] lines, Vector2i pos, ALLEGRO_COLOR color = Color.black) {
+  void draw(string[] lines, Vector2i pos, Color color = Color.black) {
     foreach(line ; lines) {
       draw(line, pos, color);
       pos.y += heightOf(line);
