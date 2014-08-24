@@ -178,12 +178,15 @@ class Battle : GameState {
     override State update(float time) {
       _tileCursor.handleInput(_input);
       _tileHighlight.update(time);
-      auto tileUnderMouse = _tileCursor.tile;
-      if (tileUnderMouse) {
-        _selectedPath = _pathFinder.pathTo(tileUnderMouse);
+      auto tile = _tileCursor.tile;
+      if (tile) {
+        _selectedPath = _pathFinder.pathTo(tile);
         if (_selectedPath && _input.confirm) {
           return new MoveBattler(_battler, _tile, _selectedPath);
         }
+      }
+      if (_input.cancel) {
+        return new PlayerTurn;
       }
       return null;
     }
