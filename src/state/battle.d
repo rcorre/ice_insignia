@@ -14,7 +14,7 @@ import model.character;
 import gui.all;
 
 private enum {
-  scrollSpeed = 10,       /// camera scroll rate (pixels/sec)
+  scrollSpeed = 12,       /// camera scroll rate (pixels/sec)
   battlerMoveSpeed = 250, /// battler move speed (pixels/sec)
   tileInfoPos = cast(Vector2i) Vector2f(Settings.screenW * 0.9f, Settings.screenH * 0.9f),
   attackSpeed = 80,     /// movement rate of attack animation
@@ -399,6 +399,9 @@ class Battle : GameState {
       _sprite.update(time);
       if (_input.scrollDirection == Vector2i.Zero) {
         _pos = _map.tileCoordToPos(_row, _col);
+      }
+      else if (_input.speedScroll) {
+        move(_input.scrollDirection * 2);
       }
       else {
         move(_input.scrollDirection);

@@ -86,6 +86,8 @@ class InputManager {
     bool confirm() { return keyPressed(ALLEGRO_KEY_J); }
     bool cancel()  { return keyPressed(ALLEGRO_KEY_K); }
     bool endTurn() { return keyPressed(ALLEGRO_KEY_SPACE); }
+
+    bool speedScroll() { return keyHeld(ALLEGRO_KEY_LSHIFT); }
   }
 
   Vector2i mousePos() {
