@@ -102,7 +102,7 @@ struct Vector2(T : real) {
     return destReached;
   }
 
-  auto clamp(Vector2 min, Vector2 max) {
+  auto clamp(U : real, V : real)(Vector2!U min, Vector2!V max) {
     auto rx = cast(T) fmax(min.x, fmin(max.x, x));
     auto ry = cast(T) fmax(min.y, fmin(max.y, y));
     return Vector2!T(rx, ry);

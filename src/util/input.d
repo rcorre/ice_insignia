@@ -20,6 +20,7 @@ class InputManager {
     al_get_keyboard_state(&_curKeyboardState);
     al_get_mouse_state(&_curMouseState);
 
+    /*
     if (keyHeld(ALLEGRO_KEY_W)) {
       if (_scrollAccumulator.y < -1) { _scrollAccumulator.y = 0; }
       _scrollAccumulator.y -= scrollSpeed * time;
@@ -43,9 +44,27 @@ class InputManager {
     if (keyReleased(ALLEGRO_KEY_A) || keyReleased(ALLEGRO_KEY_D)) {
       _scrollAccumulator.x = 0;
     }
+    */
   }
 
   @property {
+    Vector2i scrollDirection() {
+      Vector2i scroll;
+      if (keyHeld(ALLEGRO_KEY_W)) {
+        scroll.y = -1;
+      }
+      else if (keyHeld(ALLEGRO_KEY_S)) {
+        scroll.y = 1;
+      }
+      if (keyHeld(ALLEGRO_KEY_A)) {
+        scroll.x = -1;
+      }
+      else if (keyHeld(ALLEGRO_KEY_D)) {
+        scroll.x = 1;
+      }
+      return scroll;
+    }
+    /*
     Vector2i scrollDirection() {
       Vector2i scroll;
       if ( _scrollAccumulator.y <= -1) {
@@ -62,6 +81,7 @@ class InputManager {
       }
       return scroll;
     }
+    */
 
     bool confirm() { return keyPressed(ALLEGRO_KEY_J); }
     bool cancel()  { return keyPressed(ALLEGRO_KEY_K); }

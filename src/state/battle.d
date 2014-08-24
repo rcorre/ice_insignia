@@ -14,8 +14,8 @@ import model.character;
 import gui.all;
 
 private enum {
-  scrollSpeed = 500,     /// camera scroll rate (pixels/sec)
-  battlerMoveSpeed = 250,/// battler move speed (pixels/sec)
+  scrollSpeed = 10,       /// camera scroll rate (pixels/sec)
+  battlerMoveSpeed = 250, /// battler move speed (pixels/sec)
   tileInfoPos = cast(Vector2i) Vector2f(Settings.screenW * 0.9f, Settings.screenH * 0.9f),
   attackSpeed = 80,     /// movement rate of attack animation
   attackShiftDist = 8,  /// pixels to shift when showing attack
@@ -51,12 +51,7 @@ class Battle : GameState {
 
   override GameState update(float time) {
     _input.update(time);
-    /*
-    _camera.topLeft = _camera.topLeft + cast(Vector2i) (_input.scrollDirection * time * scrollSpeed);
-    _camera.keepInside(_map.bounds);
-    */
     _tileCursor.update(time);
-    _tileCursor.move(_input.scrollDirection);
 
     foreach(battler ; _battlers) {
       battler.sprite.update(time);
@@ -391,25 +386,46 @@ class Battle : GameState {
     }
 
     /// tile under cursor
-    @property Tile tile() {
-      return _map.tileAt(_row, _col);
+    @property {
+      Tile tile() { return _map.tileAt(_row, _col); }
+
+      int left()   { return cast(int) (_pos.x - _map.tileWidth / 2); }
+      int right()  { return cast(int) (_pos.x + _map.tileWidth / 2); }
+      int top()    { return cast(int) (_pos.y - _map.tileHeight / 2); }
+      int bottom() { return cast(int) (_pos.y + _map.tileHeight / 2); }
     }
 
     void update(float time) {
       _sprite.update(time);
+      if (_input.scrollDirection == Vector2i.Zero) {
+        _pos = _map.tileCoordToPos(_row, _col);
+      }
+      else {
+        move(_input.scrollDirection);
+      }
     }
 
     void move(Vector2i direction) {
-      _col = clamp(_col + direction.x, 0, _map.numCols);
-      _row = clamp(_row + direction.y, 0, _map.numRows);
+      _pos = (_pos + direction * scrollSpeed).clamp(_map.bounds.topLeft, _map.bounds.bottomRight);
+
+      _camera.x = min(_camera.x, left);
+      _camera.right = max(_camera.right, right);
+      _camera.y = min(_camera.y, top);
+      _camera.bottom = max(_camera.bottom, bottom);
+
+      _camera.keepInside(_map.bounds);
+
+      _row = _map.rowAt(cast(Vector2i)_pos);
+      _col = _map.colAt(cast(Vector2i)_pos);
     }
 
     void draw() {
-      _sprite.draw(_map.tileCoordToPos(_row, _col));
+      _sprite.draw(cast(Vector2i)_pos - _camera.topLeft);
     }
 
     private:
     enum shade = ucolor(255, 0, 0, 255);
+    Vector2f _pos = Vector2f.Zero;
     int _row, _col;
     Sprite _sprite;
   }
