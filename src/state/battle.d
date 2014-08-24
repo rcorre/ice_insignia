@@ -424,7 +424,7 @@ class Battle : GameState {
         _attacker.pos = _attacker.pos.movedTo(_startPos, _dist, _returned);
         if (_returned) {
           _attacks.popFront;
-          if (_attacks.empty) { // no attacks left to show
+          if (_attacks.empty || !_attacker.alive || !_defender.alive) { // no attacks left to show
             _initialAttacker.moved = true; // end attacker's turn
             return new PlayerTurn;
           }

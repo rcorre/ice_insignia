@@ -38,7 +38,13 @@ class Sprite {
   void flash(float time, Color flashColor) {
     _flashTimer = 0;
     _totalFlashTime = time;
-    _flashColor = flashColor;
+    _colorSpectrum = [_tint, flashColor, _tint];
+  }
+
+  void fade(float time, Color color) {
+    _flashTimer = 0;
+    _totalFlashTime = time;
+    _colorSpectrum = [_tint, color];
   }
 
   void jiggle(Vector2i offset, float frequency, int repetitions) {
@@ -51,10 +57,10 @@ class Sprite {
       if (_flashTimer > _totalFlashTime) {
         _totalFlashTime = 0;
         _flashTimer = 0;
-        _tint = Color.white;
+        _tint = _colorSpectrum[$ - 1];
       }
       else {
-        _tint = lerp([color(1,1,1), _flashColor, color(1,1,1)], _flashTimer / _totalFlashTime);
+        _tint = lerp(_colorSpectrum, _flashTimer / _totalFlashTime);
       }
     }
     _jiggleEffect.update(time);
@@ -102,7 +108,7 @@ class Sprite {
   Color _tint = Color.white;
 
   float _flashTimer, _totalFlashTime;
-  Color _flashColor;
+  Color[] _colorSpectrum;
 
   JiggleEffect _jiggleEffect;
 }

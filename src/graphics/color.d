@@ -37,7 +37,10 @@ Color lerp(Color start, Color end, float factor) {
 }
 
 Color lerp(Color[] colors, float factor) {
-  assert(colors.length > 2);
+  if (colors.length == 2) { 
+    return lerp(colors[0], colors[1], factor); 
+  }
+
   float colorTime = 1.0 / (colors.length - 1); // time for each color pair
   int idx = roundDown(factor * (colors.length - 1));
   if (idx < 0) {  // before first color

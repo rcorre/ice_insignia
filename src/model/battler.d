@@ -9,7 +9,8 @@ import model.character;
 
 private enum {
   movedTint = Color(0.6,0.6,0.6,0.9),
-  damageFlashTime = 0.1,/// duration of flash used to indicate damage
+  damageFlashTime = 0.2,/// duration of flash used to indicate damage
+  fadeTime = 0.2,/// duration of flash used to indicate damage
 }
 
 enum BattleTeam {
@@ -39,11 +40,15 @@ class Battler {
     Character character() { return _character; }
     int hp() { return _hp; }
 
+    bool alive() { return _hp > 0; }
+
     bool moved() { return _moved; }
     void moved(bool val) {
-      _moved = val;
-      // shade sprite if moved
-      _sprite.tint = val ? movedTint : Color.white;
+      if (alive) {
+        _moved = val;
+        // shade sprite if moved
+        _sprite.tint = val ? movedTint : Color.white;
+      }
     }
   }
 
@@ -57,7 +62,11 @@ class Battler {
 
   void dealDamage(int amount) {
     _sprite.flash(damageFlashTime, Color.black);
-    _hp = max(_hp - amount, 0);
+    _hp -= amount;
+    if (_hp <= 0) {
+      _hp = 0;
+      _sprite.fade(fadeTime, Color.clear);
+    }
   }
 
   bool canAttack(Battler other) {
