@@ -110,6 +110,8 @@ class Battle : GameState {
   TileCursor _tileCursor;
 
   void placeBattler(Battler b, Tile t) {
+    auto currentTile = _map.tileAt(b.row, b.col);
+    currentTile.battler = null; // remove from current tile
     t.battler = b;
     b.row = t.row;
     b.col = t.col;
