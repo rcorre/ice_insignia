@@ -1,24 +1,24 @@
 module util.input;
 
-import std.algorithm : max, min;
+import std.algorithm : max, min, any;
 import allegro;
 import geometry.vector;
 
-enum MouseButton {
+enum MouseKeymap {
   lmb = 1,
   rmb = 2
 }
 
-enum Button {
-  left  = ALLEGRO_KEY_A,
-  right = ALLEGRO_KEY_D,
-  up    = ALLEGRO_KEY_W,
-  down  = ALLEGRO_KEY_S,
+enum Keymap {
+  left  = [ALLEGRO_KEY_A],
+  right = [ALLEGRO_KEY_D],
+  up    = [ALLEGRO_KEY_W],
+  down  = [ALLEGRO_KEY_S],
 
-  confirm = ALLEGRO_KEY_J,
-  cancel  = ALLEGRO_KEY_K,
-  end     = ALLEGRO_KEY_SPACE,
-  faster  = ALLEGRO_KEY_LSHIFT,
+  confirm = [ALLEGRO_KEY_J],
+  cancel  = [ALLEGRO_KEY_K],
+  end     = [ALLEGRO_KEY_SPACE],
+  faster  = [ALLEGRO_KEY_LSHIFT, ALLEGRO_KEY_RSHIFT],
 }
 
 private enum {
@@ -62,16 +62,16 @@ class InputManager {
   @property {
     Vector2i scrollDirection() {
       Vector2i scroll;
-      if (keyHeld(ALLEGRO_KEY_W)) {
+      if (keyHeld(Keymap.up)) {
         scroll.y = -1;
       }
-      else if (keyHeld(ALLEGRO_KEY_S)) {
+      else if (keyHeld(Keymap.down)) {
         scroll.y = 1;
       }
-      if (keyHeld(ALLEGRO_KEY_A)) {
+      if (keyHeld(Keymap.left)) {
         scroll.x = -1;
       }
-      else if (keyHeld(ALLEGRO_KEY_D)) {
+      else if (keyHeld(Keymap.right)) {
         scroll.x = 1;
       }
       return scroll;
@@ -94,16 +94,16 @@ class InputManager {
       return scroll;
     }
     */
-    bool selectUp()    { return keyPressed(Button.up); }
-    bool selectDown()  { return keyPressed(Button.down); }
-    bool selectLeft()  { return keyPressed(Button.left); }
-    bool selectRight() { return keyPressed(Button.right); }
+    bool selectUp()    { return keyPressed(Keymap.up); }
+    bool selectDown()  { return keyPressed(Keymap.down); }
+    bool selectLeft()  { return keyPressed(Keymap.left); }
+    bool selectRight() { return keyPressed(Keymap.right); }
 
-    bool confirm() { return keyPressed(Button.confirm); }
-    bool cancel()  { return keyPressed(Button.cancel); }
-    bool endTurn() { return keyPressed(Button.end); }
+    bool confirm() { return keyPressed(Keymap.confirm); }
+    bool cancel()  { return keyPressed(Keymap.cancel); }
+    bool endTurn() { return keyPressed(Keymap.end); }
 
-    bool speedScroll() { return keyHeld(ALLEGRO_KEY_LSHIFT); }
+    bool speedScroll() { return keyHeld(Keymap.faster); }
   }
 
   Vector2i mousePos() {
@@ -111,19 +111,19 @@ class InputManager {
   }
 
   private:
-  bool keyHeld(int keycode) {
-    return al_key_down(&_curKeyboardState, keycode);
+  bool keyHeld(Keymap buttons) {
+    return buttons.any!(key => al_key_down(&_curKeyboardState, key));
   }
 
-  bool keyPressed(int keycode) {
-    return !al_key_down(&_prevKeyboardState, keycode) && al_key_down(&_curKeyboardState, keycode);
+  bool keyPressed(Keymap buttons) {
+    return buttons.any!(key => !al_key_down(&_prevKeyboardState, key) && al_key_down(&_curKeyboardState, key));
   }
 
   bool keyReleased(int keycode) {
     return al_key_down(&_prevKeyboardState, keycode) && !al_key_down(&_curKeyboardState, keycode);
   }
 
-  bool mouseClicked(MouseButton button) {
+  bool mouseClicked(MouseKeymap button) {
     int b = cast(int) button;
     return !al_mouse_button_down(&_prevMouseState, b) && al_mouse_button_down(&_curMouseState, b);
   }
