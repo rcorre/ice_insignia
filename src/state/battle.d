@@ -1,6 +1,7 @@
 module state.battle;
 
 import std.array;
+import std.math : abs;
 import std.typecons : tuple;
 import std.algorithm : map, all;
 import allegro;
@@ -244,14 +245,15 @@ class Battle : GameState {
       _battler = battler;
       _currentTile = currentTile;
       _prevTile = prevTile;
+      _enemiesInRange = array(_enemies.filter!(a => _battler.canAttack(a)));
+      _targetSprite = new AnimatedSprite("target", targetShade);
       auto selectPos = _battler.pos - _camera.topLeft - Vector2i(50, 50);
       _selectionView = new SelectionView(selectPos, getActions());
-      _targetSprite = new AnimatedSprite("target", targetShade);
     }
 
     override State update(float time) {
-      if (_battler.moved) { // move has completed
-        return new PlayerTurn;
+      if (_requestedState) {
+        return _requestedState;
       }
 
       _targetSprite.update(time);
@@ -260,12 +262,6 @@ class Battle : GameState {
       if (_input.cancel) {
         placeBattler(_battler, _prevTile);
         return new PlayerTurn;
-      }
-      if (_input.confirm ) {
-        auto tile = _map.tileAtPos(_input.mousePos + _camera.topLeft);
-        if (tile.battler && _battler.canAttack(tile.battler)) {
-          return new ConsiderAttack(_currentTile, tile);
-        }
       }
       return null;
     }
@@ -281,32 +277,42 @@ class Battle : GameState {
 
     private:
     Battler _battler;
+    Battler[] _enemiesInRange;
     Tile _currentTile, _prevTile;
     SelectionView _selectionView;
     AnimatedSprite _targetSprite;
+    State _requestedState;
 
     SelectionView.ActionEntry[] getActions() {
-      auto actions = [tuple("Inventory", &itemAction), tuple("Wait", &waitAction)];
+      SelectionView.ActionEntry[] actions;
+      if (!_enemiesInRange.empty) {
+        actions ~= tuple("Attack", &attackAction);
+      }
+      actions ~= tuple("Inventory", &itemAction);
+      actions ~= tuple("Wait", &waitAction);
       return actions;
     }
 
     void itemAction() {
     }
 
+    void attackAction() {
+      _requestedState = new ConsiderAttack(_battler, _enemiesInRange);
+    }
+
     void waitAction() {
       _battler.moved = true;
+      _requestedState = new PlayerTurn;
     }
   }
 
   class ConsiderAttack : State {
-    this(Tile attackTerrain, Tile defendTerrain) {
-      _attackTerrain = attackTerrain;
-      _defendTerrain = defendTerrain;
-      _attacker = attackTerrain.battler;
-      _defender = defendTerrain.battler;
-      _attack = new CombatPrediction(_attacker, _defender, defendTerrain);
-      _counter = new CombatPrediction(_defender, _attacker, attackTerrain);
-      _view = new CombatView(Vector2i(20, 20), _attack, _counter);
+    this(Battler attacker, Battler[] targets) {
+      assert(!targets.empty);
+      _attacker = attacker;
+      _targets = targets;
+      _attackTerrain = _map.tileAt(attacker.row, attacker.col);
+      setTarget(targets[0]);
     }
 
     override State update(float time) {
@@ -323,6 +329,14 @@ class Battle : GameState {
         }
         return new ExecuteCombat(attacks, _attacker);
       }
+      else if (_input.selectLeft) {
+        _targetIdx = cast(int) abs((_targetIdx - 1) % _targets.length);
+        setTarget(_targets[_targetIdx]);
+      }
+      else if (_input.selectRight) {
+        _targetIdx = cast(int) abs((_targetIdx + 1) % _targets.length);
+        setTarget(_targets[_targetIdx]);
+      }
       return null;
     }
 
@@ -331,10 +345,20 @@ class Battle : GameState {
     }
 
     private:
+    Battler[] _targets;
+    int _targetIdx;
     Battler _attacker, _defender;
     Tile _attackTerrain, _defendTerrain;
     CombatPrediction _attack, _counter;
     CombatView _view;
+
+    void setTarget(Battler target) {
+      _defender = target;
+      _defendTerrain = _map.tileAt(target.row, target.col);
+      _attack = new CombatPrediction(_attacker, _defender, _defendTerrain);
+      _counter = new CombatPrediction(_defender, _attacker, _attackTerrain);
+      _view = new CombatView(Vector2i(20, 20), _attack, _counter);
+    }
   }
 
   class ExecuteCombat : State {
