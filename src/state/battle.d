@@ -1,6 +1,7 @@
 module state.battle;
 
 import std.array;
+import std.typecons : tuple;
 import std.algorithm : map, all;
 import allegro;
 import state.gamestate;
@@ -284,8 +285,9 @@ class Battle : GameState {
     SelectionView _selectionView;
     AnimatedSprite _targetSprite;
 
-    SelectionView.Action[string] getActions() {
-      return ["Inventory": &itemAction, "Wait": &waitAction];
+    SelectionView.ActionEntry[] getActions() {
+      auto actions = [tuple("Inventory", &itemAction), tuple("Wait", &waitAction)];
+      return actions;
     }
 
     void itemAction() {

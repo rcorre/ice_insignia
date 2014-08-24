@@ -1,5 +1,6 @@
 module gui.selection_view;
 
+import std.typecons : Tuple;
 import std.algorithm : max;
 import graphics.all;
 import geometry.all;
@@ -11,11 +12,15 @@ private enum {
 }
 
 class SelectionView {
-  alias Action = void delegate();
-  this(Vector2i pos, Action[string] selections) {
+  private alias Action = void delegate();
+  alias ActionEntry = Tuple!(string, Action);
+  this(Vector2i pos, ActionEntry[] selections) {
     auto selectionArea = Rect2i(pos.x, pos.y, 0, 0);
     auto totalArea     = Rect2i(pos.x, pos.y, 0, 0);
-    foreach(text, action; selections) {
+    foreach(entry; selections) {
+      auto text = entry[0];
+      auto action = entry[1];
+
       selectionArea.width  = _font.widthOf(text);
       selectionArea.height = _font.heightOf(text);
 
