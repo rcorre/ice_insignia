@@ -9,6 +9,18 @@ enum MouseButton {
   rmb = 2
 }
 
+enum Button {
+  left  = ALLEGRO_KEY_A,
+  right = ALLEGRO_KEY_D,
+  up    = ALLEGRO_KEY_W,
+  down  = ALLEGRO_KEY_S,
+
+  confirm = ALLEGRO_KEY_J,
+  cancel  = ALLEGRO_KEY_K,
+  end     = ALLEGRO_KEY_SPACE,
+  faster  = ALLEGRO_KEY_LSHIFT,
+}
+
 private enum {
   scrollSpeed = 14
 }
@@ -82,10 +94,14 @@ class InputManager {
       return scroll;
     }
     */
+    bool selectUp()    { return keyPressed(Button.up); }
+    bool selectDown()  { return keyPressed(Button.down); }
+    bool selectLeft()  { return keyPressed(Button.left); }
+    bool selectRight() { return keyPressed(Button.right); }
 
-    bool confirm() { return keyPressed(ALLEGRO_KEY_J); }
-    bool cancel()  { return keyPressed(ALLEGRO_KEY_K); }
-    bool endTurn() { return keyPressed(ALLEGRO_KEY_SPACE); }
+    bool confirm() { return keyPressed(Button.confirm); }
+    bool cancel()  { return keyPressed(Button.cancel); }
+    bool endTurn() { return keyPressed(Button.end); }
 
     bool speedScroll() { return keyHeld(ALLEGRO_KEY_LSHIFT); }
   }

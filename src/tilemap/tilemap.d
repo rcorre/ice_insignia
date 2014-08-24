@@ -22,6 +22,7 @@ class TileMap {
 
     int tileWidth() { return _tileWidth; }
     int tileHeight() { return _tileHeight; }
+    Vector2i tileSize() { return Vector2i(_tileWidth, _tileHeight); }
 
     Rect2i bounds() { return Rect2i(0, 0, width, height); }
   }

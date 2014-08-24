@@ -51,7 +51,6 @@ class Battle : GameState {
 
   override GameState update(float time) {
     _input.update(time);
-    _tileCursor.update(time);
 
     foreach(battler ; _battlers) {
       battler.sprite.update(time);
@@ -126,18 +125,19 @@ class Battle : GameState {
     }
 
     override State update(float time) {
+      _tileCursor.update(time);
       if (_turnOver || _input.endTurn) {
         foreach(battler ; _allies) {
           battler.moved = false;
         }
-        return new PlayerTurn;
+        return new PlayerTurn; // TODO: enemy turn
       }
 
       _cursorRow = clamp(_cursorRow + _input.scrollDirection.y, 0, _map.numRows - 1);
       _cursorCol = clamp(_cursorCol + _input.scrollDirection.x, 0, _map.numCols - 1);
 
       if (_input.confirm) {
-        auto tile = _map.tileAt(_cursorRow, _cursorCol);
+        auto tile = _tileCursor.tile;
         if (tile && tile.battler && !tile.battler.moved) {
           return new PlayerUnitSelected(tile.battler, tile);
         }
@@ -154,13 +154,14 @@ class Battle : GameState {
       _battler = battler;
       _tile = tile;
       _pathFinder = new PathFinder(_map, _tile, _battler.move);
-      _tileSelector = new AnimatedSprite("tile_highlight");
-      _tileSelector.tint = moveTint;
+      _tileHighlight = new AnimatedSprite("tile_highlight");
+      _tileHighlight.tint = moveTint;
     }
 
     override State update(float time) {
-      _tileSelector.update(time);
-      auto tileUnderMouse = _map.tileAtPos(_input.mousePos + _camera.topLeft);
+      _tileCursor.update(time);
+      _tileHighlight.update(time);
+      auto tileUnderMouse = _tileCursor.tile;
       if (tileUnderMouse) {
         _selectedPath = _pathFinder.pathTo(tileUnderMouse);
         if (_selectedPath && _input.confirm) {
@@ -173,7 +174,7 @@ class Battle : GameState {
     override void draw() {
       foreach (tile ; _pathFinder.tilesInRange) {
         auto pos = _map.tileToPos(tile) - _camera.topLeft;
-        _tileSelector.draw(pos);
+        _tileHighlight.draw(pos);
       }
 
       if (_selectedPath) {
@@ -193,7 +194,7 @@ class Battle : GameState {
     Tile[] _selectedPath;
     Vector2i _pathPoints;
     PathFinder _pathFinder;
-    AnimatedSprite _tileSelector;
+    AnimatedSprite _tileHighlight;
   }
 
   class MoveBattler : State {
@@ -253,7 +254,7 @@ class Battle : GameState {
       }
 
       _targetSprite.update(time);
-      _selectionView.handleMouse(_input.mousePos, _input.confirm);
+      _selectionView.handleInput(_input);
 
       if (_input.cancel) {
         placeBattler(_battler, _prevTile);
@@ -409,7 +410,7 @@ class Battle : GameState {
     }
 
     void move(Vector2i direction) {
-      _pos = (_pos + direction * scrollSpeed).clamp(_map.bounds.topLeft, _map.bounds.bottomRight);
+      _pos = (_pos + direction * scrollSpeed).clamp(_map.bounds.topLeft, _map.bounds.bottomRight - _map.tileSize / 2);
 
       _camera.x = min(_camera.x, left);
       _camera.right = max(_camera.right, right);

@@ -34,23 +34,22 @@ class SelectionView {
     _totalArea = totalArea;
   }
 
-  void handleMouse(Vector2i mousePos, bool lmbClick) {
-    if (!_totalArea.contains(mousePos)) {
-      return; // not in selection view at all
-    }
-    // check each entry
-    foreach(selection ; _selections) {
-      if (selection.clickArea.contains(mousePos)) {
-        if (lmbClick) {
-          selection.onClick();
-        }
-      }
+  void handleInput(InputManager input) {
+    if (input.selectUp) { --_cursorIdx; }
+    else if (input.selectDown) { ++_cursorIdx; }
+    _cursorIdx %= _selections.length;
+
+    if (input.confirm) {
+      _selections[_cursorIdx].onClick();
     }
   }
 
   void draw() {
     _totalArea.draw();
-    foreach(selection ; _selections) {
+    foreach(idx, selection ; _selections) {
+      if (idx == _cursorIdx) {
+        selection.clickArea.drawFilled(Tint.white, 5, 5);
+      }
       selection.draw();
     }
   }
@@ -58,6 +57,7 @@ class SelectionView {
   private:
   Rect2i _totalArea;
   Selection[] _selections;
+  int _cursorIdx;
 
   struct Selection {
     Action onClick;
