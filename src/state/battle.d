@@ -1,7 +1,7 @@
 module state.battle;
 
 import std.array;
-import std.math : abs;
+import std.math;
 import std.typecons : tuple;
 import std.algorithm : map, all;
 import allegro;
@@ -53,6 +53,7 @@ class Battle : GameState {
 
   override GameState update(float time) {
     _input.update(time);
+    _tileCursor.update(time);
 
     foreach(battler ; _battlers) {
       battler.sprite.update(time);
@@ -88,7 +89,6 @@ class Battle : GameState {
     if (_tileInfoBox) {
       _tileInfoBox.draw();
     }
-    _tileCursor.draw();
   }
 
   override void onExit() {
@@ -127,7 +127,7 @@ class Battle : GameState {
     }
 
     override State update(float time) {
-      _tileCursor.update(time);
+      _tileCursor.handleInput(_input);
       if (_turnOver || _input.endTurn) {
         foreach(battler ; _allies) {
           battler.moved = false;
@@ -147,6 +147,10 @@ class Battle : GameState {
       return null;
     }
 
+    override void draw() {
+      _tileCursor.draw();
+    }
+
     private:
     bool _turnOver;
   }
@@ -161,7 +165,7 @@ class Battle : GameState {
     }
 
     override State update(float time) {
-      _tileCursor.update(time);
+      _tileCursor.handleInput(_input);
       _tileHighlight.update(time);
       auto tileUnderMouse = _tileCursor.tile;
       if (tileUnderMouse) {
@@ -174,6 +178,7 @@ class Battle : GameState {
     }
 
     override void draw() {
+      _tileCursor.draw();
       foreach (tile ; _pathFinder.tilesInRange) {
         auto pos = _map.tileToPos(tile) - _camera.topLeft;
         _tileHighlight.draw(pos);
@@ -330,23 +335,24 @@ class Battle : GameState {
         return new ExecuteCombat(attacks, _attacker);
       }
       else if (_input.selectLeft) {
-        _targetIdx = cast(int) abs((_targetIdx - 1) % _targets.length);
+        _targetIdx = (_targetIdx - 1) % _targets.length;
         setTarget(_targets[_targetIdx]);
       }
       else if (_input.selectRight) {
-        _targetIdx = cast(int) abs((_targetIdx + 1) % _targets.length);
+        _targetIdx = (_targetIdx + 1) % _targets.length;
         setTarget(_targets[_targetIdx]);
       }
       return null;
     }
 
     override void draw() {
+      _tileCursor.draw();
       _view.draw();
     }
 
     private:
     Battler[] _targets;
-    int _targetIdx;
+    ulong _targetIdx;
     Battler _attacker, _defender;
     Tile _attackTerrain, _defendTerrain;
     CombatPrediction _attack, _counter;
@@ -358,6 +364,7 @@ class Battle : GameState {
       _attack = new CombatPrediction(_attacker, _defender, _defendTerrain);
       _counter = new CombatPrediction(_defender, _attacker, _attackTerrain);
       _view = new CombatView(Vector2i(20, 20), _attack, _counter);
+      _tileCursor.place(_defendTerrain);
     }
   }
 
@@ -424,18 +431,20 @@ class Battle : GameState {
 
     void update(float time) {
       _sprite.update(time);
-      if (_input.scrollDirection == Vector2i.Zero) {
-        _pos = _map.tileCoordToPos(_row, _col);
-      }
-      else if (_input.speedScroll) {
-        move(_input.scrollDirection * 2);
-      }
-      else {
-        move(_input.scrollDirection);
-      }
     }
 
-    void move(Vector2i direction) {
+    void handleInput(InputManager input) {
+      Vector2i direction;
+      if (input.scrollDirection == Vector2i.Zero) {
+        _pos = _map.tileCoordToPos(_row, _col);
+      }
+      else if (input.speedScroll) {
+        direction = input.scrollDirection * 2;
+      }
+      else {
+        direction = input.scrollDirection;
+      }
+
       _pos = (_pos + direction * scrollSpeed).clamp(_map.bounds.topLeft, _map.bounds.bottomRight - _map.tileSize / 2);
 
       _camera.x = min(_camera.x, left);
@@ -451,6 +460,10 @@ class Battle : GameState {
 
     void draw() {
       _sprite.draw(cast(Vector2i)_pos - _camera.topLeft);
+    }
+
+    void place(Tile tile) {
+      _pos = _map.tileToPos(tile);
     }
 
     private:
