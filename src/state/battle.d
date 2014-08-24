@@ -2,6 +2,7 @@ module state.battle;
 
 import std.array;
 import std.math;
+import std.range : Cycle, cycle;
 import std.typecons : tuple;
 import std.algorithm : map, all;
 import allegro;
@@ -123,7 +124,9 @@ class Battle : GameState {
 
   class PlayerTurn : State {
     this() {
-      _turnOver = _allies.all!"a.moved";
+      auto moveableAllies = _allies.filter!"!a.moved";
+      _turnOver = moveableAllies.empty;
+      _unitJumpList = cycle(array(moveableAllies));
     }
 
     override State update(float time) {
@@ -138,11 +141,17 @@ class Battle : GameState {
       _cursorRow = clamp(_cursorRow + _input.scrollDirection.y, 0, _map.numRows - 1);
       _cursorCol = clamp(_cursorCol + _input.scrollDirection.x, 0, _map.numCols - 1);
 
+      // select unit under cursor
       if (_input.confirm) {
         auto tile = _tileCursor.tile;
         if (tile && tile.battler && !tile.battler.moved) {
           return new PlayerUnitSelected(tile.battler, tile);
         }
+      }
+      // jump to next ready unit
+      if (_input.nextUnit) {
+        auto nextBattler = _unitJumpList[_unitJumpIdx++];
+        _tileCursor.place(_map.tileAt(nextBattler.row, nextBattler.col));
       }
       return null;
     }
@@ -153,6 +162,8 @@ class Battle : GameState {
 
     private:
     bool _turnOver;
+    uint _unitJumpIdx;
+    Cycle!(Battler[]) _unitJumpList;
   }
 
   class PlayerUnitSelected : State {
@@ -464,6 +475,15 @@ class Battle : GameState {
 
     void place(Tile tile) {
       _pos = _map.tileToPos(tile);
+      _row = tile.row;
+      _col = tile.col;
+
+      _camera.x = min(_camera.x, left);
+      _camera.right = max(_camera.right, right);
+      _camera.y = min(_camera.y, top);
+      _camera.bottom = max(_camera.bottom, bottom);
+
+      _camera.keepInside(_map.bounds);
     }
 
     private:

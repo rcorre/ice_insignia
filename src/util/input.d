@@ -19,6 +19,9 @@ enum Keymap {
   cancel  = [ALLEGRO_KEY_K],
   end     = [ALLEGRO_KEY_SPACE],
   faster  = [ALLEGRO_KEY_LSHIFT, ALLEGRO_KEY_RSHIFT],
+
+  nextUnit = [ALLEGRO_KEY_E],
+  prevUnit = [ALLEGRO_KEY_Q],
 }
 
 private enum {
@@ -102,6 +105,9 @@ class InputManager {
     bool confirm() { return keyPressed(Keymap.confirm); }
     bool cancel()  { return keyPressed(Keymap.cancel); }
     bool endTurn() { return keyPressed(Keymap.end); }
+
+    bool nextUnit() { return keyPressed(Keymap.nextUnit); }
+    bool prevUnit() { return keyPressed(Keymap.prevUnit); }
 
     bool speedScroll() { return keyHeld(Keymap.faster); }
   }
