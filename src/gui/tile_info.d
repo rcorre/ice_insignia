@@ -1,4 +1,4 @@
-module gui.tileinfo;
+module gui.tile_info;
 
 import std.string : format;
 import geometry.all;

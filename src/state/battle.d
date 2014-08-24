@@ -19,10 +19,12 @@ import gui.all;
 private enum {
   scrollSpeed = 12,       /// camera scroll rate (pixels/sec)
   battlerMoveSpeed = 250, /// battler move speed (pixels/sec)
-  tileInfoPos = cast(Vector2i) Vector2f(Settings.screenW * 0.9f, Settings.screenH * 0.9f),
   attackSpeed = 80,     /// movement rate of attack animation
   attackShiftDist = 8,  /// pixels to shift when showing attack
-  damageFlashTime = 0.1 /// duration of flash used to indicate damage
+  damageFlashTime = 0.1,/// duration of flash used to indicate damage
+
+  tileInfoPos    = cast(Vector2i) Vector2f(Settings.screenW * 0.9f, Settings.screenH * 0.9f),
+  battlerInfoPos = cast(Vector2i) Vector2f(Settings.screenW * 0.9f, Settings.screenH * 0.2f),
 }
 
 class Battle : GameState {
@@ -70,9 +72,16 @@ class Battle : GameState {
     auto tile = _tileCursor.tile;
     if (tile) {
       _tileInfoBox = new TileInfoBox(tileInfoPos, tile.name, tile.defense, tile.avoid);
+      if (tile.battler) {
+        _battlerInfoBox = new BattlerInfoBox(battlerInfoPos, tile.battler.name, tile.battler.hp, tile.battler.maxHp);
+      }
+      else {
+        _battlerInfoBox = null;
+      }
     }
     else {
       _tileInfoBox = null;
+      _battlerInfoBox = null;
     }
     return null;
   }
@@ -90,6 +99,9 @@ class Battle : GameState {
     if (_tileInfoBox) {
       _tileInfoBox.draw();
     }
+    if (_battlerInfoBox) {
+      _battlerInfoBox.draw();
+    }
   }
 
   override void onExit() {
@@ -106,6 +118,7 @@ class Battle : GameState {
   Battler[] _neutrals;
   State _state;
   TileInfoBox _tileInfoBox;
+  BattlerInfoBox _battlerInfoBox;
   int _cursorRow, _cursorCol;
   TileCursor _tileCursor;
 

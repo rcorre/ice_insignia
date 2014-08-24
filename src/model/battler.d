@@ -34,6 +34,7 @@ class Battler {
     ref int col() { return _col; }
     ref Vector2i pos() { return _pos; }
     Character character() { return _character; }
+    ref int hp() { return _hp; }
 
     bool moved() { return _moved; }
     void moved(bool val) {
