@@ -1,9 +1,14 @@
 module gui.combat_view;
 
 import std.string : format;
+import std.algorithm : reduce;
 import geometry.all;
 import graphics.all;
 import state.combat_calc;
+
+private enum {
+  separatorWidth = 150 /// distance between attack and counter info
+}
 
 class CombatView {
   this(Vector2i pos, CombatPrediction attack, CombatPrediction counter) {
@@ -21,15 +26,19 @@ class CombatView {
       format("Hit    : %d", counter.hit),
       format("Crit   : %d", counter.crit)
     ];
+    auto width  = separatorWidth + reduce!((total, text) => max(total, _font.widthOf(text)))(0, _attackInfo);
+    auto height = reduce!((total, text) => total + _font.heightOf(text))(0, _attackInfo);
+    _area = Rect2i(pos.x, pos.y, width, height);
   }
 
   void draw() {
-    _font.draw(_attackInfo, _pos);
-    _font.draw(_counterInfo, _pos + Vector2i.UnitX * 150);
+    _area.drawFilled;
+    _font.draw(_attackInfo, _area.topLeft);
+    _font.draw(_counterInfo, _area.topLeft + Vector2i.UnitX * separatorWidth);
   }
 
   private:
-  Vector2i _pos;
+  Rect2i _area;
   string[] _attackInfo, _counterInfo;
   static Font _font ;
 
