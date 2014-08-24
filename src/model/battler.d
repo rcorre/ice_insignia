@@ -1,5 +1,6 @@
 module model.battler;
 
+import std.algorithm : max;
 import std.math : abs;
 import allegro;
 import geometry.all;
@@ -7,7 +8,8 @@ import graphics.all;
 import model.character;
 
 private enum {
-  movedTint = Color(0.6,0.6,0.6,0.9)
+  movedTint = Color(0.6,0.6,0.6,0.9),
+  damageFlashTime = 0.1,/// duration of flash used to indicate damage
 }
 
 enum BattleTeam {
@@ -35,7 +37,7 @@ class Battler {
     ref int col() { return _col; }
     ref Vector2i pos() { return _pos; }
     Character character() { return _character; }
-    ref int hp() { return _hp; }
+    int hp() { return _hp; }
 
     bool moved() { return _moved; }
     void moved(bool val) {
@@ -51,6 +53,11 @@ class Battler {
 
   void passTurn() {
     _moved = false;
+  }
+
+  void dealDamage(int amount) {
+    _sprite.flash(damageFlashTime, Color.black);
+    _hp = max(_hp - amount, 0);
   }
 
   bool canAttack(Battler other) {

@@ -6,7 +6,7 @@ import gui.progress_bar;
 
 private enum {
   width = 100,
-  height = 60,
+  height = 40,
   bgColor = Color(0.5, 0, 0, 0.5),
   healthFg = Color(1.0, 1.0, 0, 0.8),
   healthBg = Color(0.5, 0.5, 0.5, 0.8),
@@ -22,7 +22,7 @@ class BattlerInfoBox {
   }
 
   void draw() {
-    _area.drawFilled();
+    _area.drawFilled(bgColor);
     _font.draw(_name, _area.topLeft);
     _healthBar.draw();
   }

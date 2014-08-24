@@ -21,7 +21,6 @@ private enum {
   battlerMoveSpeed = 250, /// battler move speed (pixels/sec)
   attackSpeed = 80,     /// movement rate of attack animation
   attackShiftDist = 8,  /// pixels to shift when showing attack
-  damageFlashTime = 0.1,/// duration of flash used to indicate damage
 
   tileInfoPos    = cast(Vector2i) Vector2f(Settings.screenW * 0.9f, Settings.screenH * 0.9f),
   battlerInfoPos = cast(Vector2i) Vector2f(Settings.screenW * 0.1f, Settings.screenH * 0.9f),
@@ -400,8 +399,9 @@ class Battle : GameState {
   class ExecuteCombat : State {
     this(CombatResult[] attacks, Battler initialAttacker) {
       _attacks = attacks;
-      _attacker = attacks[0].attacker;
-      _defender = attacks[0].defender;
+      _result = attacks[0];
+      _attacker = _result.attacker;
+      _defender = _result.defender;
       auto attackDirection = (_defender.pos - _attacker.pos).normalized;
       _startPos = _attacker.pos;
       _endPos = _attacker.pos + attackDirection * attackShiftDist;
@@ -414,7 +414,9 @@ class Battle : GameState {
         _attacker.pos = _attacker.pos.movedTo(_endPos, _dist, _destReached);
         if (_destReached) {
           _dist = 0;
-          _defender.sprite.flash(damageFlashTime, Color.black);
+          if (_result.hit) {
+            _defender.dealDamage(_result.damageDealt);
+          }
         }
       }
       else {
@@ -436,6 +438,7 @@ class Battle : GameState {
 
     private:
     CombatResult[] _attacks;
+    CombatResult _result;
     Battler _attacker, _defender;
     Battler _initialAttacker;
     Vector2i _startPos, _endPos;
