@@ -76,7 +76,10 @@ class Sprite {
     auto size() { return Vector2i(width, height); }
     /// tint color of the sprite
     auto tint()                    { return _tint; }
-    auto tint(Color color) { return _tint = color; }
+    auto tint(Color color) { 
+      _totalFlashTime = 0;
+      return _tint = color; 
+    }
     /// get the rotation angle of the sprite (radians)
     auto angle()            { return _angle; }
     auto angle(float angle) { return _angle = angle; }
