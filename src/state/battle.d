@@ -19,8 +19,8 @@ import gui.all;
 private enum {
   scrollSpeed = 12,       /// camera scroll rate (pixels/sec)
   battlerMoveSpeed = 250, /// battler move speed (pixels/sec)
-  attackSpeed = 80,     /// movement rate of attack animation
-  attackShiftDist = 8,  /// pixels to shift when showing attack
+  attackSpeed = 8,        /// movement rate of attack animation
+  attackShiftDist = 8,    /// pixels to shift when showing attack
 
   tileInfoPos    = cast(Vector2i) Vector2f(Settings.screenW * 0.9f, Settings.screenH * 0.9f),
   battlerInfoPos = cast(Vector2i) Vector2f(Settings.screenW * 0.1f, Settings.screenH * 0.9f),
@@ -403,35 +403,24 @@ class Battle : GameState {
       _attacker = _result.attacker;
       _defender = _result.defender;
       auto attackDirection = (_defender.pos - _attacker.pos).normalized;
-      _startPos = _attacker.pos;
-      _endPos = _attacker.pos + attackDirection * attackShiftDist;
       _initialAttacker = initialAttacker;
+      _attacker.sprite.shift(attackDirection * attackShiftDist, attackSpeed);
     }
 
     override State update(float time) {
-      if (!_destReached) {
-        _dist += attackSpeed * time;
-        _attacker.pos = _attacker.pos.movedTo(_endPos, _dist, _destReached);
-        if (_destReached) {
-          _dist = 0;
-          if (_result.hit) {
-            _defender.dealDamage(_result.damageDealt);
-          }
-        }
+      if (_attacker.sprite.isJiggling) { return null; }
+
+      if (_result.hit) {
+        _defender.dealDamage(_result.damageDealt);
+      }
+
+      _attacks.popFront;
+      if (_attacks.empty || !_attacker.alive || !_defender.alive) { // no attacks left to show
+        _initialAttacker.moved = true; // end attacker's turn
+        return new PlayerTurn;
       }
       else {
-        _dist += attackSpeed * time;
-        _attacker.pos = _attacker.pos.movedTo(_startPos, _dist, _returned);
-        if (_returned) {
-          _attacks.popFront;
-          if (_attacks.empty || !_attacker.alive || !_defender.alive) { // no attacks left to show
-            _initialAttacker.moved = true; // end attacker's turn
-            return new PlayerTurn;
-          }
-          else {
-            return new ExecuteCombat(_attacks, _initialAttacker);
-          }
-        }
+        return new ExecuteCombat(_attacks, _initialAttacker);
       }
       return null;
     }
@@ -441,9 +430,6 @@ class Battle : GameState {
     CombatResult _result;
     Battler _attacker, _defender;
     Battler _initialAttacker;
-    Vector2i _startPos, _endPos;
-    bool _destReached, _returned;
-    float _dist = 0;
   }
 
   private class TileCursor {

@@ -47,8 +47,8 @@ class Sprite {
     _colorSpectrum = [_tint, color];
   }
 
-  void jiggle(Vector2i offset, float frequency, int repetitions) {
-    _jiggleEffect = JiggleEffect(Vector2i.Zero, offset, frequency, repetitions);
+  void shift(Vector2i offset, float speed) {
+    _jiggleEffect = JiggleEffect(Vector2i.Zero, offset, speed, 1);
   }
 
   void update(float time) {
@@ -68,6 +68,12 @@ class Sprite {
 
   void draw(Vector2i pos) {
     auto adjustedPos = pos + _jiggleEffect.offset;
+    debug {
+      import std.stdio;
+      if (_jiggleEffect.active) {
+      writeln(_jiggleEffect.offset, adjustedPos);
+      }
+    }
     _texture.draw(_row, _col, adjustedPos, totalScale, _tint, _angle);
   }
 
@@ -94,6 +100,8 @@ class Sprite {
     auto scale(float scale) { return _scaleFactor = scale; }
     /// the total scale factor from the original image
     auto totalScale() { return _scaleFactor * _baseScale; }
+
+    bool isJiggling() { return _jiggleEffect.active; }
   }
 
   protected:
@@ -117,7 +125,7 @@ struct JiggleEffect {
   this(Vector2i start, Vector2i end, float frequency, int repetitions) {
     assert(frequency > 0, "cannot jiggle sprite with frequency <= 0");
     _start = start;
-    _end = _end;
+    _end = end;
     _period = 1 / frequency;
     _repetitions = repetitions;
   }
@@ -130,25 +138,29 @@ struct JiggleEffect {
     }
   }
 
-  @property Vector2i offset() {
-    if (_repetitions <= 0) {
-      return Vector2i.Zero;
-    }
-    else if (_lerpFactor < 1) {
-      return lerp(_start, _end, _lerpFactor);
-    }
-    else if (_lerpFactor < 2) {
-      return lerp(_end, _start, _lerpFactor - 1);
-    }
-    else {
-      assert(0, "internal failure : _lerpFactor > 2");
+  @property {
+    bool active() { return _repetitions > 0; }
+
+    Vector2i offset() {
+      if (!active) {
+        return Vector2i.Zero;
+      }
+      else if (_lerpFactor <= 1) {
+        return lerp(_start, _end, _lerpFactor);
+      }
+      else if (_lerpFactor <= 2) {
+        return lerp(_end, _start, _lerpFactor - 1);
+      }
+      else {
+        assert(0, "internal failure : _lerpFactor > 2");
+      }
     }
   }
 
   private:
   Vector2i _start, _end;
   float _period;
-  float _lerpFactor;
+  float _lerpFactor = 0;
   int _repetitions = 0;
 }
 
