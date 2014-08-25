@@ -1,6 +1,7 @@
 module geometry.rectangle;
 
 import geometry.vector;
+import util.math : clamp;
 
 alias Rect2i = Rect2!int;
 alias Rect2f = Rect2!float;
@@ -28,6 +29,12 @@ struct Rect2(T) {
   }
 
   @property {
+    T top()      { return y; }
+    T top(T val) { return y = val; }
+
+    T left()      { return x; }
+    T left(T val) { return x = val; }
+
     T bottom()      { return y + height; }
     T bottom(T val) { return y = val - height; }
 
@@ -78,6 +85,11 @@ struct Rect2(T) {
     if (right  > bounds.right)  { right = bounds.right; }
     if (bottom > bounds.bottom) { bottom = bounds.bottom; }
   }
+}
+
+void keepInside(T)(ref Vector2!T point, Rect2!T area) {
+  point.x = clamp(point.x, area.left, area.right);
+  point.y = clamp(point.y, area.top, area.bottom);
 }
 
 // int rects

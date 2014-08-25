@@ -3,6 +3,17 @@ module util.math;
 import std.math : ceil, floor;
 import std.algorithm : min, max;
 
+/// add amount to start, but don't let it go past end
+T approach(T, U, V)(T start, U end, V amount) {
+  if (start < end) {
+    return cast(T) min(start + amount, end);
+  }
+  else {
+    return cast(T) max(start + amount, end);
+  }
+}
+
+/// keep val between lower and upper
 T clamp(T, U, V)(T val, U lower, V upper) if (is(typeof(min(V.init, max(U.init, T.init))) : T)) {
   return min(upper, max(lower, val));
 }

@@ -19,11 +19,13 @@ import gui.all;
 private enum {
   scrollSpeed = 12,       /// camera scroll rate (pixels/sec)
   battlerMoveSpeed = 250, /// battler move speed (pixels/sec)
-  attackSpeed = 8,        /// movement rate of attack animation
+  attackSpeed = 12,       /// movement rate of attack animation
   attackShiftDist = 8,    /// pixels to shift when showing attack
 
   tileInfoPos    = cast(Vector2i) Vector2f(Settings.screenW * 0.9f, Settings.screenH * 0.9f),
   battlerInfoPos = cast(Vector2i) Vector2f(Settings.screenW * 0.1f, Settings.screenH * 0.9f),
+
+  battleInfoOffset = 80
 }
 
 class Battle : GameState {
@@ -49,8 +51,8 @@ class Battle : GameState {
     _battlers = _enemies ~ _allies ~ _neutrals;
     _camera = Rect2i(0, 0, Settings.screenW, Settings.screenH);
     _input = new InputManager;
-    _state = new PlayerTurn;
     _tileCursor = new TileCursor;
+    _state = new PlayerTurn;
   }
 
   override GameState update(float time) {
@@ -58,7 +60,7 @@ class Battle : GameState {
     _tileCursor.update(time);
 
     foreach(battler ; _battlers) {
-      battler.sprite.update(time);
+      battler.update(time);
     }
 
     auto newState = _state.update(time);
@@ -91,10 +93,12 @@ class Battle : GameState {
       auto sprite = battler.sprite;
       auto rect = Rect2i.CenteredAt(battler.pos, sprite.width, sprite.height);
       if (_camera.intersects(rect)) {
-        sprite.draw(rect.center - _camera.topLeft);
+        battler.draw(_camera.topLeft);
       }
     }
     _state.draw();
+
+    _tileCursor.draw();
     if (_tileInfoBox) {
       _tileInfoBox.draw();
     }
@@ -141,6 +145,7 @@ class Battle : GameState {
       auto moveableAllies = _allies.filter!"!a.moved";
       _turnOver = moveableAllies.empty;
       _unitJumpList = cycle(array(moveableAllies));
+      _tileCursor.active = true;
     }
 
     override State update(float time) {
@@ -170,10 +175,6 @@ class Battle : GameState {
       return null;
     }
 
-    override void draw() {
-      _tileCursor.draw();
-    }
-
     private:
     bool _turnOver;
     uint _unitJumpIdx;
@@ -196,6 +197,7 @@ class Battle : GameState {
       if (tile) {
         _selectedPath = _pathFinder.pathTo(tile);
         if (_selectedPath && _input.confirm) {
+          _tileCursor.active = false;
           return new MoveBattler(_battler, _tile, _selectedPath);
         }
       }
@@ -206,7 +208,6 @@ class Battle : GameState {
     }
 
     override void draw() {
-      _tileCursor.draw();
       foreach (tile ; _pathFinder.tilesInRange) {
         auto pos = _map.tileToPos(tile) - _camera.topLeft;
         _tileHighlight.draw(pos);
@@ -403,6 +404,8 @@ class Battle : GameState {
       _attacker = _result.attacker;
       _defender = _result.defender;
       _initialAttacker = initialAttacker;
+      showBattlerInfo(_attacker, _defender);
+      showBattlerInfo(_defender, _attacker);
     }
 
     override State update(float time) {
@@ -415,20 +418,25 @@ class Battle : GameState {
         _started = true;
       }
 
-      if (_attacker.sprite.isJiggling || _defender.sprite.isFlashing) {
+      if (_attacker.sprite.isJiggling || _defender.sprite.isFlashing || _attacker.isHpTransitioning ||
+          _defender.isHpTransitioning) 
+      {
         return null;
       }
 
       _attacks.popFront;
       if (_attacks.empty || !_attacker.alive || !_defender.alive) { // no attacks left to show
+        _attacker.hideInfoBox;
+        _defender.hideInfoBox;
         _initialAttacker.moved = true; // end attacker's turn
         return new PlayerTurn;
       }
       else {
-        return new Wait(0.4, new ExecuteCombat(_attacks, _initialAttacker));
+        return new ExecuteCombat(_attacks, _initialAttacker);
       }
       return null;
     }
+
 
     private:
     CombatResult[] _attacks;
@@ -436,6 +444,12 @@ class Battle : GameState {
     Battler _attacker, _defender;
     Battler _initialAttacker;
     bool _started;
+
+    void showBattlerInfo(Battler b, Battler other) {
+      Vector2i offset = (b.pos - other.pos).normalized * battleInfoOffset;
+
+      b.showInfoBox(b.pos - _camera.topLeft + offset);
+    }
   }
 
   class Wait : State {
@@ -458,13 +472,16 @@ class Battle : GameState {
   }
 
   private class TileCursor {
+    bool active;
+
     this() {
       _sprite = new AnimatedSprite("target", shade);
+      active = true;
     }
 
     /// tile under cursor
     @property {
-      Tile tile() { return _map.tileAt(_row, _col); }
+      Tile tile() { return active ? _map.tileAt(_row, _col) : null; }
 
       int left()   { return cast(int) (_pos.x - _map.tileWidth / 2); }
       int right()  { return cast(int) (_pos.x + _map.tileWidth / 2); }
@@ -473,10 +490,13 @@ class Battle : GameState {
     }
 
     void update(float time) {
-      _sprite.update(time);
+      if (active) {
+        _sprite.update(time);
+      }
     }
 
     void handleInput(InputManager input) {
+      if (!active) { return; }
       Vector2i direction;
       if (input.scrollDirection == Vector2i.Zero) {
         _pos = _map.tileCoordToPos(_row, _col);
@@ -502,7 +522,9 @@ class Battle : GameState {
     }
 
     void draw() {
-      _sprite.draw(cast(Vector2i)_pos - _camera.topLeft);
+      if (active) {
+        _sprite.draw(cast(Vector2i)_pos - _camera.topLeft);
+      }
     }
 
     void place(Tile tile) {

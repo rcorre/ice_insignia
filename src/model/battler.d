@@ -5,6 +5,8 @@ import std.math : abs;
 import allegro;
 import geometry.all;
 import graphics.all;
+import util.math;
+import gui.battler_info;
 import model.character;
 
 private enum {
@@ -12,8 +14,8 @@ private enum {
   damageFlashTime = 0.22,/// duration of flash used to indicate damage
   fadeTime = 0.5,/// duration of flash used to indicate damage
   damageFlashColor = Color(0.5, 0, 0),
-  fadeSpectrum = [Color.red, Color.clear]
-
+  fadeSpectrum = [Color.red, Color.clear],
+  hpTransitionTime = 1
 }
 
 enum BattleTeam {
@@ -53,10 +55,33 @@ class Battler {
         _sprite.tint = val ? movedTint : Color.white;
       }
     }
+
+    BattlerInfoBox infoBox() { return _infoBox; }
+    bool isHpTransitioning() { return _infoBox.healthBar.isTransitioning; }
   }
 
-  void draw() {
-    _sprite.draw(pos);
+  void update(float time) {
+    _sprite.update(time);
+    if (_infoBox) {
+      _infoBox.update(time);
+    }
+  }
+
+  void draw(Vector2i offset) {
+    _sprite.draw(pos - offset);
+    if (_infoBox) {
+      _infoBox.draw();
+    }
+  }
+
+  void showInfoBox(Vector2i pos) {
+    if (_infoBox is null) {
+      _infoBox = new BattlerInfoBox(pos, name, _hp, maxHp);
+    }
+  }
+
+  void hideInfoBox() {
+    _infoBox = null;
   }
 
   void passTurn() {
@@ -64,10 +89,13 @@ class Battler {
   }
 
   void dealDamage(int amount) {
-    _sprite.flash(damageFlashTime, damageFlashColor);
+    amount = amount.clamp(0, _hp);
+    if (amount > 0) {
+      _sprite.flash(damageFlashTime, damageFlashColor);
+      _infoBox.healthBar.transition(_hp, _hp - amount, hpTransitionTime);
+    }
     _hp -= amount;
     if (_hp <= 0) {
-      _hp = 0;
       _sprite.fade(fadeTime, fadeSpectrum);
     }
   }
@@ -86,4 +114,5 @@ class Battler {
   Character _character;
   int _hp;
   bool _moved;
+  BattlerInfoBox _infoBox;
 }

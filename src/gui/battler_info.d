@@ -21,6 +21,12 @@ class BattlerInfoBox {
     _healthBar = new ProgressBar!int(healthArea, hp, maxHp, healthFg, healthBg);
   }
 
+  @property auto healthBar() { return _healthBar; }
+
+  void update(float time) {
+    _healthBar.update(time);
+  }
+
   void draw() {
     _area.drawFilled(bgColor);
     _font.draw(_name, _area.topLeft);
