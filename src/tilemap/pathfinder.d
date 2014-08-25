@@ -34,6 +34,7 @@ class PathFinder {
       tiles ~= idxToTile(idx);
       idx = _prev[idx];
     }
+    tiles ~= _start;
     return tiles.reverse;
   }
 
