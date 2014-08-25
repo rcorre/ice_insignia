@@ -402,16 +402,21 @@ class Battle : GameState {
       _result = attacks[0];
       _attacker = _result.attacker;
       _defender = _result.defender;
-      auto attackDirection = (_defender.pos - _attacker.pos).normalized;
       _initialAttacker = initialAttacker;
-      _attacker.sprite.shift(attackDirection * attackShiftDist, attackSpeed);
     }
 
     override State update(float time) {
-      if (_attacker.sprite.isJiggling) { return null; }
+      if (!_started) {
+        auto attackDirection = (_defender.pos - _attacker.pos).normalized;
+        _attacker.sprite.shift(attackDirection * attackShiftDist, attackSpeed);
+        if (_result.hit) {
+          _defender.dealDamage(_result.damageDealt);
+        }
+        _started = true;
+      }
 
-      if (_result.hit) {
-        _defender.dealDamage(_result.damageDealt);
+      if (_attacker.sprite.isJiggling || _defender.sprite.isFlashing) {
+        return null;
       }
 
       _attacks.popFront;
@@ -420,7 +425,7 @@ class Battle : GameState {
         return new PlayerTurn;
       }
       else {
-        return new ExecuteCombat(_attacks, _initialAttacker);
+        return new Wait(0.4, new ExecuteCombat(_attacks, _initialAttacker));
       }
       return null;
     }
@@ -430,6 +435,26 @@ class Battle : GameState {
     CombatResult _result;
     Battler _attacker, _defender;
     Battler _initialAttacker;
+    bool _started;
+  }
+
+  class Wait : State {
+    this(float time, State nextState) {
+      _timer = time;
+      _nextState = nextState;
+    }
+
+    override State update(float time) {
+      _timer -= time;
+      if (_timer < 0) {
+        return _nextState;
+      }
+      return null;
+    }
+
+    private:
+    float _timer;
+    State _nextState;
   }
 
   private class TileCursor {

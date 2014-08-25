@@ -47,6 +47,12 @@ class Sprite {
     _colorSpectrum = [_tint, color];
   }
 
+  void fade(float time, Color[] colors) {
+    _flashTimer = 0;
+    _totalFlashTime = time;
+    _colorSpectrum = _tint ~ colors; // append current color to start of spectrum
+  }
+
   void shift(Vector2i offset, float speed) {
     _jiggleEffect = JiggleEffect(Vector2i.Zero, offset, speed, 1);
   }
@@ -68,12 +74,6 @@ class Sprite {
 
   void draw(Vector2i pos) {
     auto adjustedPos = pos + _jiggleEffect.offset;
-    debug {
-      import std.stdio;
-      if (_jiggleEffect.active) {
-      writeln(_jiggleEffect.offset, adjustedPos);
-      }
-    }
     _texture.draw(_row, _col, adjustedPos, totalScale, _tint, _angle);
   }
 
@@ -102,6 +102,7 @@ class Sprite {
     auto totalScale() { return _scaleFactor * _baseScale; }
 
     bool isJiggling() { return _jiggleEffect.active; }
+    bool isFlashing() { return _totalFlashTime > 0; }
   }
 
   protected:

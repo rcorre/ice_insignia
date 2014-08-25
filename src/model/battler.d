@@ -9,8 +9,11 @@ import model.character;
 
 private enum {
   movedTint = Color(0.6,0.6,0.6,0.9),
-  damageFlashTime = 0.2,/// duration of flash used to indicate damage
-  fadeTime = 0.2,/// duration of flash used to indicate damage
+  damageFlashTime = 0.22,/// duration of flash used to indicate damage
+  fadeTime = 0.5,/// duration of flash used to indicate damage
+  damageFlashColor = Color(0.5, 0, 0),
+  fadeSpectrum = [Color.red, Color.clear]
+
 }
 
 enum BattleTeam {
@@ -61,11 +64,11 @@ class Battler {
   }
 
   void dealDamage(int amount) {
-    _sprite.flash(damageFlashTime, Color.black);
+    _sprite.flash(damageFlashTime, damageFlashColor);
     _hp -= amount;
     if (_hp <= 0) {
       _hp = 0;
-      _sprite.fade(fadeTime, Color.clear);
+      _sprite.fade(fadeTime, fadeSpectrum);
     }
   }
 
