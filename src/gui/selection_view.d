@@ -42,7 +42,8 @@ class SelectionView {
   void handleInput(InputManager input) {
     if (input.selectUp) { --_cursorIdx; }
     else if (input.selectDown) { ++_cursorIdx; }
-    _cursorIdx %= _selections.length;
+    // add length so negative values wrap
+    _cursorIdx = cast(int) ((_cursorIdx + _selections.length) % _selections.length);
 
     if (input.confirm) {
       _selections[_cursorIdx].onClick();
