@@ -181,11 +181,11 @@ class Battle : GameState {
       else if (_input.inspect) {
         auto pos = Vector2i(Settings.screenW / 2, Settings.screenH / 2);
         auto battlerToInspect = _tileCursor.tile.battler;
-        if (battlerToInspect) {
-          _characterSheet = new CharacterSheet(battlerToInspect);
-        }
-        else {
+        if (_characterSheet) {
           _characterSheet = null;
+        }
+        else if (battlerToInspect) {
+          _characterSheet = new CharacterSheet(battlerToInspect);
         }
       }
       else if (_input.cancel) {
