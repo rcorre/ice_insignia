@@ -6,8 +6,9 @@ import graphics.all;
 import geometry.all;
 
 class ProgressBar(T : real) {
-  this(Rect2i area, T currentVal, T maxVal, Color fgColor, Color bgColor = Color.clear, Color textColor = Color.black,
-      Font font = defaultFont, string fmt = "%d/%d")
+  this(Rect2i area, T currentVal, T maxVal, Color fgColor, Color bgColor = Color.clear,
+      Color textColor = Color.black, int rx = 0, int ry = 0, Font font = defaultFont,
+      string fmt = "%d/%d")
   {
     _area = area;
     _filledArea = _area;
@@ -17,6 +18,8 @@ class ProgressBar(T : real) {
     _fgColor = fgColor;
     _bgColor = bgColor;
     _textColor = textColor;
+    _rx = rx;
+    _ry = ry;
     val = currentVal;
   }
 
@@ -48,13 +51,14 @@ class ProgressBar(T : real) {
   }
 
   void draw() {
-    _area.drawFilled(_bgColor);
-    _filledArea.drawFilled(_fgColor);
+    _area.drawFilled(_bgColor, _rx, _ry);
+    _filledArea.drawFilled(_fgColor, _rx, _ry);
     _font.draw(_text, _area.topLeft, _textColor);
   }
 
   private:
-  Rect2i _area;       /// total bar
+  Rect2i _area; /// total bar
+  int _rx, _ry;   /// rounding radius
   T _maxVal, _val;
   string _format;
   Font _font;
