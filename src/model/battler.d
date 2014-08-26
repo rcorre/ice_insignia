@@ -47,7 +47,7 @@ class Battler {
 
     bool alive() { return _hp > 0; }
 
-    bool moved() { return _moved; }
+    bool moved() { return _moved || !alive; }
     void moved(bool val) {
       if (alive) {
         _moved = val;

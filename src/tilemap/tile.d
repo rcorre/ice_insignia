@@ -31,7 +31,10 @@ class Tile {
     int defense() { return _defense; }
     int avoid() { return _avoid; }
 
-    Battler battler() { return _battler; }
+    Battler battler() { 
+      if (_battler && !_battler.alive) { _battler = null; } // remove battler if not alive
+      return _battler; 
+    }
     void battler(Battler b) {
       assert(_battler is null || b is null, format("tile at %d,%d is already occupied", row, col));
       _battler = b;
