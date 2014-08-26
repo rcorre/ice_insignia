@@ -7,6 +7,22 @@ import model.battler;
 import model.item;
 import tilemap.tile;
 
+CombatResult[] constructAttackSeries(CombatPrediction attack, CombatPrediction counter) {
+  auto attacker = attack.attacker;
+  auto defender = attack.defender;
+  CombatResult[] attacks = [attack.resolve()];
+  if (defender.canAttack(attacker)) {
+    attacks ~= counter.resolve();
+  }
+  if (attack.doubleHit) {
+    attacks ~= attack.resolve();
+  }
+  else if (defender.canAttack(attacker) && counter.doubleHit) {
+    attacks ~= counter.resolve();
+  }
+  return attacks;
+}
+
 class CombatPrediction {
   this(Battler attacker, Battler defender, Tile defenderTerrain) {
     this.attacker = attacker;

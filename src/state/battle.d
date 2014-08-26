@@ -2,12 +2,14 @@ module state.battle;
 
 import std.array;
 import std.math;
-import std.range : Cycle, cycle;
+import std.range;
 import std.typecons : tuple;
 import std.algorithm : map, all;
 import allegro;
 import state.gamestate;
 import state.combat_calc;
+import state.ai;
+import state.agressive_ai;
 import tilemap.all;
 import geometry.all;
 import util.input;
@@ -154,7 +156,7 @@ class Battle : GameState {
         foreach(battler ; _allies) {
           battler.moved = false;
         }
-        return new PlayerTurn; // TODO: enemy turn
+        return new EnemyTurn;
       }
 
       _cursorRow = clamp(_cursorRow + _input.scrollDirection.y, 0, _map.numRows - 1);
@@ -351,17 +353,8 @@ class Battle : GameState {
 
     override State update(float time) {
       if (_input.confirm) {
-        CombatResult[] attacks = [_attack.resolve()];
-        if (_defender.canAttack(_attacker)) {
-          attacks ~= _counter.resolve();
-        }
-        if (_attack.doubleHit) {
-          attacks ~= _attack.resolve();
-        }
-        else if (_defender.canAttack(_attacker) && _counter.doubleHit) {
-          attacks ~= _counter.resolve();
-        }
-        return new ExecuteCombat(attacks, _attacker);
+        auto series = constructAttackSeries(_attack, _counter);
+        return new ExecuteCombat(series, _attacker);
       }
       else if (_input.selectLeft) {
         _targetIdx = (_targetIdx - 1) % _targets.length;
@@ -419,7 +412,7 @@ class Battle : GameState {
       }
 
       if (_attacker.sprite.isJiggling || _defender.sprite.isFlashing || _attacker.isHpTransitioning ||
-          _defender.isHpTransitioning) 
+          _defender.isHpTransitioning)
       {
         return null;
       }
@@ -432,11 +425,10 @@ class Battle : GameState {
         return new PlayerTurn;
       }
       else {
-        return new ExecuteCombat(_attacks, _initialAttacker);
+        return new Wait(1, new ExecuteCombat(_attacks, _initialAttacker));
       }
       return null;
     }
-
 
     private:
     CombatResult[] _attacks;
@@ -469,6 +461,50 @@ class Battle : GameState {
     private:
     float _timer;
     State _nextState;
+  }
+
+  class EnemyTurn : State {
+    this() {
+      auto findReady = _enemies.find!"!a.moved";
+      if (findReady.empty) { // no unmoved enemies -- player turn
+        _battler = null;
+      }
+      else {
+        _battler = findReady.front;
+        _behavior = new AgressiveAI(_battler, _map, _allies, _enemies);
+      }
+    }
+
+    override State update(float time) {
+      if (_battler is null) {
+        foreach(enemy ; _enemies) {
+          enemy.moved = false;
+        }
+        return new PlayerTurn;
+      }
+
+      auto selfTerrain = _map.tileAt(_battler.row, _battler.col);
+      auto target = _behavior.attackRequest;
+      if (target) {
+        auto targetTerrain = _map.tileAt(target.row, target.col);
+        auto attack  = new CombatPrediction(_battler, target, targetTerrain);
+        auto counter = new CombatPrediction(_battler, target, targetTerrain);
+        auto series = constructAttackSeries(attack, counter);
+        return new ExecuteCombat(series, _battler);
+      }
+
+      auto path = _behavior.moveRequest;
+      if (path) {
+        return new MoveBattler(_battler, selfTerrain, path);
+      }
+
+      _battler.moved = true; // skip turn
+      return new Wait(1, new EnemyTurn);
+    }
+
+    private:
+    Battler _battler;
+    Behavior _behavior;
   }
 
   private class TileCursor {

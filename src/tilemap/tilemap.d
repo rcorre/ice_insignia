@@ -59,7 +59,8 @@ class TileMap {
     return _tiles[row][col];
   }
 
-  Tile[] neighbors(Tile tile) {
+  Tile[] neighbors(Tile tile, int range = 1) {
+    if (range > 1) { assert("neighbors not implemented with range > 1"); }
     Tile[] list;
     int row = tile.row;
     int col = tile.col;
