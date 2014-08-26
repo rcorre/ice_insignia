@@ -28,8 +28,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.4766667"
-     inkscape:cx="379.03384"
-     inkscape:cy="306.70268"
+     inkscape:cx="487.9928"
+     inkscape:cy="524.44639"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -57,7 +57,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -337,8 +337,8 @@
          y="531.85187">Lv</tspan></text>
     <rect
        ry="8"
-       y="668.36218"
-       x="288"
+       y="828.36218"
+       x="544"
        height="32"
        width="160"
        id="rect3915"
@@ -346,12 +346,12 @@
     <text
        sodipodi:linespacing="125%"
        id="text3917"
-       y="691.85187"
-       x="292.28232"
+       y="851.85187"
+       x="548.28235"
        style="font-size:21.19750977px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Monospace;-inkscape-font-specification:Monospace"
        xml:space="preserve"><tspan
-         y="691.85187"
-         x="292.28232"
+         y="851.85187"
+         x="548.28235"
          id="tspan3919"
          sodipodi:role="line">Dmg</tspan></text>
     <rect
@@ -359,24 +359,24 @@
        id="rect3921"
        width="160"
        height="32"
-       x="288"
-       y="700.36218"
+       x="544"
+       y="860.36218"
        ry="8" />
     <text
        xml:space="preserve"
        style="font-size:21.19750977px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Monospace;-inkscape-font-specification:Monospace"
-       x="292.28232"
-       y="725.03473"
+       x="548.28235"
+       y="885.03473"
        id="text3923"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3925"
-         x="292.28232"
-         y="725.03473">Hit</tspan></text>
+         x="548.28235"
+         y="885.03473">Hit</tspan></text>
     <rect
        ry="8"
-       y="732.36218"
-       x="288"
+       y="892.36218"
+       x="544"
        height="32"
        width="160"
        id="rect3927"
@@ -384,12 +384,12 @@
     <text
        sodipodi:linespacing="125%"
        id="text3929"
-       y="757.03473"
-       x="292.28232"
+       y="917.03473"
+       x="548.28235"
        style="font-size:21.19750977px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Monospace;-inkscape-font-specification:Monospace"
        xml:space="preserve"><tspan
-         y="757.03473"
-         x="292.28232"
+         y="917.03473"
+         x="548.28235"
          id="tspan3931"
          sodipodi:role="line">Crt</tspan></text>
     <rect
@@ -397,20 +397,20 @@
        id="rect3933"
        width="160"
        height="32"
-       x="288"
-       y="764.36218"
+       x="544"
+       y="924.36218"
        ry="8" />
     <text
        xml:space="preserve"
        style="font-size:21.19750977px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Monospace;-inkscape-font-specification:Monospace"
-       x="292.28232"
-       y="789.03473"
+       x="548.28235"
+       y="949.03473"
        id="text3935"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3937"
-         x="292.28232"
-         y="789.03473">Avo</tspan></text>
+         x="548.28235"
+         y="949.03473">Avo</tspan></text>
     <rect
        style="opacity:0.8;fill:none;stroke:#2b1100;stroke-width:3.05505037;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
        id="rect3939"
