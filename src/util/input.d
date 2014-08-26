@@ -71,8 +71,8 @@ class InputManager {
   }
 
   @property {
-    Vector2i scrollDirection() {
-      Vector2i scroll;
+    Vector2f scrollDirection() {
+      Vector2f scroll = Vector2f.Zero;
       if (keyHeld(Keymap.up)) {
         scroll.y = -1;
       }
@@ -85,7 +85,7 @@ class InputManager {
       else if (keyHeld(Keymap.right)) {
         scroll.x = 1;
       }
-      return scroll;
+      return scroll == Vector2f.Zero ? _gamePad.scrollDirection : scroll;
     }
     /*
     Vector2i scrollDirection() {
@@ -110,14 +110,13 @@ class InputManager {
     bool selectLeft()  { return keyPressed(Keymap.left); }
     bool selectRight() { return keyPressed(Keymap.right); }
 
-    bool confirm() { return keyPressed(Keymap.confirm) || _gamePad.buttonPressed(Button360.a); }
-    bool cancel()  { return keyPressed(Keymap.cancel); }
-    bool endTurn() { return keyPressed(Keymap.end); }
+    bool confirm() { return keyPressed(Keymap.confirm)   || _gamePad.pressed(Button360.a); }
+    bool cancel()  { return keyPressed(Keymap.cancel)    || _gamePad.pressed(Button360.b); }
+    bool endTurn() { return keyPressed(Keymap.end)       || _gamePad.pressed(Button360.x); }
+    bool inspect() { return keyPressed(Keymap.inspect)   || _gamePad.pressed(Button360.y); }
 
-    bool nextUnit() { return keyPressed(Keymap.nextUnit); }
-    bool prevUnit() { return keyPressed(Keymap.prevUnit); }
-
-    bool inspect() { return keyPressed(Keymap.inspect); }
+    bool nextUnit() { return keyPressed(Keymap.nextUnit) || _gamePad.pressed(Button360.rb); }
+    bool prevUnit() { return keyPressed(Keymap.prevUnit) || _gamePad.pressed(Button360.lb); }
 
     bool speedScroll() { return keyHeld(Keymap.faster); }
   }

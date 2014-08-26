@@ -159,8 +159,8 @@ class Battle : GameState {
         return new EnemyTurn;
       }
 
-      _cursorRow = clamp(_cursorRow + _input.scrollDirection.y, 0, _map.numRows - 1);
-      _cursorCol = clamp(_cursorCol + _input.scrollDirection.x, 0, _map.numCols - 1);
+      _cursorRow = cast(int) clamp(_cursorRow, 0, _map.numRows - 1);
+      _cursorCol = cast(int) clamp(_cursorCol, 0, _map.numCols - 1);
 
       // select unit under cursor
       if (_input.confirm) {
@@ -583,8 +583,8 @@ class Battle : GameState {
 
     void handleInput(InputManager input) {
       if (!active) { return; }
-      Vector2i direction;
-      if (input.scrollDirection == Vector2i.Zero) {
+      Vector2f direction;
+      if (input.scrollDirection == Vector2f.Zero) {
         _pos = _map.tileCoordToPos(_row, _col);
       }
       else if (input.speedScroll) {

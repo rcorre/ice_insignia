@@ -2,6 +2,8 @@ module util.gamepad;
 
 import allegro;
 import std.conv;
+import std.typecons;
+import geometry.all;
 
 enum Button360 {
   a           = 0,
@@ -18,6 +20,8 @@ enum Button360 {
 }
 
 class GamePad {
+  private enum deadZone = 0.2;
+
   this(int id) {
     _joystick = al_get_joystick(id);
   }
@@ -29,20 +33,27 @@ class GamePad {
     }
   }
 
-  bool buttonPressed(Button360 button) {
+  @property {
+    Vector2f scrollDirection() {
+      auto stick = _currentState.stick[0];
+      auto scroll = Vector2f(stick.axis[0], stick.axis[1]);
+      return (scroll.len < deadZone) ? Vector2f.Zero : scroll;
+    }
+  }
+
+  bool pressed(Button360 button) {
     return (_currentState.button[button] != 0) && (_prevState.button[button] == 0);
   }
 
-  bool buttonReleased(Button360 button) {
+  bool released(Button360 button) {
     return (_currentState.button[button] != 0) && (_prevState.button[button] == 0);
   }
 
-  bool buttonHeld(Button360 button) {
+  bool held(Button360 button) {
     return (_currentState.button[button] != 0);
   }
 
   private:
   ALLEGRO_JOYSTICK* _joystick;
   ALLEGRO_JOYSTICK_STATE _currentState, _prevState;
-
 }
