@@ -3,6 +3,7 @@ module util.input;
 import std.algorithm : max, min, any;
 import allegro;
 import geometry.vector;
+import util.gamepad;
 
 enum MouseKeymap {
   lmb = 1,
@@ -31,7 +32,12 @@ private enum {
 }
 
 class InputManager {
+  this() {
+    _gamePad = new GamePad(0);
+  }
+
   void update(float time) {
+    _gamePad.update(time);
     _prevKeyboardState = _curKeyboardState;
     _prevMouseState = _curMouseState;
     al_get_keyboard_state(&_curKeyboardState);
@@ -104,7 +110,7 @@ class InputManager {
     bool selectLeft()  { return keyPressed(Keymap.left); }
     bool selectRight() { return keyPressed(Keymap.right); }
 
-    bool confirm() { return keyPressed(Keymap.confirm); }
+    bool confirm() { return keyPressed(Keymap.confirm) || _gamePad.buttonPressed(Button360.a); }
     bool cancel()  { return keyPressed(Keymap.cancel); }
     bool endTurn() { return keyPressed(Keymap.end); }
 
@@ -142,5 +148,6 @@ class InputManager {
 
   ALLEGRO_KEYBOARD_STATE _curKeyboardState, _prevKeyboardState;
   ALLEGRO_MOUSE_STATE _curMouseState, _prevMouseState;
-}
 
+  GamePad _gamePad;
+}

@@ -57,6 +57,7 @@ static this() {
 
   al_install_keyboard();
   al_install_mouse();
+  al_install_joystick();
   al_init_image_addon();
   al_init_font_addon();
   al_init_ttf_addon();
@@ -66,6 +67,7 @@ static this() {
   al_register_event_source(event_queue, al_get_keyboard_event_source());
   al_register_event_source(event_queue, al_get_mouse_event_source());
   al_register_event_source(event_queue, al_get_timer_event_source(frame_timer));
+  al_register_event_source(event_queue, al_get_joystick_event_source());
 
   with(ALLEGRO_BLEND_MODE)
   {
