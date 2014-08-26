@@ -174,13 +174,31 @@ class Battle : GameState {
         auto nextBattler = _unitJumpList[_unitJumpIdx++];
         _tileCursor.place(_map.tileAt(nextBattler.row, nextBattler.col));
       }
+      else if (_input.prevUnit) {
+        auto nextBattler = _unitJumpList[_unitJumpIdx--];
+        _tileCursor.place(_map.tileAt(nextBattler.row, nextBattler.col));
+      }
+      else if (_input.inspect) {
+        auto pos = Vector2i(Settings.screenW / 2, Settings.screenH / 2);
+        auto battlerToInspect = _tileCursor.tile.battler;
+        if (battlerToInspect) {
+          _characterSheet = new CharacterSheet(pos, battlerToInspect);
+        }
+      }
       return null;
+    }
+
+    override void draw() {
+      if (_characterSheet) {
+        _characterSheet.draw();
+      }
     }
 
     private:
     bool _turnOver;
     uint _unitJumpIdx;
     Cycle!(Battler[]) _unitJumpList;
+    CharacterSheet _characterSheet;
   }
 
   class PlayerUnitSelected : State {

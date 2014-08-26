@@ -22,6 +22,8 @@ enum Keymap {
 
   nextUnit = [ALLEGRO_KEY_E],
   prevUnit = [ALLEGRO_KEY_Q],
+
+  inspect = [ALLEGRO_KEY_F],
 }
 
 private enum {
@@ -108,6 +110,8 @@ class InputManager {
 
     bool nextUnit() { return keyPressed(Keymap.nextUnit); }
     bool prevUnit() { return keyPressed(Keymap.prevUnit); }
+
+    bool inspect() { return keyPressed(Keymap.inspect); }
 
     bool speedScroll() { return keyHeld(Keymap.faster); }
   }
