@@ -1,5 +1,6 @@
 module gui.character_sheet;
 
+import std.conv;
 import std.traits;
 import allegro;
 import gui.progress_bar;
@@ -13,8 +14,8 @@ import util.input;
 private enum {
   textureName        = "character_view",
   spritePos          = Vector2i(80, 72),
-  namePos            = Vector2i(129, 72),
-  lvlPos             = Vector2i(362, 74),
+  namePos            = Vector2i(112, 60),
+  lvlPos             = Vector2i(362, 60),
   healthBarPos       = Vector2i(109, 137),
   xpBarPos           = Vector2i(109, 169),
   attributesPos      = Vector2i(118, 227),
@@ -45,6 +46,9 @@ class CharacterSheet {
     foreach(bar ; _attributeBars) {
       bar.draw();
     }
+    _battler.sprite.draw(spritePos);
+    _nameFont.draw(_battler.name, namePos);
+    _levelFont.draw(to!string(_battler.level), lvlPos);
   }
 
   private:
@@ -61,5 +65,11 @@ class CharacterSheet {
       _attributeBars ~= bar;
       area.y += attributesSep;
     }
+  }
+
+  static Font _nameFont, _levelFont;
+  static this() {
+    _nameFont  = getFont("characterSheetName");
+    _levelFont = getFont("characterSheetLevel");
   }
 }

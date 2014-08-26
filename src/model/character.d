@@ -52,7 +52,10 @@ class Character {
 
     string name() { return _name; }
 
-    // experience
+    /// character level
+    int level() { return _level; }
+
+    // character experience
     int xp() { return _xp; }
     void xp(int val) {
       if (_xp + val >= xpLimit) {

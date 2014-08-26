@@ -184,6 +184,9 @@ class Battle : GameState {
         if (battlerToInspect) {
           _characterSheet = new CharacterSheet(battlerToInspect);
         }
+        else {
+          _characterSheet = null;
+        }
       }
       else if (_input.cancel) {
         _characterSheet = null;
