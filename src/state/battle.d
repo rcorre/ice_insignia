@@ -170,7 +170,7 @@ class Battle : GameState {
         }
       }
       // jump to next ready unit
-      if (_input.nextUnit) {
+      else if (_input.nextUnit) {
         auto nextBattler = _unitJumpList[_unitJumpIdx++];
         _tileCursor.place(_map.tileAt(nextBattler.row, nextBattler.col));
       }
@@ -182,8 +182,11 @@ class Battle : GameState {
         auto pos = Vector2i(Settings.screenW / 2, Settings.screenH / 2);
         auto battlerToInspect = _tileCursor.tile.battler;
         if (battlerToInspect) {
-          _characterSheet = new CharacterSheet(pos, battlerToInspect);
+          _characterSheet = new CharacterSheet(battlerToInspect);
         }
+      }
+      else if (_input.cancel) {
+        _characterSheet = null;
       }
       return null;
     }

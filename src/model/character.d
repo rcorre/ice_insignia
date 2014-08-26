@@ -12,14 +12,28 @@ import model.valueset;
 enum Attribute {
   maxHp,
   strength,
+  magic,
   skill,
   speed,
+  luck,
   defense,
   resist,
-  luck,
   move,
   constitution
 }
+
+enum AttributeCaps = [
+  Attribute.maxHp        : 100,
+  Attribute.strength     : 25,
+  Attribute.magic        : 25,
+  Attribute.skill        : 25,
+  Attribute.speed        : 25,
+  Attribute.luck         : 25,
+  Attribute.defense      : 25,
+  Attribute.resist       : 25,
+  Attribute.move         : 10,
+  Attribute.constitution : 15,
+];
 
 class Character {
   mixin JsonizeMe;
@@ -41,10 +55,10 @@ class Character {
     // experience
     int xp() { return _xp; }
     void xp(int val) {
-      if (_xp + val >= 100) {
+      if (_xp + val >= xpLimit) {
         levelUp();
       }
-      _xp = (_xp + val) % 100;
+      _xp = (_xp + val) % xpLimit;
     }
   }
 

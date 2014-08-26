@@ -26,6 +26,16 @@ class Texture {
     Vector2i frameCenter() { return _frameCenter; }
   }
 
+  void draw(Vector2i pos, float scale = 1, Color tint = Color.white, float angle = 0) {
+    al_draw_tinted_scaled_rotated_bitmap(_bmp, // bitmap
+        tint,                                  // color
+        frameCenter.x, frameCenter.y,          // frame center position
+        pos.x, pos.y,                          // position to place center of frame at
+        scale, scale,                          // x and y scale
+        angle, 0);                             // rotation and flats
+  }
+
+
   void draw(int row, int col, Vector2i pos, float scale = 1, Color tint = Color.white, float angle = 0) {
     assert(col >= 0 && col < numCols && row >= 0 && row < numRows);
     auto frame = Rect2i(col * frameWidth, row * frameHeight, frameWidth, frameHeight);
