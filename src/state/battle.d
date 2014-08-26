@@ -248,7 +248,13 @@ class Battle : GameState {
     override State update(float time) {
       if (_path.empty) { /// completed move
         placeBattler(_battler, _endTile); // place battler on final tile
-        return new ChooseBattlerAction(_battler, _endTile, _originTile);
+        if (_battler.team == BattleTeam.ally) {
+          return new ChooseBattlerAction(_battler, _endTile, _originTile);
+        }
+        else {
+          auto behavior = new AgressiveAI(_battler, _map, _allies, _enemies);
+          return new EnemyChooseAction(_battler, behavior);
+        }
       }
 
       auto target = cast(Vector2f) _map.tileToPos(_path.front);
@@ -422,7 +428,12 @@ class Battle : GameState {
         _attacker.hideInfoBox;
         _defender.hideInfoBox;
         _initialAttacker.moved = true; // end attacker's turn
-        return new PlayerTurn;
+        if (_initialAttacker.team == BattleTeam.ally) {
+          return new PlayerTurn;
+        }
+        else {
+          return new EnemyTurn;
+        }
       }
       else {
         return new Wait(1, new ExecuteCombat(_attacks, _initialAttacker));
@@ -483,19 +494,34 @@ class Battle : GameState {
         return new PlayerTurn;
       }
 
+      auto path = _behavior.moveRequest;
+      if (path) {
+        auto selfTerrain = _map.tileAt(_battler.row, _battler.col);
+        return new MoveBattler(_battler, selfTerrain, path);
+      }
+      return new EnemyChooseAction(_battler, _behavior);
+    }
+
+    private:
+    Battler _battler;
+    Behavior _behavior;
+  }
+
+  class EnemyChooseAction : State {
+    this(Battler battler, Behavior behavior) {
+      _battler = battler;
+      _behavior = behavior;
+    }
+
+    override State update(float time) {
       auto selfTerrain = _map.tileAt(_battler.row, _battler.col);
       auto target = _behavior.attackRequest;
       if (target) {
         auto targetTerrain = _map.tileAt(target.row, target.col);
         auto attack  = new CombatPrediction(_battler, target, targetTerrain);
-        auto counter = new CombatPrediction(_battler, target, targetTerrain);
+        auto counter = new CombatPrediction(target, _battler, selfTerrain);
         auto series = constructAttackSeries(attack, counter);
         return new ExecuteCombat(series, _battler);
-      }
-
-      auto path = _behavior.moveRequest;
-      if (path) {
-        return new MoveBattler(_battler, selfTerrain, path);
       }
 
       _battler.moved = true; // skip turn

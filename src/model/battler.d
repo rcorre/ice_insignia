@@ -102,7 +102,7 @@ class Battler {
 
   bool canAttack(Battler other) {
     auto dist = abs(row - other.row) + abs(col - other.col);
-    return dist >= equippedWeapon.minRange && dist <= equippedWeapon.maxRange;
+    return other.alive && dist >= equippedWeapon.minRange && dist <= equippedWeapon.maxRange;
   }
 
   const BattleTeam team;

@@ -20,7 +20,8 @@ class AgressiveAI : Behavior {
 
       // find closest enemy
       int distTo(Battler other) { return abs(_self.row - other.row) + abs(_self.col - other.col); }
-      auto target = _enemies.sort!((a,b) => distTo(a) < distTo(b)).front;
+      // find nearest living target
+      auto target = _enemies.sort!((a,b) => distTo(a) < distTo(b)).find!"a.alive".front;
       auto tiles = _map.neighbors(_map.tileAt(target.row, target.col));
 
       foreach(tile ; tiles) {
