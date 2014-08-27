@@ -222,6 +222,9 @@ class Battle : GameState {
       auto tile = _tileCursor.tile;
       if (tile) {
         _selectedPath = _pathFinder.pathTo(tile);
+        if (!_selectedPath) {
+          _selectedPath = _pathFinder.pathToward(tile);
+        }
         if (_selectedPath && _input.confirm) {
           _tileCursor.active = false;
           return new MoveBattler(_battler, _tile, _selectedPath);
