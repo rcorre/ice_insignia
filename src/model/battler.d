@@ -25,7 +25,7 @@ enum BattleTeam {
 }
 
 class Battler {
-  alias character this;
+  //alias character this;
 
   this(Character c, int row, int col, Vector2i pos, Sprite sprite, BattleTeam team, string aiType = "agressive") {
     _character = c;
@@ -43,7 +43,7 @@ class Battler {
     ref int row() { return _row; }
     ref int col() { return _col; }
     ref Vector2i pos() { return _pos; }
-    Character character() { return _character; }
+    //Character character() { return _character; }
     int hp() { return _hp; }
 
     bool alive() { return _hp > 0; }
@@ -79,7 +79,7 @@ class Battler {
 
   void showInfoBox(Vector2i pos) {
     if (_infoBox is null) {
-      _infoBox = new BattlerInfoBox(pos, name, _hp, maxHp);
+      _infoBox = new BattlerInfoBox(pos, _character.name, _hp, _character.maxHp);
     }
   }
 
@@ -105,7 +105,12 @@ class Battler {
 
   bool canAttack(Battler other) {
     auto dist = abs(row - other.row) + abs(col - other.col);
-    return other.alive && dist >= equippedWeapon.minRange && dist <= equippedWeapon.maxRange;
+    return other.alive && dist >= _character.equippedWeapon.minRange && dist <= _character.equippedWeapon.maxRange;
+  }
+
+  /// access an attribute by name
+  auto opDispatch(string m)() {
+    return mixin("_character." ~ m);
   }
 
   const BattleTeam team;
