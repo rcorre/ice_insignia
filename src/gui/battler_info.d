@@ -4,16 +4,16 @@ import graphics.all;
 import geometry.all;
 import gui.progress_bar;
 
-private enum {
-  width = 100,
-  height = 40,
-  bgColor = Color(0.5, 0, 0, 0.5),
-  healthFg = Color(1.0, 1.0, 0, 0.8),
-  healthBg = Color(0.5, 0.5, 0.5, 0.8),
-}
-
 /// shows name and health bar
 class BattlerInfoBox {
+  enum {
+    width = 100,
+    height = 40,
+    bgColor = Color(0.5, 0, 0, 0.5),
+    healthFg = Color(1.0, 1.0, 0, 0.8),
+    healthBg = Color(0.5, 0.5, 0.5, 0.8),
+  }
+
   this(Vector2i pos, string name, int hp, int maxHp) {
     _area = Rect2i.CenteredAt(pos, width, height);
     _name = name;

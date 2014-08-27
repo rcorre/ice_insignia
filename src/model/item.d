@@ -31,7 +31,7 @@ class Item {
     int hit()     { return _hit; }
     int crit()    { return _crit; }
     int weight()  { return _weight; }
-    int type()    { return _type; }
+    ItemType type()    { return _type; }
 
     int minRange() { return _minRange; }
     int maxRange() { return max(_minRange, _maxRange); }

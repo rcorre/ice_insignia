@@ -27,7 +27,7 @@ private enum {
   tileInfoPos    = cast(Vector2i) Vector2f(Settings.screenW * 0.9f, Settings.screenH * 0.9f),
   battlerInfoPos = cast(Vector2i) Vector2f(Settings.screenW * 0.1f, Settings.screenH * 0.9f),
 
-  battleInfoOffset = 80
+  battleInfoOffset = Vector2i(16, 16),
 }
 
 class Battle : GameState {
@@ -427,8 +427,7 @@ class Battle : GameState {
       _attacker = _result.attacker;
       _defender = _result.defender;
       _initialAttacker = initialAttacker;
-      showBattlerInfo(_attacker, _defender);
-      showBattlerInfo(_defender, _attacker);
+      showBattlerInfoBoxes(_attacker, _defender);
     }
 
     override State update(float time) {
@@ -472,10 +471,45 @@ class Battle : GameState {
     Battler _initialAttacker;
     bool _started;
 
-    void showBattlerInfo(Battler b, Battler other) {
-      Vector2i offset = (b.pos - other.pos).normalized * battleInfoOffset;
+    // these methods try to place info boxes so they are visible and next to the battler they represent
+    void showBattlerInfoBoxes(Battler b1, Battler b2) {
+      // check if b1 is topRight
+      if (b1.row < b2.row || b1.col > b2.col) {
+        debug {
+          import std.stdio;
+          writeln(b1.name ~ " is top right");
+        }
+        showTopRightInfo(b1);
+        showBottomLeftInfo(b2);
+      }
+      else {
+        debug {
+          import std.stdio;
+          writeln(b1.name ~ " is bottom left");
+        }
+        showTopRightInfo(b2);
+        showBottomLeftInfo(b1);
+      }
+    }
 
-      b.showInfoBox(b.pos - _camera.topLeft + offset);
+    void showTopRightInfo(Battler b) {
+      auto size = Vector2i(BattlerInfoBox.width, BattlerInfoBox.height);
+      auto shift = Vector2i(size.x, -size.y) / 2 + Vector2i(battleInfoOffset.x, -battleInfoOffset.y);
+      auto area = Rect2i.CenteredAt(b.pos + shift - _camera.topLeft, size.x, size.y);
+      if (area.top < 0) { area.y += shift.y; }
+      if (area.right > _camera.width) { area.x -= shift.x; }
+
+      b.showInfoBox(area.center);
+    }
+
+    void showBottomLeftInfo(Battler b) {
+      auto size = Vector2i(BattlerInfoBox.width, BattlerInfoBox.height);
+      auto shift = Vector2i(-size.x, size.y) / 2 + Vector2i(-battleInfoOffset.x, battleInfoOffset.y);
+      auto area = Rect2i.CenteredAt(b.pos + shift - _camera.topLeft, size.x, size.y);
+      if (area.left < 0) { area.x += shift.x; }
+      if (area.bottom > _camera.height) { area.y -= shift.y; }
+
+      b.showInfoBox(area.center);
     }
   }
 

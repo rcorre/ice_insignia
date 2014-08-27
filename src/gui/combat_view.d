@@ -1,5 +1,6 @@
 module gui.combat_view;
 
+import std.conv;
 import std.string : format;
 import std.algorithm : reduce;
 import geometry.all;
@@ -15,6 +16,8 @@ class CombatView {
     _attackInfo = [
       attack.attacker.name,
       attack.attacker.equippedWeapon.name,
+      to!string(attack.triangleAdvantage),
+      to!string(attack.triangleDisadvantage),
       format("Damage : %d x%d", attack.damage, attack.doubleHit ? 2 : 1),
       format("Hit    : %d", attack.hit),
       format("Crit   : %d", attack.crit)
@@ -22,6 +25,8 @@ class CombatView {
     _counterInfo = [
       counter.attacker.name,
       counter.attacker.equippedWeapon.name,
+      to!string(counter.triangleAdvantage),
+      to!string(counter.triangleDisadvantage),
       format("Damage : %d x%d", counter.damage, counter.doubleHit ? 2 : 1),
       format("Hit    : %d", counter.hit),
       format("Crit   : %d", counter.crit)
