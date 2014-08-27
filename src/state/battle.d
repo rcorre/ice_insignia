@@ -316,7 +316,7 @@ class Battle : GameState {
       _enemiesInRange = array(_enemies.filter!(a => _battler.canAttack(a)));
       _targetSprite = new AnimatedSprite("target", targetShade);
       auto selectPos = _battler.pos - _camera.topLeft - Vector2i(50, 50);
-      _selectionView = new SelectionView(selectPos, getActions());
+      _selectionView = new SelectionView!string(selectPos, getActions(), &handleSelection, &handleHover);
     }
 
     override State update(float time) {
@@ -347,30 +347,36 @@ class Battle : GameState {
     Battler _battler;
     Battler[] _enemiesInRange;
     Tile _currentTile, _prevTile;
-    SelectionView _selectionView;
+    SelectionView!string _selectionView;
     AnimatedSprite _targetSprite;
     State _requestedState;
 
-    SelectionView.ActionEntry[] getActions() {
-      SelectionView.ActionEntry[] actions;
+    string[] getActions() {
+      string[] actions;
       if (!_enemiesInRange.empty) {
-        actions ~= tuple("Attack", &attackAction);
+        actions ~= "Attack";
       }
-      actions ~= tuple("Inventory", &itemAction);
-      actions ~= tuple("Wait", &waitAction);
+      actions ~= "Inventory";
+      actions ~= "Wait";
       return actions;
     }
 
-    void itemAction() {
+    void handleSelection(string action) {
+      switch(action) {
+        case "Attack":
+          _requestedState = new ConsiderAttack(_battler, _enemiesInRange);
+          break;
+        case "Inventory":
+          break;
+        case "Wait":
+          _battler.moved = true;
+          _requestedState = new PlayerTurn;
+          break;
+        default:
+      }
     }
 
-    void attackAction() {
-      _requestedState = new ConsiderAttack(_battler, _enemiesInRange);
-    }
-
-    void waitAction() {
-      _battler.moved = true;
-      _requestedState = new PlayerTurn;
+    void handleHover(string action) {
     }
   }
 

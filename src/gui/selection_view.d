@@ -1,5 +1,6 @@
 module gui.selection_view;
 
+import std.conv;
 import std.typecons : Tuple;
 import std.algorithm : max;
 import graphics.all;
@@ -11,25 +12,16 @@ private enum {
   spacingY = 5
 }
 
-class SelectionView {
-  private alias Action = void delegate();
-  alias ActionEntry = Tuple!(string, Action);
-  this(Vector2i pos, ActionEntry[] selections) {
+class SelectionView(T) {
+  private alias Action = void delegate(T);
+  this(Vector2i pos, T[] selections, Action onChoose, Action onHover) {
     auto selectionArea = Rect2i(pos.x, pos.y, 0, 0);
     auto totalArea     = Rect2i(pos.x, pos.y, 0, 0);
     foreach(entry; selections) {
-      auto text = entry[0];
-      auto action = entry[1];
-
+      auto text = to!string(entry);
       selectionArea.width  = _font.widthOf(text);
       selectionArea.height = _font.heightOf(text);
-
-      Selection sel;
-      sel.onClick = action;
-      sel.text = text;
-      sel.clickArea = selectionArea;
-      sel.drawPos = selectionArea.topLeft;
-      _selections ~= sel;
+      _areas ~= selectionArea;
 
       int offset = selectionArea.height + spacingY;
       selectionArea.y += offset;
@@ -37,6 +29,9 @@ class SelectionView {
       totalArea.width = max(totalArea.width, selectionArea.width);
     }
     _totalArea = totalArea;
+    _selections = selections;
+    _onChoose = onChoose;
+    _onHover = onHover;
   }
 
   void handleInput(InputManager input) {
@@ -46,35 +41,28 @@ class SelectionView {
     _cursorIdx = cast(int) ((_cursorIdx + _selections.length) % _selections.length);
 
     if (input.confirm) {
-      _selections[_cursorIdx].onClick();
+      _onChoose(_selections[_cursorIdx]);
     }
   }
 
   void draw() {
     _totalArea.draw();
     foreach(idx, selection ; _selections) {
+      auto rect = _areas[idx];
       if (idx == _cursorIdx) {
-        selection.clickArea.drawFilled(Color.white, 5, 5);
+        rect.drawFilled(Color.white, 5, 5);
       }
-      selection.draw();
+      auto text = to!string(selection);
+      _font.draw(text, rect.topLeft);
     }
   }
 
   private:
   Rect2i _totalArea;
-  Selection[] _selections;
+  T[] _selections;
+  Rect2i[] _areas;
   int _cursorIdx;
-
-  struct Selection {
-    Action onClick;
-    string text;
-    Rect2i clickArea;
-    Vector2i drawPos;
-
-    void draw() {
-      _font.draw(text, drawPos);
-    }
-  }
+  Action _onHover, _onChoose;
 
   static Font _font;
   static this() {
