@@ -35,8 +35,14 @@ class SelectionView(T) {
   }
 
   void handleInput(InputManager input) {
-    if (input.selectUp) { --_cursorIdx; }
-    else if (input.selectDown) { ++_cursorIdx; }
+    if (input.selectUp) {
+      --_cursorIdx;
+      _onHover(_selections[_cursorIdx]);
+    }
+    else if (input.selectDown) {
+      ++_cursorIdx;
+      _onHover(_selections[_cursorIdx]);
+    }
     // add length so negative values wrap
     _cursorIdx = cast(int) ((_cursorIdx + _selections.length) % _selections.length);
 
@@ -47,14 +53,19 @@ class SelectionView(T) {
 
   void draw() {
     _totalArea.draw();
-    foreach(idx, selection ; _selections) {
+    foreach(idx, entry ; _selections) {
       auto rect = _areas[idx];
-      if (idx == _cursorIdx) {
-        rect.drawFilled(Color.white, 5, 5);
-      }
-      auto text = to!string(selection);
-      _font.draw(text, rect.topLeft);
+      drawEntry(entry, rect, idx == _cursorIdx);
     }
+  }
+
+  protected:
+  void drawEntry(T entry, Rect2i rect, bool isSelected) {
+    if (isSelected) {
+      rect.drawFilled(Color.white, 5, 5);
+    }
+    auto text = to!string(entry);
+    _font.draw(text, rect.topLeft);
   }
 
   private:

@@ -3,6 +3,8 @@ module model.item;
 import std.algorithm : max;
 import allegro;
 import util.jsonizer;
+import geometry.vector;
+import graphics.sprite;
 
 Item loadItem(string name) {
   assert(name in _itemData, "could not load item named " ~ name);
@@ -44,12 +46,20 @@ class Item {
     }
   }
 
+  void draw(Vector2i pos) {
+    _sprite.draw(pos);
+  }
+
   static Item none() {
     return new Item;
   }
 
   private:
   @jsonize {
+    @property {
+      string spriteName() { return _sprite.name; }
+      void spriteName(string name) { _sprite = new Sprite(name); }
+    }
     string _name;
     ItemType _type;
 
@@ -61,6 +71,7 @@ class Item {
     int _maxRange = 0;
     int _weight;
   }
+  Sprite _sprite;
 }
 
 private Item[string] _itemData;
