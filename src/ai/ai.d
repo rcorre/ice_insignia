@@ -1,9 +1,9 @@
-module state.ai;
+module ai.ai;
 
 import model.battler;
 import tilemap.all;
 
-abstract class Behavior {
+abstract class AI {
   this(Battler self, TileMap map, Battler[] enemies, Battler[] allies) {
     _self = self;
     _map = map;

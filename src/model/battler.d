@@ -27,7 +27,7 @@ enum BattleTeam {
 class Battler {
   alias character this;
 
-  this(Character c, int row, int col, Vector2i pos, Sprite sprite, BattleTeam team) {
+  this(Character c, int row, int col, Vector2i pos, Sprite sprite, BattleTeam team, string aiType = "agressive") {
     _character = c;
     _row = row;
     _col = col;
@@ -35,6 +35,7 @@ class Battler {
     _sprite = sprite;
     this.team = team;
     _hp = c.maxHp;
+    _aiType = aiType;
   }
 
   @property {
@@ -58,6 +59,8 @@ class Battler {
 
     BattlerInfoBox infoBox() { return _infoBox; }
     bool isHpTransitioning() { return _infoBox.healthBar.isTransitioning; }
+
+    string aiType() {return _aiType; }
   }
 
   void update(float time) {
@@ -115,4 +118,5 @@ class Battler {
   int _hp;
   bool _moved;
   BattlerInfoBox _infoBox;
+  string _aiType;
 }

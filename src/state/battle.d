@@ -8,15 +8,14 @@ import std.algorithm : map, all;
 import allegro;
 import state.gamestate;
 import state.combat_calc;
-import state.ai;
-import state.agressive_ai;
-import tilemap.all;
-import geometry.all;
 import util.input;
-import graphics.all;
 import model.battler;
 import model.character;
 import gui.all;
+import ai.all;
+import graphics.all;
+import tilemap.all;
+import geometry.all;
 
 private enum {
   scrollSpeed = 12,       /// camera scroll rate (pixels/sec)
@@ -565,11 +564,11 @@ class Battle : GameState {
 
     private:
     Battler _battler;
-    Behavior _behavior;
+    AI _behavior;
   }
 
   class EnemyChooseAction : State {
-    this(Battler battler, Behavior behavior) {
+    this(Battler battler, AI behavior) {
       _battler = battler;
       _behavior = behavior;
     }
@@ -591,7 +590,7 @@ class Battle : GameState {
 
     private:
     Battler _battler;
-    Behavior _behavior;
+    AI _behavior;
   }
 
   private class TileCursor {

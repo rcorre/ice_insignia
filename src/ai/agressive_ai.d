@@ -1,10 +1,10 @@
-module state.agressive_ai;
+module ai.agressive_ai;
 
 import std.algorithm;
 import std.range;
 import std.math;
-import state.ai;
-import state.territorial_ai;
+import ai.ai;
+import ai.territorial_ai;
 import model.battler;
 import tilemap.all;
 

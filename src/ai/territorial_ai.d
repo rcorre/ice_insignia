@@ -1,14 +1,14 @@
-module state.territorial_ai;
+module ai.territorial_ai;
 
 import std.algorithm;
 import std.range;
 import std.math;
-import state.ai;
+import ai.ai;
 import model.battler;
 import tilemap.all;
 
 /// attack enemies that enter move range -- otherwise skip turn
-class TerritorialAI : Behavior {
+class TerritorialAI : AI {
   this(Battler self, TileMap map, Battler[] enemies, Battler[] allies) {
     super(self, map, enemies, allies);
   }
