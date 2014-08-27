@@ -137,7 +137,9 @@ class MapObject {
     int row = y / tileHeight;
     auto pos = Vector2i(x, y) + sprite.size / 2;
 
-    return new Battler(character, row, col, pos, sprite, BattleTeam.enemy);
+    auto aiType = properties.get("aiType", "agressive");
+
+    return new Battler(character, row, col, pos, sprite, BattleTeam.enemy, aiType);
   }
 
   @jsonize @property {

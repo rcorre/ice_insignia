@@ -278,7 +278,7 @@ class Battle : GameState {
           return new ChooseBattlerAction(_battler, _endTile, _originTile);
         }
         else {
-          auto behavior = new AgressiveAI(_battler, _map, _allies, _enemies);
+          auto behavior = getAI(_battler, _map, _allies, _enemies);
           return new EnemyChooseAction(_battler, behavior);
         }
       }
