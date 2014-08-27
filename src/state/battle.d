@@ -477,18 +477,10 @@ class Battle : GameState {
     void showBattlerInfoBoxes(Battler b1, Battler b2) {
       // check if b1 is topRight
       if (b1.row < b2.row || b1.col > b2.col) {
-        debug {
-          import std.stdio;
-          writeln(b1.name ~ " is top right");
-        }
         showTopRightInfo(b1);
         showBottomLeftInfo(b2);
       }
       else {
-        debug {
-          import std.stdio;
-          writeln(b1.name ~ " is bottom left");
-        }
         showTopRightInfo(b2);
         showBottomLeftInfo(b1);
       }
