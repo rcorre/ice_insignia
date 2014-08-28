@@ -317,7 +317,7 @@ class Battle : GameState {
       _enemiesInRange = array(_enemies.filter!(a => _battler.canAttack(a)));
       _targetSprite = new AnimatedSprite("target", targetShade);
       auto selectPos = _battler.pos - _camera.topLeft - Vector2i(50, 50);
-      _selectionView = new SelectionView!string(selectPos, getActions(), &handleSelection, &handleHover);
+      _selectionView = new StringMenu(selectPos, getActions(), &handleSelection, &handleHover);
     }
 
     override State update(float time) {
@@ -363,8 +363,8 @@ class Battle : GameState {
     Battler _battler;
     Battler[] _enemiesInRange;
     Tile _currentTile, _prevTile;
-    SelectionView!string _selectionView;
-    InventoryView _inventoryView;
+    StringMenu _selectionView;
+    InventoryMenu _inventoryView;
     AnimatedSprite _targetSprite;
     State _requestedState;
 
@@ -385,7 +385,7 @@ class Battle : GameState {
           break;
         case "Inventory":
           auto menuPos = _battler.pos - _camera.topLeft - Vector2i(50, 50);
-          _inventoryView = new InventoryView(menuPos, _battler.items, &hoverItem, &selectItem);
+          _inventoryView = new InventoryMenu(menuPos, _battler.items, &hoverItem, &selectItem);
           break;
         case "Wait":
           _battler.moved = true;

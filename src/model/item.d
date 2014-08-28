@@ -27,7 +27,7 @@ class Item {
   mixin JsonizeMe;
 
   @property {
-    string name() { return _name; }
+    @jsonize string name() { return _name; }
     int uses()    { return _uses; }
     int damage()  { return _damage; }
     int hit()     { return _hit; }
@@ -44,9 +44,12 @@ class Item {
          _type == anima || _type == light || _type == dark;
      }
     }
+
+    auto sprite() { return _sprite; }
   }
 
   void draw(Vector2i pos) {
+    assert(_sprite);
     _sprite.draw(pos);
   }
 
@@ -57,10 +60,11 @@ class Item {
   private:
   @jsonize {
     @property {
-      string spriteName() { return _sprite.name; }
-      void spriteName(string name) { _sprite = new Sprite(name); }
+      void name(string name) { 
+        _name = name;
+        _sprite = new Sprite(name); 
+      }
     }
-    string _name;
     ItemType _type;
 
     int _uses;
@@ -72,6 +76,7 @@ class Item {
     int _weight;
   }
   Sprite _sprite;
+  string _name;
 }
 
 private Item[string] _itemData;

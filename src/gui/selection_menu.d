@@ -1,4 +1,4 @@
-module gui.selection_view;
+module gui.selection_menu;
 
 import std.conv;
 import std.algorithm : max;
@@ -11,15 +11,14 @@ private enum {
   spacingY = 5
 }
 
-class SelectionView(T) {
-  private alias Action = void delegate(T);
+abstract class SelectionMenu(T) {
+  alias Action = void delegate(T);
   this(Vector2i pos, T[] selections, Action onChoose, Action onHover) {
     auto selectionArea = Rect2i(pos.x, pos.y, 0, 0);
     auto totalArea     = Rect2i(pos.x, pos.y, 0, 0);
     foreach(entry; selections) {
-      auto text = to!string(entry);
-      selectionArea.width  = _font.widthOf(text);
-      selectionArea.height = _font.heightOf(text);
+      selectionArea.width  = entryWidth(entry);
+      selectionArea.height = entryHeight(entry);
       _areas ~= selectionArea;
 
       int offset = selectionArea.height + spacingY;
@@ -33,7 +32,7 @@ class SelectionView(T) {
     _onHover = onHover;
   }
 
-  void handleInput(InputManager input) {
+  final void handleInput(InputManager input) {
     bool movedSelection;
     if (input.selectUp) {
       --_cursorIdx;
@@ -55,7 +54,7 @@ class SelectionView(T) {
   }
 
   void draw() {
-    _totalArea.draw();
+    _totalArea.draw(); // TODO: draw bg texture
     foreach(idx, entry ; _selections) {
       auto rect = _areas[idx];
       drawEntry(entry, rect, idx == _cursorIdx);
@@ -63,13 +62,9 @@ class SelectionView(T) {
   }
 
   protected:
-  void drawEntry(T entry, Rect2i rect, bool isSelected) {
-    if (isSelected) {
-      rect.drawFilled(Color.white, 5, 5);
-    }
-    auto text = to!string(entry);
-    _font.draw(text, rect.topLeft);
-  }
+  void drawEntry(T entry, Rect2i rect, bool isSelected);
+  int entryWidth(T entry);
+  int entryHeight(T entry);
 
   static Font _font;
 
