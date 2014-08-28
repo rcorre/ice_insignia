@@ -49,6 +49,7 @@ class Character {
     Item equippedWeapon() {
       return (_items[0] && _items[0].isWeapon) ? _items[0] : Item.none;
     }
+    Item[] items() { return _items; }
 
     string name() { return _name; }
 

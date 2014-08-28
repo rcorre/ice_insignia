@@ -1,7 +1,6 @@
 module gui.selection_view;
 
 import std.conv;
-import std.typecons : Tuple;
 import std.algorithm : max;
 import graphics.all;
 import geometry.all;
@@ -72,6 +71,8 @@ class SelectionView(T) {
     _font.draw(text, rect.topLeft);
   }
 
+  static Font _font;
+
   private:
   Rect2i _totalArea;
   T[] _selections;
@@ -79,7 +80,6 @@ class SelectionView(T) {
   int _cursorIdx;
   Action _onHover, _onChoose;
 
-  static Font _font;
   static this() {
     _font = getFont(fontName);
   }

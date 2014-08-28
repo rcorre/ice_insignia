@@ -11,6 +11,7 @@ import state.combat_calc;
 import util.input;
 import model.battler;
 import model.character;
+import model.item;
 import gui.all;
 import ai.all;
 import graphics.all;
@@ -325,7 +326,12 @@ class Battle : GameState {
       }
 
       _targetSprite.update(time);
-      _selectionView.handleInput(_input);
+      if (_inventoryView) {
+        _inventoryView.handleInput(_input);
+      }
+      else {
+        _selectionView.handleInput(_input);
+      }
 
       if (_input.cancel) {
         placeBattler(_battler, _prevTile);
@@ -335,7 +341,12 @@ class Battle : GameState {
     }
 
     override void draw() {
-      _selectionView.draw();
+      if (_inventoryView) {
+        _inventoryView.draw();
+      }
+      else {
+        _selectionView.draw();
+      }
       foreach(enemy ; _enemies) {
         if (_battler.canAttack(enemy)) {
           _targetSprite.draw(enemy.pos - _camera.topLeft);
@@ -348,6 +359,7 @@ class Battle : GameState {
     Battler[] _enemiesInRange;
     Tile _currentTile, _prevTile;
     SelectionView!string _selectionView;
+    InventoryView _inventoryView;
     AnimatedSprite _targetSprite;
     State _requestedState;
 
@@ -367,6 +379,8 @@ class Battle : GameState {
           _requestedState = new ConsiderAttack(_battler, _enemiesInRange);
           break;
         case "Inventory":
+          auto menuPos = _battler.pos - _camera.topLeft - Vector2i(50, 50);
+          _inventoryView = new InventoryView(menuPos, _battler.items, &hoverItem, &selectItem);
           break;
         case "Wait":
           _battler.moved = true;
@@ -378,6 +392,9 @@ class Battle : GameState {
 
     void handleHover(string action) {
     }
+
+    void hoverItem(Item item) { }
+    void selectItem(Item item) { }
   }
 
   class ConsiderAttack : State {
