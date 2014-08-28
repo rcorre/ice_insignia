@@ -7,3 +7,4 @@ public import gui.selection_view;
 public import gui.inventory_view;
 public import gui.combat_view;
 public import gui.character_sheet;
+public import gui.item_view;
