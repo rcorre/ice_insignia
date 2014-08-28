@@ -21,7 +21,10 @@ class InventoryView : SelectionView!Item {
       if (isSelected) {
         rect.drawFilled(Color.white, 5, 5);
       }
-      _font.draw(item.name, rect.topLeft);
+      assert(item.sprite);
+      Vector2i size = item.sprite.size;
+      item.draw(rect.topLeft + size / 2);
+      _font.draw(item.name, rect.topLeft + Vector2i(size.x, 0));
     }
   }
 }
