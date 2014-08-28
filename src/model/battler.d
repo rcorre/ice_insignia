@@ -8,6 +8,7 @@ import graphics.all;
 import util.math;
 import gui.battler_info;
 import model.character;
+import model.item;
 
 private enum {
   movedTint = Color(0.6,0.6,0.6,0.9),
@@ -61,6 +62,14 @@ class Battler {
     bool isHpTransitioning() { return _infoBox.healthBar.isTransitioning; }
 
     string aiType() {return _aiType; }
+
+    // HACK due to alias this bug
+    auto equippedWeapon() {
+      return _character.equippedWeapon;
+    }
+    void equippedWeapon(Item item) {
+      _character.equippedWeapon = item;
+    }
   }
 
   void update(float time) {

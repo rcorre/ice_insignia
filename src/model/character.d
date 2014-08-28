@@ -3,7 +3,8 @@ module model.character;
 import std.conv;
 import std.string : format;
 import std.random : uniform;
-import std.algorithm : max, min;
+import std.range : empty;
+import std.algorithm : max, min, countUntil;
 import allegro;
 import util.jsonizer;
 import model.item;
@@ -46,9 +47,20 @@ class Character {
   @property {
     ValueSet!Attribute potential() { return _potential; }
     ValueSet!Attribute attributes() { return _attributes; }
+
     Item equippedWeapon() {
       return (_items[0] && _items[0].isWeapon) ? _items[0] : Item.none;
     }
+    /// set equipped weapon
+    void equippedWeapon(Item item) {
+      if (item) {
+        auto idx = _items[].countUntil(item);
+        assert(idx >= 0);
+        _items[idx] = _items[0];
+        _items[0] = item;
+      }
+    }
+
     Item[] items() { return _items; }
 
     string name() { return _name; }

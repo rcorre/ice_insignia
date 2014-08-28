@@ -395,7 +395,9 @@ class Battle : GameState {
       }
     }
 
-    void selectItem(Item item) { }
+    void selectItem(Item item) { 
+      _battler.equippedWeapon = item;
+    }
   }
 
   class ConsiderAttack : State {
