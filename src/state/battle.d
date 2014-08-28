@@ -334,8 +334,13 @@ class Battle : GameState {
       }
 
       if (_input.cancel) {
-        placeBattler(_battler, _prevTile);
-        return new PlayerTurn;
+        if (_inventoryView) {
+          _inventoryView = null;
+        }
+        else {
+          placeBattler(_battler, _prevTile);
+          return new PlayerTurn;
+        }
       }
       return null;
     }
