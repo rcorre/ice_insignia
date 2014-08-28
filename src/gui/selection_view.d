@@ -35,16 +35,20 @@ class SelectionView(T) {
   }
 
   void handleInput(InputManager input) {
+    bool movedSelection;
     if (input.selectUp) {
       --_cursorIdx;
-      _onHover(_selections[_cursorIdx]);
+      movedSelection = true;
     }
     else if (input.selectDown) {
       ++_cursorIdx;
+      movedSelection = true;
+    }
+    if (movedSelection) {
+      // add length so negative values wrap
+      _cursorIdx = cast(int) ((_cursorIdx + _selections.length) % _selections.length);
       _onHover(_selections[_cursorIdx]);
     }
-    // add length so negative values wrap
-    _cursorIdx = cast(int) ((_cursorIdx + _selections.length) % _selections.length);
 
     if (input.confirm) {
       _onChoose(_selections[_cursorIdx]);

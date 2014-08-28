@@ -49,10 +49,10 @@ class PathFinder {
     int cost = 0;
     // skip start as it will be seen as occupied
     foreach(tile ; fullPath.drop(1)) {
-      if (cost < _moveRange) {
+      cost += tile.moveCost;
+      if (cost <= _moveRange) {
         path ~= tile;
       }
-      cost += tile.moveCost;
     }
     return path;
   }
