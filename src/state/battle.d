@@ -317,7 +317,7 @@ class Battle : GameState {
       _enemiesInRange = array(_enemies.filter!(a => _battler.canAttack(a)));
       _targetSprite = new AnimatedSprite("target", targetShade);
       auto selectPos = _battler.pos - _camera.topLeft - Vector2i(50, 50);
-      _selectionView = new StringMenu(selectPos, getActions(), &handleSelection, &handleHover);
+      _selectionView = new StringMenu(selectPos, getActions(), &handleSelection);
     }
 
     override State update(float time) {
@@ -393,9 +393,6 @@ class Battle : GameState {
           break;
         default:
       }
-    }
-
-    void handleHover(string action) {
     }
 
     void selectItem(Item item) { }

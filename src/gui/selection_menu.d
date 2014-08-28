@@ -13,16 +13,22 @@ private enum {
 
 abstract class SelectionMenu(T) {
   alias Action = void delegate(T);
-  this(Vector2i pos, T[] selections, Action onChoose, Action onHover) {
+  alias HoverAction = void delegate(T, Rect2i);
+
+  this(Vector2i pos, T[] selections, Action onChoose, HoverAction onHover) {
     // the width/height of each entry is normalized to the largest entry
     _entryWidth = selections.map!(a  => entryWidth(a)).reduce!max;
     _entryHeight = selections.map!(a => entryHeight(a)).reduce!max;
     int n = cast(int) selections.length + 1;
-    _totalArea = Rect2i(pos, _entryWidth * n, _entryHeight * n);
+    _totalArea = Rect2i(pos, _entryWidth, _entryHeight * n);
 
     _selections = selections;
     _onChoose = onChoose;
     _onHover = onHover;
+  }
+
+  this(Vector2i pos, T[] selections, Action onChoose) {
+    this(pos, selections, onChoose, null);
   }
 
   final void handleInput(InputManager input) {
@@ -38,7 +44,10 @@ abstract class SelectionMenu(T) {
     if (movedSelection) {
       // add length so negative values wrap
       _cursorIdx = cast(int) ((_cursorIdx + _selections.length) % _selections.length);
-      _onHover(_selections[_cursorIdx]);
+      auto area = Rect2i(_totalArea.topLeft + Vector2i(0, _entryWidth * _cursorIdx), _entryWidth, _entryHeight);
+      if (_onHover) {
+        _onHover(_selections[_cursorIdx], area);
+      }
     }
 
     if (input.confirm) {
@@ -67,7 +76,8 @@ abstract class SelectionMenu(T) {
   int _entryWidth, _entryHeight;
   T[] _selections;
   int _cursorIdx;
-  Action _onHover, _onChoose;
+  HoverAction _onHover;
+  Action _onChoose;
 
   static this() {
     _font = getFont(fontName);

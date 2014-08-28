@@ -9,8 +9,7 @@ import gui.item_view;
 import model.item;
 
 private enum {
-  fontName = "selection_font",
-  spacingY = 5
+  infoOffset = Vector2i(220, 0),
 }
 
 class InventoryMenu : SelectionMenu!Item {
@@ -48,7 +47,7 @@ class InventoryMenu : SelectionMenu!Item {
   private:
   ItemView _itemView;
 
-  void showItemInfo(Item item) {
-    _itemView = new ItemView(item, Vector2i(160, 160));
+  void showItemInfo(Item item ,Rect2i rect) {
+    _itemView = item ? new ItemView(item, rect.topLeft + infoOffset) : null;
   }
 }

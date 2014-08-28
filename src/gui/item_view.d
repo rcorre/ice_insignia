@@ -16,7 +16,7 @@ private enum {
   rngOffset    = Vector2i( 61,  -8),
   hitOffset    = Vector2i(-57,  17),
   wgtOffset    = Vector2i(  0,  17),
-  typOffset    = Vector2i( 61,  17),
+  typOffset    = Vector2i( 55,  15),
 }
 
 /// display info about an item
