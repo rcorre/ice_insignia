@@ -31,6 +31,10 @@ abstract class SelectionMenu(T) {
     this(pos, selections, onChoose, null);
   }
 
+  final void keepInside(Rect2i camera, int buffer = 0) {
+    _totalArea.keepInside(camera, buffer);
+  }
+
   final void handleInput(InputManager input) {
     bool movedSelection;
     if (input.selectUp) {

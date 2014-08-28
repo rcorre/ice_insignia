@@ -318,6 +318,7 @@ class Battle : GameState {
       _targetSprite = new AnimatedSprite("target", targetShade);
       auto selectPos = _battler.pos - _camera.topLeft - Vector2i(50, 50);
       _selectionView = new StringMenu(selectPos, getActions(), &handleSelection);
+      _selectionView.keepInside(Rect2i(0, 0, _camera.width, _camera.height));
     }
 
     override State update(float time) {
@@ -346,16 +347,19 @@ class Battle : GameState {
     }
 
     override void draw() {
-      if (_inventoryView) {
-        _inventoryView.draw();
-      }
-      else {
-        _selectionView.draw();
-      }
       foreach(enemy ; _enemies) {
         if (_battler.canAttack(enemy)) {
           _targetSprite.draw(enemy.pos - _camera.topLeft);
         }
+      }
+      if (_inventoryView) {
+        _inventoryView.draw();
+        if (_itemView) {
+          _itemView.draw();
+        }
+      }
+      else {
+        _selectionView.draw();
       }
     }
 
@@ -365,6 +369,7 @@ class Battle : GameState {
     Tile _currentTile, _prevTile;
     StringMenu _selectionView;
     InventoryMenu _inventoryView;
+    ItemView _itemView;
     AnimatedSprite _targetSprite;
     State _requestedState;
 
@@ -385,7 +390,8 @@ class Battle : GameState {
           break;
         case "Inventory":
           auto menuPos = _battler.pos - _camera.topLeft - Vector2i(50, 50);
-          _inventoryView = new InventoryMenu(menuPos, _battler.items, &selectItem);
+          _inventoryView = new InventoryMenu(menuPos, _battler.items, &selectItem, &showItemInfo);
+          _inventoryView.keepInside(Rect2i(0, 0, _camera.width, _camera.height));
           break;
         case "Wait":
           _battler.moved = true;
@@ -395,8 +401,15 @@ class Battle : GameState {
       }
     }
 
-    void selectItem(Item item) { 
+    void selectItem(Item item) {
       _battler.equippedWeapon = item;
+    }
+
+    void showItemInfo(Item item ,Rect2i rect) {
+      _itemView = item ? new ItemView(item, rect.topLeft + infoOffset) : null;
+      if (_itemView) {
+        _itemView.keepInside(Rect2i(0, 0, _camera.width, _camera.height));
+      }
     }
   }
 

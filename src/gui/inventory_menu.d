@@ -13,8 +13,8 @@ private enum {
 }
 
 class InventoryMenu : SelectionMenu!Item {
-  this(Vector2i pos, Item[] items, Action onChoose) {
-    super(pos, items, onChoose, &showItemInfo);
+  this(Vector2i pos, Item[] items, Action onChoose, HoverAction onHover = null) {
+    super(pos, items, onChoose, onHover);
   }
 
   protected override {
@@ -30,9 +30,6 @@ class InventoryMenu : SelectionMenu!Item {
         item.draw(rect.topLeft + size / 2);
         _font.draw(item.name, rect.topLeft + Vector2i(size.x, 0));
       }
-      if (_itemView) {
-        _itemView.draw();
-      }
     }
 
     int entryWidth(Item entry) {
@@ -42,12 +39,5 @@ class InventoryMenu : SelectionMenu!Item {
     int entryHeight(Item entry) {
       return entry ? max(entry.sprite.height, _font.heightOf(entry.name)) : 0;
     }
-  }
-
-  private:
-  ItemView _itemView;
-
-  void showItemInfo(Item item ,Rect2i rect) {
-    _itemView = item ? new ItemView(item, rect.topLeft + infoOffset) : null;
   }
 }

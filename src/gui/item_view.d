@@ -23,24 +23,29 @@ private enum {
 class ItemView {
   this(Item item, Vector2i pos) {
     _item = item;
-    _pos = pos;
+    _area = Rect2i.CenteredAt(pos, _texture.width, _texture.height);
   }
 
   void draw() {
-    _texture.draw(_pos);
-    _item.draw(_pos + spriteOffset);
-    _font.draw(_item.name,   _pos + nameOffset);
-    _font.draw(_item.damage, _pos + dmgOffset);
-    _font.draw(_item.hit   , _pos + hitOffset);
-    _font.draw(_item.crit  , _pos + crtOffset);
-    _font.draw(_item.weight, _pos + wgtOffset);
-    _font.draw(format("%d-%d", _item.minRange, _item.maxRange), _pos + rngOffset);
-    _font.draw(_item.type  , _pos + typOffset);
+    auto pos = _area.center;
+    _texture.draw(pos);
+    _item.draw(pos + spriteOffset);
+    _font.draw(_item.name,   pos + nameOffset);
+    _font.draw(_item.damage, pos + dmgOffset);
+    _font.draw(_item.hit   , pos + hitOffset);
+    _font.draw(_item.crit  , pos + crtOffset);
+    _font.draw(_item.weight, pos + wgtOffset);
+    _font.draw(format("%d-%d", _item.minRange, _item.maxRange), pos + rngOffset);
+    _font.draw(_item.type  , pos + typOffset);
+  }
+
+  void keepInside(Rect2i camera, int buffer = 0) {
+    _area.keepInside(camera, buffer);
   }
 
   private:
   Item _item;
-  Vector2i _pos;
+  Rect2i _area;
 
   static Texture _texture;
   static Font _font;

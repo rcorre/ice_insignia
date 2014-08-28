@@ -79,7 +79,11 @@ struct Rect2(T) {
     return !(rect.right < x || rect.x > right || rect.bottom < y || rect.y > bottom);
   }
 
-  void keepInside(Rect2!T bounds) {
+  void keepInside(Rect2!T bounds, int buffer = 0) {
+    bounds.x += buffer / 2;
+    bounds.y += buffer / 2;
+    bounds.width  -= buffer / 2;
+    bounds.height -= buffer / 2;
     if (x < bounds.x) { x = bounds.x; }
     if (y < bounds.y) { y = bounds.y; }
     if (right  > bounds.right)  { right = bounds.right; }
