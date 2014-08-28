@@ -385,7 +385,7 @@ class Battle : GameState {
           break;
         case "Inventory":
           auto menuPos = _battler.pos - _camera.topLeft - Vector2i(50, 50);
-          _inventoryView = new InventoryMenu(menuPos, _battler.items, &hoverItem, &selectItem);
+          _inventoryView = new InventoryMenu(menuPos, _battler.items, &selectItem);
           break;
         case "Wait":
           _battler.moved = true;
@@ -398,7 +398,6 @@ class Battle : GameState {
     void handleHover(string action) {
     }
 
-    void hoverItem(Item item) { }
     void selectItem(Item item) { }
   }
 

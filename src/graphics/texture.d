@@ -68,6 +68,15 @@ class Texture {
     _height      = al_get_bitmap_height(bmp);
     _frameCenter = Vector2i(frameWidth / 2, frameHeight / 2);
   }
+
+  this(ALLEGRO_BITMAP *bmp) {
+    _bmp         = bmp;
+    _width       = al_get_bitmap_width(bmp);
+    _height      = al_get_bitmap_height(bmp);
+    _frameWidth  = _width;
+    _frameHeight = _height;
+    _frameCenter = Vector2i(frameWidth / 2, frameHeight / 2);
+  }
 }
 
 private Texture[string] _textureStore;
@@ -85,8 +94,13 @@ static this() { // automatically load a texture for each entry in the texture sh
     assert(path.exists, format("texture path %s does not exist", path));
     auto bmp = al_load_bitmap(toStringz(path));
     assert(bmp, format("failed to load image %s", path));
-    auto frameSize = split(textureInfo["frameSize"], ",");
-    _textureStore[textureName] = new Texture(bmp, to!int(frameSize[0]), to!int(frameSize[1]));
+    if ("frameSize" in textureInfo) {
+      auto frameSize = split(textureInfo["frameSize"], ",");
+      _textureStore[textureName] = new Texture(bmp, to!int(frameSize[0]), to!int(frameSize[1]));
+    }
+    else {
+      _textureStore[textureName] = new Texture(bmp);
+    }
   }
 }
 

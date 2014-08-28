@@ -15,6 +15,7 @@ struct Color {
 
   static @property {
     Color white() { return Color(1, 1, 1, 1); }
+    Color gray () { return Color(0.5, 0.5, 0.5, 1); }
     Color black() { return Color(0, 0, 0, 1); }
     Color red  () { return Color(1, 0, 0, 1); }
     Color green() { return Color(0, 1, 0, 1); }

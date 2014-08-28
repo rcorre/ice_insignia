@@ -28,8 +28,8 @@ class Font {
   }
 
   /// draw text at the given vector position in the given color
-  void draw(string text, Vector2i pos, Color color = Color.black) {
-    al_draw_text(_font, color, pos.x, pos.y, 0, toStringz(text));
+  void draw(T)(T text, Vector2i pos, Color color = Color.black) if (is(typeof(to!string(T.init)) : string)) {
+    al_draw_text(_font, color, pos.x, pos.y, 0, toStringz(to!string(text)));
   }
 
   /// draw multiple lines of text at position pos

@@ -1,7 +1,7 @@
 module gui.selection_menu;
 
 import std.conv;
-import std.algorithm : max;
+import std.algorithm : map, reduce, max;
 import graphics.all;
 import geometry.all;
 import util.input;
@@ -14,19 +14,12 @@ private enum {
 abstract class SelectionMenu(T) {
   alias Action = void delegate(T);
   this(Vector2i pos, T[] selections, Action onChoose, Action onHover) {
-    auto selectionArea = Rect2i(pos.x, pos.y, 0, 0);
-    auto totalArea     = Rect2i(pos.x, pos.y, 0, 0);
-    foreach(entry; selections) {
-      selectionArea.width  = entryWidth(entry);
-      selectionArea.height = entryHeight(entry);
-      _areas ~= selectionArea;
+    // the width/height of each entry is normalized to the largest entry
+    _entryWidth = selections.map!(a  => entryWidth(a)).reduce!max;
+    _entryHeight = selections.map!(a => entryHeight(a)).reduce!max;
+    int n = cast(int) selections.length + 1;
+    _totalArea = Rect2i(pos, _entryWidth * n, _entryHeight * n);
 
-      int offset = selectionArea.height + spacingY;
-      selectionArea.y += offset;
-      totalArea.height += offset;
-      totalArea.width = max(totalArea.width, selectionArea.width);
-    }
-    _totalArea = totalArea;
     _selections = selections;
     _onChoose = onChoose;
     _onHover = onHover;
@@ -55,9 +48,10 @@ abstract class SelectionMenu(T) {
 
   void draw() {
     _totalArea.draw(); // TODO: draw bg texture
+    auto rect = Rect2i(_totalArea.topLeft, _entryWidth, _entryHeight);
     foreach(idx, entry ; _selections) {
-      auto rect = _areas[idx];
       drawEntry(entry, rect, idx == _cursorIdx);
+      rect.y += _entryHeight + spacingY;
     }
   }
 
@@ -70,8 +64,8 @@ abstract class SelectionMenu(T) {
 
   private:
   Rect2i _totalArea;
+  int _entryWidth, _entryHeight;
   T[] _selections;
-  Rect2i[] _areas;
   int _cursorIdx;
   Action _onHover, _onChoose;
 

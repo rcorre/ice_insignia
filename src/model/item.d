@@ -60,9 +60,9 @@ class Item {
   private:
   @jsonize {
     @property {
-      void name(string name) { 
+      void name(string name) {
         _name = name;
-        _sprite = new Sprite(name); 
+        _sprite = new Sprite(name);
       }
     }
     ItemType _type;
