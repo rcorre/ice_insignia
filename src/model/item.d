@@ -34,6 +34,7 @@ class Item {
     int crit()    { return _crit; }
     int weight()  { return _weight; }
     ItemType type()    { return _type; }
+    int tier() { return _tier; }
 
     int minRange() { return _minRange; }
     int maxRange() { return max(_minRange, _maxRange); }
@@ -74,6 +75,7 @@ class Item {
     int _minRange = 0;
     int _maxRange = 0;
     int _weight;
+    int _tier;
   }
   Sprite _sprite;
   string _name;

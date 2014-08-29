@@ -1,0 +1,27 @@
+{
+  "Blade Proficiency" : {
+    "name" : "Blade Proficiency",
+    "description" : "Wield Tier 1 swords",
+    "bonus" : {
+      "valueSet" : {
+        "skill" : 2,
+        "speed" : 1
+      }
+    },
+    "potential" : {
+      "valueSet" : {
+        "maxHp"        : 1,
+        "strength"     : 1,
+        "skill"        : 3,
+        "speed"        : 2,
+        "defense"      : 1,
+        "resist"       : 0,
+        "luck"         : 1,
+        "move"         : 0,
+        "constitution" : 0
+      }
+    },
+    "weaponSkill" : "sword",
+    "weaponTier" : 1
+  }
+}

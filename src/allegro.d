@@ -45,6 +45,7 @@ enum Paths {
   mapDir        = "content/maps/",
   characterData = "content/data/characters.json",
   itemData      = "content/data/items.json",
+  talentData    = "content/data/talents.json",
 }
 
 // allegro initialization

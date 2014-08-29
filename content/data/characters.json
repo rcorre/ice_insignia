@@ -27,6 +27,9 @@
         "constitution" : 0
       }
     },
+    "talentNames" : [
+      "Blade Proficiency"
+    ],
     "inventory" : [
       "Broadsword",
       "Dirk"

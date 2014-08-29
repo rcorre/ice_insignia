@@ -4,11 +4,13 @@ import std.conv;
 import std.string : format;
 import std.random : uniform;
 import std.range : empty;
-import std.algorithm : max, min, countUntil;
+import std.array : array;
+import std.algorithm;
 import allegro;
 import util.jsonizer;
 import model.item;
 import model.valueset;
+import model.talent;
 
 enum Attribute {
   maxHp,
@@ -78,6 +80,10 @@ class Character {
     }
   }
 
+  bool canWield(Item item) {
+    return _talents.canFind!(x => x.weaponSkill == item.type && x.weaponTier == item.tier);
+  }
+
   Item itemAt(int slot) {
     assert(slot >= 0 && slot < itemCapacity, format("item #%d/%d out of range", slot, itemCapacity));
     return _items[slot];
@@ -105,8 +111,15 @@ class Character {
     return bonuses;
   }
 
+  void addTalent(Talent talent) {
+    _talents ~= talent;
+    _attributes = _attributes + talent.bonus;
+    _potential = _potential + talent.potential;
+  }
+
   private:
   Item[itemCapacity] _items;
+  Talent[] _talents;
   @jsonize {
     string _name;
     int _xp;
@@ -116,14 +129,18 @@ class Character {
     /// load items from names
     @property {
       string[] inventory() {
-        import std.algorithm : map;
-        import std.array : array;
         return array(_items[].map!"a.name");
       }
       void inventory(string[] inv) {
         assert(inv.length < itemCapacity);
         foreach(name ; inv) {
           addItem(loadItem(name));
+        }
+      }
+      string[] talentNames() { return array(_talents.map!"a.name"); }
+      void talentNames(string[] names) {
+        foreach (name ; names) {
+          addTalent(loadTalent(name));
         }
       }
     }
@@ -145,33 +162,33 @@ unittest {
   import std.json : parseJSON;
 
   auto json = parseJSON(`{
-      "_name" : "Myron",
+    "_name" : "Myron",
       "_attributes" : {
-      "valueSet" : {
-        "maxHp"        : 20,
-        "strength"     : 5,
-        "skill"        : 4,
-        "speed"        : 5,
-        "defense"      : 5,
-        "resist"       : 3,
-        "luck"         : 2,
-        "move"         : 4,
-        "constitution" : 5
-      }
+        "valueSet" : {
+          "maxHp"        : 20,
+          "strength"     : 5,
+          "skill"        : 4,
+          "speed"        : 5,
+          "defense"      : 5,
+          "resist"       : 3,
+          "luck"         : 2,
+          "move"         : 4,
+          "constitution" : 5
+        }
       },
       "_potential" : {
-      "valueSet" : {
-        "maxHp"        : 10,
-        "strength"     : 2,
-        "skill"        : 8,
-        "speed"        : 5,
-        "defense"      : 4,
-        "resist"       : 5,
-        "luck"         : 2,
-        "move"         : 0,
-        "constitution" : 1
-      }
-      }
+        "valueSet" : {
+          "maxHp"        : 10,
+          "strength"     : 2,
+          "skill"        : 8,
+          "speed"        : 5,
+          "defense"      : 4,
+          "resist"       : 5,
+          "luck"         : 2,
+          "move"         : 0,
+          "constitution" : 1
+        }
+    }
   }`);
 
   auto myron = json.extract!Character;
