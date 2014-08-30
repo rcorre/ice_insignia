@@ -14,7 +14,10 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.5 r10040"
-   sodipodi:docname="roster-view.svg">
+   sodipodi:docname="roster-view.svg"
+   inkscape:export-filename="/home/erethar/project/ice_insignia/content/image/roster_view.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -24,15 +27,15 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4466667"
+     inkscape:zoom="0.71375"
      inkscape:cx="400"
      inkscape:cy="300"
      inkscape:document-units="px"
-     inkscape:current-layer="layer3"
+     inkscape:current-layer="layer4"
      showgrid="true"
-     inkscape:window-width="1918"
-     inkscape:window-height="1059"
-     inkscape:window-x="0"
+     inkscape:window-width="958"
+     inkscape:window-height="879"
+     inkscape:window-x="640"
      inkscape:window-y="19"
      inkscape:window-maximized="0"
      showguides="true"
@@ -181,7 +184,8 @@
      inkscape:groupmode="layer"
      id="layer3"
      inkscape:label="Detail"
-     style="display:inline">
+     style="display:inline"
+     sodipodi:insensitive="true">
     <rect
        style="opacity:0.8;fill:#803300;stroke:#000000;stroke-width:3.50374293;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
        id="rect3006"
@@ -503,43 +507,7 @@
      inkscape:groupmode="layer"
      id="layer4"
      inkscape:label="Slots"
-     style="display:inline"
-     sodipodi:insensitive="true">
-    <rect
-       style="fill:#cccccc;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:4;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;display:inline"
-       id="rect4289"
-       width="32"
-       height="32"
-       x="96"
-       y="88"
-       ry="0" />
-    <rect
-       transform="translate(0,-452.36218)"
-       ry="0"
-       y="540.36218"
-       x="162"
-       height="32.000004"
-       width="32"
-       id="rect4291"
-       style="fill:#cccccc;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:4;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;display:inline" />
-    <rect
-       transform="translate(0,-452.36218)"
-       style="fill:#cccccc;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:4;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;display:inline"
-       id="rect4293"
-       width="32"
-       height="32.000004"
-       x="224"
-       y="540.36218"
-       ry="0" />
-    <rect
-       transform="translate(0,-452.36218)"
-       ry="0"
-       y="540.36218"
-       x="288"
-       height="32.000004"
-       width="32"
-       id="rect4295"
-       style="fill:#cccccc;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:4;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;display:inline" />
+     style="display:inline">
     <rect
        transform="translate(0,-452.36218)"
        ry="0"

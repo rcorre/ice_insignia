@@ -1,6 +1,6 @@
 import allegro;
 import state.gamestate;
-import state.battle;
+import state.preparation;
 import util.config;
 import model.character;
 
@@ -15,7 +15,8 @@ int main(char[][] args) {
     loadCharacter("Recruit"),
     loadCharacter("Recruit"),
   ];
-  _currentState = new Battle("map1", playerCharacters);
+  //_currentState = new Battle("map1", playerCharacters);
+  _currentState = new Preparation(playerCharacters);
 
   return al_run_allegro({
       while(_run) {

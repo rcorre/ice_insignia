@@ -4,9 +4,9 @@ import allegro;
 import util.jsonizer;
 import geometry.all;
 import graphics.sprite;
-import model.character;
 import model.valueset;
 import model.item;
+import model.attribute;
 
 class Talent {
   @jsonize this(string name, string description, ValueSet!Attribute bonus,
