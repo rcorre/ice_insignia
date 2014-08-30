@@ -37,8 +37,6 @@ class GamePad {
 
   @property {
     Vector2f scrollDirection() {
-      if (!_joystick) { return Vector2f.Zero; }
-
       auto scroll = _currentState.leftStickPos;
       return (scroll.len < deadZone) ? Vector2f.Zero : scroll;
     }
@@ -61,17 +59,14 @@ class GamePad {
   }
 
   bool pressed(Button360 button) {
-    if (!_joystick) { return false; }
     return (_currentState.button[button] != 0) && (_prevState.button[button] == 0);
   }
 
   bool released(Button360 button) {
-    if (!_joystick) { return false; }
     return (_currentState.button[button] != 0) && (_prevState.button[button] == 0);
   }
 
   bool held(Button360 button) {
-    if (!_joystick) { return false; }
     return (_currentState.button[button] != 0);
   }
 
