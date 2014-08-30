@@ -15,19 +15,19 @@ EVERYTHING = -I$(IMPORT) -I$(SRC_DIR) -L-L$(LIB) -of$(TARGET) $(SRC_FILES)
 all: debug
 
 debug: $(SRC_FILES)
-	$(DC) $(DBG_FLAGS) $(EVERYTHING)
+	@$(DC) $(DBG_FLAGS) $(EVERYTHING)
 
 release: $(SRC_FILES)
-	$(DC) $(REL_FLAGS) $(EVERYTHING)
+	@$(DC) $(REL_FLAGS) $(EVERYTHING)
 
 run: $(SRC_FILES)
-	rdmd $(DBG_FLAGS) -I$(IMPORT) -I$(SRC_DIR) -L-L$(LIB) src/main.d
+	@rdmd $(DBG_FLAGS) -I$(IMPORT) -I$(SRC_DIR) -L-L$(LIB) src/main.d
 
 test: $(SRC_FILES)
-	$(DC) $(TEST_FLAGS) $(EVERYTHING)
+	@$(DC) $(TEST_FLAGS) $(EVERYTHING)
 
 doc: $(SRC_FILES)
-	doc/generate
+	@doc/generate
 
 clean:
-	rm bin/* obj/*
+	@rm bin/* obj/*
