@@ -1,5 +1,7 @@
 module gui.container;
 
+import std.algorithm;
+import std.array;
 import gui.element;
 import geometry.all;
 import graphics.all;
@@ -18,56 +20,86 @@ class GUIContainer : GUIElement {
     }
 
     void handleSelect() {
-      if (_selectedSlot) {
-        _selectedSlot.handleSelect();
+      if (_selectedElement) {
+        _selectedElement.handleSelect();
       }
     }
 
     void draw() {
       _texture.draw(bounds.center);
-      foreach(slot ; _slots) {
+      foreach(slot ; _elements) {
         slot.draw();
       }
-      if (_selectedSlot) {
-        _selectedSlot.bounds.drawFilled(Color(0, 0.5, 0, 0.5));
+      if (_selectedElement) {
+        _selectedElement.bounds.drawFilled(Color(0, 0.5, 0, 0.5));
       }
     }
 
     void update() {
-      foreach(slot ; _slots) {
+      foreach(slot ; _elements) {
         slot.update();
       }
     }
 
     void handleHover() {
-      if (_selectedSlot) {
-        _selectedSlot.handleHover;
+      if (_selectedElement) {
+        _selectedElement.handleHover;
       }
     }
 
-    void handleMove(Direction dir) {
-      if (_selectedSlot && dir in _selectedSlot.neighbors) {
-        _selectedSlot = _selectedSlot.neighbors[dir];
+    void moveCursor(Vector2i direction) {
+      //TODO: this is such a mess
+      if (_selectedElement) {
+        if (direction.x > 0) {
+          auto r = _elements.filter!(x => x.bounds.left > _selectedElement.bounds.right).array;
+          if (!r.empty) {
+            r.sort!((a,b) => a.bounds.left < b.bounds.left);
+            if (!r.empty) {
+              _selectedElement = r.front;
+            }
+          }
+        }
+        else if (direction.x < 0) {
+          auto r = _elements.filter!(x => x.bounds.right < _selectedElement.bounds.left).array;
+          if (!r.empty) {
+            r.sort!((a,b) => a.bounds.right > b.bounds.right);
+            if (!r.empty) {
+              _selectedElement = r.front;
+            }
+          }
+        }
+        else if (direction.y > 0) {
+          auto r = _elements.filter!(x => x.bounds.top > _selectedElement.bounds.bottom).array;
+          if (!r.empty) {
+            r.sort!((a,b) => a.bounds.top < b.bounds.top);
+            if (!r.empty) {
+              _selectedElement = r.front;
+            }
+          }
+        }
+        else if (direction.y < 0) {
+          auto r = _elements.filter!(x => x.bounds.bottom < _selectedElement.bounds.top).array;
+          if (!r.empty) {
+            r.sort!((a,b) => a.bounds.bottom > b.bounds.bottom);
+            if (!r.empty) {
+              _selectedElement = r.front;
+            }
+          }
+        }
       }
     }
   }
 
-  final void addElement(GUIElement element, GUIElement[Direction] neighbors = (GUIElement[Direction]).init) {
+  final void addElement(GUIElement element) {
     element.topLeft = element.topLeft + topLeft;
-    auto slot = new Slot;
-    slot.element = element;
-    slot.neighbors = neighbors;
-    _slots ~= slot;
+    _elements ~= element;
+    if (_selectedElement is null) {
+      _selectedElement = element;
+    }
   }
 
   private:
   Texture _texture;
-  Slot[] _slots;
-  Slot _selectedSlot;
-}
-
-class Slot {
-  alias element this;
-  GUIElement[Direction] neighbors;
-  GUIElement element;
+  GUIElement[] _elements;
+  GUIElement _selectedElement;
 }

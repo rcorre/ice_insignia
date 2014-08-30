@@ -2,17 +2,11 @@ module gui.element;
 
 import geometry.all;
 import graphics.all;
+import util.input;
 
 enum Anchor {
   topLeft,
   center
-}
-
-enum Direction {
-  left,
-  right,
-  up,
-  down
 }
 
 abstract class GUIElement {
@@ -24,6 +18,32 @@ abstract class GUIElement {
       case Anchor.center:
         _bounds = Rect2i.CenteredAt(pos, width, height);
         break;
+    }
+  }
+
+  // concrete
+  @property final {
+    auto topLeft() { return _bounds.topLeft; }
+    void topLeft(Vector2i pos) { _bounds.topLeft = pos; }
+
+    auto center() { return _bounds.center; }
+    void center(Vector2i pos) { _bounds.center = pos; }
+
+    Rect2i bounds() { return _bounds; }
+  }
+
+  final void handleInput(InputManager input) {
+    if (input.selectRight) {
+      moveCursor(Vector2i(1, 0));
+    }
+    else if (input.selectLeft) {
+      moveCursor(Vector2i(-1, 0));
+    }
+    else if (input.selectUp) {
+      moveCursor(Vector2i(0, -1));
+    }
+    else if (input.selectDown) {
+      moveCursor(Vector2i(0, 1));
     }
   }
 
@@ -39,18 +59,7 @@ abstract class GUIElement {
   // optional
   void update() {}
   void handleHover() {}
-  void handleMove(Direction dir) {}
-
-  // concrete
-  @property final {
-    auto topLeft() { return _bounds.topLeft; }
-    void topLeft(Vector2i pos) { _bounds.topLeft = pos; }
-
-    auto center() { return _bounds.center; }
-    void center(Vector2i pos) { _bounds.center = pos; }
-
-    Rect2i bounds() { return _bounds; }
-  }
+  void moveCursor(Vector2i direction) {}
 
   private:
   Rect2i _bounds;

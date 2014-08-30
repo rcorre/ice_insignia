@@ -27,19 +27,20 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.71375"
+     inkscape:zoom="1.1466667"
      inkscape:cx="400"
      inkscape:cy="300"
      inkscape:document-units="px"
      inkscape:current-layer="layer4"
      showgrid="true"
-     inkscape:window-width="958"
+     inkscape:window-width="1598"
      inkscape:window-height="879"
-     inkscape:window-x="640"
+     inkscape:window-x="0"
      inkscape:window-y="19"
      inkscape:window-maximized="0"
      showguides="true"
-     inkscape:guide-bbox="true">
+     inkscape:guide-bbox="true"
+     inkscape:snap-global="false">
     <inkscape:grid
        type="xygrid"
        id="grid2993"
@@ -724,5 +725,10 @@
        width="32"
        id="rect4343"
        style="fill:#cccccc;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:4;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;display:inline" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:2.90278316px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 0.95139161,-0.79279439 319.97884,505.73466"
+       id="path3215"
+       inkscape:connector-curvature="0" />
   </g>
 </svg>

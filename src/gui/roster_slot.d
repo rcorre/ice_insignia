@@ -31,8 +31,6 @@ class RosterSlot : GUIElement {
 
     // optional
     void update() {}
-    void handleHover() {}
-    void handleMove(Direction dir) {}
   }
 
   private:
