@@ -13,10 +13,12 @@ private enum {
 }
 
 class RosterSlot : GUIElement {
+  Character character;
+
   this(Vector2i pos, Character character) {
-    _character = character;
-    if (_character) {
-      _sprite = new Sprite(_character.spriteName);
+    this.character = character;
+    if (character) {
+      _sprite = new Sprite(character.spriteName);
     }
     super(pos, Anchor.center);
   }
@@ -44,6 +46,5 @@ class RosterSlot : GUIElement {
   }
 
   private:
-  Character _character;
   Sprite _sprite;
 }

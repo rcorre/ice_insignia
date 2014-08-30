@@ -48,7 +48,6 @@ class GUIContainer : GUIElement {
     }
 
     void moveCursor(Vector2i direction) {
-      //TODO: this is such a mess
       GUIElement[] r;
       if (_selectedElement) {
         if (direction.x > 0) {
@@ -66,13 +65,14 @@ class GUIContainer : GUIElement {
         if (!r.empty) {
           auto pos = _selectedElement.center;
           r.sort!((a,b) => distance(pos, a.bounds.center) < distance(pos, b.bounds.center));
-          if (!r.empty) {
-            _selectedElement = r.front;
-          }
+          _selectedElement = r.front;
+          handleCursorMoved;
         }
       }
     }
   }
+
+  void handleCursorMoved() { }
 
   final {
     void addElement(GUIElement element) {

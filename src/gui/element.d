@@ -61,6 +61,9 @@ abstract class GUIElement {
   void handleHover() {}
   void moveCursor(Vector2i direction) {}
 
+  protected:
+  GUIElement _parent;
+
   private:
   Rect2i _bounds;
 }

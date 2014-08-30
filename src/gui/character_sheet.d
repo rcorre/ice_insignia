@@ -12,76 +12,91 @@ import util.input;
 
 private enum {
   textureName        = "character_view",
-  spritePos          = Vector2i(80, 72),
-  namePos            = Vector2i(112, 60),
-  lvlPos             = Vector2i(362, 60),
-  hpBarPos           = Vector2i(109, 130),
+  spritePos          = Vector2i(51, 51),
+  namePos            = Vector2i(81, 47),
+  lvlPos             = Vector2i(262, 51),
+  hpBarPos           = Vector2i(71, 116),
   hpBarWidth         = 96,
   hpBarHeight        = 16,
   hpBarFg            = Color(0.0, 0.8, 0),
   hpBarBg            = Color.white,
   hpTextColor        = Color.black,
-  xpBarPos           = Vector2i(109, 160),
+  xpBarPos           = Vector2i(103, 160),
   xpBarWidth         = 96,
   xpBarHeight        = 16,
   xpBarFg            = Color(0.8, 0.8, 0),
   xpBarBg            = Color.white,
   xpTextColor        = Color.black,
-  attributesPos      = Vector2i(118, 227),
+  attributesPos      = Vector2i(83, 211),
   attributesSep      = 32,
   attributeBarWidth  = 96,
   attributeBarHeight = 12,
   attributeBarFg     = Color(0.0, 0.8, 0),
   attributeBarBg     = Color.white,
   attributeTextColor = Color.black,
-  combatStatsPos     = Vector2i(606, 398),
+  combatStatsPos     = Vector2i(266, 278),
   combatStatsSep     = 32,
-  equipmentPos       = Vector2i(515, 155),
+  equipmentPos       = Vector2i(376, 343),
   equipmentStatsSep  = 32,
+  talentsPos         = Vector2i(376, 117),
+  talentsSep  = 32,
 }
 
 /// displays info about a character's stats
 class CharacterSheet {
-  this(Battler battler) {
+  this(Vector2i topLeft, Battler battler) {
+    _topLeft = topLeft;
     _bgTexture = getTexture(textureName);
-    _battler = battler;
+    _character = battler.character;
+    _sprite = battler.sprite;
     makeAttributeBars;
-    makeXpAndHpBars;
+    makeXpAndHpBars(battler.hp);
+  }
+
+  this(Vector2i topLeft, Character character) {
+    _topLeft = topLeft;
+    _bgTexture = getTexture(textureName);
+    _character = character;
+    _sprite = new Sprite(character.spriteName);
+    makeAttributeBars;
+    makeXpAndHpBars(_character.maxHp);
   }
 
   void handleInput(InputManager input) {
   }
 
   void draw() {
-    _bgTexture.draw(Vector2i(Settings.screenW / 2, Settings.screenH / 2));
+    _bgTexture.drawTopLeft(_topLeft);
     foreach(bar ; _progressBars) {
       bar.draw();
     }
-    _battler.sprite.draw(spritePos);
-    _nameFont.draw(_battler.name, namePos);
-    _levelFont.draw(to!string(_battler.level), lvlPos);
+    _sprite.draw(_topLeft + spritePos);
+    _nameFont.draw(_character.name, _topLeft + namePos);
+    _levelFont.draw(to!string(_character.level), _topLeft + lvlPos);
   }
 
   private:
   Texture _bgTexture;
-  Battler _battler;
+  Sprite _sprite;
+  Character _character;
   ProgressBar!int[] _progressBars;
+  Vector2i _topLeft;
 
   void makeAttributeBars() {
-    Rect2i area = Rect2i(attributesPos, attributeBarWidth, attributeBarHeight);
+    Rect2i area = Rect2i(_topLeft + attributesPos, attributeBarWidth, attributeBarHeight);
     foreach(attribute ; Attribute.strength .. Attribute.max) {
-      auto val = _battler.attributes[attribute];
+      auto val = _character.attributes[attribute];
       auto maxVal = AttributeCaps[attribute];
       _progressBars ~= new ProgressBar!int(area, val, maxVal, attributeBarFg, attributeBarBg, attributeTextColor);
       area.y += attributesSep;
     }
   }
 
-  void makeXpAndHpBars() {
-    auto area = Rect2i(hpBarPos, hpBarWidth, hpBarHeight);
-    _progressBars ~= new ProgressBar!int(area, _battler.hp, _battler.maxHp, hpBarFg, hpBarBg, hpTextColor);
-    area = Rect2i(xpBarPos, xpBarWidth, xpBarHeight);
-    _progressBars ~= new ProgressBar!int(area, _battler.xp, _battler.xpLimit, xpBarFg, xpBarBg, xpTextColor);
+  void makeXpAndHpBars(int currentHp) {
+    auto area = Rect2i(_topLeft + hpBarPos, hpBarWidth, hpBarHeight);
+    _progressBars ~= new ProgressBar!int(area, currentHp, _character.maxHp, hpBarFg, hpBarBg, hpTextColor);
+    area = Rect2i(_topLeft + xpBarPos, xpBarWidth, xpBarHeight);
+    _progressBars ~= new ProgressBar!int(area, currentHp, _character.xpLimit, xpBarFg, xpBarBg, xpTextColor);
   }
 
   static Font _nameFont, _levelFont;

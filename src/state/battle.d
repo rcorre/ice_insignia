@@ -28,6 +28,7 @@ private enum {
   battlerInfoPos = cast(Vector2i) Vector2f(Settings.screenW * 0.1f, Settings.screenH * 0.9f),
 
   battleInfoOffset = Vector2i(16, 16),
+  characterSheetPos = Vector2i(128, 56),
 }
 
 class Battle : GameState {
@@ -187,7 +188,7 @@ class Battle : GameState {
           _characterSheet = null;
         }
         else if (battlerToInspect) {
-          _characterSheet = new CharacterSheet(battlerToInspect);
+          _characterSheet = new CharacterSheet(characterSheetPos, battlerToInspect);
         }
       }
       else if (_input.cancel) {

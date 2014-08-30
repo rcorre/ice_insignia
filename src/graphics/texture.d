@@ -26,6 +26,15 @@ class Texture {
     Vector2i frameCenter() { return _frameCenter; }
   }
 
+  void drawTopLeft(Vector2i pos, float scale = 1, Color tint = Color.white, float angle = 0) {
+    al_draw_tinted_scaled_rotated_bitmap(_bmp, // bitmap
+        tint,                                  // color
+        0, 0,                                  // frame center position
+        pos.x, pos.y,                          // position to place center of frame at
+        scale, scale,                          // x and y scale
+        angle, 0);                             // rotation and flats
+  }
+
   void draw(Vector2i pos, float scale = 1, Color tint = Color.white, float angle = 0) {
     al_draw_tinted_scaled_rotated_bitmap(_bmp, // bitmap
         tint,                                  // color
