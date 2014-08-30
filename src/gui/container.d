@@ -25,6 +25,9 @@ class GUIContainer : GUIElement {
 
     void draw() {
       _texture.draw(bounds.center);
+      foreach(slot ; _slots) {
+        slot.draw();
+      }
       if (_selectedSlot) {
         _selectedSlot.bounds.drawFilled(Color(0, 0.5, 0, 0.5));
       }

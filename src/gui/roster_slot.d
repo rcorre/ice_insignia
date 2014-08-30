@@ -6,7 +6,7 @@ import graphics.all;
 import model.character;
 
 class RosterSlot : GUIElement {
-  this(Vector2i pos, Anchor anchorType, Character character) {
+  this(Vector2i pos, Character character) {
     _character = character;
     _sprite = new Sprite("blue_recruit");
     super(pos, Anchor.center);
