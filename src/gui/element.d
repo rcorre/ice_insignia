@@ -57,7 +57,7 @@ abstract class GUIElement {
   void draw();
 
   // optional
-  void update() {}
+  void update(float time) {}
   void handleHover() {}
   void moveCursor(Vector2i direction) {}
 

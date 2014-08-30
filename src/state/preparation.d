@@ -15,7 +15,7 @@ class Preparation : GameState {
 
   /// returns a GameState to request a state transition, null otherwise
   override GameState update(float time) {
-    _rosterView.update();
+    _rosterView.update(time);
     _input.update(time);
     _rosterView.handleInput(_input);
     return null;

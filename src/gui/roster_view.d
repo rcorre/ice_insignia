@@ -14,11 +14,13 @@ private enum {
   rosterStartPos = Vector2i(112, 170),
   rosterEndPos = Vector2i(322, 509),
   numRosterEntries = 24,
+  cursorShade = Color(0, 0, 0.5, 0.8),
 }
 
 class RosterView : GUIContainer {
   this(Vector2i pos, Character[] roster) {
-    super(pos, Anchor.topLeft, "roster_view");
+    auto cursor = new AnimatedSprite("target", cursorShade);
+    super(pos, Anchor.topLeft, "roster_view", cursor);
     int counter = 0;
     Vector2i slotPos = rosterStartPos;
     foreach(character ; roster) {

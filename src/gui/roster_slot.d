@@ -41,9 +41,6 @@ class RosterSlot : GUIElement {
         _sprite.draw(bounds.center);
       }
     }
-
-    // optional
-    void update() {}
   }
 
   private:

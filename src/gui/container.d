@@ -7,9 +7,10 @@ import geometry.all;
 import graphics.all;
 
 class GUIContainer : GUIElement {
-  this(Vector2i pos, Anchor anchorType, string textureName) {
+  this(Vector2i pos, Anchor anchorType, string textureName, Sprite cursorSprite) {
     _texture = getTexture(textureName);
     super(pos, anchorType);
+    _cursor = cursorSprite;
   }
 
   // abstract
@@ -30,15 +31,14 @@ class GUIContainer : GUIElement {
       foreach(slot ; _elements) {
         slot.draw();
       }
-      if (_selectedElement) {
-        _selectedElement.bounds.drawFilled(Color(0, 0.5, 0, 0.5));
-      }
+      _cursor.draw(_selectedElement.center);
     }
 
-    void update() {
+    void update(float time) {
       foreach(slot ; _elements) {
-        slot.update();
+        slot.update(time);
       }
+      _cursor.update(time);
     }
 
     void handleHover() {
@@ -74,16 +74,21 @@ class GUIContainer : GUIElement {
     }
   }
 
-  final void addElement(GUIElement element) {
-    element.topLeft = element.topLeft + topLeft;
-    _elements ~= element;
-    if (_selectedElement is null) {
-      _selectedElement = element;
+  final {
+    void addElement(GUIElement element) {
+      element.topLeft = element.topLeft + topLeft;
+      _elements ~= element;
+      if (_selectedElement is null) {
+        _selectedElement = element;
+      }
     }
+
+    @property auto selectedElement() { return _selectedElement; }
   }
 
   private:
   Texture _texture;
   GUIElement[] _elements;
   GUIElement _selectedElement;
+  Sprite _cursor;
 }
