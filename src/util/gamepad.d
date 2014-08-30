@@ -24,11 +24,13 @@ class GamePad {
 
   this(int id) {
     _joystick = al_get_joystick(id);
+    _prevState = ALLEGRO_JOYSTICK_STATE();
+    _currentState = ALLEGRO_JOYSTICK_STATE();
   }
 
   void update(float time) {
-    _prevState = _currentState;
     if (_joystick) {
+      _prevState = _currentState;
       al_get_joystick_state(_joystick, &_currentState);
     }
   }
@@ -37,9 +39,24 @@ class GamePad {
     Vector2f scrollDirection() {
       if (!_joystick) { return Vector2f.Zero; }
 
-      auto stick = _currentState.stick[0];
-      auto scroll = Vector2f(stick.axis[0], stick.axis[1]);
+      auto scroll = _currentState.leftStickPos;
       return (scroll.len < deadZone) ? Vector2f.Zero : scroll;
+    }
+
+    bool tappedDown() {
+      return (_currentState.leftStickPos.y > deadZone) && (_prevState.leftStickPos.y < deadZone);
+    }
+
+    bool tappedUp() {
+      return (_currentState.leftStickPos.y < -deadZone) && (_prevState.leftStickPos.y > -deadZone);
+    }
+
+    bool tappedLeft() {
+      return (_currentState.leftStickPos.x < -deadZone) && (_prevState.leftStickPos.x > -deadZone);
+    }
+
+    bool tappedRight() {
+      return (_currentState.leftStickPos.x > deadZone) && (_prevState.leftStickPos.x < deadZone);
     }
   }
 
@@ -61,4 +78,9 @@ class GamePad {
   private:
   ALLEGRO_JOYSTICK* _joystick;
   ALLEGRO_JOYSTICK_STATE _currentState, _prevState;
+}
+
+@property Vector2f leftStickPos(ALLEGRO_JOYSTICK_STATE state) {
+  auto stick = state.stick[0];
+  return Vector2f(stick.axis[0], stick.axis[1]);
 }

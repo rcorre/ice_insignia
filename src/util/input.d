@@ -105,10 +105,10 @@ class InputManager {
       return scroll;
     }
     */
-    bool selectUp()    { return keyPressed(Keymap.up); }
-    bool selectDown()  { return keyPressed(Keymap.down); }
-    bool selectLeft()  { return keyPressed(Keymap.left); }
-    bool selectRight() { return keyPressed(Keymap.right); }
+    bool selectUp()    { return keyPressed(Keymap.up)    || _gamePad.tappedUp; }
+    bool selectDown()  { return keyPressed(Keymap.down)  || _gamePad.tappedDown; }
+    bool selectLeft()  { return keyPressed(Keymap.left)  || _gamePad.tappedLeft; }
+    bool selectRight() { return keyPressed(Keymap.right) || _gamePad.tappedRight; }
 
     bool confirm() { return keyPressed(Keymap.confirm)   || _gamePad.pressed(Button360.a); }
     bool cancel()  { return keyPressed(Keymap.cancel)    || _gamePad.pressed(Button360.b); }
