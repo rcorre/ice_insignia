@@ -144,10 +144,32 @@ class Battle : GameState {
 
   class PlayerTurn : State {
     this() {
+      debug {
+        import std.stdio;
+        writeln("player turn");
+      }
       auto moveableAllies = _allies.filter!"!a.moved";
+      debug {
+        import std.stdio;
+        writeln("moveableAllies.empty: " , moveableAllies.empty);
+      }
       _turnOver = moveableAllies.empty;
-      _unitJumpList = cycle(array(moveableAllies));
-      _tileCursor.active = true;
+      debug {
+        import std.stdio;
+        writeln("moveableAllies.empty: " , moveableAllies.empty);
+      }
+      if (!_turnOver) {
+        _unitJumpList = cycle(array(moveableAllies));
+        _tileCursor.active = true;
+      }
+      debug {
+        import std.stdio;
+        writeln("created jump list");
+      }
+      debug {
+        import std.stdio;
+        writeln("activated tile cursor");
+      }
     }
 
     override State update(float time) {
