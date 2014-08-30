@@ -5,20 +5,29 @@ import geometry.all;
 import graphics.all;
 import model.character;
 
+private enum {
+  Color bgColor = Color.gray,
+  Color borderColor = Color.black,
+  int slotSize = 36,
+  float borderThickness = 2,
+}
+
 class RosterSlot : GUIElement {
   this(Vector2i pos, Character character) {
     _character = character;
-    _sprite = new Sprite("blue_recruit");
+    if (_character) {
+      _sprite = new Sprite("blue_recruit");
+    }
     super(pos, Anchor.center);
   }
 
   override {
     @property {
       int width() {
-        return _sprite.width;
+        return slotSize;
       }
       int height() {
-        return _sprite.height;
+        return slotSize;
       }
     }
 
@@ -26,7 +35,11 @@ class RosterSlot : GUIElement {
     }
 
     void draw() {
-      _sprite.draw(bounds.center);
+      bounds.drawFilled(bgColor);
+      bounds.draw(borderThickness, borderColor);
+      if (_sprite) {
+        _sprite.draw(bounds.center);
+      }
     }
 
     // optional

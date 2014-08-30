@@ -14,6 +14,9 @@ int main(char[][] args) {
     loadCharacter("Recruit"),
     loadCharacter("Recruit"),
     loadCharacter("Recruit"),
+    loadCharacter("Recruit"),
+    loadCharacter("Recruit"),
+    loadCharacter("Recruit"),
   ];
   //_currentState = new Battle("map1", playerCharacters);
   _currentState = new Preparation(playerCharacters);

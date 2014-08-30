@@ -161,6 +161,10 @@ struct Vector2(T : real) {
   }
 }
 
+T distance(T)(Vector2!T v1, Vector2!T v2) {
+  return (v2 - v1).len;
+}
+
 // float vector
 unittest {
   // test for rough equality

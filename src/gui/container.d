@@ -49,41 +49,25 @@ class GUIContainer : GUIElement {
 
     void moveCursor(Vector2i direction) {
       //TODO: this is such a mess
+      GUIElement[] r;
       if (_selectedElement) {
         if (direction.x > 0) {
-          auto r = _elements.filter!(x => x.bounds.left > _selectedElement.bounds.right).array;
-          if (!r.empty) {
-            r.sort!((a,b) => a.bounds.left < b.bounds.left);
-            if (!r.empty) {
-              _selectedElement = r.front;
-            }
-          }
+          r = _elements.filter!(x => x.bounds.left > _selectedElement.bounds.right).array;
         }
         else if (direction.x < 0) {
-          auto r = _elements.filter!(x => x.bounds.right < _selectedElement.bounds.left).array;
-          if (!r.empty) {
-            r.sort!((a,b) => a.bounds.right > b.bounds.right);
-            if (!r.empty) {
-              _selectedElement = r.front;
-            }
-          }
+          r = _elements.filter!(x => x.bounds.right < _selectedElement.bounds.left).array;
         }
         else if (direction.y > 0) {
-          auto r = _elements.filter!(x => x.bounds.top > _selectedElement.bounds.bottom).array;
-          if (!r.empty) {
-            r.sort!((a,b) => a.bounds.top < b.bounds.top);
-            if (!r.empty) {
-              _selectedElement = r.front;
-            }
-          }
+          r = _elements.filter!(x => x.bounds.top > _selectedElement.bounds.bottom).array;
         }
         else if (direction.y < 0) {
-          auto r = _elements.filter!(x => x.bounds.bottom < _selectedElement.bounds.top).array;
+          r = _elements.filter!(x => x.bounds.bottom < _selectedElement.bounds.top).array;
+        }
+        if (!r.empty) {
+          auto pos = _selectedElement.center;
+          r.sort!((a,b) => distance(pos, a.bounds.center) < distance(pos, b.bounds.center));
           if (!r.empty) {
-            r.sort!((a,b) => a.bounds.bottom > b.bounds.bottom);
-            if (!r.empty) {
-              _selectedElement = r.front;
-            }
+            _selectedElement = r.front;
           }
         }
       }
