@@ -14,20 +14,20 @@ private enum {
   textureName        = "character_view",
   spritePos          = Vector2i(51, 51),
   namePos            = Vector2i(81, 47),
-  lvlPos             = Vector2i(262, 51),
-  hpBarPos           = Vector2i(71, 116),
+  lvlPos             = Vector2i(260, 38),
+  hpBarPos           = Vector2i(71, 106),
   hpBarWidth         = 96,
   hpBarHeight        = 16,
   hpBarFg            = Color(0.0, 0.8, 0),
   hpBarBg            = Color.white,
   hpTextColor        = Color.black,
-  xpBarPos           = Vector2i(103, 160),
+  xpBarPos           = Vector2i(71, 138),
   xpBarWidth         = 96,
   xpBarHeight        = 16,
   xpBarFg            = Color(0.8, 0.8, 0),
   xpBarBg            = Color.white,
   xpTextColor        = Color.black,
-  attributesPos      = Vector2i(83, 211),
+  attributesPos      = Vector2i(83, 206),
   attributesSep      = 32,
   attributeBarWidth  = 96,
   attributeBarHeight = 12,
@@ -96,7 +96,7 @@ class CharacterSheet {
     auto area = Rect2i(_topLeft + hpBarPos, hpBarWidth, hpBarHeight);
     _progressBars ~= new ProgressBar!int(area, currentHp, _character.maxHp, hpBarFg, hpBarBg, hpTextColor);
     area = Rect2i(_topLeft + xpBarPos, xpBarWidth, xpBarHeight);
-    _progressBars ~= new ProgressBar!int(area, currentHp, _character.xpLimit, xpBarFg, xpBarBg, xpTextColor);
+    _progressBars ~= new ProgressBar!int(area, _character.xp, _character.xpLimit, xpBarFg, xpBarBg, xpTextColor);
   }
 
   static Font _nameFont, _levelFont;
