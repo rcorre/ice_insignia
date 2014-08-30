@@ -1,14 +1,83 @@
 {
-  "Recruit" : {
-    "_name" : "Recruit",
+  "Mercenary" : {
+    "_name" : "Mercenary",
+    "_spriteName" : "blue_merc_sword",
     "_attributes" : {
       "valueSet" : {
         "maxHp"        : 12,
         "strength"     : 4,
-        "skill"        : 4,
+        "skill"        : 5,
         "speed"        : 4,
         "defense"      : 2,
-        "resist"       : 2,
+        "resist"       : 1,
+        "luck"         : 1,
+        "move"         : 5,
+        "constitution" : 4
+      }
+    },
+    "_potential" : {
+      "valueSet" : {
+        "maxHp"        : 50,
+        "strength"     : 50,
+        "skill"        : 50,
+        "speed"        : 50,
+        "defense"      : 50,
+        "resist"       : 50,
+        "luck"         : 50,
+        "move"         : 0,
+        "constitution" : 10
+      }
+    },
+    "inventory" : [
+      "Broadsword"
+    ]
+  },
+
+  "Brute" : {
+    "_name" : "Brute",
+    "_spriteName" : "blue_brute_axe",
+    "_attributes" : {
+      "valueSet" : {
+        "maxHp"        : 15,
+        "strength"     : 6,
+        "skill"        : 4,
+        "speed"        : 3,
+        "defense"      : 2,
+        "resist"       : 1,
+        "luck"         : 0,
+        "move"         : 5,
+        "constitution" : 6
+      }
+    },
+    "_potential" : {
+      "valueSet" : {
+        "maxHp"        : 50,
+        "strength"     : 50,
+        "skill"        : 50,
+        "speed"        : 50,
+        "defense"      : 50,
+        "resist"       : 50,
+        "luck"         : 50,
+        "move"         : 0,
+        "constitution" : 20
+      }
+    },
+    "inventory" : [
+      "Mace"
+    ]
+  },
+
+  "Soldier" : {
+    "_name" : "Soldier",
+    "_spriteName" : "blue_soldier_spear",
+    "_attributes" : {
+      "valueSet" : {
+        "maxHp"        : 13,
+        "strength"     : 5,
+        "skill"        : 4,
+        "speed"        : 4,
+        "defense"      : 3,
+        "resist"       : 0,
         "luck"         : 0,
         "move"         : 5,
         "constitution" : 5
@@ -16,23 +85,19 @@
     },
     "_potential" : {
       "valueSet" : {
-        "maxHp"        : 15,
-        "strength"     : 10,
-        "skill"        : 10,
-        "speed"        : 10,
-        "defense"      : 10,
-        "resist"       : 10,
-        "luck"         : 10,
+        "maxHp"        : 50,
+        "strength"     : 50,
+        "skill"        : 50,
+        "speed"        : 50,
+        "defense"      : 50,
+        "resist"       : 50,
+        "luck"         : 50,
         "move"         : 0,
-        "constitution" : 0
+        "constitution" : 20
       }
     },
-    "talentNames" : [
-      "Blade Proficiency"
-    ],
     "inventory" : [
-      "Broadsword",
-      "Dirk"
+      "Spear"
     ]
   },
 

@@ -16,7 +16,7 @@ class RosterSlot : GUIElement {
   this(Vector2i pos, Character character) {
     _character = character;
     if (_character) {
-      _sprite = new Sprite("blue_recruit");
+      _sprite = new Sprite(_character.spriteName);
     }
     super(pos, Anchor.center);
   }

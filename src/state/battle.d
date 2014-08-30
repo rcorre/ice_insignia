@@ -43,7 +43,7 @@ class Battle : GameState {
       assert(idx < data.spawnPoints.length, "not enough spawn points for player units");
       auto pos = data.spawnPoints[idx];
       auto tile = _map.tileAtPos(pos);
-      auto sprite = new Sprite("blue_recruit");
+      auto sprite = new Sprite(character.spriteName);
       Battler b = new Battler(character, tile.row, tile.col, pos, sprite, BattleTeam.ally);
       _allies ~= b;
       placeBattler(b, tile);

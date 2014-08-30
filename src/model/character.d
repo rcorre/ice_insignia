@@ -19,7 +19,8 @@ class Character {
 
   enum {
     itemCapacity = 5,
-    xpLimit = 100
+    xpLimit = 100,
+    maxPotential = 100,
   }
 
   @property {
@@ -42,6 +43,7 @@ class Character {
     Item[] items() { return _items; }
 
     string name() { return _name; }
+    string spriteName() { return _spriteName; }
 
     /// character level
     int level() { return _level; }
@@ -98,6 +100,7 @@ class Character {
   Talent[] _talents;
   @jsonize {
     string _name;
+    string _spriteName;
     int _xp;
     int _level;
     ValueSet!Attribute _attributes;
