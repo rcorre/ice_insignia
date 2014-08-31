@@ -177,7 +177,8 @@ T extract(T)(JSONValue json) if (!isBuiltinType!T) {
   static if (__traits(hasMember, T, "__ctor")) {
     alias Overloads = TypeTuple!(__traits(getOverloads, T, "__ctor"));
     foreach(overload ; Overloads) {
-      static if (staticIndexOf!(jsonize, __traits(getAttributes, overload)) >= 0) {
+      if (staticIndexOf!(jsonize, __traits(getAttributes, overload)) >= 0 &&
+          canSatisfyCtor!overload(json)) {
         return invokeCustomJsonCtor!(T, overload)(json);
       }
     }
@@ -187,6 +188,20 @@ T extract(T)(JSONValue json) if (!isBuiltinType!T) {
     return invokeDefaultCtor!(T)(json);
   }
   assert(0, T.stringof ~ " must have a no-args constructor to support extract");
+}
+
+/// return true if keys can satisfy parameter names
+private bool canSatisfyCtor(alias Ctor)(JSONValue json) {
+  auto obj = json.object;
+  alias Params   = ParameterIdentifierTuple!Ctor;
+  alias Types    = ParameterTypeTuple!Ctor;
+  alias Defaults = ParameterDefaultValueTuple!Ctor;
+  foreach(i ; staticIota!(0, Params.length)) {
+    if (Params[i] !in obj && typeid(Defaults[i]) == typeid(void)) {
+      return false; // param had no default value and was not specified
+    }
+  }
+  return true;
 }
 
 private T invokeCustomJsonCtor(T, alias Ctor)(JSONValue json) {
@@ -475,6 +490,12 @@ unittest {
       this._f = _f;
     }
 
+    @jsonize this(double d) { // alternate ctor
+      _f = d.to!float;
+      _s = d.to!string;
+      _i = d.to!int;
+    }
+
     private:
     @jsonize {
       string _s;
@@ -492,6 +513,11 @@ unittest {
   assert(c2._i == 12);
   assert(c2._s == "something jsonized");
   assert(c2._f.approxEqual(10.2));
+
+  // test alternate ctor
+  json = parseJSON(`{"d" : 5}`);
+  c = json.extract!Custom;
+  assert(c._f.approxEqual(5) && c._i == 5 && c._s == "5");
 }
 
 /// struct serialization
