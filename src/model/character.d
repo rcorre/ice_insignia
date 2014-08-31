@@ -84,6 +84,7 @@ class Character {
 
   /// level up and return attribute increase values
   ValueSet!Attribute levelUp() {
+    ++_level;
     auto bonuses = _potential.map!(p => uniform!"[]"(0, 100) > p ? 0 : 1);
     _attributes = attributes + bonuses;
     return bonuses;
@@ -102,7 +103,7 @@ class Character {
     string _name;
     string _spriteName;
     int _xp;
-    int _level;
+    int _level = 1;
     ValueSet!Attribute _attributes;
     ValueSet!Attribute _potential;
     /// load items from names

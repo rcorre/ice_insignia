@@ -127,7 +127,7 @@ class MapObject {
 
   Battler generateEnemy(int tileWidth, int tileHeight, TileSet[] tilesets) {
     auto character = loadCharacter(name);
-    auto level = to!int(properties.get("level", "1"));
+    auto level = to!int(type); // type is used to store level
     for(int i = 1 ; i < level ; i++) {
       character.levelUp();
     }

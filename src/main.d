@@ -19,8 +19,8 @@ int main(char[][] args) {
     loadCharacter("Soldier"),
     loadCharacter("Soldier"),
   ];
-  //_currentState = new Battle("map1", playerCharacters);
-  _currentState = new Preparation(playerCharacters);
+  _currentState = new Battle("map1", playerCharacters);
+  //_currentState = new Preparation(playerCharacters);
 
   return al_run_allegro({
       while(_run) {

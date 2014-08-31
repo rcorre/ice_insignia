@@ -25,4 +25,3 @@ enum AttributeCaps = [
   Attribute.move         : 10,
   Attribute.constitution : 15,
 ];
-
