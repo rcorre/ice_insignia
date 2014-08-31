@@ -193,6 +193,9 @@ class Battle : GameState {
       else if (_input.cancel) {
         _characterSheet = null;
       }
+
+      // TODO: make character sheet a new state
+
       return null;
     }
 

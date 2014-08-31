@@ -4,7 +4,7 @@
     "attributes" : {
       "valueSet" : {
         "maxHp"        : 12,
-        "strength"     : 4,
+        "strength"     : 3,
         "skill"        : 5,
         "speed"        : 4,
         "defense"      : 2,
@@ -36,7 +36,7 @@
     "attributes" : {
       "valueSet" : {
         "maxHp"        : 15,
-        "strength"     : 6,
+        "strength"     : 5,
         "skill"        : 4,
         "speed"        : 3,
         "defense"      : 2,
@@ -69,7 +69,7 @@
     "attributes" : {
       "valueSet" : {
         "maxHp"        : 13,
-        "strength"     : 5,
+        "strength"     : 4,
         "skill"        : 4,
         "speed"        : 4,
         "defense"      : 3,
