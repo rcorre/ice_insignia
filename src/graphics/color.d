@@ -9,8 +9,13 @@ struct Color {
   ALLEGRO_COLOR color;
   alias color this;
 
+  //TODO: opAssign from ALLEGRO_COLOR?
   this(float r, float g, float b, float a = 1.0f) {
     color = ALLEGRO_COLOR(r, g, b, a);
+  }
+
+  this(ALLEGRO_COLOR color) {
+    this.color = color;
   }
 
   static @property {

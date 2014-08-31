@@ -5,6 +5,8 @@ import tilemap.tile;
 import geometry.all;
 import util.math;
 
+// TODO: in future, use transforms and clipping rectangle for camera
+
 class TileMap {
   this(Tile[][] tiles, int tileWidth, int tileHeight) {
     _tiles = tiles;

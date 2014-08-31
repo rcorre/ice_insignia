@@ -19,7 +19,9 @@ int main(char[][] args) {
     loadCharacter("Soldier"),
   ];
   //_currentState = new Battle("map1", playerCharacters);
-  _currentState = new Preparation(playerCharacters);
+  //_currentState = new Preparation(playerCharacters);
+  import state.bmp_test;
+  _currentState = new BMPTest();
 
   return al_run_allegro({
       while(_run) {

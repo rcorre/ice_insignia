@@ -27,9 +27,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.3532256"
-     inkscape:cx="306.82224"
-     inkscape:cy="323.02577"
+     inkscape:zoom="2.0187899"
+     inkscape:cx="383.97037"
+     inkscape:cy="379.23236"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -151,8 +151,8 @@
      transform="translate(0,-452.36218)"
      style="display:inline">
     <path
-       style="fill:#c8ab37;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:4.77260733;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
-       d="m 103.11111,508.36218 c -19.228782,0 -34.708994,14.272 -34.708994,32 l 0,0.34375 c -3.47494,-0.22202 -7.105209,-0.34375 -10.84656,-0.34375 -25.237778,0 -45.555556,5.352 -45.555556,12 l 0,104 c 0,6.648 20.317778,12 45.555556,12 3.741351,0 7.37162,-0.12173 10.84656,-0.34375 l 0,320.34375 c 0,17.72802 15.480212,32.00002 34.708994,32.00002 l 694.17989,0 c 19.22878,0 34.709,-14.272 34.709,-32.00002 l 0,-448 c 0,-17.728 -15.48022,-32 -34.709,-32 l -694.17989,0 z"
+       style="fill:#c8ab37;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:4.67213488;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       d="m 99.315377,508.36218 c -18.427701,0 -33.263,14.272 -33.263,32 l 0,0.34375 c -3.330173,-0.22202 -6.809203,-0.34375 -10.394687,-0.34375 -24.18636,0 -43.65769,5.352 -43.65769,12 l 0,104 c 0,6.648 19.47133,12 43.65769,12 3.585484,0 7.064514,-0.12173 10.394687,-0.34375 l 0,320.34375 c 0,17.72802 14.835299,32.00002 33.263,32.00002 l 665.260023,0 c 18.42771,0 33.26301,-14.272 33.26301,-32.00002 l 0,-448 c 0,-17.728 -14.8353,-32 -33.26301,-32 l -665.260023,0 z"
        id="rect3765"
        inkscape:connector-curvature="0" />
     <text
@@ -178,12 +178,17 @@
          id="tspan3837"
          x="-763.71765"
          y="821.03473" /></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:2.28521848px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 0,452.36218 256,376"
+       id="path4044"
+       inkscape:connector-curvature="0" />
   </g>
   <g
      inkscape:groupmode="layer"
      id="layer3"
      inkscape:label="Detail"
-     style="display:none">
+     style="display:inline">
     <rect
        style="opacity:0.8;fill:#803300;stroke:#000000;stroke-width:4.04577351;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
        id="rect3006"

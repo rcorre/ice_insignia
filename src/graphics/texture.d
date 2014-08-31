@@ -95,6 +95,16 @@ Texture getTexture(string name) {
   return _textureStore[name];
 }
 
+void registerTexture(ALLEGRO_BITMAP* bmp, string name) {
+  assert(name !in _textureStore, "cannot register bitmap " ~ name ~ " as it is already in texture store");
+  _textureStore[name] = new Texture(bmp);
+}
+
+void registerTexture(ALLEGRO_BITMAP* bmp, string name, int frameWidth, int frameHeight) {
+  assert(name !in _textureStore, "cannot register bitmap " ~ name ~ " as it is already in texture store");
+  _textureStore[name] = new Texture(bmp, frameWidth, frameHeight);
+}
+
 static this() { // automatically load a texture for each entry in the texture sheet config file
   auto textureData = loadConfigFile(Paths.textureData);
   auto textureDir = textureData.globals["texture_dir"];
