@@ -146,7 +146,7 @@ Character generateCharacter(string name, int level = 1, string[] itemNames = [])
     character.addTalent(loadTalent(talent));
   }
   foreach(item ; itemNames) {
-    character.addItem(loadItem(item));
+    assert(character.addItem(loadItem(item)));
   }
   for(int i = 1 ; i < level ; i++) {
     character.levelUp();

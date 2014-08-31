@@ -1,5 +1,5 @@
 {
-  "Dirk": {
+  "dirk": {
     "name"     : "Dirk",
     "_type"     : "sword",
     "_uses"     : 30,
@@ -11,7 +11,7 @@
     "_weight"   : 3
   },
 
-  "Broadsword": {
+  "broadsword": {
     "name"     : "Broadsword",
     "_type"     : "sword",
     "_uses"     : 40,
@@ -23,7 +23,7 @@
     "_weight"   : 6
   },
 
-  "Quarterstaff": {
+  "quarterstaff": {
     "name"     : "Quarterstaff",
     "_type"     : "lance",
     "_uses"     : 40,
@@ -35,7 +35,7 @@
     "_weight"   : 4
   },
 
-  "Spear": {
+  "spear": {
     "name"     : "Spear",
     "_type"     : "lance",
     "_uses"     : 35,
@@ -47,7 +47,7 @@
     "_weight"   : 5
   },
 
-  "Handaxe": {
+  "handaxe": {
     "name"     : "Handaxe",
     "_type"     : "axe",
     "_uses"     : 25,
@@ -59,7 +59,7 @@
     "_weight"   : 5
   },
 
-  "Mace": {
+  "mace": {
     "name"     : "Mace",
     "_type"     : "axe",
     "_uses"     : 40,
@@ -71,7 +71,7 @@
     "_weight"   : 7
   },
 
-  "Shortbow": {
+  "shortbow": {
     "name"     : "Shortbow",
     "_type"     : "bow",
     "_uses"     : 40,

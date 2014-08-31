@@ -55,6 +55,20 @@ struct Rect2(T) {
       return topLeft;
     }
 
+    auto topRight() { return Vector2!T(right, y); }
+    auto topRight(Vector2!T val) {
+      right = val.x;
+      top = val.y;
+      return topRight;
+    }
+
+    auto bottomLeft() { return Vector2!T(left, bottom); }
+    auto bottomLeft(Vector2!T val) {
+      left = val.x;
+      bottom = val.y;
+      return bottomLeft;
+    }
+
     auto bottomRight() { return Vector2!T(right, bottom); }
     auto bottomRight(Vector2!T val) {
       right  = val.x;

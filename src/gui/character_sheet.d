@@ -36,10 +36,10 @@ private enum {
   attributeTextColor = Color.black,
   combatStatsPos     = Vector2i(266, 278),
   combatStatsSep     = 32,
-  equipmentPos       = Vector2i(376, 343),
-  equipmentStatsSep  = 32,
+  equipmentPos       = Vector2i(368, 338),
+  equipmentSep       = 32,
   talentsPos         = Vector2i(376, 117),
-  talentsSep  = 32,
+  talentsSep         = 32,
 }
 
 /// displays info about a character's stats
@@ -49,17 +49,14 @@ class CharacterSheet {
     _bgTexture = getTexture(textureName);
     _character = battler.character;
     _sprite = battler.sprite;
-    makeAttributeBars;
-    makeXpAndHpBars(battler.hp);
+    populate(battler.hp);
   }
 
   this(Vector2i topLeft, Character character) {
     _topLeft = topLeft;
-    _bgTexture = getTexture(textureName);
     _character = character;
     _sprite = new CharacterSprite(character.model);
-    makeAttributeBars;
-    makeXpAndHpBars(_character.maxHp);
+    populate(character.maxHp);
   }
 
   void handleInput(InputManager input) {
@@ -70,6 +67,9 @@ class CharacterSheet {
     foreach(bar ; _progressBars) {
       bar.draw();
     }
+    foreach(slot ; _itemSlots) {
+      slot.draw();
+    }
     _sprite.draw(_topLeft + spritePos);
     _nameFont.draw(_character.name, _topLeft + namePos);
     _levelFont.draw(to!string(_character.level), _topLeft + lvlPos);
@@ -79,8 +79,16 @@ class CharacterSheet {
   Texture _bgTexture;
   Sprite _sprite;
   Character _character;
+  ItemSlot[] _itemSlots;
   ProgressBar!int[] _progressBars;
   Vector2i _topLeft;
+
+  private void populate(int hp) {
+    _bgTexture = getTexture(textureName);
+    makeAttributeBars;
+    makeXpAndHpBars(hp);
+    makeItemSlots;
+  }
 
   void makeAttributeBars() {
     Rect2i area = Rect2i(_topLeft + attributesPos, attributeBarWidth, attributeBarHeight);
@@ -97,6 +105,14 @@ class CharacterSheet {
     _progressBars ~= new ProgressBar!int(area, currentHp, _character.maxHp, hpBarFg, hpBarBg, hpTextColor);
     area = Rect2i(_topLeft + xpBarPos, xpBarWidth, xpBarHeight);
     _progressBars ~= new ProgressBar!int(area, _character.xp, _character.xpLimit, xpBarFg, xpBarBg, xpTextColor);
+  }
+
+  void makeItemSlots() {
+    foreach(item ; _character.items) {
+      Vector2i pos = _topLeft + equipmentPos;
+      _itemSlots ~= new ItemSlot(pos, item);
+      pos.y += equipmentSep;
+    }
   }
 
   static Font _nameFont, _levelFont;

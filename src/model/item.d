@@ -1,5 +1,6 @@
 module model.item;
 
+import std.string : toLower;
 import std.algorithm : max;
 import allegro;
 import util.jsonizer;
@@ -7,6 +8,7 @@ import geometry.vector;
 import graphics.sprite;
 
 Item loadItem(string name) {
+  name = toLower(name);
   assert(name in _itemData, "could not load item named " ~ name);
   return _itemData[name];
 }
@@ -50,7 +52,6 @@ class Item {
   }
 
   void draw(Vector2i pos) {
-    assert(_sprite);
     _sprite.draw(pos);
   }
 
