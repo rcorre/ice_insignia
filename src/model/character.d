@@ -23,9 +23,33 @@ class Character {
     maxPotential = 100,
   }
 
+  @jsonize this(string name, string model, ValueSet!Attribute attributes, ValueSet!Attribute potential,
+      int level = 1, int xp = 0, string[] itemNames = [], string[] talentNames = [])
+  {
+    _name = name;
+    _model = model;
+    _attributes = attributes;
+    _potential = potential;
+    _level = level;
+    _xp = xp;
+    foreach(item ; itemNames) {
+      addItem(loadItem(item));
+    }
+    foreach(talent ; talentNames) {
+      addTalent(loadTalent(talent));
+    }
+  }
+
   @property {
-    ValueSet!Attribute potential() { return _potential; }
-    ValueSet!Attribute attributes() { return _attributes; }
+    @jsonize {
+      string name() { return _name; }
+      string model() { return _model; }
+      int level() { return _level; }
+      int xp() { return _xp; }
+
+      ValueSet!Attribute potential() { return _potential; }
+      ValueSet!Attribute attributes() { return _attributes; }
+    }
 
     Item equippedWeapon() {
       return (_items[0] && _items[0].isWeapon) ? _items[0] : Item.none;
@@ -41,15 +65,6 @@ class Character {
     }
 
     Item[] items() { return _items; }
-
-    string name() { return _name; }
-    string spriteName() { return _spriteName; }
-
-    /// character level
-    int level() { return _level; }
-
-    // character experience
-    int xp() { return _xp; }
     void xp(int val) {
       if (_xp + val >= xpLimit) {
         levelUp();
@@ -97,33 +112,19 @@ class Character {
   }
 
   private:
+  string _name;
+  string _model;
+  int _xp;
+  int _level = 1;
+  ValueSet!Attribute _attributes;
+  ValueSet!Attribute _potential;
   Item[itemCapacity] _items;
   Talent[] _talents;
-  @jsonize {
-    string _name;
-    string _spriteName;
-    int _xp;
-    int _level = 1;
-    ValueSet!Attribute _attributes;
-    ValueSet!Attribute _potential;
-    /// load items from names
-    @property {
-      string[] inventory() {
-        return array(_items[].map!"a.name");
-      }
-      void inventory(string[] inv) {
-        assert(inv.length < itemCapacity);
-        foreach(name ; inv) {
-          addItem(loadItem(name));
-        }
-      }
-      string[] talentNames() { return array(_talents.map!"a.name"); }
-      void talentNames(string[] names) {
-        foreach (name ; names) {
-          addTalent(loadTalent(name));
-        }
-      }
+  @jsonize @property { // items and talents are jsonized by name
+    string[] itemNames() {
+      return array(_items[].map!"a.name");
     }
+    string[] talentNames() { return array(_talents.map!"a.name"); }
   }
 }
 
@@ -142,33 +143,33 @@ unittest {
   import std.json : parseJSON;
 
   auto json = parseJSON(`{
-    "_name" : "Myron",
-      "_attributes" : {
-        "valueSet" : {
-          "maxHp"        : 20,
-          "strength"     : 5,
-          "skill"        : 4,
-          "speed"        : 5,
-          "defense"      : 5,
-          "resist"       : 3,
-          "luck"         : 2,
-          "move"         : 4,
-          "constitution" : 5
-        }
+      "name" : "Myron",
+      "attributes" : {
+      "valueSet" : {
+      "maxHp"        : 20,
+      "strength"     : 5,
+      "skill"        : 4,
+      "speed"        : 5,
+      "defense"      : 5,
+      "resist"       : 3,
+      "luck"         : 2,
+      "move"         : 4,
+      "constitution" : 5
+      }
       },
-      "_potential" : {
-        "valueSet" : {
-          "maxHp"        : 10,
-          "strength"     : 2,
-          "skill"        : 8,
-          "speed"        : 5,
-          "defense"      : 4,
-          "resist"       : 5,
-          "luck"         : 2,
-          "move"         : 0,
-          "constitution" : 1
-        }
-    }
+      "potential" : {
+      "valueSet" : {
+      "maxHp"        : 10,
+      "strength"     : 2,
+      "skill"        : 8,
+      "speed"        : 5,
+      "defense"      : 4,
+      "resist"       : 5,
+      "luck"         : 2,
+      "move"         : 0,
+      "constitution" : 1
+      }
+      }
   }`);
 
   auto myron = json.extract!Character;

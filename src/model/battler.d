@@ -33,7 +33,7 @@ class Battler {
     _row = row;
     _col = col;
     _pos = pos;
-    _sprite = new CharacterSprite(c.spriteName, team);
+    _sprite = new CharacterSprite(c.model, team);
     this.team = team;
     _hp = c.maxHp;
     _aiType = aiType;

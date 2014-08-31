@@ -57,7 +57,7 @@ class CharacterSheet {
     _topLeft = topLeft;
     _bgTexture = getTexture(textureName);
     _character = character;
-    _sprite = new CharacterSprite(character.spriteName);
+    _sprite = new CharacterSprite(character.model);
     makeAttributeBars;
     makeXpAndHpBars(_character.maxHp);
   }
