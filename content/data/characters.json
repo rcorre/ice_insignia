@@ -1,6 +1,5 @@
 {
   "Mercenary" : {
-    "name" : "Mercenary",
     "model" : "mercenary",
     "attributes" : {
       "valueSet" : {
@@ -33,7 +32,6 @@
     ]
   },
   "Fighter" : {
-    "name" : "Fighter",
     "model" : "fighter",
     "attributes" : {
       "valueSet" : {
@@ -67,7 +65,6 @@
   },
 
   "Soldier" : {
-    "name" : "Soldier",
     "model" : "soldier",
     "attributes" : {
       "valueSet" : {

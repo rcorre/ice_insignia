@@ -12,12 +12,12 @@ private GameState _currentState;
 
 int main(char[][] args) {
   Character[] playerCharacters = [
-    loadCharacter("Mercenary"),
-    loadCharacter("Mercenary"),
-    loadCharacter("Fighter"),
-    loadCharacter("Fighter"),
-    loadCharacter("Soldier"),
-    loadCharacter("Soldier"),
+    generateCharacter("Mercenary"),
+    generateCharacter("Mercenary"),
+    generateCharacter("Fighter"),
+    generateCharacter("Fighter"),
+    generateCharacter("Soldier"),
+    generateCharacter("Soldier"),
   ];
   _currentState = new Battle("map1", playerCharacters);
   //_currentState = new Preparation(playerCharacters);

@@ -11,8 +11,11 @@ import util.jsonizer;
 import model.item;
 import model.valueset;
 import model.talent;
+import model.character_spec;
 import graphics.sprite;
 public import model.attribute;
+
+alias AttributeSet = ValueSet!Attribute;
 
 class Character {
   mixin JsonizeMe;
@@ -23,7 +26,8 @@ class Character {
     maxPotential = 100,
   }
 
-  @jsonize this(string name, string model, ValueSet!Attribute attributes, ValueSet!Attribute potential,
+  /// load saved character
+  @jsonize this(string name, string model, AttributeSet attributes, AttributeSet potential,
       int level = 1, int xp = 0, string[] itemNames = [], string[] talentNames = [])
   {
     _name = name;
@@ -40,6 +44,13 @@ class Character {
     }
   }
 
+  this(CharacterSpec spec) {
+    _name       = spec.name;
+    _model      = spec.model;
+    _attributes = spec.attributes;
+    _potential  = spec.potential;
+  }
+
   @property {
     @jsonize {
       string name() { return _name; }
@@ -47,8 +58,8 @@ class Character {
       int level() { return _level; }
       int xp() { return _xp; }
 
-      ValueSet!Attribute potential() { return _potential; }
-      ValueSet!Attribute attributes() { return _attributes; }
+      AttributeSet potential() { return _potential; }
+      AttributeSet attributes() { return _attributes; }
     }
 
     Item equippedWeapon() {
@@ -98,7 +109,7 @@ class Character {
   }
 
   /// level up and return attribute increase values
-  ValueSet!Attribute levelUp() {
+  AttributeSet levelUp() {
     ++_level;
     auto bonuses = _potential.map!(p => uniform!"[]"(0, 100) > p ? 0 : 1);
     _attributes = attributes + bonuses;
@@ -116,8 +127,8 @@ class Character {
   string _model;
   int _xp;
   int _level = 1;
-  ValueSet!Attribute _attributes;
-  ValueSet!Attribute _potential;
+  AttributeSet _attributes;
+  AttributeSet _potential;
   Item[itemCapacity] _items;
   Talent[] _talents;
   @jsonize @property { // items and talents are jsonized by name
@@ -128,15 +139,13 @@ class Character {
   }
 }
 
-Character loadCharacter(string name) {
-  assert(name in _characterData, "could not match character " ~ name);
-  return _characterData[name];
-}
-
-private Character[string] _characterData;
-
-static this() {
-  _characterData = readJSON!(Character[string])(Paths.characterData);
+Character generateCharacter(string name, int level = 1) {
+  auto spec =  loadCharacterSpec(name);
+  auto character = new Character(spec);
+  for(int i = 1 ; i < level ; i++) {
+    character.levelUp();
+  }
+  return character;
 }
 
 unittest {

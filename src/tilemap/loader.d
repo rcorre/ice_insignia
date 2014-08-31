@@ -126,11 +126,8 @@ class MapObject {
   mixin JsonizeMe;
 
   Battler generateEnemy(int tileWidth, int tileHeight, TileSet[] tilesets) {
-    auto character = loadCharacter(name);
-    auto level = to!int(type); // type is used to store level
-    for(int i = 1 ; i < level ; i++) {
-      character.levelUp();
-    }
+    // type is used to store level
+    auto character = generateCharacter(name, to!int(type));
 
     int col = x / tileWidth;
     int row = y / tileHeight;
