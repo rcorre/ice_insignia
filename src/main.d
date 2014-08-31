@@ -1,6 +1,7 @@
 import allegro;
 import state.gamestate;
 import state.preparation;
+import state.battle;
 import util.config;
 import model.character;
 

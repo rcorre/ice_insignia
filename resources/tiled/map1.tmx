@@ -168,7 +168,7 @@
   </tile>
  </tileset>
  <tileset firstgid="101" name="units" tilewidth="32" tileheight="32">
-  <image source="../../content/image/units.png" width="320" height="320"/>
+  <image source="../../content/image/units_red.png" width="160" height="160"/>
  </tileset>
  <layer name="Terrain" width="32" height="32">
   <data encoding="base64" compression="zlib">
@@ -181,26 +181,10 @@
   </data>
  </layer>
  <objectgroup name="Enemies" width="32" height="32">
-  <object name="Fighter" type="Enemy" gid="133" x="416" y="640">
-   <properties>
-    <property name="level" value="1"/>
-   </properties>
-  </object>
-  <object name="Fighter" type="Enemy" gid="133" x="544" y="576">
-   <properties>
-    <property name="level" value="2"/>
-   </properties>
-  </object>
-  <object name="Fighter" type="Enemy" gid="133" x="512" y="960">
-   <properties>
-    <property name="level" value="2"/>
-   </properties>
-  </object>
-  <object name="Fighter" type="Enemy" gid="133" x="512" y="896">
-   <properties>
-    <property name="level" value="2"/>
-   </properties>
-  </object>
+  <object name="Fighter" type="1" gid="102" x="512" y="896"/>
+  <object name="Fighter" type="2" gid="102" x="448" y="896"/>
+  <object name="Soldier" type="1" gid="107" x="320" y="864"/>
+  <object name="Mercenary" type="1" gid="112" x="576" y="832"/>
  </objectgroup>
  <objectgroup name="Allies" width="32" height="32">
   <object type="spawn" gid="101" x="512" y="1024"/>

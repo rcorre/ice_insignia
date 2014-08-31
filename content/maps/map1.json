@@ -27,60 +27,60 @@
          "name":"Enemies",
          "objects":[
                 {
-                 "gid":133,
+                 "gid":102,
                  "height":0,
-                 "name":"Brigand",
+                 "name":"Fighter",
                  "properties":
                     {
-                     "level":"1"
+
                     },
-                 "type":"Enemy",
-                 "visible":true,
-                 "width":0,
-                 "x":416,
-                 "y":640
-                }, 
-                {
-                 "gid":133,
-                 "height":0,
-                 "name":"Brigand",
-                 "properties":
-                    {
-                     "level":"2"
-                    },
-                 "type":"Enemy",
-                 "visible":true,
-                 "width":0,
-                 "x":544,
-                 "y":576
-                }, 
-                {
-                 "gid":133,
-                 "height":0,
-                 "name":"Brigand",
-                 "properties":
-                    {
-                     "level":"2"
-                    },
-                 "type":"Enemy",
-                 "visible":true,
-                 "width":0,
-                 "x":512,
-                 "y":960
-                }, 
-                {
-                 "gid":133,
-                 "height":0,
-                 "name":"Brigand",
-                 "properties":
-                    {
-                     "level":"2"
-                    },
-                 "type":"Enemy",
+                 "type":"1",
                  "visible":true,
                  "width":0,
                  "x":512,
                  "y":896
+                }, 
+                {
+                 "gid":102,
+                 "height":0,
+                 "name":"Fighter",
+                 "properties":
+                    {
+
+                    },
+                 "type":"2",
+                 "visible":true,
+                 "width":0,
+                 "x":448,
+                 "y":896
+                }, 
+                {
+                 "gid":107,
+                 "height":0,
+                 "name":"Soldier",
+                 "properties":
+                    {
+
+                    },
+                 "type":"1",
+                 "visible":true,
+                 "width":0,
+                 "x":320,
+                 "y":864
+                }, 
+                {
+                 "gid":112,
+                 "height":0,
+                 "name":"Mercenary",
+                 "properties":
+                    {
+
+                    },
+                 "type":"1",
+                 "visible":true,
+                 "width":0,
+                 "x":576,
+                 "y":832
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -218,7 +218,7 @@
  "tilesets":[
         {
          "firstgid":1,
-         "image":"..\/..\/..\/..\/..\/..\/data\/project\/ice_insignia\/content\/image\/terrain.png",
+         "image":"..\/image\/terrain.png",
          "imageheight":320,
          "imagewidth":320,
          "margin":0,
@@ -371,9 +371,9 @@
         }, 
         {
          "firstgid":101,
-         "image":"..\/..\/..\/..\/..\/..\/data\/project\/ice_insignia\/content\/image\/units.png",
-         "imageheight":320,
-         "imagewidth":320,
+         "image":"..\/image\/units_red.png",
+         "imageheight":160,
+         "imagewidth":160,
          "margin":0,
          "name":"units",
          "properties":

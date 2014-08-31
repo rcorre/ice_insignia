@@ -627,11 +627,10 @@ class Battle : GameState {
   }
 
   private class TileCursor {
-    bool active;
+    bool active = true;
 
     this() {
       _sprite = new AnimatedSprite("target", shade);
-      active = true;
     }
 
     /// tile under cursor
