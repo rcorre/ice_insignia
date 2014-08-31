@@ -127,7 +127,7 @@ class MapObject {
 
   Battler generateEnemy(int tileWidth, int tileHeight, TileSet[] tilesets) {
     // type is used to store level
-    auto character = generateCharacter(name, to!int(type));
+    auto character = generateCharacter(name, to!int(type), properties.keys);
 
     int col = x / tileWidth;
     int row = y / tileHeight;

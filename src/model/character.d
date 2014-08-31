@@ -139,9 +139,15 @@ class Character {
   }
 }
 
-Character generateCharacter(string name, int level = 1) {
+Character generateCharacter(string name, int level = 1, string[] itemNames = []) {
   auto spec =  loadCharacterSpec(name);
   auto character = new Character(spec);
+  foreach(talent ; spec.talents) {
+    character.addTalent(loadTalent(talent));
+  }
+  foreach(item ; itemNames) {
+    character.addItem(loadItem(item));
+  }
   for(int i = 1 ; i < level ; i++) {
     character.levelUp();
   }

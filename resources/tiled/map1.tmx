@@ -181,10 +181,26 @@
   </data>
  </layer>
  <objectgroup name="Enemies" width="32" height="32">
-  <object name="Fighter" type="1" gid="102" x="512" y="896"/>
-  <object name="Fighter" type="2" gid="102" x="448" y="896"/>
-  <object name="Soldier" type="1" gid="107" x="320" y="864"/>
-  <object name="Mercenary" type="1" gid="112" x="576" y="832"/>
+  <object name="Fighter" type="1" gid="102" x="512" y="896">
+   <properties>
+    <property name="Mace" value=""/>
+   </properties>
+  </object>
+  <object name="Fighter" type="2" gid="102" x="448" y="896">
+   <properties>
+    <property name="Handaxe" value=""/>
+   </properties>
+  </object>
+  <object name="Soldier" type="1" gid="107" x="320" y="864">
+   <properties>
+    <property name="Spear" value=""/>
+   </properties>
+  </object>
+  <object name="Mercenary" type="1" gid="112" x="576" y="832">
+   <properties>
+    <property name="Broadsword" value=""/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup name="Allies" width="32" height="32">
   <object type="spawn" gid="101" x="512" y="1024"/>

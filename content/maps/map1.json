@@ -32,7 +32,7 @@
                  "name":"Fighter",
                  "properties":
                     {
-
+                     "Mace":""
                     },
                  "type":"1",
                  "visible":true,
@@ -46,7 +46,7 @@
                  "name":"Fighter",
                  "properties":
                     {
-
+                     "Handaxe":""
                     },
                  "type":"2",
                  "visible":true,
@@ -60,7 +60,7 @@
                  "name":"Soldier",
                  "properties":
                     {
-
+                     "Spear":""
                     },
                  "type":"1",
                  "visible":true,
@@ -74,7 +74,7 @@
                  "name":"Mercenary",
                  "properties":
                     {
-
+                     "Broadsword":""
                     },
                  "type":"1",
                  "visible":true,
@@ -218,7 +218,7 @@
  "tilesets":[
         {
          "firstgid":1,
-         "image":"..\/image\/terrain.png",
+         "image":"..\/..\/..\/..\/..\/..\/data\/project\/ice_insignia\/content\/image\/terrain.png",
          "imageheight":320,
          "imagewidth":320,
          "margin":0,
@@ -371,7 +371,7 @@
         }, 
         {
          "firstgid":101,
-         "image":"..\/image\/units_red.png",
+         "image":"..\/..\/..\/..\/..\/..\/data\/project\/ice_insignia\/content\/image\/units_red.png",
          "imageheight":160,
          "imagewidth":160,
          "margin":0,
