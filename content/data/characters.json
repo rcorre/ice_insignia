@@ -1,7 +1,7 @@
 {
   "Mercenary" : {
     "_name" : "Mercenary",
-    "_spriteName" : "blue_merc_sword",
+    "_spriteName" : "mercenary",
     "_attributes" : {
       "valueSet" : {
         "maxHp"        : 12,
@@ -32,10 +32,9 @@
       "Broadsword"
     ]
   },
-
-  "Brute" : {
-    "_name" : "Brute",
-    "_spriteName" : "blue_brute_axe",
+  "Fighter" : {
+    "_name" : "Fighter",
+    "_spriteName" : "fighter",
     "_attributes" : {
       "valueSet" : {
         "maxHp"        : 15,
@@ -69,7 +68,7 @@
 
   "Soldier" : {
     "_name" : "Soldier",
-    "_spriteName" : "blue_soldier_spear",
+    "_spriteName" : "soldier",
     "_attributes" : {
       "valueSet" : {
         "maxHp"        : 13,
@@ -98,105 +97,6 @@
     },
     "inventory" : [
       "Spear"
-    ]
-  },
-
-  "Bandit" : {
-    "_name" : "Bandit",
-    "_attributes" : {
-      "valueSet" : {
-        "maxHp"        : 10,
-        "strength"     : 3,
-        "skill"        : 4,
-        "speed"        : 4,
-        "defense"      : 2,
-        "resist"       : 0,
-        "luck"         : 0,
-        "move"         : 5,
-        "constitution" : 6
-      }
-    },
-    "_potential" : {
-      "valueSet" : {
-        "maxHp"        : 10,
-        "strength"     : 8,
-        "skill"        : 10,
-        "speed"        : 10,
-        "defense"      : 6,
-        "resist"       : 6,
-        "luck"         : 4,
-        "move"         : 0,
-        "constitution" : 2
-      }
-    },
-    "inventory" : [
-      "Broadsword"
-    ]
-  },
-
-  "Brigand" : {
-    "_name" : "Brigand",
-    "_attributes" : {
-      "valueSet" : {
-        "maxHp"        : 13,
-        "strength"     : 4,
-        "skill"        : 3,
-        "speed"        : 3,
-        "defense"      : 2,
-        "resist"       : 0,
-        "luck"         : 0,
-        "move"         : 5,
-        "constitution" : 8
-      }
-    },
-    "_potential" : {
-      "valueSet" : {
-        "maxHp"        : 14,
-        "strength"     : 12,
-        "skill"        : 8,
-        "speed"        : 8,
-        "defense"      : 6,
-        "resist"       : 6,
-        "luck"         : 4,
-        "move"         : 0,
-        "constitution" : 2
-      }
-    },
-    "inventory" : [
-      "Mace"
-    ]
-  },
-
-  "Vagabond" : {
-    "_name" : "Vagabond",
-    "_attributes" : {
-      "valueSet" : {
-        "maxHp"        : 10,
-        "strength"     : 4,
-        "skill"        : 5,
-        "speed"        : 4,
-        "defense"      : 1,
-        "resist"       : 0,
-        "luck"         : 4,
-        "move"         : 5,
-        "constitution" : 5
-      }
-    },
-    "_potential" : {
-      "valueSet" : {
-        "maxHp"        : 10,
-        "strength"     : 10,
-        "skill"        : 12,
-        "speed"        : 9,
-        "defense"      : 5,
-        "resist"       : 9,
-        "luck"         : 6,
-        "move"         : 0,
-        "constitution" : 1
-      }
-    },
-    "inventory" : [
-      "Shortbow"
     ]
   }
 }

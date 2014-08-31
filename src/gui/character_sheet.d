@@ -13,7 +13,7 @@ import util.input;
 private enum {
   textureName        = "character_view",
   spritePos          = Vector2i(51, 51),
-  namePos            = Vector2i(81, 47),
+  namePos            = Vector2i(81, 40),
   lvlPos             = Vector2i(260, 38),
   hpBarPos           = Vector2i(71, 106),
   hpBarWidth         = 96,
@@ -57,7 +57,7 @@ class CharacterSheet {
     _topLeft = topLeft;
     _bgTexture = getTexture(textureName);
     _character = character;
-    _sprite = new Sprite(character.spriteName);
+    _sprite = new CharacterSprite(character.spriteName);
     makeAttributeBars;
     makeXpAndHpBars(_character.maxHp);
   }

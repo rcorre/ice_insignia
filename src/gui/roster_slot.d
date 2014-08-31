@@ -18,7 +18,7 @@ class RosterSlot : GUIElement {
   this(Vector2i pos, Character character) {
     this.character = character;
     if (character) {
-      _sprite = new Sprite(character.spriteName);
+      _sprite = new CharacterSprite(character.spriteName);
     }
     super(pos, Anchor.center);
   }
@@ -46,5 +46,5 @@ class RosterSlot : GUIElement {
   }
 
   private:
-  Sprite _sprite;
+  CharacterSprite _sprite;
 }

@@ -28,12 +28,12 @@ enum BattleTeam {
 class Battler {
   alias character this;
 
-  this(Character c, int row, int col, Vector2i pos, Sprite sprite, BattleTeam team, string aiType = "agressive") {
+  this(Character c, int row, int col, Vector2i pos, BattleTeam team, string aiType = "agressive") {
     character = c;
     _row = row;
     _col = col;
     _pos = pos;
-    _sprite = sprite;
+    _sprite = new CharacterSprite(c.spriteName, team);
     this.team = team;
     _hp = c.maxHp;
     _aiType = aiType;
@@ -112,7 +112,7 @@ class Battler {
   Character character;
 
   private:
-  Sprite _sprite;
+  CharacterSprite _sprite;
   int _row, _col;
   Vector2i _pos;
   int _hp;

@@ -13,15 +13,13 @@ int main(char[][] args) {
   Character[] playerCharacters = [
     loadCharacter("Mercenary"),
     loadCharacter("Mercenary"),
-    loadCharacter("Brute"),
-    loadCharacter("Brute"),
+    loadCharacter("Fighter"),
+    loadCharacter("Fighter"),
     loadCharacter("Soldier"),
     loadCharacter("Soldier"),
   ];
   //_currentState = new Battle("map1", playerCharacters);
-  //_currentState = new Preparation(playerCharacters);
-  import state.bmp_test;
-  _currentState = new BMPTest();
+  _currentState = new Preparation(playerCharacters);
 
   return al_run_allegro({
       while(_run) {

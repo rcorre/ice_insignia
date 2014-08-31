@@ -132,14 +132,13 @@ class MapObject {
       character.levelUp();
     }
 
-    auto sprite = gidToSprite(gid, tilesets);
     int col = x / tileWidth;
     int row = y / tileHeight;
-    auto pos = Vector2i(x, y) + sprite.size / 2;
+    auto pos = Vector2i(x, y) + Vector2i(tileWidth, tileHeight) / 2;
 
     auto aiType = properties.get("aiType", "agressive");
 
-    return new Battler(character, row, col, pos, sprite, BattleTeam.enemy, aiType);
+    return new Battler(character, row, col, pos, BattleTeam.enemy, aiType);
   }
 
   @jsonize @property {

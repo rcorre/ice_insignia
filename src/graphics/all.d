@@ -7,3 +7,4 @@ public import graphics.primitive;
 public import graphics.sprite;
 public import graphics.texture;
 public import graphics.color;
+public import graphics.character_sprite;

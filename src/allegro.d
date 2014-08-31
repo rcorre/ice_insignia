@@ -38,14 +38,15 @@ enum Settings {
 
 /// paths to configuration files and content
 enum Paths {
-  textureData   = "content/textures.cfg",
-  spriteData    = "content/sprites.cfg",
-  fontData      = "content/fonts.cfg",
-  backgroundDir = "content/image/background/",
-  mapDir        = "content/maps/",
-  characterData = "content/data/characters.json",
-  itemData      = "content/data/items.json",
-  talentData    = "content/data/talents.json",
+  textureData         = "content/textures.cfg",
+  spriteData          = "content/sprites.cfg",
+  characterSpriteData = "content/unit_sprites.cfg",
+  fontData            = "content/fonts.cfg",
+  backgroundDir       = "content/image/background/",
+  mapDir              = "content/maps/",
+  characterData       = "content/data/characters.json",
+  itemData            = "content/data/items.json",
+  talentData          = "content/data/talents.json",
 }
 
 // allegro initialization

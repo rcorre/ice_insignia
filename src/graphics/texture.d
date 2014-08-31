@@ -44,7 +44,6 @@ class Texture {
         angle, 0);                             // rotation and flats
   }
 
-
   void draw(int row, int col, Vector2i pos, float scale = 1, Color tint = Color.white, float angle = 0) {
     assert(col >= 0 && col < numCols && row >= 0 && row < numRows);
     auto frame = Rect2i(col * frameWidth, row * frameHeight, frameWidth, frameHeight);
@@ -91,18 +90,18 @@ class Texture {
 private Texture[string] _textureStore;
 
 Texture getTexture(string name) {
-  assert(name in _textureStore, name ~ " is not a texture");
+  assert(name in _textureStore, name ~ " could not be found in " ~ Paths.textureData);
   return _textureStore[name];
 }
 
-void registerTexture(ALLEGRO_BITMAP* bmp, string name) {
+Texture registerTexture(ALLEGRO_BITMAP* bmp, string name) {
   assert(name !in _textureStore, "cannot register bitmap " ~ name ~ " as it is already in texture store");
-  _textureStore[name] = new Texture(bmp);
+  return _textureStore[name] = new Texture(bmp);
 }
 
-void registerTexture(ALLEGRO_BITMAP* bmp, string name, int frameWidth, int frameHeight) {
+Texture registerTexture(ALLEGRO_BITMAP* bmp, string name, int frameWidth, int frameHeight) {
   assert(name !in _textureStore, "cannot register bitmap " ~ name ~ " as it is already in texture store");
-  _textureStore[name] = new Texture(bmp, frameWidth, frameHeight);
+  return _textureStore[name] = new Texture(bmp, frameWidth, frameHeight);
 }
 
 static this() { // automatically load a texture for each entry in the texture sheet config file
