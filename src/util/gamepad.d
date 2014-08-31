@@ -24,8 +24,8 @@ class GamePad {
 
   this(int id) {
     _joystick = al_get_joystick(id);
-    _prevState = ALLEGRO_JOYSTICK_STATE();
-    _currentState = ALLEGRO_JOYSTICK_STATE();
+    _prevState = emptyState();
+    _currentState = emptyState();
   }
 
   void update(float time) {
@@ -75,7 +75,18 @@ class GamePad {
   ALLEGRO_JOYSTICK_STATE _currentState, _prevState;
 }
 
+private:
 @property Vector2f leftStickPos(ALLEGRO_JOYSTICK_STATE state) {
   auto stick = state.stick[0];
   return Vector2f(stick.axis[0], stick.axis[1]);
+}
+
+@property auto emptyState() {
+  auto state = ALLEGRO_JOYSTICK_STATE();
+  foreach(ref stick ; state.stick) {
+    foreach(ref axis ; stick.axis) {
+      axis = 0;
+    }
+  }
+  return state;
 }
