@@ -9,7 +9,15 @@ import model.item;
 
 class Preparation : GameState {
   this(Character[] characters) {
-    _rosterView = new RosterView(Vector2i.Zero, characters);
+    auto forHire = [
+      generateCharacter("Mercenary"),
+      generateCharacter("Mercenary"),
+      generateCharacter("Fighter"),
+      generateCharacter("Fighter"),
+      generateCharacter("Soldier"),
+      generateCharacter("Soldier"),
+    ];
+    _rosterView = new RosterView(Vector2i.Zero, characters, forHire);
     _input = new InputManager;
   }
 

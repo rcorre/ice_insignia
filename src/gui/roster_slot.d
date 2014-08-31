@@ -8,7 +8,7 @@ import model.character;
 private enum {
   Color bgColor = Color.gray,
   Color borderColor = Color.black,
-  int slotSize = 36,
+  int slotSize = 40,
   float borderThickness = 2,
 }
 
