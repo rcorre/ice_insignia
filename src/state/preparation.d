@@ -6,9 +6,11 @@ import geometry.all;
 import util.input;
 import model.character;
 import model.item;
+import util.savegame;
 
 class Preparation : GameState {
-  this(Character[] characters) {
+  this(SaveData data) {
+    _data = data;
     auto forHire = [
       generateCharacter("Mercenary"),
       generateCharacter("Mercenary"),
@@ -17,7 +19,7 @@ class Preparation : GameState {
       generateCharacter("Soldier"),
       generateCharacter("Soldier"),
     ];
-    _rosterView = new RosterView(Vector2i.Zero, characters, forHire);
+    _rosterView = new RosterView(Vector2i.Zero, data, forHire);
     _input = new InputManager;
   }
 
@@ -40,4 +42,5 @@ class Preparation : GameState {
   private:
   RosterView _rosterView;
   InputManager _input;
+  SaveData _data;
 }

@@ -22,11 +22,7 @@ SaveData loadSave() {
   return savePath.readJSON!SaveData;
 }
 
-void saveGame(Character[] roster, int gold, int mission) {
-  SaveData data;
-  data.roster = roster;
-  data.gold = gold;
-  data.mission = mission;
+void saveGame(SaveData data) {
   data.writeJSON(savePath);
 }
 

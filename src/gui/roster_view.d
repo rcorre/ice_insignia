@@ -11,8 +11,10 @@ import geometry.all;
 import graphics.all;
 import model.character;
 import util.input;
+import util.savegame;
 
 private enum {
+  goldOffset = Vector2i(120, 25),
   rosterSpacingX = 64,
   rosterSpacingY = 64,
   rosterStartPos = Vector2i(112, 170),
@@ -25,12 +27,13 @@ private enum {
 }
 
 class RosterView : GUIContainer {
-  this(Vector2i pos, Character[] roster, Character[] forHire) {
+  this(Vector2i pos, SaveData data, Character[] forHire) {
+    _data = data;
     auto cursor = new AnimatedSprite("target", cursorShade);
     super(pos, Anchor.topLeft, "roster_view", cursor);
     int counter = 0;
     Vector2i slotPos = rosterStartPos;
-    foreach(idx, character ; roster) {
+    foreach(idx, character ; data.roster) {
       if (idx != 0 && idx % numRecruitCols == 0) {
         slotPos.x = recruitStartPos.x;
         slotPos.y += rosterSpacingY;
@@ -65,6 +68,7 @@ class RosterView : GUIContainer {
       if (_menu) {
         _menu.draw();
       }
+      _goldFont.draw(format("%dG", _data.gold), bounds.topLeft + goldOffset);
     }
 
     void handleInput(InputManager input) {
@@ -119,4 +123,11 @@ class RosterView : GUIContainer {
   private:
   CharacterSheet _characterSheet;
   StringMenu _menu;
+  SaveData _data;
+}
+
+private static Font _goldFont;
+
+static this() {
+  _goldFont = getFont("rosterGold");
 }

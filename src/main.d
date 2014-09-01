@@ -3,6 +3,7 @@ import state.gamestate;
 import state.preparation;
 import state.battle;
 import util.config;
+import util.savegame;
 import model.character;
 
 private bool _run = true;        /// if false, shutdown game
@@ -11,7 +12,8 @@ private bool _frameTick = false; /// if true, time for an update/draw cycle
 private GameState _currentState;
 
 int main(char[][] args) {
-  Character[] playerCharacters = [
+  auto data = new SaveData;
+  data.roster = [
     generateCharacter("Mercenary"),
     generateCharacter("Mercenary"),
     generateCharacter("Fighter"),
@@ -19,8 +21,10 @@ int main(char[][] args) {
     generateCharacter("Soldier"),
     generateCharacter("Soldier"),
   ];
+  data.gold = 600;
+  data.mission = 0;
   //_currentState = new Battle("map1", playerCharacters);
-  _currentState = new Preparation(playerCharacters);
+  _currentState = new Preparation(data);
 
   return al_run_allegro({
       while(_run) {
