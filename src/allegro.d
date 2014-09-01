@@ -47,6 +47,7 @@ enum Paths {
   characterData       = "content/data/characters.json",
   itemData            = "content/data/items.json",
   talentData          = "content/data/talents.json",
+  names               = "content/data/names.txt",
 }
 
 // allegro initialization
