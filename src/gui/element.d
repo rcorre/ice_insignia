@@ -32,7 +32,7 @@ abstract class GUIElement {
     Rect2i bounds() { return _bounds; }
   }
 
-  final void handleInput(InputManager input) {
+  void handleInput(InputManager input) {
     if (input.selectRight) {
       moveCursor(Vector2i(1, 0));
     }

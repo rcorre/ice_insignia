@@ -9,6 +9,7 @@ import gui.character_sheet;
 import geometry.all;
 import graphics.all;
 import model.character;
+import util.input;
 
 private enum {
   rosterSpacingX = 64,
@@ -63,6 +64,20 @@ class RosterView : GUIContainer {
         _menu.draw();
       }
     }
+
+    void handleInput(InputManager input) {
+      if (_menu) {
+        if (input.cancel) {
+          _menu = null;
+        }
+        else {
+          _menu.handleInput(input);
+        }
+      }
+      else {
+        super.handleInput(input);
+      }
+    }
   }
 
   void slotCommand(string cmd) {
@@ -72,10 +87,6 @@ class RosterView : GUIContainer {
   }
 
   void selectRoster(Character character) {
-    debug {
-      import std.stdio;
-      writeln("roster selected");
-    }
     _menu = new StringMenu(selectedElement.bounds.center, ["equipment", "talents", "cancel"], &slotCommand,
         &slotHover);
   }
