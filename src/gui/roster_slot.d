@@ -6,10 +6,12 @@ import graphics.all;
 import model.character;
 
 private enum {
-  Color bgColor = Color.gray,
-  Color borderColor = Color.black,
-  int slotSize = 40,
-  float borderThickness = 2,
+  bgColor = Color.gray,
+  borderColor = Color.black,
+  levelColor = Color.green,
+  slotSize = 40,
+  borderThickness = 2,
+  levelOffset = Vector2i(8, 8),
 }
 
 class RosterSlot : GUIElement {
@@ -46,8 +48,9 @@ class RosterSlot : GUIElement {
     void draw() {
       bounds.drawFilled(bgColor);
       bounds.draw(borderThickness, borderColor);
-      if (_sprite) {
+      if (character) {
         _sprite.draw(bounds.center);
+        _font.draw(character.level, bounds.center + levelOffset, levelColor);
       }
     }
   }
@@ -56,4 +59,10 @@ class RosterSlot : GUIElement {
   CharacterSprite _sprite;
   Character _character;
   Action _action;
+}
+
+private Font _font;
+
+static this() {
+  _font = getFont("rosterSlot");
 }
