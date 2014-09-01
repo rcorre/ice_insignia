@@ -76,4 +76,5 @@ private ItemData[string] _itemData;
 static this() {
   _itemData = readJSON!(ItemData[string])(Paths.itemData);
   _itemData["none"] = new ItemData; // empty placeholder item
+  _itemData["none"].name = "none";
 }
