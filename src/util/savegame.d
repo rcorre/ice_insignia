@@ -4,6 +4,7 @@ module util.savegame;
 import std.file;
 import std.path;
 import model.character;
+import model.item;
 import util.jsonizer;
 
 private string fileName = "/ice_insignia_save.json";
@@ -12,6 +13,7 @@ class SaveData {
   mixin JsonizeMe;
   @jsonize {
     Character[] roster;
+    Item[] items;
     int gold;
     int mission;
   }

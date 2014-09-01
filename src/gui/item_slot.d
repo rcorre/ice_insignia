@@ -32,7 +32,7 @@ class ItemSlot : GUIElement {
 
     void draw() {
       if (_item) {
-        _item.draw(bounds.center);
+        _item.sprite.draw(bounds.center);
         _font.draw(_text, _namePos);
       }
     }

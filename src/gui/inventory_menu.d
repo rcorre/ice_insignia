@@ -27,7 +27,7 @@ class InventoryMenu : SelectionMenu!Item {
       }
       if (item) {
         Vector2i size = item.sprite.size;
-        item.draw(rect.topLeft + size / 2);
+        item.sprite.draw(rect.topLeft + size / 2);
         _font.draw(item.name, rect.topLeft + Vector2i(size.x, 0));
       }
     }

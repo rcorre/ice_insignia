@@ -29,7 +29,7 @@ class ItemView {
   void draw() {
     auto pos = _area.center;
     _texture.draw(pos);
-    _item.draw(pos + spriteOffset);
+    _item.sprite.draw(pos + spriteOffset);
     _font.draw(_item.name,   pos + nameOffset);
     _font.draw(_item.damage, pos + dmgOffset);
     _font.draw(_item.hit   , pos + hitOffset);

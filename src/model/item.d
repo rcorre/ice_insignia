@@ -23,10 +23,11 @@ enum ItemType {
   light,
   dark,
   staff,
+  other
 }
 
 class Item {
-  ItemData data;
+  const ItemData data;
   alias data this;
 
   mixin JsonizeMe;
@@ -43,11 +44,11 @@ class Item {
     @property string name() { return data.name; }
   }
 
-  void draw(Vector2i pos) {
-    _sprite.draw(pos);
+  @property {
+    auto sprite() { return _sprite; }
+    static Item none() { return new Item("none", 0); }
+    bool isWeapon() { with(ItemType) { return type != none && type != staff && type != other; } }
   }
-
-  static @property Item none() { return new Item("none", 0); }
 
   private:
   Sprite _sprite;
@@ -56,49 +57,18 @@ class Item {
 class ItemData {
   mixin JsonizeMe;
 
-  @property {
-    @jsonize string name() { return _name; }
-    int maxUses()    { return _uses; }
-    int damage()  { return _damage; }
-    int hit()     { return _hit; }
-    int crit()    { return _crit; }
-    int weight()  { return _weight; }
-    ItemType type()    { return _type; }
-    int tier() { return _tier; }
-
-    int minRange() { return _minRange; }
-    int maxRange() { return max(_minRange, _maxRange); }
-
-    bool isWeapon() {
-     with(ItemType) {
-       return _type == sword || _type == axe || _type == lance || _type == bow ||
-         _type == anima || _type == light || _type == dark;
-     }
-    }
-
-    auto sprite() { return _sprite; }
-  }
-
-  private:
   @jsonize {
-    @property {
-      void name(string name) {
-        _name = name;
-      }
-    }
-    ItemType _type;
-
-    int _uses;
-    int _damage;
-    int _hit;
-    int _crit;
-    int _minRange = 0;
-    int _maxRange = 0;
-    int _weight;
-    int _tier;
+    string name;
+    ItemType type;
+    int maxUses;
+    int damage;
+    int hit;
+    int crit;
+    int minRange;
+    int maxRange;
+    int weight;
+    int tier;
   }
-  Sprite _sprite;
-  string _name;
 }
 
 private ItemData[string] _itemData;

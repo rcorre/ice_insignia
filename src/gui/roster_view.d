@@ -6,10 +6,12 @@ import gui.element;
 import gui.container;
 import gui.roster_slot;
 import gui.string_menu;
+import gui.inventory_menu;
 import gui.character_sheet;
 import geometry.all;
 import graphics.all;
 import model.character;
+import model.item;
 import util.input;
 import util.savegame;
 
@@ -120,9 +122,13 @@ class RosterView : GUIContainer {
     _menu = new StringMenu(pos, selections, &recruitCommand, &slotHover);
   }
 
+  void selectEquippedItem(Item item) {
+  }
+
   private:
   CharacterSheet _characterSheet;
   StringMenu _menu;
+  InventoryMenu _inventoryMenu;
   SaveData _data;
 }
 
