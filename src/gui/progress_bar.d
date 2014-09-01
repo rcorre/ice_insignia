@@ -6,20 +6,18 @@ import graphics.all;
 import geometry.all;
 
 class ProgressBar(T : real) {
+  enum DrawText { fraction, value, none }
   this(Rect2i area, T currentVal, T maxVal, Color fgColor, Color bgColor = Color.clear,
-      Color textColor = Color.black, int rx = 0, int ry = 0, Font font = defaultFont,
-      string fmt = "%d/%d")
+      Color textColor = Color.black, DrawText drawText = DrawText.fraction, Font font = defaultFont)
   {
     _area = area;
     _filledArea = _area;
     _maxVal = maxVal;
     _font = font;
-    _format = fmt;
     _fgColor = fgColor;
     _bgColor = bgColor;
     _textColor = textColor;
-    _rx = rx;
-    _ry = ry;
+    _drawText = drawText;
     val = currentVal;
   }
 
@@ -28,7 +26,17 @@ class ProgressBar(T : real) {
     void val(T val) {
       _val = val;
       _filledArea.width = cast(int) (_area.width * cast(float)val / _maxVal);
-      _text = format(_format, val, _maxVal);
+      final switch(_drawText) {
+        case DrawText.fraction:
+          _text = format("%d/%d", val, _maxVal);
+          break;
+        case DrawText.value:
+          _text = format("%d", val);
+          break;
+        case DrawText.none:
+          _text = "";
+          break;
+      }
     }
     bool isTransitioning() { return _totalTransitionTime != 0; }
   }
@@ -51,16 +59,15 @@ class ProgressBar(T : real) {
   }
 
   void draw() {
-    _area.drawFilled(_bgColor, _rx, _ry);
-    _filledArea.drawFilled(_fgColor, _rx, _ry);
+    _area.drawFilled(_bgColor);
+    _filledArea.drawFilled(_fgColor);
     _font.draw(_text, _area.topLeft, _textColor);
   }
 
   private:
   Rect2i _area; /// total bar
-  int _rx, _ry;   /// rounding radius
   T _maxVal, _val;
-  string _format;
+  DrawText _drawText;
   Font _font;
   Color _bgColor, _fgColor, _textColor;
 

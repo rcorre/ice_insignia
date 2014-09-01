@@ -31,10 +31,10 @@ private enum {
   attributesSep      = 32,
   attributeBarWidth  = 96,
   attributeBarHeight = 12,
-  potentialBarHeight = 6,
+  potentialBarHeight = 4,
   attributeBarFg     = Color(0.0, 0.8, 0),
   attributeBarBg     = Color.white,
-  potentialBarFg     = Color(0.0, 0.0, 0.8),
+  potentialBarFg     = Color(0.3, 0.4, 0.8),
   potentialBarBg     = Color.black,
   attributeTextColor = Color.black,
   combatStatsPos     = Vector2i(266, 278),
@@ -47,19 +47,19 @@ private enum {
 
 /// displays info about a character's stats
 class CharacterSheet {
-  this(Vector2i topLeft, Battler battler) {
+  this(Vector2i topLeft, Battler battler, bool showPotential = false) {
     _topLeft = topLeft;
     _bgTexture = getTexture(textureName);
     _character = battler.character;
     _sprite = battler.sprite;
-    populate(battler.hp);
+    populate(battler.hp, showPotential);
   }
 
-  this(Vector2i topLeft, Character character) {
+  this(Vector2i topLeft, Character character, bool showPotential = false) {
     _topLeft = topLeft;
     _character = character;
     _sprite = new CharacterSprite(character.model);
-    populate(character.maxHp);
+    populate(character.maxHp, showPotential);
   }
 
   void handleInput(InputManager input) {
@@ -86,24 +86,27 @@ class CharacterSheet {
   ProgressBar!int[] _progressBars;
   Vector2i _topLeft;
 
-  private void populate(int hp) {
+  private void populate(int hp, bool showPotential) {
     _bgTexture = getTexture(textureName);
-    makeAttributeBars;
+    makeAttributeBars(showPotential);
     makeXpAndHpBars(hp);
     makeItemSlots;
   }
 
-  void makeAttributeBars() {
+  void makeAttributeBars(bool showPotential) {
     Rect2i area = Rect2i(_topLeft + attributesPos, attributeBarWidth, attributeBarHeight);
     foreach(attribute ; Attribute.strength .. Attribute.max) {
       // make bar for attribute
       auto val = _character.attributes[attribute];
       auto maxVal = AttributeCaps[attribute];
       _progressBars ~= new ProgressBar!int(area, val, maxVal, attributeBarFg, attributeBarBg, attributeTextColor);
-      // now make bar for potential right below attribute
-      val = _character.potential[attribute];
-      auto area2 = Rect2i(area.x, area.y + attributeBarHeight, attributeBarWidth, potentialBarHeight);
-      _progressBars ~= new ProgressBar!int(area2, val, 100, potentialBarFg, potentialBarBg, attributeTextColor);
+      if (showPotential) {
+        // now make bar for potential right below attribute
+        val = _character.potential[attribute];
+        auto area2 = Rect2i(area.x, area.y + attributeBarHeight, attributeBarWidth, potentialBarHeight);
+        _progressBars ~= new ProgressBar!int(area2, val, 100, potentialBarFg, potentialBarBg, attributeTextColor,
+            ProgressBar!int.DrawText.none);
+      }
       area.y += attributesSep;
     }
   }
