@@ -27,12 +27,15 @@ private enum {
   xpBarFg            = Color(0.8, 0.8, 0),
   xpBarBg            = Color.white,
   xpTextColor        = Color.black,
-  attributesPos      = Vector2i(83, 206),
+  attributesPos      = Vector2i(83, 200),
   attributesSep      = 32,
   attributeBarWidth  = 96,
   attributeBarHeight = 12,
+  potentialBarHeight = 6,
   attributeBarFg     = Color(0.0, 0.8, 0),
   attributeBarBg     = Color.white,
+  potentialBarFg     = Color(0.0, 0.0, 0.8),
+  potentialBarBg     = Color.black,
   attributeTextColor = Color.black,
   combatStatsPos     = Vector2i(266, 278),
   combatStatsSep     = 32,
@@ -93,9 +96,14 @@ class CharacterSheet {
   void makeAttributeBars() {
     Rect2i area = Rect2i(_topLeft + attributesPos, attributeBarWidth, attributeBarHeight);
     foreach(attribute ; Attribute.strength .. Attribute.max) {
+      // make bar for attribute
       auto val = _character.attributes[attribute];
       auto maxVal = AttributeCaps[attribute];
       _progressBars ~= new ProgressBar!int(area, val, maxVal, attributeBarFg, attributeBarBg, attributeTextColor);
+      // now make bar for potential right below attribute
+      val = _character.potential[attribute];
+      auto area2 = Rect2i(area.x, area.y + attributeBarHeight, attributeBarWidth, potentialBarHeight);
+      _progressBars ~= new ProgressBar!int(area2, val, 100, potentialBarFg, potentialBarBg, attributeTextColor);
       area.y += attributesSep;
     }
   }
