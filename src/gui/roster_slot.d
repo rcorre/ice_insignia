@@ -14,15 +14,19 @@ private enum {
 
 class RosterSlot : GUIElement {
   alias Action = void delegate(Character);
-  Character character;
 
   this(Vector2i pos, Character character, Action action) {
     this.character = character;
-    if (character) {
-      _sprite = new CharacterSprite(character.model);
-    }
     _action = action;
     super(pos, Anchor.center);
+  }
+
+  @property {
+    auto character() { return _character; }
+    void character(Character newChar) {
+      _character = newChar;
+      _sprite = newChar ? new CharacterSprite(newChar.model) : null;
+    }
   }
 
   override {
@@ -50,5 +54,6 @@ class RosterSlot : GUIElement {
 
   private:
   CharacterSprite _sprite;
+  Character _character;
   Action _action;
 }

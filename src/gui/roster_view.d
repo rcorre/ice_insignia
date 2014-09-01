@@ -1,5 +1,6 @@
 module gui.roster_view;
 
+import std.string : format;
 import std.algorithm : moveAll;
 import gui.element;
 import gui.container;
@@ -19,7 +20,8 @@ private enum {
   recruitStartPos = Vector2i(113, 458),
   numRecruitCols = 3,
   cursorShade = Color(0, 0, 0.5, 0.8),
-  characterSheetPos = Vector2i(288, 57)
+  characterSheetPos = Vector2i(288, 57),
+  hireCostPerLevel = 200
 }
 
 class RosterView : GUIContainer {
@@ -81,18 +83,37 @@ class RosterView : GUIContainer {
   }
 
   void slotCommand(string cmd) {
+    switch(cmd) {
+      case "cancel":
+        _menu = null;
+      case "equipment":
+      case "talents":
+      default:
+    }
   }
 
   void slotHover(string cmd, Rect2i area) {
   }
 
+  void recruitCommand(string cmd) {
+    if (cmd != "cancel") { // other command is recruit
+      auto slot = cast(RosterSlot) selectedElement;
+      auto character = slot.character;
+      slot.character = null;
+      // TODO: add character to roster
+    }
+    _menu = null;
+  }
+
   void selectRoster(Character character) {
-    _menu = new StringMenu(selectedElement.bounds.center, ["equipment", "talents", "cancel"], &slotCommand,
-        &slotHover);
+    auto pos = selectedElement.bounds.center;
+    _menu = new StringMenu(pos, ["equipment", "talents", "cancel"], &slotCommand, &slotHover);
   }
 
   void selectRecruit(Character character) {
-    _menu = new StringMenu(selectedElement.bounds.center, ["recruit", "cancel"], &slotCommand, &slotHover);
+    auto pos = selectedElement.bounds.center;
+    auto selections = [format("recruit (%4dG)", character.level * hireCostPerLevel), "cancel"];
+    _menu = new StringMenu(pos, selections, &recruitCommand, &slotHover);
   }
 
   private:
