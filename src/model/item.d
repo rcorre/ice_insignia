@@ -1,5 +1,6 @@
 module model.item;
 
+import std.regex;
 import std.string : toLower;
 import std.algorithm : max;
 import allegro;
@@ -7,10 +8,9 @@ import util.jsonizer;
 import geometry.vector;
 import graphics.sprite;
 
-Item loadItem(string name) {
+Item loadItem(string name, int uses = -1) {
   name = toLower(name);
-  assert(name in _itemData, "could not load item named " ~ name);
-  return _itemData[name];
+  return new Item(name, uses);
 }
 
 enum ItemType {
@@ -26,11 +26,39 @@ enum ItemType {
 }
 
 class Item {
+  ItemData data;
+  alias data this;
+
+  mixin JsonizeMe;
+
+  @jsonize this(string name, int uses = -1) {
+    assert(name in _itemData, "could not load item named " ~ name);
+    data = _itemData[name];
+    this.uses = (uses == -1) ? data.maxUses : uses;
+    _sprite = new Sprite(data.name);
+  }
+
+  @jsonize { // json output
+    int uses;
+    @property string name() { return data.name; }
+  }
+
+  void draw(Vector2i pos) {
+    _sprite.draw(pos);
+  }
+
+  static @property Item none() { return new Item("none", 0); }
+
+  private:
+  Sprite _sprite;
+}
+
+class ItemData {
   mixin JsonizeMe;
 
   @property {
     @jsonize string name() { return _name; }
-    int uses()    { return _uses; }
+    int maxUses()    { return _uses; }
     int damage()  { return _damage; }
     int hit()     { return _hit; }
     int crit()    { return _crit; }
@@ -51,20 +79,11 @@ class Item {
     auto sprite() { return _sprite; }
   }
 
-  void draw(Vector2i pos) {
-    _sprite.draw(pos);
-  }
-
-  static Item none() {
-    return new Item;
-  }
-
   private:
   @jsonize {
     @property {
       void name(string name) {
         _name = name;
-        _sprite = new Sprite(name);
       }
     }
     ItemType _type;
@@ -82,8 +101,9 @@ class Item {
   string _name;
 }
 
-private Item[string] _itemData;
+private ItemData[string] _itemData;
 
 static this() {
-  _itemData = readJSON!(Item[string])(Paths.itemData);
+  _itemData = readJSON!(ItemData[string])(Paths.itemData);
+  _itemData["none"] = new ItemData; // empty placeholder item
 }
