@@ -64,7 +64,6 @@ class Font {
   ALLEGRO_FONT* _font;
 
   this (ALLEGRO_FONT* font) {
-    assert(font);
     _font = font;
   }
 }
@@ -82,6 +81,8 @@ static this() {
   foreach (fontName, fontInfo; fontData.entries) {
     auto path = toStringz(fontDir ~ "/" ~ fontInfo["filename"]);
     auto size = to!int(fontInfo["size"]);
-    _fontStore[fontName] = new Font(al_load_font(path, size, 0));
+    auto font = al_load_font(path, size, 0);
+    assert(font, "could not load font from file " ~ to!string(path));
+    _fontStore[fontName] = new Font(font);
   }
 }
