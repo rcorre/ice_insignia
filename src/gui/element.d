@@ -45,6 +45,12 @@ abstract class GUIElement {
     else if (input.selectDown) {
       moveCursor(Vector2i(0, 1));
     }
+    else if (input.confirm) {
+      handleSelect;
+    }
+    else if (input.cancel) {
+      handleCancel;
+    }
   }
 
   // abstract
@@ -59,6 +65,7 @@ abstract class GUIElement {
   // optional
   void update(float time) {}
   void handleHover() {}
+  void handleCancel() {};
   void moveCursor(Vector2i direction) {}
 
   protected:

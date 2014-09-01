@@ -4,6 +4,7 @@ import std.algorithm : moveAll;
 import gui.element;
 import gui.container;
 import gui.roster_slot;
+import gui.string_menu;
 import gui.character_sheet;
 import geometry.all;
 import graphics.all;
@@ -31,7 +32,7 @@ class RosterView : GUIContainer {
         slotPos.x = recruitStartPos.x;
         slotPos.y += rosterSpacingY;
       }
-      addElement(new RosterSlot(slotPos, character));
+      addElement(new RosterSlot(slotPos, character, &selectRoster));
       slotPos.x += rosterSpacingX;
     }
     slotPos = recruitStartPos;
@@ -40,7 +41,7 @@ class RosterView : GUIContainer {
         slotPos.x = recruitStartPos.x;
         slotPos.y += rosterSpacingY;
       }
-      addElement(new RosterSlot(slotPos, character));
+      addElement(new RosterSlot(slotPos, character, &selectRecruit));
       slotPos.x += rosterSpacingX;
     }
   }
@@ -58,9 +59,32 @@ class RosterView : GUIContainer {
       if (_characterSheet) {
         _characterSheet.draw;
       }
+      if (_menu) {
+        _menu.draw();
+      }
     }
+  }
+
+  void slotCommand(string cmd) {
+  }
+
+  void slotHover(string cmd, Rect2i area) {
+  }
+
+  void selectRoster(Character character) {
+    debug {
+      import std.stdio;
+      writeln("roster selected");
+    }
+    _menu = new StringMenu(selectedElement.bounds.center, ["equipment", "talents", "cancel"], &slotCommand,
+        &slotHover);
+  }
+
+  void selectRecruit(Character character) {
+    _menu = new StringMenu(selectedElement.bounds.center, ["recruit", "cancel"], &slotCommand, &slotHover);
   }
 
   private:
   CharacterSheet _characterSheet;
+  StringMenu _menu;
 }

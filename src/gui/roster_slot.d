@@ -13,13 +13,15 @@ private enum {
 }
 
 class RosterSlot : GUIElement {
+  alias Action = void delegate(Character);
   Character character;
 
-  this(Vector2i pos, Character character) {
+  this(Vector2i pos, Character character, Action action) {
     this.character = character;
     if (character) {
       _sprite = new CharacterSprite(character.model);
     }
+    _action = action;
     super(pos, Anchor.center);
   }
 
@@ -34,6 +36,7 @@ class RosterSlot : GUIElement {
     }
 
     void handleSelect() {
+      _action(character);
     }
 
     void draw() {
@@ -47,4 +50,5 @@ class RosterSlot : GUIElement {
 
   private:
   CharacterSprite _sprite;
+  Action _action;
 }
