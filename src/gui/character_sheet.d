@@ -39,7 +39,7 @@ private enum {
   attributeTextColor = Color.black,
   combatStatsPos     = Vector2i(266, 278),
   combatStatsSep     = 32,
-  equipmentPos       = Vector2i(368, 338),
+  equipmentPos       = Vector2i(372, 338),
   equipmentSep       = 32,
   talentsPos         = Vector2i(376, 117),
   talentsSep         = 32,

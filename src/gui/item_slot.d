@@ -7,8 +7,10 @@ import graphics.all;
 import model.item;
 
 private enum {
-  int slotSize = 36,
-  float borderThickness = 2,
+  slotSize = 36,
+  borderThickness = 2,
+  usesOffset = Vector2i(-16,0),
+  usesColor = Color.blue
 }
 
 class ItemSlot : GUIElement {
@@ -34,6 +36,7 @@ class ItemSlot : GUIElement {
       if (_item) {
         _item.sprite.draw(bounds.center);
         _font.draw(_text, _namePos);
+        _font.draw(_item.uses, bounds.center + usesOffset, usesColor);
       }
     }
   }
