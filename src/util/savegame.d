@@ -7,7 +7,10 @@ import model.character;
 import model.item;
 import util.jsonizer;
 
-private string fileName = "ice_insignia_save.json";
+private enum {
+  fileName = "ice_insignia_save.json",
+  startingGold = 1000
+}
 
 class SaveData {
   mixin JsonizeMe;
@@ -20,7 +23,11 @@ class SaveData {
 }
 
 SaveData loadSave() {
-  if (!savePath.exists) { return null; }
+  if (!savePath.exists) {  // no save yet
+    auto data = new SaveData;
+    data.gold = startingGold;
+    return data;
+  }
   return savePath.readJSON!SaveData;
 }
 

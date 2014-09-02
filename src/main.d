@@ -1,3 +1,4 @@
+import std.file;
 import allegro;
 import state.gamestate;
 import state.preparation;
@@ -12,17 +13,7 @@ private bool _frameTick = false; /// if true, time for an update/draw cycle
 private GameState _currentState;
 
 int main(char[][] args) {
-  auto data = new SaveData;
-  data.roster = [
-    generateCharacter("Mercenary"),
-    generateCharacter("Mercenary"),
-    generateCharacter("Fighter"),
-    generateCharacter("Fighter"),
-    generateCharacter("Soldier"),
-    generateCharacter("Soldier"),
-  ];
-  data.gold = 600;
-  data.mission = 0;
+  auto data = loadSave();
   //_currentState = new Battle("map1", data.roster);
   _currentState = new Preparation(data);
 

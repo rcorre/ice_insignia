@@ -114,6 +114,7 @@ T extract(T : bool)(JSONValue json) {
 
 /// extract a string type from a json value
 T extract(T : string)(JSONValue json) {
+  if (json.type == JSON_TYPE.NULL) { return null; }
   assertJsonType!T(json, JSON_TYPE.STRING);
   return cast(T) json.str;
 }
@@ -143,6 +144,9 @@ T extract(T)(JSONValue json) if (is(T == enum)) {
 
 /// extract an array from a JSONValue
 T extract(T)(JSONValue json) if (isArray!T && !isSomeString!(T)) {
+  static if (isDynamicArray!T) {
+    if (json.type == JSON_TYPE.NULL) { return null; }
+  }
   assertJsonType!T(json, JSON_TYPE.ARRAY);
   alias ElementType = ForeachType!T;
   assert(json.type == JSON_TYPE.ARRAY);
@@ -161,6 +165,7 @@ T extract(T)(JSONValue json) if (isArray!T && !isSomeString!(T)) {
 /// extract an associative array from a JSONValue
 T extract(T)(JSONValue json) if (isAssociativeArray!T) {
   assert(is(KeyType!T : string), "toJSON requires string keys for associative array");
+  if (json.type == JSON_TYPE.NULL) { return null; }
   assertJsonType!T(json, JSON_TYPE.OBJECT);
   alias ValType = ValueType!T;
   T map;
@@ -179,6 +184,9 @@ T extract(T)(JSONValue json, string key) {
 
 /// extract a user-defined class or struct from a JSONValue
 T extract(T)(JSONValue json) if (!isBuiltinType!T) {
+  static if (is(T == class)) {
+    if (json.type == JSON_TYPE.NULL) { return null; }
+  }
   assertJsonType!T(json, JSON_TYPE.OBJECT);
   // first, try to find a contructor marked with @jsonize and call that
   static if (__traits(hasMember, T, "__ctor")) {
