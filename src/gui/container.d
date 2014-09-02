@@ -66,13 +66,11 @@ class GUIContainer : GUIElement {
           auto pos = _selectedElement.center;
           r.sort!((a,b) => distance(pos, a.bounds.center) < distance(pos, b.bounds.center));
           _selectedElement = r.front;
-          handleCursorMoved;
+          _selectedElement.handleHover;
         }
       }
     }
   }
-
-  void handleCursorMoved() { }
 
   final {
     void addElement(GUIElement element) {
@@ -80,6 +78,7 @@ class GUIContainer : GUIElement {
       _elements ~= element;
       if (_selectedElement is null) {
         _selectedElement = element;
+        _selectedElement.handleHover;
       }
     }
 

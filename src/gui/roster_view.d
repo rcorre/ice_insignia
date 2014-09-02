@@ -41,7 +41,7 @@ class RosterView : GUIContainer {
         slotPos.x = recruitStartPos.x;
         slotPos.y += rosterSpacingY;
       }
-      addElement(new RosterSlot(slotPos, character, &selectRecruit));
+      addElement(new RosterSlot(slotPos, character, &selectRecruit, &rosterHover));
       slotPos.x += rosterSpacingX;
     }
   }
@@ -53,19 +53,12 @@ class RosterView : GUIContainer {
         slotPos.x = recruitStartPos.x;
         slotPos.y += rosterSpacingY;
       }
-      addElement(new RosterSlot(slotPos, character, &selectRoster));
+      addElement(new RosterSlot(slotPos, character, &selectRoster, &rosterHover));
       slotPos.x += rosterSpacingX;
     }
   }
 
   override {
-    void handleCursorMoved() {
-      auto slot = cast(RosterSlot) selectedElement;
-      if (slot && slot.character) {
-        _characterSheet = new CharacterSheet(characterSheetPos, slot.character);
-      }
-    }
-
     void draw() {
       super.draw;
       if (_characterSheet) {
@@ -104,6 +97,13 @@ class RosterView : GUIContainer {
 
   void slotHover(string cmd, Rect2i area) {
   }
+
+  void rosterHover(Character character) {
+    if (character) {
+      _characterSheet = new CharacterSheet(characterSheetPos, character);
+    }
+  }
+
 
   void recruitCommand(string cmd) {
     if (cmd != "cancel") { // other command is recruit

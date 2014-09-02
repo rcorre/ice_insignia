@@ -17,9 +17,10 @@ private enum {
 class RosterSlot : GUIElement {
   alias Action = void delegate(Character);
 
-  this(Vector2i pos, Character character, Action action) {
+  this(Vector2i pos, Character character, Action action, Action hoverAction) {
     this.character = character;
     _action = action;
+    _hoverAction = hoverAction;
     super(pos, Anchor.center);
   }
 
@@ -45,6 +46,10 @@ class RosterSlot : GUIElement {
       _action(character);
     }
 
+    void handleHover() {
+      _hoverAction(character);
+    }
+
     void draw() {
       bounds.drawFilled(bgColor);
       bounds.draw(borderThickness, borderColor);
@@ -58,7 +63,7 @@ class RosterSlot : GUIElement {
   private:
   CharacterSprite _sprite;
   Character _character;
-  Action _action;
+  Action _action, _hoverAction;
 }
 
 private Font _font;
