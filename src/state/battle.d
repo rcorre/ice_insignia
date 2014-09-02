@@ -29,6 +29,7 @@ private enum {
 
   battleInfoOffset = Vector2i(16, 16),
   characterSheetPos = Vector2i(128, 56),
+  itemInfoOffset = Vector2i(220, 0),
 }
 
 class Battle : GameState {
@@ -39,9 +40,7 @@ class Battle : GameState {
     foreach(enemy ; _enemies) { // place enemies
       placeBattler(enemy, _map.tileAt(enemy.row, enemy.col));
     }
-
-    foreach(idx, character ; playerUnits) { // place player units at spawn points
-      assert(idx < data.spawnPoints.length, "not enough spawn points for player units");
+    foreach(idx, character ; playerUnits.take(data.spawnPoints.length)) { // place player units at spawn points
       auto pos = data.spawnPoints[idx];
       auto tile = _map.tileAtPos(pos);
       Battler b = new Battler(character, tile.row, tile.col, pos, BattleTeam.ally);
@@ -411,7 +410,7 @@ class Battle : GameState {
     }
 
     void showItemInfo(Item item ,Rect2i rect) {
-      _itemView = item ? new ItemView(item, rect.topLeft + infoOffset) : null;
+      _itemView = item ? new ItemView(item, rect.topLeft + itemInfoOffset) : null;
       if (_itemView) {
         _itemView.keepInside(Rect2i(0, 0, _camera.width, _camera.height));
       }

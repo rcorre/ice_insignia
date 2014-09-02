@@ -14,11 +14,22 @@ private enum {
 }
 
 class ItemSlot : GUIElement {
-  this(Vector2i pos, Item item) {
+  enum ShowPrice { no, full, resale }
+  this(Vector2i pos, Item item, ShowPrice showCost = ShowPrice.no) {
     _item = item;
     super(pos, Anchor.center);
     if (item) {
-      _text = format("%s (%d)", item.name, item.uses);
+      final switch (showCost) { // choose how to display item text
+        case ShowPrice.no:
+          _text = format("%12s (%d)", item.name, item.uses);
+          break;
+        case ShowPrice.full:
+          _text = format("%12s (%d)  %4dG", item.name, item.uses, item.price);
+          break;
+        case ShowPrice.resale:
+          _text = format("%12s (%d)  %4dG", item.name, item.uses, item.resalePrice);
+          break;
+      }
       _namePos = bounds.topRight + Vector2i.UnitY * _font.heightOf(_text) / 2;
     }
   }

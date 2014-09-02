@@ -14,7 +14,7 @@ private GameState _currentState;
 
 int main(char[][] args) {
   auto data = loadSave();
-  //_currentState = new Battle("map1", data.roster);
+  _currentState = new Battle("map1", data.roster);
   _currentState = new Preparation(data);
 
   return al_run_allegro({

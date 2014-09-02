@@ -7,6 +7,10 @@ import model.character;
 import model.item;
 import util.jsonizer;
 
+enum {
+  itemStorageSize = 10
+}
+
 private enum {
   fileName = "ice_insignia_save.json",
   startingGold = 1000
@@ -16,7 +20,7 @@ class SaveData {
   mixin JsonizeMe;
   @jsonize {
     Character[] roster;
-    Item[] items;
+    Item[itemStorageSize] items;
     int gold;
     int mission;
   }

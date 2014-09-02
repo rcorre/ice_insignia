@@ -48,7 +48,7 @@ abstract class SelectionMenu(T) {
     if (movedSelection) {
       // add length so negative values wrap
       _cursorIdx = cast(int) ((_cursorIdx + _selections.length) % _selections.length);
-      auto area = Rect2i(_totalArea.topLeft + Vector2i(0, _entryWidth * _cursorIdx), _entryWidth, _entryHeight);
+      auto area = Rect2i(_totalArea.topLeft + Vector2i(0, _entryHeight * _cursorIdx), _entryWidth, _entryHeight);
       if (_onHover) {
         _onHover(_selections[_cursorIdx], area);
       }

@@ -8,6 +8,8 @@ import util.jsonizer;
 import geometry.vector;
 import graphics.sprite;
 
+private enum resalePriceFactor = 0.5;
+
 Item loadItem(string name, int uses = -1) {
   name = toLower(name);
   return new Item(name, uses);
@@ -48,6 +50,9 @@ class Item {
     auto sprite() { return _sprite; }
     static Item none() { return new Item("none", 0); }
     bool isWeapon() { with(ItemType) { return type != none && type != staff && type != other; } }
+    int resalePrice() {
+      return cast(int) (price * resalePriceFactor * cast(float) uses / maxUses);
+    }
   }
 
   private:
@@ -68,6 +73,7 @@ class ItemData {
     int maxRange;
     int weight;
     int tier;
+    int price;
   }
 }
 

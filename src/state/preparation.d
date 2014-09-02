@@ -20,8 +20,16 @@ class Preparation : GameState {
       generateCharacter("Soldier"),
       generateCharacter("Soldier"),
     ];
+    auto forSale = [
+      new Item("dirk"),
+      new Item("broadsword"),
+      new Item("quarterstaff"),
+      new Item("spear"),
+      new Item("handaxe"),
+      new Item("mace"),
+    ];
     auto rosterView = new RosterView(Vector2i.Zero, data, forHire);
-    auto storeView = new StoreView(Vector2i.Zero, data, null);
+    auto storeView = new StoreView(Vector2i.Zero, data, forSale);
     GUIContainer[] views = [rosterView, storeView];
     _views = cycle(views);
     _input = new InputManager;
