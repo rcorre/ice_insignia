@@ -60,11 +60,14 @@ class Character {
 
       AttributeSet potential() { return _potential; }
       AttributeSet attributes() { return _attributes; }
+
+      auto items() { return _items; }
     }
 
     Item equippedWeapon() {
       return (_items[0] && _items[0].isWeapon) ? _items[0] : Item.none;
     }
+
     /// set equipped weapon
     void equippedWeapon(Item item) {
       if (item) {
@@ -75,7 +78,6 @@ class Character {
       }
     }
 
-    Item[] items() { return _items; }
     void xp(int val) {
       if (_xp + val >= xpLimit) {
         levelUp();
@@ -131,12 +133,11 @@ class Character {
   AttributeSet _potential;
   Item[itemCapacity] _items;
   Talent[] _talents;
-  @jsonize @property { // items and talents are jsonized by name
-    string[] itemNames() {
-      return array(_items[].map!"a.name");
-    }
-    string[] talentNames() { return array(_talents.map!"a.name"); }
-  }
+  /*
+     @jsonize @property { // items and talents are jsonized by name
+     string[] talentNames() { return array(_talents.map!"a.name"); }
+     }
+   */
 }
 
 Character generateCharacter(string name, int level = 1, string[] itemNames = []) {

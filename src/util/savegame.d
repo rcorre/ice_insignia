@@ -7,7 +7,7 @@ import model.character;
 import model.item;
 import util.jsonizer;
 
-private string fileName = "/ice_insignia_save.json";
+private string fileName = "ice_insignia_save.json";
 
 class SaveData {
   mixin JsonizeMe;
@@ -30,16 +30,21 @@ void saveGame(SaveData data) {
 
 private @property string savePath() {
   string dir;
-  version(Windows) {
-    dir = "./savegame";
+  debug {
+    return fileName;
   }
-  version(linux) {
-    dir = expandTilde("~/.ice_insignia");
+  else {
+    version(Windows) {
+      dir = "./savegame";
+    }
+    version(linux) {
+      dir = expandTilde("~/.ice_insignia");
+    }
+
+    if (!dir.exists) {
+      mkdir(dir);
+    }
   }
 
-  if (!dir.exists) {
-    mkdir(dir);
-  }
-
-  return dir ~ fileName;
+  return dir ~ "/" ~ fileName;
 }

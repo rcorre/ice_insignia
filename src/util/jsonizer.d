@@ -50,6 +50,9 @@ JSONValue toJSON(T)(T val) if (is(T == enum)) {
 
 /// convert a homogenous array into a JSONValue array
 JSONValue toJSON(T)(T args) if (isArray!T && !isSomeString!T) {
+  static if (isDynamicArray!T) {
+    if (args is null) { return JSONValue(null); }
+  }
   JSONValue[] jsonVals;
   foreach(arg ; args) {
     jsonVals ~= toJSON(arg);
@@ -73,6 +76,7 @@ JSONValue toJSON(T...)(T args) {
 /// convert a associative array into a JSONValue object
 JSONValue toJSON(T)(T map) if (isAssociativeArray!T) {
   assert(is(KeyType!T : string), "toJSON requires string keys for associative array");
+  if (map is null) { return JSONValue(null); }
   JSONValue[string] obj;
   foreach(key, val ; map) {
     obj[key] = toJSON(val);
@@ -83,6 +87,9 @@ JSONValue toJSON(T)(T map) if (isAssociativeArray!T) {
 }
 
 JSONValue toJSON(T)(T obj) if (!isBuiltinType!T) {
+  static if (is (T == class)) {
+    if (obj is null) { return JSONValue(null); }
+  }
   return obj.convertToJSON();
 }
 

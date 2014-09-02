@@ -109,10 +109,15 @@ class RosterView : GUIContainer {
     if (cmd != "cancel") { // other command is recruit
       auto slot = cast(RosterSlot) selectedElement;
       auto character = slot.character;
-      slot.character = null;
-      // add character to roster
-      _data.roster ~= character;
-      generateRoster;
+      auto cost = character.level * hireCostPerLevel;
+      if (cost <= _data.gold) {
+        slot.character = null;
+        // add character to roster
+        _data.roster ~= character;
+        generateRoster;
+        _data.gold -= cost;
+        saveGame(_data);
+      }
     }
     _menu = null;
   }
