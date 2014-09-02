@@ -144,9 +144,7 @@ T extract(T)(JSONValue json) if (is(T == enum)) {
 
 /// extract an array from a JSONValue
 T extract(T)(JSONValue json) if (isArray!T && !isSomeString!(T)) {
-  static if (isDynamicArray!T) {
-    if (json.type == JSON_TYPE.NULL) { return null; }
-  }
+  if (json.type == JSON_TYPE.NULL) { return T.init; }
   assertJsonType!T(json, JSON_TYPE.ARRAY);
   alias ElementType = ForeachType!T;
   assert(json.type == JSON_TYPE.ARRAY);

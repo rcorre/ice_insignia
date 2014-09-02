@@ -35,6 +35,7 @@ class Item {
   mixin JsonizeMe;
 
   @jsonize this(string name, int uses = -1) {
+    name = name.toLower;
     assert(name in _itemData, "could not load item named " ~ name);
     data = _itemData[name];
     this.uses = (uses == -1) ? data.maxUses : uses;

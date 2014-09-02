@@ -1,7 +1,8 @@
 module gui.store_view;
 
 import std.string : format;
-import std.algorithm : moveAll;
+import std.algorithm : countUntil;
+import std.range;
 import gui.element;
 import gui.container;
 import gui.roster_slot;
@@ -18,11 +19,11 @@ import util.savegame;
 
 private enum {
   goldOffset = Vector2i(120, 25),
-  storagePos = Vector2i(140, 140),
-  shopPos = Vector2i(440, 220),
+  storagePos = Vector2i(100, 140),
+  shopPos = Vector2i(480, 220),
   cursorShade = Color(0, 0, 0.5, 0.8),
   shopInfoOffset = Vector2i(-100, 0),
-  storageInfoOffset = Vector2i(0, -50),
+  storageInfoOffset = Vector2i(100, 0),
 }
 
 class StoreView : GUIContainer {
@@ -30,9 +31,11 @@ class StoreView : GUIContainer {
     _data = data;
     auto cursor = new AnimatedSprite("target", cursorShade);
     super(pos, Anchor.topLeft, "store_view", cursor);
-    _storageMenu = new InventoryMenu(storagePos, _data.items, &itemSelect, &itemHover, InventoryMenu.ShowPrice.resale);
-    _shopMenu = new InventoryMenu(shopPos, forSale, &itemSelect, &itemHover, InventoryMenu.ShowPrice.full);
-    _selectedMenu = _storageMenu;
+    with(InventoryMenu.ShowPrice) {
+      _storageMenu = new InventoryMenu(storagePos, _data.items, &sellItem, &storageHover, resale);
+      _shopMenu = new InventoryMenu(shopPos, forSale, &purchaseItem, &shopHover, full);
+    }
+    _storageMenu.hasFocus = true;
   }
 
   override {
@@ -46,24 +49,48 @@ class StoreView : GUIContainer {
 
     void handleInput(InputManager input) {
       if (input.selectLeft || input.selectRight) {
-        _selectedMenu = (_selectedMenu == _shopMenu) ? _storageMenu : _shopMenu;
+        _storageMenu.hasFocus = !_storageMenu.hasFocus;
+        _shopMenu.hasFocus = !_shopMenu.hasFocus;
       }
-      _selectedMenu.handleInput(input);
+      _storageMenu.handleInput(input);
+      _shopMenu.handleInput(input);
       super.handleInput(input);
     }
   }
 
-  void itemHover(Item item, Rect2i rect) {
-    auto pos = (_selectedMenu == _shopMenu) ? rect.bottomLeft + shopInfoOffset : rect.bottomRight + storageInfoOffset;
-    _itemView = item ? new ItemView(item, pos) : null;
+  void storageHover(Item item, Rect2i rect) {
+    _itemView = item ? new ItemView(item, rect.topRight + storageInfoOffset) : null;
   }
 
-  void itemSelect(Item item) {
+  void shopHover(Item item, Rect2i rect) {
+    _itemView = item ? new ItemView(item, rect.bottomLeft + shopInfoOffset) : null;
+  }
+
+  void purchaseItem(Item item) {
+    if (_data.gold >= item.price) {
+      foreach(ref slot ; _data.items) {
+        if (slot is null) {
+          slot = item;
+          _data.gold -= item.price;
+          saveGame(_data);
+          return;
+        }
+      }
+    }
+  }
+
+  void sellItem(Item item) {
+    if (item is null) { return; }
+    auto idx = _data.items[].countUntil(item);
+    if (idx > -1) {
+      _data.items[idx] = null;
+      _data.gold += item.resalePrice;
+      saveGame(_data);
+    }
   }
 
   private:
   InventoryMenu _storageMenu, _shopMenu;
-  InventoryMenu _selectedMenu;
   ItemView _itemView;
   SaveData _data;
 }

@@ -8,11 +8,6 @@ import geometry.all;
 import gui.selection_menu;
 import model.item;
 
-private enum {
-  defaultWidth = 120,
-  defaultHeight = 32
-}
-
 class InventoryMenu : SelectionMenu!Item {
   enum ShowPrice { no, full, resale }
   this(Vector2i pos, Item[] items, Action onChoose, HoverAction onHover = null,
@@ -38,11 +33,13 @@ class InventoryMenu : SelectionMenu!Item {
     }
 
     int entryWidth(Item entry) {
-      return entry ? entry.sprite.width + _font.widthOf(itemText(entry)) : defaultWidth;
+      entry = (entry is null) ? Item.none : entry;
+      return entry.sprite.width + _font.widthOf(itemText(entry));
     }
 
     int entryHeight(Item entry) {
-      return entry ? max(entry.sprite.height, _font.heightOf(itemText(entry))) : defaultHeight;
+      entry = (entry is null) ? Item.none : entry;
+      return max(entry.sprite.height, _font.heightOf(itemText(entry)));
     }
   }
 
