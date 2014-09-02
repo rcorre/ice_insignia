@@ -21,8 +21,8 @@ enum Keymap {
   end     = [ALLEGRO_KEY_SPACE],
   faster  = [ALLEGRO_KEY_LSHIFT, ALLEGRO_KEY_RSHIFT],
 
-  nextUnit = [ALLEGRO_KEY_E],
-  prevUnit = [ALLEGRO_KEY_Q],
+  next = [ALLEGRO_KEY_E],
+  previous = [ALLEGRO_KEY_Q],
 
   inspect = [ALLEGRO_KEY_F],
 }
@@ -115,8 +115,8 @@ class InputManager {
     bool endTurn() { return keyPressed(Keymap.end)       || _gamePad.pressed(Button360.x); }
     bool inspect() { return keyPressed(Keymap.inspect)   || _gamePad.pressed(Button360.y); }
 
-    bool nextUnit() { return keyPressed(Keymap.nextUnit) || _gamePad.pressed(Button360.rb); }
-    bool prevUnit() { return keyPressed(Keymap.prevUnit) || _gamePad.pressed(Button360.lb); }
+    bool next() { return keyPressed(Keymap.next) || _gamePad.pressed(Button360.rb); }
+    bool previous() { return keyPressed(Keymap.previous) || _gamePad.pressed(Button360.lb); }
 
     bool speedScroll() { return keyHeld(Keymap.faster); }
   }

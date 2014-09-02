@@ -31,7 +31,9 @@ class GUIContainer : GUIElement {
       foreach(slot ; _elements) {
         slot.draw();
       }
-      _cursor.draw(_selectedElement.center);
+      if (_selectedElement) {
+        _cursor.draw(_selectedElement.center);
+      }
     }
 
     void update(float time) {

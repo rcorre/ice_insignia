@@ -33,7 +33,6 @@ class RosterView : GUIContainer {
     _data = data;
     auto cursor = new AnimatedSprite("target", cursorShade);
     super(pos, Anchor.topLeft, "roster_view", cursor);
-    int counter = 0;
     auto slotPos = recruitStartPos;
     generateRoster;
     foreach(idx, character ; forHire) {
@@ -103,7 +102,6 @@ class RosterView : GUIContainer {
       _characterSheet = new CharacterSheet(characterSheetPos, character);
     }
   }
-
 
   void recruitCommand(string cmd) {
     if (cmd != "cancel") { // other command is recruit

@@ -1,5 +1,6 @@
 module state.preparation;
 
+import std.range;
 import state.gamestate;
 import gui.all;
 import geometry.all;
@@ -19,28 +20,43 @@ class Preparation : GameState {
       generateCharacter("Soldier"),
       generateCharacter("Soldier"),
     ];
-    _rosterView = new RosterView(Vector2i.Zero, data, forHire);
+    auto rosterView = new RosterView(Vector2i.Zero, data, forHire);
+    auto storeView = new StoreView(Vector2i.Zero, data, null);
+    GUIContainer[] views = [rosterView, storeView];
+    _views = cycle(views);
     _input = new InputManager;
   }
 
   /// returns a GameState to request a state transition, null otherwise
   override GameState update(float time) {
-    _rosterView.update(time);
+    activeView.update(time);
     _input.update(time);
-    _rosterView.handleInput(_input);
+    if (_input.next) {
+      ++_viewIdx;
+    }
+    else if (_input.previous) {
+      --_viewIdx;
+    }
+    activeView.handleInput(_input);
     return null;
   }
 
   /// render game state to screen
   override void draw() {
-    _rosterView.draw();
+    activeView.draw();
   }
 
   override void onExit() {
   }
 
+  @property auto activeView() {
+    assert(_views[_viewIdx] !is null);
+    return _views[_viewIdx];
+  }
+
   private:
-  RosterView _rosterView;
+  int _viewIdx;
+  Cycle!(GUIContainer[]) _views;
   InputManager _input;
   SaveData _data;
 }

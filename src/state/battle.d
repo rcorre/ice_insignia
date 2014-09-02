@@ -172,11 +172,11 @@ class Battle : GameState {
         }
       }
       // jump to next ready unit
-      else if (_input.nextUnit) {
+      else if (_input.next) {
         auto nextBattler = _unitJumpList[_unitJumpIdx++];
         _tileCursor.place(_map.tileAt(nextBattler.row, nextBattler.col));
       }
-      else if (_input.prevUnit) {
+      else if (_input.previous) {
         auto nextBattler = _unitJumpList[_unitJumpIdx--];
         _tileCursor.place(_map.tileAt(nextBattler.row, nextBattler.col));
       }
