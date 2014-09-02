@@ -128,7 +128,7 @@ class RosterView : GUIContainer {
   void selectRecruit(Character character) {
     if (character) {
       auto pos = selectedElement.bounds.center;
-      auto selections = [format("recruit (%4dG)", character.level * hireCostPerLevel), "cancel"];
+      auto selections = [format("recruit (%dG)", character.level * hireCostPerLevel), "cancel"];
       _menu = new StringMenu(pos, selections, &recruitCommand, &slotHover);
     }
   }

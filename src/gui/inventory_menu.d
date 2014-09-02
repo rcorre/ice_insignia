@@ -10,11 +10,18 @@ import model.item;
 
 class InventoryMenu : SelectionMenu!Item {
   enum ShowPrice { no, full, resale }
-  this(Vector2i pos, Item[] items, Action onChoose, HoverAction onHover = null,
-      ShowPrice showPrice = ShowPrice.no)
+  this(Vector2i pos, Item[] items, Action onChoose, HoverAction onHover, 
+      ShowPrice showPrice = ShowPrice.no, bool focus = true)
   {
     _showPrice = showPrice;
-    super(pos, items, onChoose, onHover);
+    super(pos, items, onChoose, onHover, focus);
+  }
+
+  this(Vector2i pos, Item[5] items, Action onChoose, HoverAction onHover, 
+      ShowPrice showPrice = ShowPrice.no, bool focus = true)
+  {
+    _showPrice = showPrice;
+    super(pos, items.dup, onChoose, onHover, focus);
   }
 
   protected override {

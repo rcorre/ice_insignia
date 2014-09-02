@@ -28,7 +28,7 @@ class Character {
 
   /// load saved character
   @jsonize this(string name, string model, AttributeSet attributes, AttributeSet potential,
-      int level = 1, int xp = 0, Item[] items = [], string[] talentNames = [])
+      int level, int xp, Item[itemCapacity] items, string[] talentNames = [])
   {
     _name = name;
     _model = model;
@@ -36,9 +36,7 @@ class Character {
     _potential = potential;
     _level = level;
     _xp = xp;
-    foreach(item ; items) {
-      addItem(item);
-    }
+    _items = items;
     foreach(talent ; talentNames) {
       addTalent(loadTalent(talent));
     }

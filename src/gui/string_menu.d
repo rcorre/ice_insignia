@@ -11,12 +11,8 @@ private enum {
 
 /// display a list of string options
 class StringMenu : SelectionMenu!string {
-  this(Vector2i pos, string[] selections, Action onChoose, HoverAction onHover) {
-    super(pos, selections, onChoose, onHover);
-  }
-
-  this(Vector2i pos, string[] selections, Action onChoose) {
-    this(pos, selections, onChoose, null);
+  this(Vector2i pos, string[] selections, Action onChoose, HoverAction onHover = null, bool focus = true) {
+    super(pos, selections, onChoose, onHover, focus);
   }
 
   protected override:

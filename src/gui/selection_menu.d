@@ -15,7 +15,7 @@ abstract class SelectionMenu(T) {
   alias Action = void delegate(T);
   alias HoverAction = void delegate(T, Rect2i);
 
-  this(Vector2i pos, T[] selections, Action onChoose, HoverAction onHover) {
+  this(Vector2i pos, T[] selections, Action onChoose, HoverAction onHover, bool hasFocus = true) {
     // the width/height of each entry is normalized to the largest entry
     _entryWidth = selections.map!(a  => entryWidth(a)).reduce!max;
     _entryHeight = selections.map!(a => entryHeight(a)).reduce!max;
@@ -25,7 +25,7 @@ abstract class SelectionMenu(T) {
     _selections = selections;
     _onChoose = onChoose;
     _onHover = onHover;
-    _onHover(_selections[0], Rect2i(_totalArea.topLeft, _entryWidth, _entryHeight));
+    this.hasFocus = hasFocus;
   }
 
   this(Vector2i pos, T[] selections, Action onChoose) {
@@ -67,8 +67,8 @@ abstract class SelectionMenu(T) {
   }
 
   final void callHoverAction() {
-    auto area = Rect2i(_totalArea.topLeft + Vector2i(0, _entryHeight * _cursorIdx), _entryWidth, _entryHeight);
-    if (_onHover) {
+    if (_onHover && _selections) {
+      auto area = Rect2i(_totalArea.topLeft + Vector2i(0, _entryHeight * _cursorIdx), _entryWidth, _entryHeight);
       _onHover(_selections[_cursorIdx], area);
     }
   }

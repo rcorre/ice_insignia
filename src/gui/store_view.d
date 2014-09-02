@@ -33,7 +33,7 @@ class StoreView : GUIContainer {
     super(pos, Anchor.topLeft, "store_view", cursor);
     with(InventoryMenu.ShowPrice) {
       _storageMenu = new InventoryMenu(storagePos, _data.items, &sellItem, &storageHover, resale);
-      _shopMenu = new InventoryMenu(shopPos, forSale, &purchaseItem, &shopHover, full);
+      _shopMenu = new InventoryMenu(shopPos, forSale, &purchaseItem, &shopHover, full, false);
     }
     _storageMenu.hasFocus = true;
   }
