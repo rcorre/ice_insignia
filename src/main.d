@@ -23,8 +23,8 @@ int main(char[][] args) {
   ];
   data.gold = 600;
   data.mission = 0;
-  _currentState = new Battle("map1", data.roster);
-  //_currentState = new Preparation(data);
+  //_currentState = new Battle("map1", data.roster);
+  _currentState = new Preparation(data);
 
   return al_run_allegro({
       while(_run) {

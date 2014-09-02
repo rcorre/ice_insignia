@@ -34,16 +34,8 @@ class RosterView : GUIContainer {
     auto cursor = new AnimatedSprite("target", cursorShade);
     super(pos, Anchor.topLeft, "roster_view", cursor);
     int counter = 0;
-    Vector2i slotPos = rosterStartPos;
-    foreach(idx, character ; data.roster) {
-      if (idx != 0 && idx % numRecruitCols == 0) {
-        slotPos.x = recruitStartPos.x;
-        slotPos.y += rosterSpacingY;
-      }
-      addElement(new RosterSlot(slotPos, character, &selectRoster));
-      slotPos.x += rosterSpacingX;
-    }
-    slotPos = recruitStartPos;
+    auto slotPos = recruitStartPos;
+    generateRoster;
     foreach(idx, character ; forHire) {
       if (idx != 0 && idx % numRecruitCols == 0) {
         slotPos.x = recruitStartPos.x;
@@ -54,10 +46,22 @@ class RosterView : GUIContainer {
     }
   }
 
+  void generateRoster() {
+    auto slotPos = rosterStartPos;
+    foreach(idx, character ; _data.roster) {
+      if (idx != 0 && idx % numRecruitCols == 0) {
+        slotPos.x = recruitStartPos.x;
+        slotPos.y += rosterSpacingY;
+      }
+      addElement(new RosterSlot(slotPos, character, &selectRoster));
+      slotPos.x += rosterSpacingX;
+    }
+  }
+
   override {
     void handleCursorMoved() {
       auto slot = cast(RosterSlot) selectedElement;
-      if (slot) {
+      if (slot && slot.character) {
         _characterSheet = new CharacterSheet(characterSheetPos, slot.character);
       }
     }
@@ -106,7 +110,9 @@ class RosterView : GUIContainer {
       auto slot = cast(RosterSlot) selectedElement;
       auto character = slot.character;
       slot.character = null;
-      // TODO: add character to roster
+      // add character to roster
+      _data.roster ~= character;
+      generateRoster;
     }
     _menu = null;
   }
@@ -117,9 +123,11 @@ class RosterView : GUIContainer {
   }
 
   void selectRecruit(Character character) {
-    auto pos = selectedElement.bounds.center;
-    auto selections = [format("recruit (%4dG)", character.level * hireCostPerLevel), "cancel"];
-    _menu = new StringMenu(pos, selections, &recruitCommand, &slotHover);
+    if (character) {
+      auto pos = selectedElement.bounds.center;
+      auto selections = [format("recruit (%4dG)", character.level * hireCostPerLevel), "cancel"];
+      _menu = new StringMenu(pos, selections, &recruitCommand, &slotHover);
+    }
   }
 
   void selectEquippedItem(Item item) {
