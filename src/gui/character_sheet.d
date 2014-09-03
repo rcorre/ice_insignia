@@ -37,12 +37,12 @@ private enum {
   potentialBarFg     = Color(0.3, 0.4, 0.8),
   potentialBarBg     = Color.black,
   attributeTextColor = Color.black,
-  combatStatsPos     = Vector2i(266, 278),
-  combatStatsSep     = 32,
-  equipmentPos       = Vector2i(372, 338),
+  equipmentPos       = Vector2i(271, 306),
   equipmentSep       = 32,
   talentsPos         = Vector2i(376, 117),
   talentsSep         = 32,
+  combatStatsPos     = Vector2i(269, 129),
+  combatStatsSep     = 32
 }
 
 /// displays info about a character's stats
@@ -70,9 +70,7 @@ class CharacterSheet {
     foreach(bar ; _progressBars) {
       bar.draw();
     }
-    foreach(slot ; _itemSlots) {
-      slot.draw();
-    }
+    _inventoryMenu.draw;
     _sprite.draw(_topLeft + spritePos);
     _nameFont.draw(_character.name, _topLeft + namePos);
     _levelFont.draw(to!string(_character.level), _topLeft + lvlPos);
@@ -82,15 +80,16 @@ class CharacterSheet {
   Texture _bgTexture;
   Sprite _sprite;
   Character _character;
-  ItemSlot[] _itemSlots;
+  InventoryMenu _inventoryMenu;
   ProgressBar!int[] _progressBars;
   Vector2i _topLeft;
 
-  private void populate(int hp, bool showPotential) {
+  void populate(int hp, bool showPotential) {
     _bgTexture = getTexture(textureName);
     makeAttributeBars(showPotential);
     makeXpAndHpBars(hp);
-    makeItemSlots;
+    _inventoryMenu = new InventoryMenu(_topLeft + equipmentPos, _character.items, null, null,
+        InventoryMenu.ShowPrice.no, false);
   }
 
   void makeAttributeBars(bool showPotential) {
@@ -116,14 +115,6 @@ class CharacterSheet {
     _progressBars ~= new ProgressBar!int(area, currentHp, _character.maxHp, hpBarFg, hpBarBg, hpTextColor);
     area = Rect2i(_topLeft + xpBarPos, xpBarWidth, xpBarHeight);
     _progressBars ~= new ProgressBar!int(area, _character.xp, _character.xpLimit, xpBarFg, xpBarBg, xpTextColor);
-  }
-
-  void makeItemSlots() {
-    foreach(item ; _character.items) {
-      Vector2i pos = _topLeft + equipmentPos;
-      _itemSlots ~= new ItemSlot(pos, item);
-      pos.y += equipmentSep;
-    }
   }
 
   static Font _nameFont, _levelFont;
