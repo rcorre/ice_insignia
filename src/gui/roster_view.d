@@ -8,7 +8,6 @@ import gui.roster_slot;
 import gui.string_menu;
 import gui.inventory_menu;
 import gui.character_sheet;
-import gui.button_sprites;
 import geometry.all;
 import graphics.all;
 import model.character;
@@ -27,9 +26,6 @@ private enum {
   cursorShade = Color(0, 0, 0.5, 0.8),
   characterSheetPos = Vector2i(288, 57),
   hireCostPerLevel = 200,
-  // button sprites
-  lbButtonPos = Vector2i(32, 56),
-  rbButtonPos = Vector2i(32, 560),
 }
 
 class RosterView : GUIContainer {
@@ -71,8 +67,6 @@ class RosterView : GUIContainer {
         _menu.draw();
       }
       _goldFont.draw(format("%dG", _data.gold), bounds.topLeft + goldOffset);
-      drawButtonSprite("lb", bounds.topLeft + lbButtonPos);
-      drawButtonSprite("rb", bounds.topLeft + rbButtonPos);
     }
 
     void handleInput(InputManager input) {

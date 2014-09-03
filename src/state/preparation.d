@@ -9,6 +9,12 @@ import model.character;
 import model.item;
 import util.savegame;
 
+private enum {
+  // button sprites
+  lbButtonPos = Vector2i(32, 56),
+  rbButtonPos = Vector2i(32, 560),
+}
+
 class Preparation : GameState {
   this(SaveData data) {
     _data = data;
@@ -52,6 +58,8 @@ class Preparation : GameState {
   /// render game state to screen
   override void draw() {
     activeView.draw();
+    drawButtonSprite("lb", lbButtonPos);
+    drawButtonSprite("rb", rbButtonPos);
   }
 
   override void onExit() {
