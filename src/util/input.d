@@ -20,6 +20,7 @@ enum Keymap {
   cancel  = [ALLEGRO_KEY_K],
   end     = [ALLEGRO_KEY_SPACE],
   faster  = [ALLEGRO_KEY_LSHIFT, ALLEGRO_KEY_RSHIFT],
+  start = [ALLEGRO_KEY_ENTER],
 
   next = [ALLEGRO_KEY_E],
   previous = [ALLEGRO_KEY_Q],
@@ -119,6 +120,8 @@ class InputManager {
     bool previous() { return keyPressed(Keymap.previous) || _gamePad.pressed(Button360.lb); }
 
     bool speedScroll() { return keyHeld(Keymap.faster); }
+
+    bool start() { return keyPressed(Keymap.start) || _gamePad.pressed(Button360.start); }
   }
 
   Vector2i mousePos() {

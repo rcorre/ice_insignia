@@ -2,7 +2,6 @@ import std.file;
 import allegro;
 import state.gamestate;
 import state.preparation;
-import state.battle;
 import util.config;
 import util.savegame;
 import model.character;
@@ -14,7 +13,6 @@ private GameState _currentState;
 
 int main(char[][] args) {
   auto data = loadSave();
-  _currentState = new Battle("map1", data.roster);
   _currentState = new Preparation(data);
 
   return al_run_allegro({
@@ -72,7 +70,10 @@ void main_update() {
   float current_time = al_get_time();
   float delta = current_time - last_update_time;
   last_update_time = current_time;
-  _currentState.update(delta);
+  auto newState = _currentState.update(delta);
+  if (newState) {
+    _currentState = newState;
+  }
 }
 
 void main_draw() {

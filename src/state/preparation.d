@@ -8,6 +8,7 @@ import util.input;
 import model.character;
 import model.item;
 import util.savegame;
+import state.battle;
 
 private enum {
   // button sprites
@@ -36,7 +37,7 @@ class Preparation : GameState {
     ];
     auto rosterView = new RosterView(Vector2i.Zero, data, forHire);
     auto storeView = new StoreView(Vector2i.Zero, data, forSale);
-    auto missionView = new MissionView(Vector2i.Zero, data);
+    auto missionView = new MissionView(Vector2i.Zero, data, &startMission);
     GUIContainer[] views = [rosterView, storeView, missionView];
     _views = cycle(views);
     _input = new InputManager;
@@ -53,7 +54,7 @@ class Preparation : GameState {
       --_viewIdx;
     }
     activeView.handleInput(_input);
-    return null;
+    return _requestedBattle; // will be non-null when start mission is selected
   }
 
   /// render game state to screen
@@ -66,6 +67,10 @@ class Preparation : GameState {
   override void onExit() {
   }
 
+  void startMission(Character[] party) {
+    _requestedBattle = new Battle("map1", _data.roster);
+  }
+
   @property auto activeView() {
     assert(_views[_viewIdx] !is null);
     return _views[_viewIdx];
@@ -76,4 +81,5 @@ class Preparation : GameState {
   Cycle!(GUIContainer[]) _views;
   InputManager _input;
   SaveData _data;
+  Battle _requestedBattle;
 }

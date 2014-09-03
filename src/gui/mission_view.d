@@ -1,6 +1,7 @@
 module gui.mission_view;
 
 import std.range;
+import std.array;
 import std.algorithm;
 import std.string : format;
 import gui.element;
@@ -23,7 +24,8 @@ private enum {
 }
 
 class MissionView : GUIContainer {
-  this(Vector2i pos, SaveData data) {
+  alias StartCommand = void delegate(Character[]);
+  this(Vector2i pos, SaveData data, StartCommand startCmd) {
     _data = data;
     auto cursor = new AnimatedSprite("target", cursorShade);
     super(pos, Anchor.topLeft, "mission_view", cursor);
@@ -39,6 +41,7 @@ class MissionView : GUIContainer {
       slotPos.x += rosterSpacingX;
     }
     _unitsAllowedOnMission = 5; // TODO: set in map data
+    _startCmd = startCmd;
   }
 
   override {
@@ -50,6 +53,12 @@ class MissionView : GUIContainer {
     }
 
     void handleInput(InputManager input) {
+      if (input.start) {
+        auto units = _slots.filter!"a.active".find!"a.character !is null".map!"a.character";
+        if (!units.empty) {
+          _startCmd(array(units));
+        }
+      }
       super.handleInput(input);
     }
   }
@@ -75,6 +84,7 @@ class MissionView : GUIContainer {
   RosterSlot[] _slots;
   int _numActiveUnits;
   int _unitsAllowedOnMission;
+  StartCommand _startCmd;
 }
 
 private static Font _goldFont, _countFont;
