@@ -7,6 +7,7 @@ import gui.roster_slot;
 import gui.string_menu;
 import gui.inventory_menu;
 import gui.character_sheet;
+import gui.item_view;
 import geometry.all;
 import graphics.all;
 import model.character;
@@ -25,6 +26,8 @@ private enum {
   cursorShade = Color(0, 0, 0.5, 0.8),
   characterSheetPos = Vector2i(288, 57),
   hireCostPerLevel = 200,
+  inventoryPos = Vector2i(288, 57),
+  itemInfoOffset = Vector2i(-100, 0),
 }
 
 class RosterView : GUIContainer {
@@ -66,6 +69,9 @@ class RosterView : GUIContainer {
         _menu.draw();
       }
       _goldFont.draw(format("%dG", _data.gold), bounds.topLeft + goldOffset);
+      if (_itemView) {
+        _itemView.draw;
+      }
     }
 
     void handleInput(InputManager input) {
@@ -102,8 +108,7 @@ class RosterView : GUIContainer {
       case "cancel":
         break;
       case "equipment":
-        _characterSheet.mode = CharacterSheet.Mode.editInventory;
-        _state = State.editInventory;
+        enterInventoryEditMode;
         break;
       case "talents":
         break;
@@ -111,7 +116,18 @@ class RosterView : GUIContainer {
     }
   }
 
+  void enterInventoryEditMode() {
+    _characterSheet.mode = CharacterSheet.Mode.editInventory;
+    _state = State.editInventory;
+    _inventoryMenu = new InventoryMenu(inventoryPos, _data.items, null, &itemHover);
+    _inventoryMenu.hasFocus = true;
+  }
+
   void slotHover(string cmd, Rect2i area) {
+  }
+
+  void itemHover(Item item, Rect2i rect) {
+    _itemView = item ? new ItemView(item, rect.topLeft + itemInfoOffset) : null;
   }
 
   void rosterHover(Character character) {
@@ -157,6 +173,7 @@ class RosterView : GUIContainer {
   CharacterSheet _characterSheet;
   StringMenu _menu;
   InventoryMenu _inventoryMenu;
+  ItemView _itemView;
   SaveData _data;
   State _state;
 
