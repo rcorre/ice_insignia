@@ -9,6 +9,7 @@ import model.character;
 import model.item;
 import util.savegame;
 import state.battle;
+import tilemap.loader;
 
 private enum {
   // button sprites
@@ -35,9 +36,10 @@ class Preparation : GameState {
       new Item("handaxe"),
       new Item("mace"),
     ];
+    _levelData = loadLevel(data.mission);
     auto rosterView = new RosterView(Vector2i.Zero, data, forHire);
     auto storeView = new StoreView(Vector2i.Zero, data, forSale);
-    auto missionView = new MissionView(Vector2i.Zero, data, &startMission);
+    auto missionView = new MissionView(Vector2i.Zero, data, _levelData, &startMission);
     GUIContainer[] views = [rosterView, storeView, missionView];
     _views = cycle(views);
     _input = new InputManager;
@@ -54,7 +56,7 @@ class Preparation : GameState {
       --_viewIdx;
     }
     activeView.handleInput(_input);
-    return _requestedBattle; // will be non-null when start mission is selected
+    return _startBattle;
   }
 
   /// render game state to screen
@@ -68,7 +70,7 @@ class Preparation : GameState {
   }
 
   void startMission(Character[] party) {
-    _requestedBattle = new Battle("map1", party);
+    _startBattle = new Battle(_levelData, party);
   }
 
   @property auto activeView() {
@@ -81,5 +83,6 @@ class Preparation : GameState {
   Cycle!(GUIContainer[]) _views;
   InputManager _input;
   SaveData _data;
-  Battle _requestedBattle;
+  Battle _startBattle;
+  LevelData _levelData;
 }

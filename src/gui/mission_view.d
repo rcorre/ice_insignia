@@ -12,6 +12,7 @@ import graphics.all;
 import model.character;
 import util.input;
 import util.savegame;
+import tilemap.loader;
 
 private enum {
   goldOffset     = Vector2i(120, 25),
@@ -25,7 +26,7 @@ private enum {
 
 class MissionView : GUIContainer {
   alias StartCommand = void delegate(Character[]);
-  this(Vector2i pos, SaveData data, StartCommand startCmd) {
+  this(Vector2i pos, SaveData data, LevelData mapData, StartCommand startCmd) {
     _data = data;
     auto cursor = new AnimatedSprite("target", cursorShade);
     super(pos, Anchor.topLeft, "mission_view", cursor);
@@ -42,6 +43,7 @@ class MissionView : GUIContainer {
     }
     _unitsAllowedOnMission = 5; // TODO: set in map data
     _startCmd = startCmd;
+    _mapData = mapData;
   }
 
   override {
@@ -85,6 +87,11 @@ class MissionView : GUIContainer {
   int _numActiveUnits;
   int _unitsAllowedOnMission;
   StartCommand _startCmd;
+  LevelData _mapData;
+
+  @property numSpawnSlots() {
+    return _mapData.spawnPoints.length;
+  }
 }
 
 private static Font _goldFont, _countFont;

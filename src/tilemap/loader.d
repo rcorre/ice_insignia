@@ -14,8 +14,10 @@ import graphics.sprite;
 import graphics.texture;
 import geometry.vector;
 
-LevelData loadBattle(string mapName) {
-  string path = Paths.mapDir ~ mapName ~ ".json";
+enum mapFormat = Paths.mapDir ~ "/map%d.json";
+
+LevelData loadLevel(int mapNumber) {
+  string path = format(mapFormat, mapNumber);
   auto mapData = readJSON!MapData(path);
   auto level = new LevelData;
   level.map = mapData.constructMap();

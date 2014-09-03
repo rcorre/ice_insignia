@@ -33,8 +33,7 @@ private enum {
 }
 
 class Battle : GameState {
-  this(string mapName, Character[] playerUnits) {
-    auto data = loadBattle(mapName);
+  this(LevelData data, Character[] playerUnits) {
     _map = data.map;
     _enemies = data.enemies;
     foreach(enemy ; _enemies) { // place enemies

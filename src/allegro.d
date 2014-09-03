@@ -43,7 +43,7 @@ enum Paths {
   characterSpriteData = "content/unit_sprites.cfg",
   fontData            = "content/fonts.cfg",
   backgroundDir       = "content/image/background/",
-  mapDir              = "content/maps/",
+  mapDir              = "content/maps",
   characterData       = "content/data/characters.json",
   itemData            = "content/data/items.json",
   talentData          = "content/data/talents.json",
