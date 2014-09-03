@@ -68,7 +68,7 @@ class Preparation : GameState {
   }
 
   void startMission(Character[] party) {
-    _requestedBattle = new Battle("map1", _data.roster);
+    _requestedBattle = new Battle("map1", party);
   }
 
   @property auto activeView() {
