@@ -69,16 +69,29 @@ class RosterView : GUIContainer {
     }
 
     void handleInput(InputManager input) {
-      if (_menu) {
-        if (input.cancel) {
-          _menu = null;
-        }
-        else {
-          _menu.handleInput(input);
-        }
-      }
-      else {
-        super.handleInput(input);
+      final switch(_state) {
+        case State.editInventory:
+          if (input.cancel) {
+            _state = State.viewRoster;
+            _characterSheet.mode = CharacterSheet.Mode.idle;
+          }
+          else {
+            _characterSheet.handleInput(input);
+          }
+          break;
+        case State.editTalents:
+        case State.viewRoster:
+          if (_menu) {
+            if (input.cancel) {
+              _menu = null;
+            }
+            else {
+              _menu.handleInput(input);
+            }
+          }
+          else {
+            super.handleInput(input);
+          }
       }
     }
   }
@@ -88,6 +101,8 @@ class RosterView : GUIContainer {
       case "cancel":
         _menu = null;
       case "equipment":
+        _characterSheet.mode = CharacterSheet.Mode.editInventory;
+        _state = State.editInventory;
       case "talents":
       default:
     }
@@ -140,6 +155,13 @@ class RosterView : GUIContainer {
   StringMenu _menu;
   InventoryMenu _inventoryMenu;
   SaveData _data;
+  State _state;
+
+  enum State {
+    viewRoster,
+    editInventory,
+    editTalents
+  }
 }
 
 private static Font _goldFont;

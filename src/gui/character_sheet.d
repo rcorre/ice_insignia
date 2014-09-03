@@ -47,6 +47,7 @@ private enum {
 
 /// displays info about a character's stats
 class CharacterSheet {
+  enum Mode { idle, editInventory, editTalents }
   this(Vector2i topLeft, Battler battler, bool showPotential = false) {
     _topLeft = topLeft;
     _bgTexture = getTexture(textureName);
@@ -62,7 +63,28 @@ class CharacterSheet {
     populate(character.maxHp, showPotential);
   }
 
+  @property {
+    auto mode() { return _mode; }
+    auto mode(Mode val) { 
+      if (val == Mode.editInventory) {
+        _inventoryMenu.hasFocus = true;
+      }
+      else {
+        _inventoryMenu.hasFocus = false;
+      }
+      _mode = val; 
+    }
+  }
+
   void handleInput(InputManager input) {
+    final switch(_mode) {
+      case Mode.idle:
+      case Mode.editTalents:
+        break;
+      case Mode.editInventory:
+        _inventoryMenu.handleInput(input);
+        break;
+    }
   }
 
   void draw() {
@@ -77,6 +99,7 @@ class CharacterSheet {
   }
 
   private:
+  Mode _mode;
   Texture _bgTexture;
   Sprite _sprite;
   Character _character;
