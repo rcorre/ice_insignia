@@ -41,7 +41,7 @@ class MissionView : GUIContainer {
       addElement(slot);
       slotPos.x += rosterSpacingX;
     }
-    _unitsAllowedOnMission = 5; // TODO: set in map data
+    _unitsAllowedOnMission = cast(int) mapData.spawnPoints.length;
     _startCmd = startCmd;
     _mapData = mapData;
   }
@@ -88,10 +88,6 @@ class MissionView : GUIContainer {
   int _unitsAllowedOnMission;
   StartCommand _startCmd;
   LevelData _mapData;
-
-  @property numSpawnSlots() {
-    return _mapData.spawnPoints.length;
-  }
 }
 
 private static Font _goldFont, _countFont;
