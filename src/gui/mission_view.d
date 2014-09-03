@@ -15,6 +15,7 @@ import util.savegame;
 private enum {
   goldOffset     = Vector2i(120, 25),
   rosterStartPos = Vector2i(113, 105),
+  countOffset    = Vector2i(419, 449),
   cursorShade    = Color(0, 0, 0.5, 0.8),
   numRecruitCols = 3,
   rosterSpacingX = 64,
@@ -37,12 +38,15 @@ class MissionView : GUIContainer {
       addElement(slot);
       slotPos.x += rosterSpacingX;
     }
+    _unitsAllowedOnMission = 5; // TODO: set in map data
   }
 
   override {
     void draw() {
       super.draw;
       _goldFont.draw(format("%dG", _data.gold), bounds.topLeft + goldOffset);
+      _countFont.draw(format("%d / %d Units", _numActiveUnits, _unitsAllowedOnMission),
+          bounds.topLeft + countOffset);
     }
 
     void handleInput(InputManager input) {
@@ -51,20 +55,31 @@ class MissionView : GUIContainer {
   }
 
   void selectRoster(Character character) {
-    auto slot = _slots.find!(a => a.character == character);
-    assert(!slot.empty);
-    if (!slot.empty) {
-      slot.front.active = !slot.front.active;
+    auto r = _slots.find!(a => a.character == character);
+    if (!r.empty) {
+      auto slot = r.front;
+      auto active = slot.active;
+      if (active) {
+        --_numActiveUnits;
+        slot.active = !slot.active;
+      }
+      else if (_numActiveUnits < _unitsAllowedOnMission) {
+        ++_numActiveUnits;
+        slot.active = !slot.active;
+      }
     }
   }
 
   private:
   SaveData _data;
   RosterSlot[] _slots;
+  int _numActiveUnits;
+  int _unitsAllowedOnMission;
 }
 
-private static Font _goldFont;
+private static Font _goldFont, _countFont;
 
 static this() {
   _goldFont = getFont("rosterGold");
+  _countFont = getFont("activeUnitCount");
 }
