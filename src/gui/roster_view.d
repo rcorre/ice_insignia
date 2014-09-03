@@ -1,7 +1,6 @@
 module gui.roster_view;
 
 import std.string : format;
-import std.algorithm : moveAll;
 import gui.element;
 import gui.container;
 import gui.roster_slot;

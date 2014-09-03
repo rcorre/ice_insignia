@@ -9,6 +9,7 @@ public import gui.inventory_menu;
 public import gui.combat_view;
 public import gui.roster_view;
 public import gui.store_view;
+public import gui.mission_view;
 public import gui.character_sheet;
 public import gui.item_view;
 public import gui.item_slot;

@@ -12,16 +12,21 @@ private enum {
   slotSize = 40,
   borderThickness = 2,
   levelOffset = Vector2i(8, 8),
+  activeShade = Color.white,
+  inactiveShade = Color.gray,
 }
 
 class RosterSlot : GUIElement {
   alias Action = void delegate(Character);
 
-  this(Vector2i pos, Character character, Action action, Action hoverAction) {
+  this(Vector2i pos, Character character, Action action, Action hoverAction,
+      bool active = true)
+  {
     this.character = character;
     _action = action;
     _hoverAction = hoverAction;
     super(pos, Anchor.center);
+    this.active = active;
   }
 
   @property {
@@ -29,6 +34,11 @@ class RosterSlot : GUIElement {
     void character(Character newChar) {
       _character = newChar;
       _sprite = newChar ? new CharacterSprite(newChar.model) : null;
+    }
+    bool active() { return _active; }
+    void active(bool val) {
+      _active = val;
+      _sprite.tint = val ? activeShade : inactiveShade;
     }
   }
 
@@ -47,7 +57,9 @@ class RosterSlot : GUIElement {
     }
 
     void handleHover() {
-      _hoverAction(character);
+      if (_hoverAction) {
+        _hoverAction(character);
+      }
     }
 
     void draw() {
@@ -64,6 +76,7 @@ class RosterSlot : GUIElement {
   CharacterSprite _sprite;
   Character _character;
   Action _action, _hoverAction;
+  bool _active;
 }
 
 private Font _font;

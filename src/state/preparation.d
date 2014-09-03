@@ -36,7 +36,8 @@ class Preparation : GameState {
     ];
     auto rosterView = new RosterView(Vector2i.Zero, data, forHire);
     auto storeView = new StoreView(Vector2i.Zero, data, forSale);
-    GUIContainer[] views = [rosterView, storeView];
+    auto missionView = new MissionView(Vector2i.Zero, data);
+    GUIContainer[] views = [rosterView, storeView, missionView];
     _views = cycle(views);
     _input = new InputManager;
   }
