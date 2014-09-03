@@ -65,14 +65,14 @@ class CharacterSheet {
 
   @property {
     auto mode() { return _mode; }
-    auto mode(Mode val) { 
+    auto mode(Mode val) {
       if (val == Mode.editInventory) {
         _inventoryMenu.hasFocus = true;
       }
       else {
         _inventoryMenu.hasFocus = false;
       }
-      _mode = val; 
+      _mode = val;
     }
   }
 

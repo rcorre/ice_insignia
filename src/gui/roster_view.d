@@ -97,13 +97,16 @@ class RosterView : GUIContainer {
   }
 
   void slotCommand(string cmd) {
+    _menu = null;
     switch(cmd) {
       case "cancel":
-        _menu = null;
+        break;
       case "equipment":
         _characterSheet.mode = CharacterSheet.Mode.editInventory;
         _state = State.editInventory;
+        break;
       case "talents":
+        break;
       default:
     }
   }
