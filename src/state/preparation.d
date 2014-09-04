@@ -39,8 +39,8 @@ class Preparation : GameState {
     _levelData = loadLevel(data.mission);
     auto rosterView = new RosterView(Vector2i.Zero, data, forHire);
     auto storeView = new StoreView(Vector2i.Zero, data, forSale);
-    auto missionView = new MissionView(Vector2i.Zero, data, _levelData, &startMission);
-    GUIContainer[] views = [rosterView, storeView, missionView];
+    _missionView = new MissionView(Vector2i.Zero, data, _levelData, &startMission);
+    GUIContainer[] views = [rosterView, storeView, _missionView];
     _views = cycle(views);
     _input = new InputManager;
   }
@@ -51,9 +51,11 @@ class Preparation : GameState {
     _input.update(time);
     if (_input.next) {
       ++_viewIdx;
+      _missionView.regenerateRoster;
     }
     else if (_input.previous) {
       --_viewIdx;
+      _missionView.regenerateRoster;
     }
     activeView.handleInput(_input);
     return _startBattle;
@@ -85,4 +87,5 @@ class Preparation : GameState {
   SaveData _data;
   Battle _startBattle;
   LevelData _levelData;
+  MissionView _missionView;
 }

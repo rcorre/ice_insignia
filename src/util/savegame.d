@@ -8,12 +8,13 @@ import model.item;
 import util.jsonizer;
 
 enum {
-  itemStorageSize = 10
+  itemStorageSize = 10,
+  rosterSize = 12
 }
 
 private enum {
   fileName = "ice_insignia_save.json",
-  startingGold = 1000
+  startingGold = 1000,
 }
 
 class SaveData {

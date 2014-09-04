@@ -31,11 +31,16 @@ class MissionView : GUIContainer {
     auto cursor = new AnimatedSprite("target", cursorShade);
     super(pos, Anchor.topLeft, "mission_view", cursor);
     auto slotPos = rosterStartPos;
-    foreach(idx, character ; _data.roster) {
+    foreach(idx ; iota(0, rosterSize - 1)) {
+      debug {
+        import std.stdio;
+        writeln("add slot" , idx);
+      }
       if (idx != 0 && idx % numRecruitCols == 0) {
         slotPos.x = rosterStartPos.x;
         slotPos.y += rosterSpacingY;
       }
+      auto character = (idx >= _data.roster.length) ? null : _data.roster[idx];
       auto slot = new RosterSlot(slotPos, character, &selectRoster, null, false);
       _slots ~= slot;
       addElement(slot);
@@ -62,6 +67,12 @@ class MissionView : GUIContainer {
         }
       }
       super.handleInput(input);
+    }
+  }
+
+  void regenerateRoster() {
+    foreach(slot, character; zip(_slots, _data.roster)) {
+      slot.character = character;
     }
   }
 

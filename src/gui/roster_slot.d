@@ -34,11 +34,16 @@ class RosterSlot : GUIElement {
     void character(Character newChar) {
       _character = newChar;
       _sprite = newChar ? new CharacterSprite(newChar.model) : null;
+      if (_sprite) {
+        _sprite.tint = active ? activeShade : inactiveShade;
+      }
     }
     bool active() { return _active; }
     void active(bool val) {
       _active = val;
-      _sprite.tint = val ? activeShade : inactiveShade;
+      if (_sprite) {
+        _sprite.tint = val ? activeShade : inactiveShade;
+      }
     }
   }
 
