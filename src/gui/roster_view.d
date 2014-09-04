@@ -79,12 +79,14 @@ class RosterView : GUIContainer {
     }
 
     void handleInput(InputManager input) {
-      final switch(_state) {
-        case State.editInventory:
+      final switch(_state) with (State) {
+        case editInventory:
           if (input.cancel) {
             _state = State.viewRoster;
+            showCursor = true;
             _characterSheet.mode = CharacterSheet.Mode.idle;
             _inventoryMenu = null;
+            _itemView = null;
           }
           else if (input.selectLeft || input.selectRight) {
             if (_characterSheet.mode == CharacterSheet.Mode.editInventory) {
@@ -101,8 +103,17 @@ class RosterView : GUIContainer {
             _inventoryMenu.handleInput(input);
           }
           break;
-        case State.editTalents:
-        case State.viewRoster:
+        case editTalents:
+          if (input.cancel) {
+            _state = State.viewRoster;
+            showCursor = true;
+            _characterSheet.mode = CharacterSheet.Mode.idle;
+          }
+          else {
+            _characterSheet.handleInput(input);
+          }
+          break;
+        case viewRoster:
           if (_menu) {
             if (input.cancel) {
               _menu = null;
@@ -122,20 +133,22 @@ class RosterView : GUIContainer {
     _menu = null;
     switch(cmd) {
       case "cancel":
+        _state = State.viewRoster;
+        showCursor = true;
         break;
       case "equipment":
-        enterInventoryEditMode;
+        _state = State.editInventory;
+        _inventoryMenu = new InventoryMenu(inventoryPos, _data.items, &giveItem, &itemHover);
+        _inventoryMenu.hasFocus = true;
+        showCursor = false;
         break;
       case "talents":
+        _state = State.editTalents;
+        _characterSheet.mode = CharacterSheet.Mode.editTalents;
+        showCursor = false;
         break;
       default:
     }
-  }
-
-  void enterInventoryEditMode() {
-    _state = State.editInventory;
-    _inventoryMenu = new InventoryMenu(inventoryPos, _data.items, &giveItem, &itemHover);
-    _inventoryMenu.hasFocus = true;
   }
 
   void slotHover(string cmd, Rect2i area) {

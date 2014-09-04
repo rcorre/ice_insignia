@@ -31,7 +31,7 @@ class GUIContainer : GUIElement {
       foreach(slot ; _elements) {
         slot.draw();
       }
-      if (_selectedElement) {
+      if (_selectedElement && showCursor) {
         _cursor.draw(_selectedElement.center);
       }
     }
@@ -86,6 +86,9 @@ class GUIContainer : GUIElement {
 
     @property auto selectedElement() { return _selectedElement; }
   }
+
+  protected:
+  bool showCursor = true;
 
   private:
   Texture _texture;

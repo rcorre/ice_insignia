@@ -72,11 +72,19 @@ class CharacterSheet {
   @property {
     auto mode() { return _mode; }
     auto mode(Mode val) {
-      if (val == Mode.editInventory) {
-        _inventoryMenu.hasFocus = true;
-      }
-      else {
-        _inventoryMenu.hasFocus = false;
+      final switch(val) with(Mode) {
+        case editInventory:
+          _inventoryMenu.hasFocus = true;
+          _talentMenu.hasFocus = false;
+          break;
+        case editTalents:
+          _inventoryMenu.hasFocus = false;
+          _talentMenu.hasFocus = true;
+          break;
+        case idle:
+          _inventoryMenu.hasFocus = false;
+          _talentMenu.hasFocus = false;
+          break;
       }
       _mode = val;
     }
