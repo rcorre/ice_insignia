@@ -1,6 +1,7 @@
 module gui.selection_menu;
 
 import std.conv;
+import std.array : empty;
 import std.algorithm : map, reduce, max;
 import graphics.all;
 import geometry.all;
@@ -16,10 +17,15 @@ abstract class SelectionMenu(T) {
   alias HoverAction = void delegate(T, Rect2i);
 
   this(Vector2i pos, T[] selections, Action onChoose, HoverAction onHover, bool hasFocus = true) {
-    assert(onChoose !is null);
     // the width/height of each entry is normalized to the largest entry
-    _entryWidth = selections.map!(a  => entryWidth(a)).reduce!max;
-    _entryHeight = selections.map!(a => entryHeight(a)).reduce!max;
+    if (selections is null || selections.empty) {
+      _entryWidth = 0; // TODO: use texture
+      _entryHeight = 0;
+    }
+    else {
+      _entryWidth = selections.map!(a  => entryWidth(a)).reduce!max;
+      _entryHeight = selections.map!(a => entryHeight(a)).reduce!max;
+    }
     int n = cast(int) selections.length + 1;
     _totalArea = Rect2i(pos, _entryWidth, _entryHeight * n);
 
@@ -62,7 +68,7 @@ abstract class SelectionMenu(T) {
       callHoverAction;
     }
 
-    if (input.confirm) {
+    if (input.confirm && _onChoose !is null) {
       _onChoose(_selections[_cursorIdx]);
     }
   }

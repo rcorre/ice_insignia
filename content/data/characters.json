@@ -27,10 +27,7 @@
         "constitution" : 10
       }
     },
-    "itemNames" : [
-      "Broadsword"
-    ],
-    "talents" : [
+    "talentKeys" : [
       "sword1"
     ]
   },
@@ -63,10 +60,7 @@
         "constitution" : 20
       }
     },
-    "itemNames" : [
-      "Mace"
-    ],
-    "talents" : [
+    "talentKeys" : [
       "axe1"
     ]
   },
@@ -99,10 +93,7 @@
         "constitution" : 20
       }
     },
-    "itemNames" : [
-      "Spear"
-    ],
-    "talents" : [
+    "talentKeys" : [
       "lance1"
     ]
   }

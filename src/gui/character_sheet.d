@@ -39,7 +39,7 @@ private enum {
   attributeTextColor = Color.black,
   equipmentPos       = Vector2i(271, 306),
   equipmentSep       = 32,
-  talentsPos         = Vector2i(376, 117),
+  talentPos         = Vector2i(350, 100),
   talentsSep         = 32,
   combatStatsPos     = Vector2i(269, 129),
   combatStatsSep     = 32
@@ -47,24 +47,26 @@ private enum {
 
 /// displays info about a character's stats
 class CharacterSheet {
+  alias InventoryAction = InventoryMenu.Action;
+  alias TalentAction = TalentMenu.Action;
   enum Mode { idle, editInventory, editTalents }
   this(Vector2i topLeft, Battler battler, bool showPotential = false,
-      InventoryMenu.Action inventoryAction = null)
+      InventoryAction inventoryAction = null, TalentAction talentAction = null)
   {
     _topLeft = topLeft;
     _bgTexture = getTexture(textureName);
     _character = battler.character;
     _sprite = battler.sprite;
-    populate(battler.hp, showPotential, inventoryAction);
+    populate(battler.hp, showPotential, inventoryAction, talentAction);
   }
 
   this(Vector2i topLeft, Character character, bool showPotential = false,
-      InventoryMenu.Action inventoryAction = null)
+      InventoryAction inventoryAction = null, TalentAction talentAction = null)
   {
     _topLeft = topLeft;
     _character = character;
     _sprite = new CharacterSprite(character.model);
-    populate(character.maxHp, showPotential, inventoryAction);
+    populate(character.maxHp, showPotential, inventoryAction, talentAction);
   }
 
   @property {
@@ -80,7 +82,7 @@ class CharacterSheet {
     }
   }
 
-  void regenerateInventoryMenu(InventoryMenu.Action inventoryAction,
+  void regenerateInventoryMenu(InventoryAction inventoryAction,
       InventoryMenu.HoverAction onHover = null)
   {
     _inventoryMenu = new InventoryMenu(_topLeft + equipmentPos, _character.items,
@@ -105,6 +107,7 @@ class CharacterSheet {
       bar.draw();
     }
     _inventoryMenu.draw;
+    _talentMenu.draw;
     _sprite.draw(_topLeft + spritePos);
     _nameFont.draw(_character.name, _topLeft + namePos);
     _levelFont.draw(to!string(_character.level), _topLeft + lvlPos);
@@ -116,15 +119,20 @@ class CharacterSheet {
   Sprite _sprite;
   Character _character;
   InventoryMenu _inventoryMenu;
+  TalentMenu _talentMenu;
   ProgressBar!int[] _progressBars;
   Vector2i _topLeft;
 
-  void populate(int hp, bool showPotential, InventoryMenu.Action inventoryAction) {
+  void populate(int hp, bool showPotential, InventoryAction inventoryAction, TalentAction
+      talentAction)
+  {
     _bgTexture = getTexture(textureName);
     makeAttributeBars(showPotential);
     makeXpAndHpBars(hp);
     _inventoryMenu = new InventoryMenu(_topLeft + equipmentPos, _character.items,
         inventoryAction, null, InventoryMenu.ShowPrice.no, false);
+    _talentMenu = new TalentMenu(_topLeft + talentPos, _character.talents, talentAction, null,
+        false);
   }
 
   void makeAttributeBars(bool showPotential) {

@@ -21,6 +21,7 @@ class Talent {
     this.weaponSkill = weaponSkill;
     this.weaponTier = weaponTier;
     this.prerequesite = prerequesite;
+    this.sprite = new Sprite(key);
   }
 
   @jsonize const {
@@ -34,11 +35,7 @@ class Talent {
     int weaponTier;
   }
 
-  void drawIcon(Vector2i pos) {
-    _sprite.draw(pos);
-  }
-
-  private Sprite _sprite;
+  Sprite sprite;
 }
 
 Talent loadTalent(string key) {

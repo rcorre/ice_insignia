@@ -16,7 +16,7 @@ struct CharacterSpec {
     string model;
     ValueSet!Attribute attributes;
     ValueSet!Attribute potential;
-    string[] talents;
+    string[] talentKeys;
   }
 }
 

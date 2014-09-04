@@ -28,7 +28,7 @@ class Character {
 
   /// load saved character
   @jsonize this(string name, string model, AttributeSet attributes, AttributeSet potential,
-      int level, int xp, Item[itemCapacity] items, string[] talents = [])
+      int level, int xp, Item[itemCapacity] items, string[] talentKeys = [])
   {
     _name = name;
     _model = model;
@@ -37,9 +37,7 @@ class Character {
     _level = level;
     _xp = xp;
     _items = items;
-    foreach(talent ; talents) {
-      addTalent(loadTalent(talent));
-    }
+    _talents = array(talentKeys.map!(a => loadTalent(a)));
   }
 
   this(CharacterSpec spec) {
@@ -60,7 +58,10 @@ class Character {
       AttributeSet attributes() { return _attributes; }
 
       auto items() { return _items; }
+      auto talentKeys() { return array(_talents.map!"a.key"); }
     }
+
+    auto talents() { return _talents; }
 
     Item equippedWeapon() {
       return (_items[0] && _items[0].isWeapon) ? _items[0] : Item.none;
@@ -135,8 +136,8 @@ class Character {
 Character generateCharacter(string name, int level = 1, string[] itemNames = []) {
   auto spec =  loadCharacterSpec(name);
   auto character = new Character(spec);
-  foreach(talent ; spec.talents) {
-    character.addTalent(loadTalent(talent));
+  foreach(key ; spec.talentKeys) {
+    character.addTalent(loadTalent(key));
   }
   foreach(item ; itemNames) {
     assert(character.addItem(loadItem(item)));

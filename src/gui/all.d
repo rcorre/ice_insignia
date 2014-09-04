@@ -6,6 +6,7 @@ public import gui.battler_info;
 public import gui.selection_menu;
 public import gui.string_menu;
 public import gui.inventory_menu;
+public import gui.talent_menu;
 public import gui.combat_view;
 public import gui.roster_view;
 public import gui.store_view;
