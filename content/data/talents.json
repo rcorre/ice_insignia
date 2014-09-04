@@ -1,6 +1,7 @@
 {
-  "Blade Proficiency" : {
-    "name" : "Blade Proficiency",
+  "sword1" : {
+    "key" : "sword1",
+    "title" : "Blade Proficiency",
     "description" : "Wield Tier 1 swords",
     "bonus" : {
       "valueSet" : {
@@ -10,18 +11,123 @@
     },
     "potential" : {
       "valueSet" : {
-        "maxHp"        : 1,
-        "strength"     : 1,
-        "skill"        : 3,
-        "speed"        : 2,
-        "defense"      : 1,
+        "maxHp"        : 5,
+        "strength"     : 8,
+        "skill"        : 15,
+        "speed"        : 10,
+        "defense"      : 5,
         "resist"       : 0,
-        "luck"         : 1,
+        "luck"         : 10,
         "move"         : 0,
         "constitution" : 0
       }
     },
     "weaponSkill" : "sword",
+    "weaponTier" : 1
+  },
+  "sword2" : {
+    "key" : "sword2",
+    "title" : "Blade Expertise",
+    "description" : "Wield Tier 2 swords",
+    "bonus" : {
+      "valueSet" : {
+        "skill" : 2,
+        "speed" : 1
+      }
+    },
+    "potential" : {
+      "valueSet" : {
+        "maxHp"        : 5,
+        "strength"     : 8,
+        "skill"        : 15,
+        "speed"        : 10,
+        "defense"      : 5,
+        "resist"       : 0,
+        "luck"         : 10,
+        "move"         : 0,
+        "constitution" : 0
+      }
+    },
+    "weaponSkill" : "sword",
+    "weaponTier" : 2
+  },
+  "sword3" : {
+    "key" : "sword3",
+    "title" : "Blade Mastery",
+    "description" : "Wield Tier 3 swords",
+    "bonus" : {
+      "valueSet" : {
+        "skill" : 2,
+        "speed" : 1
+      }
+    },
+    "potential" : {
+      "valueSet" : {
+        "maxHp"        : 5,
+        "strength"     : 8,
+        "skill"        : 15,
+        "speed"        : 10,
+        "defense"      : 5,
+        "resist"       : 0,
+        "luck"         : 10,
+        "move"         : 0,
+        "constitution" : 0
+      }
+    },
+    "weaponSkill" : "sword",
+    "weaponTier" : 2
+  },
+  "axe1" : {
+    "key" : "axe1",
+    "title" : "Axe Proficiency",
+    "description" : "Wield Tier 1 axes",
+    "bonus" : {
+      "valueSet" : {
+        "strength" : 2,
+        "speed" : 1
+      }
+    },
+    "potential" : {
+      "valueSet" : {
+        "maxHp"        : 10,
+        "strength"     : 15,
+        "skill"        : 5,
+        "speed"        : 5,
+        "defense"      : 5,
+        "resist"       : 0,
+        "luck"         : 0,
+        "move"         : 0,
+        "constitution" : 8
+      }
+    },
+    "weaponSkill" : "axe",
+    "weaponTier" : 1
+  },
+  "lance1" : {
+    "key" : "lance1",
+    "title" : "Lance Proficiency",
+    "description" : "Wield Tier 1 lances",
+    "bonus" : {
+      "valueSet" : {
+        "skill"    : 1,
+        "strength" : 1,
+        "speed"    : 1
+      }
+    },
+    "potential" : {
+      "valueSet" : {
+        "maxHp"        : 8,
+        "strength"     : 10,
+        "skill"        : 10,
+        "speed"        : 8,
+        "defense"      : 10,
+        "resist"       : 0,
+        "luck"         : 0,
+        "move"         : 0,
+        "constitution" : 0
+      }
+    },
+    "weaponSkill" : "lance",
     "weaponTier" : 1
   }
 }

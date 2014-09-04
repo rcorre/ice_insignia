@@ -9,11 +9,12 @@ import model.item;
 import model.attribute;
 
 class Talent {
-  @jsonize this(string name, string description, ValueSet!Attribute bonus,
+  @jsonize this(string key, string title, string description, ValueSet!Attribute bonus,
       ValueSet!Attribute potential, ItemType weaponSkill = ItemType.none, int weaponTier = 0,
       string prerequesite = null)
   {
-    this.name = name;
+    this.key = key;
+    this.title = title;
     this.description = description;
     this.bonus = bonus;
     this.potential = potential;
@@ -23,7 +24,8 @@ class Talent {
   }
 
   @jsonize const {
-    string name;
+    string key;
+    string title;
     string description;
     string prerequesite;
     ValueSet!Attribute bonus;     /// instant additions to stats
@@ -39,9 +41,9 @@ class Talent {
   private Sprite _sprite;
 }
 
-Talent loadTalent(string name) {
-  assert(name in _talentStore, "could not find talent " ~ name);
-  return _talentStore[name];
+Talent loadTalent(string key) {
+  assert(key in _talentStore, "could not find talent " ~ key);
+  return _talentStore[key];
 }
 
 private Talent[string] _talentStore;

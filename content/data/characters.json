@@ -29,8 +29,12 @@
     },
     "itemNames" : [
       "Broadsword"
+    ],
+    "talents" : [
+      "sword1"
     ]
   },
+
   "Fighter" : {
     "model" : "fighter",
     "attributes" : {
@@ -61,6 +65,9 @@
     },
     "itemNames" : [
       "Mace"
+    ],
+    "talents" : [
+      "axe1"
     ]
   },
 
@@ -94,6 +101,9 @@
     },
     "itemNames" : [
       "Spear"
+    ],
+    "talents" : [
+      "lance1"
     ]
   }
 }
