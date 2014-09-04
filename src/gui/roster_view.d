@@ -1,6 +1,7 @@
 module gui.roster_view;
 
 import std.string : format;
+import std.algorithm;
 import gui.element;
 import gui.container;
 import gui.roster_slot;
@@ -132,7 +133,7 @@ class RosterView : GUIContainer {
 
   void enterInventoryEditMode() {
     _state = State.editInventory;
-    _inventoryMenu = new InventoryMenu(inventoryPos, _data.items, null, &itemHover);
+    _inventoryMenu = new InventoryMenu(inventoryPos, _data.items, &giveItem, &itemHover);
     _inventoryMenu.hasFocus = true;
   }
 
@@ -180,6 +181,18 @@ class RosterView : GUIContainer {
   }
 
   void selectEquippedItem(Item item) {
+  }
+
+  void giveItem(Item item) {
+    auto slot = cast(RosterSlot) selectedElement;
+    auto character = slot.character;
+    auto itemIdx = _data.items[].countUntil(item);
+    if (itemIdx >= 0) {
+      if (character.addItem(item)) {
+        _data.items[itemIdx] = null;
+        saveGame(_data);
+      }
+    }
   }
 
   private:

@@ -94,8 +94,20 @@ class Character {
   }
 
   bool addItem(Item newItem) {
+    debug {
+      import std.stdio;
+      writeln("add item " , newItem.name);
+    }
     foreach(ref item ; _items) { // look for empty slot to place item in
+      debug {
+        import std.stdio;
+        writeln("checking item");
+      }
       if (item is null) {
+        debug {
+          import std.stdio;
+          writeln("item is null");
+        }
         item = newItem;
         return true;
       }
