@@ -48,19 +48,23 @@ private enum {
 /// displays info about a character's stats
 class CharacterSheet {
   enum Mode { idle, editInventory, editTalents }
-  this(Vector2i topLeft, Battler battler, bool showPotential = false) {
+  this(Vector2i topLeft, Battler battler, bool showPotential = false,
+      InventoryMenu.Action inventoryAction = null)
+  {
     _topLeft = topLeft;
     _bgTexture = getTexture(textureName);
     _character = battler.character;
     _sprite = battler.sprite;
-    populate(battler.hp, showPotential);
+    populate(battler.hp, showPotential, inventoryAction);
   }
 
-  this(Vector2i topLeft, Character character, bool showPotential = false) {
+  this(Vector2i topLeft, Character character, bool showPotential = false,
+      InventoryMenu.Action inventoryAction = null)
+  {
     _topLeft = topLeft;
     _character = character;
     _sprite = new CharacterSprite(character.model);
-    populate(character.maxHp, showPotential);
+    populate(character.maxHp, showPotential, inventoryAction);
   }
 
   @property {
@@ -74,6 +78,14 @@ class CharacterSheet {
       }
       _mode = val;
     }
+  }
+
+  void regenerateInventoryMenu(InventoryMenu.Action inventoryAction,
+      InventoryMenu.HoverAction onHover = null)
+  {
+    _inventoryMenu = new InventoryMenu(_topLeft + equipmentPos, _character.items,
+        inventoryAction, onHover, InventoryMenu.ShowPrice.no, false);
+    _inventoryMenu.hasFocus = true;
   }
 
   void handleInput(InputManager input) {
@@ -107,12 +119,12 @@ class CharacterSheet {
   ProgressBar!int[] _progressBars;
   Vector2i _topLeft;
 
-  void populate(int hp, bool showPotential) {
+  void populate(int hp, bool showPotential, InventoryMenu.Action inventoryAction) {
     _bgTexture = getTexture(textureName);
     makeAttributeBars(showPotential);
     makeXpAndHpBars(hp);
-    _inventoryMenu = new InventoryMenu(_topLeft + equipmentPos, _character.items, null, null,
-        InventoryMenu.ShowPrice.no, false);
+    _inventoryMenu = new InventoryMenu(_topLeft + equipmentPos, _character.items,
+        inventoryAction, null, InventoryMenu.ShowPrice.no, false);
   }
 
   void makeAttributeBars(bool showPotential) {

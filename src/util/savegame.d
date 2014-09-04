@@ -24,6 +24,16 @@ class SaveData {
     int gold;
     int mission;
   }
+
+  bool addItem(Item item) {
+    foreach(ref slot ; items) {
+      if (slot is null) {
+        slot = item;
+        return true;
+      }
+    }
+    return false;
+  }
 }
 
 SaveData loadSave() {

@@ -68,13 +68,10 @@ class StoreView : GUIContainer {
 
   void purchaseItem(Item item) {
     if (_data.gold >= item.price) {
-      foreach(ref slot ; _data.items) {
-        if (slot is null) {
-          slot = item;
-          _data.gold -= item.price;
+      auto hadRoom = _data.addItem(item);
+      if (hadRoom) {
+        _data.gold -= item.price;
           saveGame(_data);
-          return;
-        }
       }
     }
   }

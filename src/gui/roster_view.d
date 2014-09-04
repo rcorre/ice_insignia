@@ -84,8 +84,9 @@ class RosterView : GUIContainer {
           if (input.cancel) {
             _state = State.viewRoster;
             _characterSheet.mode = CharacterSheet.Mode.idle;
+            _inventoryMenu = null;
           }
-          if (input.selectLeft || input.selectRight) {
+          else if (input.selectLeft || input.selectRight) {
             if (_characterSheet.mode == CharacterSheet.Mode.editInventory) {
               _characterSheet.mode = CharacterSheet.Mode.idle;
               _inventoryMenu.hasFocus = true;
@@ -146,7 +147,7 @@ class RosterView : GUIContainer {
 
   void rosterHover(Character character) {
     if (character) {
-      _characterSheet = new CharacterSheet(characterSheetPos, character);
+      _characterSheet = new CharacterSheet(characterSheetPos, character, true, &takeItem);
     }
   }
 
@@ -180,35 +181,51 @@ class RosterView : GUIContainer {
     }
   }
 
-  void selectEquippedItem(Item item) {
-  }
-
   void giveItem(Item item) {
+    if (item is null) { return; }
     auto slot = cast(RosterSlot) selectedElement;
+    assert(slot);
     auto character = slot.character;
     auto itemIdx = _data.items[].countUntil(item);
     if (itemIdx >= 0) {
       if (character.addItem(item)) {
         _data.items[itemIdx] = null;
-        _characterSheet = new CharacterSheet(characterSheetPos, character);
+        _characterSheet.regenerateInventoryMenu(&takeItem);
         saveGame(_data);
       }
     }
   }
 
-  private:
-  CharacterSheet _characterSheet;
-  StringMenu _menu;
-  InventoryMenu _inventoryMenu;
-  ItemView _itemView;
-  SaveData _data;
-  State _state;
-
-  enum State {
-    viewRoster,
-    editInventory,
-    editTalents
+  void takeItem(Item item) {
+    if (item is null) { return; }
+    auto slot = cast(RosterSlot) selectedElement;
+    assert(slot);
+    auto character = slot.character;
+    auto itemIdx = character.items[].countUntil(item);
+    if (itemIdx >= 0) {
+      bool hadRoom = _data.addItem(item);
+      if (hadRoom) {
+        character.itemAt(itemIdx) = null;
+        assert(&takeItem !is null);
+        _characterSheet.regenerateInventoryMenu(&takeItem);
+        saveGame(_data);
+      }
+    }
   }
+}
+
+private:
+CharacterSheet _characterSheet;
+StringMenu _menu;
+InventoryMenu _inventoryMenu;
+ItemView _itemView;
+SaveData _data;
+State _state;
+
+enum State {
+  viewRoster,
+  editInventory,
+  editTalents
 }
 
 private static Font _goldFont;

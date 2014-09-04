@@ -16,6 +16,7 @@ abstract class SelectionMenu(T) {
   alias HoverAction = void delegate(T, Rect2i);
 
   this(Vector2i pos, T[] selections, Action onChoose, HoverAction onHover, bool hasFocus = true) {
+    assert(onChoose !is null);
     // the width/height of each entry is normalized to the largest entry
     _entryWidth = selections.map!(a  => entryWidth(a)).reduce!max;
     _entryHeight = selections.map!(a => entryHeight(a)).reduce!max;
