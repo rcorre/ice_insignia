@@ -17,20 +17,19 @@ struct CharacterSpec {
     ValueSet!Attribute attributes;
     ValueSet!Attribute potential;
     string[] talentKeys;
+    string[] names;
   }
 }
 
 auto loadCharacterSpec(string model) {
   assert(model in _specs, "could not match character spec " ~ model);
   auto spec = _specs[model];
-  spec.name = _names.randomSample(1).front;
+  spec.name = spec.names.randomSample(1).front;
   return spec;
 }
 
 static this() {
   _specs = readJSON!(CharacterSpec[string])(Paths.characterData);
-  _names = Paths.names.readText.splitLines;
 }
 
 private CharacterSpec[string] _specs;
-private string[] _names;

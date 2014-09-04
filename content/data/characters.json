@@ -29,7 +29,8 @@
     },
     "talentKeys" : [
       "sword1"
-    ]
+    ],
+    "names" : ["William", "Cecil", "Foltest", "Roderick", "Markham"]
   },
 
   "Fighter" : {
@@ -62,7 +63,8 @@
     },
     "talentKeys" : [
       "axe1"
-    ]
+    ],
+    "names" : ["Hector", "Golbez", "Zoltan", "Frunkwad", "Markham"]
   },
 
   "Soldier" : {
@@ -95,6 +97,41 @@
     },
     "talentKeys" : [
       "lance1"
-    ]
+    ],
+    "names" : ["Liemry", "Kain", "Marcus", "Cid"]
+  },
+
+  "Hunter" : {
+    "model" : "hunter",
+    "attributes" : {
+      "valueSet" : {
+        "maxHp"        : 11,
+        "strength"     : 4,
+        "skill"        : 5,
+        "speed"        : 4,
+        "defense"      : 1,
+        "resist"       : 2,
+        "luck"         : 1,
+        "move"         : 5,
+        "constitution" : 4
+      }
+    },
+    "potential" : {
+      "valueSet" : {
+        "maxHp"        : 50,
+        "strength"     : 40,
+        "skill"        : 50,
+        "speed"        : 44,
+        "defense"      : 30,
+        "resist"       : 50,
+        "luck"         : 42,
+        "move"         : 0,
+        "constitution" : 12
+      }
+    },
+    "talentKeys" : [
+      "lance1"
+    ],
+    "names" : ["Neebs"]
   }
 }
