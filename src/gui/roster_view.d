@@ -26,7 +26,7 @@ private enum {
   cursorShade = Color(0, 0, 0.5, 0.8),
   characterSheetPos = Vector2i(288, 57),
   hireCostPerLevel = 200,
-  inventoryPos = Vector2i(288, 57),
+  inventoryPos = Vector2i(360, 177),
   itemInfoOffset = Vector2i(-100, 0),
 }
 
@@ -72,6 +72,9 @@ class RosterView : GUIContainer {
       if (_itemView) {
         _itemView.draw;
       }
+      if (_inventoryMenu) {
+        _inventoryMenu.draw;
+      }
     }
 
     void handleInput(InputManager input) {
@@ -81,8 +84,19 @@ class RosterView : GUIContainer {
             _state = State.viewRoster;
             _characterSheet.mode = CharacterSheet.Mode.idle;
           }
+          if (input.selectLeft || input.selectRight) {
+            if (_characterSheet.mode == CharacterSheet.Mode.editInventory) {
+              _characterSheet.mode = CharacterSheet.Mode.idle;
+              _inventoryMenu.hasFocus = true;
+            }
+            else {
+              _characterSheet.mode = CharacterSheet.Mode.editInventory;
+              _inventoryMenu.hasFocus = false;
+            }
+          }
           else {
             _characterSheet.handleInput(input);
+            _inventoryMenu.handleInput(input);
           }
           break;
         case State.editTalents:
@@ -117,7 +131,6 @@ class RosterView : GUIContainer {
   }
 
   void enterInventoryEditMode() {
-    _characterSheet.mode = CharacterSheet.Mode.editInventory;
     _state = State.editInventory;
     _inventoryMenu = new InventoryMenu(inventoryPos, _data.items, null, &itemHover);
     _inventoryMenu.hasFocus = true;
