@@ -190,6 +190,7 @@ class RosterView : GUIContainer {
     if (itemIdx >= 0) {
       if (character.addItem(item)) {
         _data.items[itemIdx] = null;
+        _characterSheet = new CharacterSheet(characterSheetPos, character);
         saveGame(_data);
       }
     }
