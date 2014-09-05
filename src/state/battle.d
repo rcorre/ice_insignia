@@ -567,7 +567,7 @@ class Battle : GameState {
 
     override State update(float time) {
       _view.update(time);
-      if (_view.doneAnimating) {
+      if (_view.doneAnimating && (_input.confirm || _input.cancel || _input.inspect)) {
         return _wasPlayerTurn ? new PlayerTurn : new EnemyTurn;
       }
       return null;

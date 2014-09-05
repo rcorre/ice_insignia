@@ -24,12 +24,12 @@ class LevelUpView : CharacterSheet {
   }
 
   @property {
-    bool doneAnimating() { return _bonuses.empty; }
+    bool doneAnimating() { return _bonuses.empty && _arrowAnimations.back.isStopped; }
   }
 
   void update(float time) {
     if (doneAnimating) { return; }
-    if (_arrowAnimations.front.isStopped) {
+    if (_arrowAnimations.back.isStopped) {
       startAnimation; // start next arrow animation
     }
 
