@@ -17,6 +17,8 @@ public import model.attribute;
 
 alias AttributeSet = ValueSet!Attribute;
 
+private enum talentAwardLevels = [1, 3, 6, 10, 15, 20];
+
 class Character {
   mixin JsonizeMe;
 
@@ -77,12 +79,20 @@ class Character {
       }
     }
 
-    void xp(int val) {
-      if (_xp + val >= xpLimit) {
-        levelUp();
-      }
-      _xp = (_xp + val) % xpLimit;
+    bool canAwardTalent() {
+      return talentAwardLevels.canFind(level);
     }
+  }
+
+  /// if results in level-up, returns true and assigns bonuses
+  bool awardXp(int val, out AttributeSet bonuses) {
+    if (_xp + val >= xpLimit) {
+      bonuses = levelUp();
+      _xp = (_xp + val) % xpLimit;
+      return true;
+    }
+    _xp = (_xp + val) % xpLimit;
+    return false;
   }
 
   bool canWield(Item item) {

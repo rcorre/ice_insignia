@@ -36,11 +36,11 @@ class AnimatedSprite : Sprite {
     if (_timer < 0) {
       _timer = _frameTime;
       ++_col;
-      if (_col > _endCol) {
+      if (_col == _endCol) {
         final switch(_repeat) with(Repeat) {
           case no:
             _animate = false;
-            _col = _endCol;
+            _col = _endCol - 1;
             break;
           case loop:
             _col = _startCol;

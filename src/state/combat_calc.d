@@ -105,6 +105,15 @@ class CombatResult {
   const bool hit;        /// true if hit connected, false if it missed
   const bool critted;    /// true if critical hit, false otherwise
   Battler attacker, defender;
+
+  @property int xpAward() {
+    return damageDealt * 10; // TODO: tweak
+  }
+}
+
+/// deduce how much xp to award to player from a combat series
+int playerXp(CombatResult[] series) {
+  return 60; // TODO
 }
 
 private:

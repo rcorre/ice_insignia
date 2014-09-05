@@ -428,7 +428,7 @@ class Battle : GameState {
     override State update(float time) {
       if (_input.confirm) {
         auto series = constructAttackSeries(_attack, _counter);
-        return new ExecuteCombat(series, _attacker);
+        return new ExecuteCombat(series, _attacker, series.playerXp);
       }
       else if (_input.selectLeft) {
         _targetIdx = (_targetIdx - 1) % _targets.length;
@@ -465,13 +465,14 @@ class Battle : GameState {
   }
 
   class ExecuteCombat : State {
-    this(CombatResult[] attacks, Battler initialAttacker) {
+    this(CombatResult[] attacks, Battler initialAttacker, int playerXp) {
       _attacks = attacks;
       _result = attacks[0];
       _attacker = _result.attacker;
       _defender = _result.defender;
       _initialAttacker = initialAttacker;
       showBattlerInfoBoxes(_attacker, _defender);
+      _playerXp = playerXp;
     }
 
     override State update(float time) {
@@ -495,15 +496,23 @@ class Battle : GameState {
         _attacker.hideInfoBox;
         _defender.hideInfoBox;
         _initialAttacker.moved = true; // end attacker's turn
-        if (_initialAttacker.team == BattleTeam.ally) {
-          return new PlayerTurn;
+        Battler friendly = _attacker.team == BattleTeam.ally ? _attacker : _defender;
+        AttributeSet awards;
+        bool leveled = friendly.awardXp(_playerXp, awards);
+        if (leveled) {
+          return new LevelUp(friendly, awards, _initialAttacker.team == BattleTeam.ally);
         }
         else {
-          return new EnemyTurn;
+          if (_initialAttacker.team == BattleTeam.ally) {
+            return new PlayerTurn;
+          }
+          else {
+            return new EnemyTurn;
+          }
         }
       }
       else {
-        return new Wait(1, new ExecuteCombat(_attacks, _initialAttacker));
+        return new Wait(1, new ExecuteCombat(_attacks, _initialAttacker, _playerXp));
       }
       return null;
     }
@@ -514,6 +523,7 @@ class Battle : GameState {
     Battler _attacker, _defender;
     Battler _initialAttacker;
     bool _started;
+    int _playerXp;
 
     // these methods try to place info boxes so they are visible and next to the battler they represent
     void showBattlerInfoBoxes(Battler b1, Battler b2) {
@@ -547,6 +557,29 @@ class Battle : GameState {
 
       b.showInfoBox(area.center);
     }
+  }
+
+  class LevelUp : State {
+    this(Battler battler, AttributeSet awards, bool wasPlayerTurn) {
+      _view = new LevelUpView(Vector2i.Zero, battler, awards);
+      _wasPlayerTurn = wasPlayerTurn;
+    }
+
+    override State update(float time) {
+      _view.update(time);
+      if (_view.doneAnimating) {
+        return _wasPlayerTurn ? new PlayerTurn : new EnemyTurn;
+      }
+      return null;
+    }
+
+    override void draw() {
+      _view.draw;
+    }
+
+    private:
+    LevelUpView _view;
+    bool _wasPlayerTurn;
   }
 
   class Wait : State {
@@ -615,7 +648,7 @@ class Battle : GameState {
         auto attack  = new CombatPrediction(_battler, target, targetTerrain);
         auto counter = new CombatPrediction(target, _battler, selfTerrain);
         auto series = constructAttackSeries(attack, counter);
-        return new ExecuteCombat(series, _battler);
+        return new ExecuteCombat(series, _battler, series.playerXp);
       }
 
       _battler.moved = true; // skip turn
