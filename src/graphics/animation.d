@@ -54,6 +54,8 @@ class AnimatedSprite : Sprite {
     }
   }
 
+  @property isStopped() { return !_animate; }
+
   private:
   float _timer, _frameTime;
   int _startCol, _endCol;

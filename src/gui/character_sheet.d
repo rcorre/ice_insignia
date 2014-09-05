@@ -10,7 +10,7 @@ import geometry.all;
 import graphics.all;
 import util.input;
 
-private enum {
+protected enum {
   textureName        = "character_view",
   spritePos          = Vector2i(51, 51),
   namePos            = Vector2i(81, 40),
@@ -121,6 +121,15 @@ class CharacterSheet {
     _levelFont.draw(to!string(_character.level), _topLeft + lvlPos);
   }
 
+  protected:
+  ProgressBar!int statBarFor(ulong i) {
+    auto a = to!Attribute(i);
+    if (a == Attribute.maxHp) {
+      return _progressBars[0];
+    }
+    return _progressBars[a + 1];
+  }
+
   private:
   Mode _mode;
   Texture _bgTexture;
@@ -128,8 +137,8 @@ class CharacterSheet {
   Character _character;
   InventoryMenu _inventoryMenu;
   TalentMenu _talentMenu;
-  ProgressBar!int[] _progressBars;
   Vector2i _topLeft;
+  ProgressBar!int[] _progressBars;
 
   void populate(int hp, bool showPotential, InventoryAction inventoryAction, TalentAction
       talentAction)
@@ -145,7 +154,7 @@ class CharacterSheet {
 
   void makeAttributeBars(bool showPotential) {
     Rect2i area = Rect2i(_topLeft + attributesPos, attributeBarWidth, attributeBarHeight);
-    foreach(attribute ; Attribute.strength .. Attribute.max) {
+    foreach(attribute ; EnumMembers!Attribute[1 .. $]) { // skip over maxHp
       // make bar for attribute
       auto val = _character.attributes[attribute];
       auto maxVal = AttributeCaps[attribute];

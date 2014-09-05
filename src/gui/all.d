@@ -17,3 +17,4 @@ public import gui.item_slot;
 public import gui.element;
 public import gui.container;
 public import gui.button_sprites;
+public import gui.level_up_view;

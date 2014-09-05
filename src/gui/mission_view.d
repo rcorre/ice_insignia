@@ -32,10 +32,6 @@ class MissionView : GUIContainer {
     super(pos, Anchor.topLeft, "mission_view", cursor);
     auto slotPos = rosterStartPos;
     foreach(idx ; iota(0, rosterSize - 1)) {
-      debug {
-        import std.stdio;
-        writeln("add slot" , idx);
-      }
       if (idx != 0 && idx % numRecruitCols == 0) {
         slotPos.x = rosterStartPos.x;
         slotPos.y += rosterSpacingY;

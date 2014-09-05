@@ -22,6 +22,7 @@ class ProgressBar(T : real) {
   }
 
   @property {
+    auto bounds() { return _area; }
     T val() { return _val; }
     void val(T val) {
       _val = val;
