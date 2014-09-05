@@ -3,6 +3,7 @@ module util.savegame;
 
 import std.file;
 import std.path;
+import std.algorithm;
 import model.character;
 import model.item;
 import util.jsonizer;
@@ -34,6 +35,14 @@ class SaveData {
       }
     }
     return false;
+  }
+
+  void remove(Character c) {
+    auto idx = roster.countUntil(c);
+    if (idx >= 0) {
+      roster = roster.remove(idx);
+      saveGame(this);
+    }
   }
 }
 

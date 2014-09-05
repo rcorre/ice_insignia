@@ -75,13 +75,25 @@ class GUIContainer : GUIElement {
   }
 
   final {
-    void addElement(GUIElement element) {
+    T addElement(T : GUIElement)(T element) {
       element.topLeft = element.topLeft + topLeft;
       _elements ~= element;
       if (_selectedElement is null) {
         _selectedElement = element;
         _selectedElement.handleHover;
       }
+      return element;
+    }
+
+    void removeElement(GUIElement element) {
+      auto idx = _elements.countUntil(element);
+      if (idx >= 0) {
+        _elements = _elements.remove(idx);
+      }
+    }
+
+    auto elementsOfType(T)() {
+      return elements.map!"cast(T) a".filter!"a !is null";
     }
 
     @property auto selectedElement() { return _selectedElement; }
