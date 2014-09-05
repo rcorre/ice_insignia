@@ -49,13 +49,16 @@ class RosterView : GUIContainer {
   }
 
   void generateRoster() {
+    foreach(slot ; _rosterSlots) {
+      removeElement(slot);
+    }
     auto slotPos = rosterStartPos;
     foreach(idx, character ; _data.roster) {
       if (idx != 0 && idx % numRecruitCols == 0) {
         slotPos.x = recruitStartPos.x;
         slotPos.y += rosterSpacingY;
       }
-      addElement(new RosterSlot(slotPos, character, &selectRoster, &rosterHover));
+      _rosterSlots ~= addElement(new RosterSlot(slotPos, character, &selectRoster, &rosterHover));
       slotPos.x += rosterSpacingX;
     }
   }
@@ -147,6 +150,13 @@ class RosterView : GUIContainer {
         _characterSheet.mode = CharacterSheet.Mode.editTalents;
         showCursor = false;
         break;
+      case "disband":
+        auto slot = cast(RosterSlot) selectedElement;
+        if (slot) {
+          _data.remove(slot.character);
+          _characterSheet = null;
+          generateRoster;
+        }
       default:
     }
   }
@@ -162,6 +172,9 @@ class RosterView : GUIContainer {
     if (character) {
       _characterSheet = new CharacterSheet(characterSheetPos, character, true, &takeItem);
     }
+    else {
+      _characterSheet = null;
+    }
   }
 
   void recruitCommand(string cmd) {
@@ -176,14 +189,17 @@ class RosterView : GUIContainer {
         generateRoster;
         _data.gold -= cost;
         saveGame(_data);
+        _characterSheet = null;
       }
     }
     _menu = null;
   }
 
   void selectRoster(Character character) {
-    auto pos = selectedElement.bounds.center;
-    _menu = new StringMenu(pos, ["equipment", "talents", "cancel"], &slotCommand, &slotHover);
+    if (character) {
+      auto pos = selectedElement.bounds.center;
+      _menu = new StringMenu(pos, ["equipment", "talents", "disband", "cancel"], &slotCommand, &slotHover);
+    }
   }
 
   void selectRecruit(Character character) {
@@ -234,6 +250,7 @@ InventoryMenu _inventoryMenu;
 ItemView _itemView;
 SaveData _data;
 State _state;
+RosterSlot[] _rosterSlots;
 
 enum State {
   viewRoster,
