@@ -499,7 +499,13 @@ class Battle : GameState {
         _initialAttacker.moved = true; // end attacker's turn
         Battler friendly = _attacker.team == BattleTeam.ally ? _attacker : _defender;
         bool wasPlayerTurn = _initialAttacker.team == BattleTeam.ally;
-        return new Wait(pauseTime, new AwardXp(friendly, _playerXp, wasPlayerTurn));
+        if (friendly.alive) {
+          return new Wait(pauseTime, new AwardXp(friendly, _playerXp, wasPlayerTurn));
+        }
+        else {
+          friendly.hideInfoBox;
+          return wasPlayerTurn ? new PlayerTurn : new EnemyTurn;
+        }
       }
       else {
         return new Wait(pauseTime, new ExecuteCombat(_attacks, _initialAttacker, _playerXp));
