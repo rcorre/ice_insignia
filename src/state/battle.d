@@ -563,11 +563,14 @@ class Battle : GameState {
     this(Battler battler, AttributeSet awards, bool wasPlayerTurn) {
       _view = new LevelUpView(Vector2i.Zero, battler, awards);
       _wasPlayerTurn = wasPlayerTurn;
+      _battler = battler;
+      _awards = awards;
     }
 
     override State update(float time) {
       _view.update(time);
       if (_view.doneAnimating && (_input.confirm || _input.cancel || _input.inspect)) {
+        _battler.applyLevelUp(_awards);
         return _wasPlayerTurn ? new PlayerTurn : new EnemyTurn;
       }
       return null;
@@ -580,6 +583,8 @@ class Battle : GameState {
     private:
     LevelUpView _view;
     bool _wasPlayerTurn;
+    AttributeSet _awards;
+    Battler _battler;
   }
 
   class Wait : State {

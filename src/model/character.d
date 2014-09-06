@@ -87,7 +87,7 @@ class Character {
   /// if results in level-up, returns true and assigns bonuses
   bool awardXp(int val, out AttributeSet bonuses) {
     if (_xp + val >= xpLimit) {
-      bonuses = levelUp();
+      bonuses = getLevelBonuses();
       _xp = (_xp + val) % xpLimit;
       return true;
     }
@@ -120,11 +120,14 @@ class Character {
   }
 
   /// level up and return attribute increase values
-  AttributeSet levelUp() {
-    ++_level;
+  AttributeSet getLevelBonuses() {
     auto bonuses = _potential.map!(p => uniform!"[]"(0, 100) > p ? 0 : 1);
-    _attributes = attributes + bonuses;
     return bonuses;
+  }
+
+  void applyLevelUp(AttributeSet bonuses) {
+    ++_level;
+    _attributes = attributes + bonuses;
   }
 
   void addTalent(Talent talent) {
@@ -153,7 +156,7 @@ Character generateCharacter(string name, int level = 1, string[] itemNames = [])
     assert(character.addItem(loadItem(item)));
   }
   for(int i = 1 ; i < level ; i++) {
-    character.levelUp();
+    character.applyLevelUp(character.getLevelBonuses());
   }
   return character;
 }

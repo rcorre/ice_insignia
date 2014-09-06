@@ -127,7 +127,7 @@ class CharacterSheet {
     if (a == Attribute.maxHp) {
       return _progressBars[0];
     }
-    return _progressBars[a + 1];
+    return _progressBars[2 * a];
   }
 
   private:
@@ -144,8 +144,8 @@ class CharacterSheet {
       talentAction)
   {
     _bgTexture = getTexture(textureName);
-    makeAttributeBars(showPotential);
     makeXpAndHpBars(hp);
+    makeAttributeBars(showPotential);
     _inventoryMenu = new InventoryMenu(_topLeft + equipmentPos, _character.items,
         inventoryAction, null, InventoryMenu.ShowPrice.no, false);
     _talentMenu = new TalentMenu(_topLeft + talentPos, _character.talents, talentAction, null,
@@ -158,7 +158,8 @@ class CharacterSheet {
       // make bar for attribute
       auto val = _character.attributes[attribute];
       auto maxVal = AttributeCaps[attribute];
-      _progressBars ~= new ProgressBar!int(area, val, maxVal, attributeBarFg, attributeBarBg, attributeTextColor);
+      _progressBars ~= new ProgressBar!int(area, val, maxVal, attributeBarFg, attributeBarBg,
+          attributeTextColor, ProgressBar!int.DrawText.value);
       if (showPotential) {
         // now make bar for potential right below attribute
         val = _character.potential[attribute];

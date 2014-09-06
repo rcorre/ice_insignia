@@ -1,6 +1,7 @@
 module gui.level_up_view;
 
 import std.array;
+import std.range;
 import std.traits;
 import allegro;
 import geometry.all;
@@ -10,7 +11,8 @@ import model.character;
 import model.battler;
 
 private enum {
-  animationName = "levelUpArrow"
+  animationName = "levelUpArrow",
+  arrowOffset = Vector2i(10, 5)
 }
 
 /// displays info about a character's stats
@@ -40,13 +42,13 @@ class LevelUpView : CharacterSheet {
 
   override void draw() {
     super.draw;
-    foreach(idx, anim ; _arrowAnimations) {
-      auto bar = statBarFor(idx);
-      anim.draw(bar.bounds.center);
+    foreach(pos, anim ; zip(_positions, _arrowAnimations)) {
+      anim.draw(pos);
     }
   }
 
   void startAnimation() {
+    _positions ~= statBarFor(_bonuses.front).bounds.topRight + arrowOffset;
     _bonuses.popFront;
     _arrowAnimations ~= new AnimatedSprite(animationName);
   }
@@ -54,4 +56,5 @@ class LevelUpView : CharacterSheet {
   private:
   Attribute[] _bonuses;
   AnimatedSprite[] _arrowAnimations;
+  Vector2i[] _positions;
 }

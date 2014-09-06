@@ -58,7 +58,7 @@
         "resist"       : 50,
         "luck"         : 50,
         "move"         : 0,
-        "constitution" : 20
+        "constitution" : 10
       }
     },
     "talentKeys" : [
@@ -92,7 +92,7 @@
         "resist"       : 50,
         "luck"         : 50,
         "move"         : 0,
-        "constitution" : 20
+        "constitution" : 10
       }
     },
     "talentKeys" : [
@@ -119,14 +119,14 @@
     "potential" : {
       "valueSet" : {
         "maxHp"        : 50,
-        "strength"     : 40,
+        "strength"     : 50,
         "skill"        : 50,
-        "speed"        : 44,
-        "defense"      : 30,
+        "speed"        : 50,
+        "defense"      : 50,
         "resist"       : 50,
-        "luck"         : 42,
+        "luck"         : 50,
         "move"         : 0,
-        "constitution" : 12
+        "constitution" : 10
       }
     },
     "talentKeys" : [
