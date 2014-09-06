@@ -141,6 +141,7 @@ class Character {
 
   void applyLevelUp(AttributeSet bonuses) {
     ++_level;
+    _xp = 0;
     _attributes = attributes + bonuses;
   }
 

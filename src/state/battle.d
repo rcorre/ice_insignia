@@ -614,6 +614,7 @@ class Battle : GameState {
       if (_view.doneAnimating && (_input.confirm || _input.cancel || _input.inspect)) {
         _battler.applyLevelUp(_awards);
         if (_leftoverXp > 0) {
+          _battler.infoBox.xpBar.val = 0;
           return new AwardXp(_battler, _leftoverXp, _wasPlayerTurn);
         }
         return _wasPlayerTurn ? new PlayerTurn : new EnemyTurn;
