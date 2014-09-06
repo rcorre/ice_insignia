@@ -8,13 +8,18 @@ import model.item;
 import tilemap.tile;
 
 private enum {
+  // xp
   levelXpFactor  = 2f,   /// higher means less xp reward/penalty for difference in level
   baseXp         = 5f,   /// xp awarded for being in combat
-  attackXpFactor = 4f, /// xp awarded per damage point dealt
+  attackXpFactor = 3f, /// xp awarded per damage point dealt
   killXpBonus    = 30f,  /// xp awarded for a kill
   dodgeXp        = 10f,  /// xp awarded for a dodge
   lockpickXp     = 30f,  /// xp awarded for picking a lock
   stealXp        = 40f,  /// xp awarded for stealing
+
+  // combat results
+  triangleBonus = 1.2,
+  trianglePenalty = 0.8,
 }
 
 CombatResult[] constructAttackSeries(CombatPrediction attack, CombatPrediction counter) {
@@ -45,10 +50,10 @@ class CombatPrediction {
       int dmg = attacker.equippedWeapon.damage + attacker.strength;
       int def = defender.defense + defenderTerrain.defense;
       if (triangleAdvantage) {
-        dmg *= 1.3;
+        dmg *= triangleBonus;
       }
       else if (triangleDisadvantage) {
-        dmg *= 0.7;
+        dmg *= trianglePenalty;
       }
       return max(0, dmg - def);
     }
@@ -57,10 +62,10 @@ class CombatPrediction {
       int acc = attacker.equippedWeapon.hit + attacker.skill * 4;
       int avoid = defender.adjustedSpeed * 4 + defenderTerrain.avoid;
       if (triangleAdvantage) {
-        acc *= 1.3;
+        acc *= triangleBonus;
       }
       else if (triangleDisadvantage) {
-        acc *= 0.7;
+        acc *= trianglePenalty;
       }
       return clamp(acc - avoid, 0, 100);
     }
