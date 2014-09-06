@@ -8,9 +8,9 @@ import model.item;
 import tilemap.tile;
 
 private enum {
-  levelXpFactor  = 3f,   /// higher means less xp reward/penalty for difference in level
-  baseXp         = 3f,   /// xp awarded for being in combat
-  attackXpFactor = 2.5f, /// xp awarded per damage point dealt
+  levelXpFactor  = 2f,   /// higher means less xp reward/penalty for difference in level
+  baseXp         = 5f,   /// xp awarded for being in combat
+  attackXpFactor = 4f, /// xp awarded per damage point dealt
   killXpBonus    = 30f,  /// xp awarded for a kill
   dodgeXp        = 10f,  /// xp awarded for a dodge
   lockpickXp     = 30f,  /// xp awarded for picking a lock

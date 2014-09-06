@@ -511,7 +511,7 @@ class Battle : GameState {
         }
         else {
           friendly.hideInfoBox;
-          return wasPlayerTurn ? new PlayerTurn : new EnemyTurn;
+          return new Wait(pauseTime, wasPlayerTurn ? new PlayerTurn : new EnemyTurn);
         }
       }
       else {
@@ -574,6 +574,10 @@ class Battle : GameState {
       _started = true;
     }
 
+    void end() {
+      _battler.hideInfoBox;
+    }
+
     override State update(float time) {
       if (!_started) { start; }
       if (_battler.isXpTransitioning) {
@@ -583,8 +587,7 @@ class Battle : GameState {
         return new Wait(pauseTime, new LevelUp(_battler, _awards, _wasPlayerTurn, _leftoverXp));
       }
       else {
-        _battler.hideInfoBox;
-        return _wasPlayerTurn ? new PlayerTurn : new EnemyTurn;
+        return new Wait(pauseTime, _wasPlayerTurn ? new PlayerTurn : new EnemyTurn, &end);
       }
     }
 
@@ -631,14 +634,16 @@ class Battle : GameState {
   }
 
   class Wait : State {
-    this(float time, State nextState) {
+    this(float time, State nextState, void delegate() onWaitEnd = null) {
       _timer = time;
       _nextState = nextState;
+      _onWaitEnd = onWaitEnd;
     }
 
     override State update(float time) {
       _timer -= time;
       if (_timer < 0) {
+        if (_onWaitEnd) { _onWaitEnd(); }
         return _nextState;
       }
       return null;
@@ -647,6 +652,7 @@ class Battle : GameState {
     private:
     float _timer;
     State _nextState;
+    void delegate() _onWaitEnd;
   }
 
   class EnemyTurn : State {

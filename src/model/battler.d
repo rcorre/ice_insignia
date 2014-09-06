@@ -17,7 +17,7 @@ private enum {
   damageFlashColor = Color(0.5, 0, 0),
   fadeSpectrum = [Color.red, Color.clear],
   hpTransitionRate = 20,
-  xpTransitionRate = 60,
+  xpTransitionRate = 80,
 }
 
 enum BattleTeam {
