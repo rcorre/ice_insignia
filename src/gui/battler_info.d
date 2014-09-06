@@ -3,43 +3,67 @@ module gui.battler_info;
 import graphics.all;
 import geometry.all;
 import gui.progress_bar;
+import model.battler;
+
+private enum {
+  textureName     = "battler_info",
+  fontName        = "battler_info_font",
+  healthFg        = Color(0.0, 1.0, 0, 0.8),
+  healthBg        = Color(0.5, 0.5, 0.5, 0.8),
+  xpFg            = Color(0.1, 0.2, 0.8, 0.8),
+  xpBg            = Color(0.5, 0.5, 0.5, 0.8),
+  spriteOffset    = Vector2i(25, 25),
+  nameOffset      = Vector2i(50, 7),
+  healthBarOffset = Vector2i(49, 25),
+  healthBarSize   = Vector2i(60, 10),
+  xpBarOffset     = Vector2i(49, 30 + healthBarSize.y),
+  xpBarSize       = Vector2i(60, 8),
+}
 
 /// shows name and health bar
 class BattlerInfoBox {
-  enum {
-    width = 100,
-    height = 40,
-    bgColor = Color(0.5, 0, 0, 0.5),
-    healthFg = Color(1.0, 1.0, 0, 0.8),
-    healthBg = Color(0.5, 0.5, 0.5, 0.8),
+  this(Vector2i pos, Battler b) {
+    _name = b.name;
+    _area = Rect2i(pos, width, height);
+    auto healthArea = Rect2i(pos + healthBarOffset, healthBarSize);
+    _healthBar = new ProgressBar!int(healthArea, b.hp, b.maxHp, healthFg, healthBg);
+    auto xpArea = Rect2i(pos + xpBarOffset, xpBarSize);
+    _xpBar = new ProgressBar!int(xpArea, b.xp, b.xpLimit, xpFg, xpBg);
+    _sprite = new CharacterSprite(b.model, b.team);
   }
 
-  this(Vector2i pos, string name, int hp, int maxHp) {
-    _area = Rect2i.CenteredAt(pos, width, height);
-    _name = name;
-    auto healthArea = Rect2i.CenteredAt(pos, 80, 12);
-    _healthBar = new ProgressBar!int(healthArea, hp, maxHp, healthFg, healthBg);
+  @property {
+    static {
+      int width() { return _texture.width; }
+      int height() { return _texture.height; }
+    }
+    auto healthBar() { return _healthBar; }
+    auto xpBar() { return _xpBar; }
   }
-
-  @property auto healthBar() { return _healthBar; }
 
   void update(float time) {
     _healthBar.update(time);
+    _xpBar.update(time);
   }
 
   void draw() {
-    _area.drawFilled(bgColor);
-    _font.draw(_name, _area.topLeft);
+    _texture.draw(_area.center);
+    _sprite.draw(_area.topLeft + spriteOffset);
+    _font.draw(_name, _area.topLeft + nameOffset);
     _healthBar.draw();
+    _xpBar.draw();
   }
 
   private:
-  Rect2i _area;
   string _name;
-  ProgressBar!int _healthBar;
+  ProgressBar!int _healthBar, _xpBar;
+  Rect2i _area;
+  Sprite _sprite;
 
   static Font _font;
+  static Texture _texture;
   static this() {
-    _font = getFont("battler_info_font");
+    _font = getFont(fontName);
+    _texture = getTexture(textureName);
   }
 }

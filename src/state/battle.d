@@ -75,7 +75,7 @@ class Battle : GameState {
     if (tile) {
       _tileInfoBox = new TileInfoBox(tileInfoPos, tile.name, tile.defense, tile.avoid);
       if (tile.battler) {
-        _battlerInfoBox = new BattlerInfoBox(battlerInfoPos, tile.battler.name, tile.battler.hp, tile.battler.maxHp);
+        _battlerInfoBox = new BattlerInfoBox(battlerInfoPos, tile.battler);
       }
       else {
         _battlerInfoBox = null;

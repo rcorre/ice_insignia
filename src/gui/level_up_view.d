@@ -23,7 +23,7 @@ class LevelUpView : CharacterSheet {
   }
 
   @property {
-    bool doneAnimating() { return _bonuses.empty && _arrowAnimations.back.isStopped; }
+    bool doneAnimating() { return _bonuses.empty; }
   }
 
   void update(float time) {

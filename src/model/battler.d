@@ -79,7 +79,7 @@ class Battler {
 
   void showInfoBox(Vector2i pos) {
     if (_infoBox is null) {
-      _infoBox = new BattlerInfoBox(pos, character.name, _hp, character.maxHp);
+      _infoBox = new BattlerInfoBox(pos, this);
     }
   }
 
