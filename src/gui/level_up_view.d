@@ -30,11 +30,6 @@ class LevelUpView : CharacterSheet {
   }
 
   void update(float time) {
-    if (doneAnimating) { return; }
-    if (_arrowAnimations.back.isStopped) {
-      startAnimation; // start next arrow animation
-    }
-
     foreach(anim ; _arrowAnimations) {
       anim.update(time);
     }
@@ -48,13 +43,23 @@ class LevelUpView : CharacterSheet {
   }
 
   void startAnimation() {
-    _positions ~= statBarFor(_bonuses.front).bounds.topRight + arrowOffset;
+    if (_bonuses.empty) { return; }
+    auto bar = statBarFor(_bonuses.front);
+    _bars ~= bar;
+    _positions ~= bar.bounds.topRight + arrowOffset;
     _bonuses.popFront;
-    _arrowAnimations ~= new AnimatedSprite(animationName);
+    _arrowAnimations ~= new AnimatedSprite(animationName, &endAnimation);
+  }
+
+  void endAnimation() {
+    _bars.front.val = _bars.front.val + 1;
+    _bars.popFront;
+    startAnimation;
   }
 
   private:
   Attribute[] _bonuses;
   AnimatedSprite[] _arrowAnimations;
   Vector2i[] _positions;
+  ProgressBar!int[] _bars;
 }

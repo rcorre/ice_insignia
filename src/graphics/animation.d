@@ -7,6 +7,7 @@ import graphics.sprite;
 import graphics.color;
 
 class AnimatedSprite : Sprite {
+  alias Action = void delegate();
   // TODO: replace no with stop (stop animating) or destroy (remove sprite)
   enum Repeat {
     unspecified, /// use value from config file
@@ -15,7 +16,9 @@ class AnimatedSprite : Sprite {
     rebound      /// reverse animation direction
   }
 
-  this(string name, Color tint = Color.white, Repeat repeat = Repeat.unspecified) {
+  this(string name, Color tint = Color.white, Repeat repeat = Repeat.unspecified,
+      Action onAnimationEnd = null)
+  {
     super(name, tint);
     auto data = _animationData.entries[name];
     _startCol = _col;
@@ -26,6 +29,11 @@ class AnimatedSprite : Sprite {
     }
     _repeat = repeat;
     _timer = _frameTime;
+    _onAnimationEnd = onAnimationEnd;
+  }
+
+  this(string name, Action onAnimationEnd) {
+    this(name, Color.white, Repeat.unspecified, onAnimationEnd);
   }
 
   override void update(float time) {
@@ -37,6 +45,7 @@ class AnimatedSprite : Sprite {
       _timer = _frameTime;
       ++_col;
       if (_col == _endCol) {
+        if (_onAnimationEnd) { _onAnimationEnd(); }
         final switch(_repeat) with(Repeat) {
           case no:
             _animate = false;
@@ -61,6 +70,7 @@ class AnimatedSprite : Sprite {
   int _startCol, _endCol;
   Repeat _repeat;
   bool _animate = true;
+  Action _onAnimationEnd;
 }
 
 private ConfigData _animationData;
