@@ -27,18 +27,12 @@ class ProgressBar(T : real) {
     T val() { return _val; }
     void val(T val) {
       _val = val;
-      _filledArea.width = cast(int) (_area.width * cast(float)val / _maxVal);
-      final switch(_drawText) {
-        case DrawText.fraction:
-          _text = format("%d/%d", val, _maxVal);
-          break;
-        case DrawText.value:
-          _text = format("%d", val);
-          break;
-        case DrawText.none:
-          _text = "";
-          break;
-      }
+      resetBarSize();
+    }
+    T maxVal() { return _maxVal; }
+    void maxVal(T newMax) {
+      _maxVal = newMax;
+      resetBarSize();
     }
     bool isTransitioning() { return _totalTransitionTime != 0; }
   }
@@ -82,5 +76,20 @@ class ProgressBar(T : real) {
 
   static Font defaultFont() {
     return getFont("default_progress_bar_font");
+  }
+
+  void resetBarSize() {
+    _filledArea.width = cast(int) (_area.width * cast(float)val / maxVal);
+    final switch(_drawText) {
+      case DrawText.fraction:
+        _text = format("%d/%d", val, maxVal);
+        break;
+      case DrawText.value:
+        _text = format("%d", val);
+        break;
+      case DrawText.none:
+        _text = "";
+        break;
+    }
   }
 }

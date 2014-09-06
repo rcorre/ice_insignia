@@ -48,12 +48,17 @@ class LevelUpView : CharacterSheet {
     auto bar = statBarFor(_bonuses.front);
     _bars ~= bar;
     _positions ~= bar.bounds.topRight + arrowOffset;
-    _bonuses.popFront;
     _arrowAnimations ~= new AnimatedSprite(animationName, &endAnimation);
   }
 
   void endAnimation() {
-    _bars.front.val = _bars.front.val + 1;
+    if (_bonuses.front == Attribute.maxHp) {
+      _bars.front.maxVal = _bars.front.maxVal + 1;
+    }
+    else {
+      _bars.front.val = _bars.front.val + 1;
+    }
+    _bonuses.popFront;
     _bars.popFront;
     startAnimation;
   }
