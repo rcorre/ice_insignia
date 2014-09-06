@@ -20,9 +20,6 @@ class LevelUpView : CharacterSheet {
   this(Vector2i topLeft, Battler battler, AttributeSet bonuses) {
     super(topLeft, battler, true);
     _bonuses = array([EnumMembers!Attribute].filter!(a => bonuses[a] > 0));
-    if (!_bonuses.empty) {
-      startAnimation;
-    }
   }
 
   @property {
@@ -30,6 +27,10 @@ class LevelUpView : CharacterSheet {
   }
 
   void update(float time) {
+    if (!_bonuses.empty && _arrowAnimations.empty) {
+      startAnimation;
+    }
+
     foreach(anim ; _arrowAnimations) {
       anim.update(time);
     }

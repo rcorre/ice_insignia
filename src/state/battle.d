@@ -23,6 +23,7 @@ private enum {
   battlerMoveSpeed = 300, /// battler move speed (pixels/sec)
   attackSpeed = 12,       /// movement rate of attack animation
   attackShiftDist = 8,    /// pixels to shift when showing attack
+  pauseTime = 0.5,        /// time to pause between states
 
   tileInfoPos    = cast(Vector2i) Vector2f(Settings.screenW * 0.9f, Settings.screenH * 0.9f),
   battlerInfoPos = cast(Vector2i) Vector2f(Settings.screenW * 0.1f, Settings.screenH * 0.9f),
@@ -500,7 +501,7 @@ class Battle : GameState {
         AttributeSet awards;
         bool leveled = friendly.awardXp(_playerXp, awards);
         if (leveled) {
-          return new LevelUp(friendly, awards, _initialAttacker.team == BattleTeam.ally);
+          return new Wait(pauseTime, new LevelUp(friendly, awards, _initialAttacker.team == BattleTeam.ally));
         }
         else {
           if (_initialAttacker.team == BattleTeam.ally) {
@@ -512,7 +513,7 @@ class Battle : GameState {
         }
       }
       else {
-        return new Wait(0.3, new ExecuteCombat(_attacks, _initialAttacker, _playerXp));
+        return new Wait(pauseTime, new ExecuteCombat(_attacks, _initialAttacker, _playerXp));
       }
       return null;
     }
