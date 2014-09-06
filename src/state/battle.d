@@ -546,7 +546,7 @@ class Battle : GameState {
       if (area.top < 0) { area.y += shift.y; }
       if (area.right > _camera.width) { area.x -= shift.x; }
 
-      b.showInfoBox(area.center);
+      b.showInfoBox(area.topLeft);
     }
 
     void showBottomLeftInfo(Battler b) {
@@ -556,7 +556,7 @@ class Battle : GameState {
       if (area.left < 0) { area.x += shift.x; }
       if (area.bottom > _camera.height) { area.y -= shift.y; }
 
-      b.showInfoBox(area.center);
+      b.showInfoBox(area.topLeft);
     }
   }
 
