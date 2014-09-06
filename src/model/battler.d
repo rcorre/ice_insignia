@@ -74,6 +74,9 @@ class Battler {
 
   void draw(Vector2i offset) {
     _sprite.draw(pos - offset);
+  }
+
+  void drawInfoBox() {
     if (_infoBox) {
       _infoBox.draw();
     }

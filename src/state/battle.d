@@ -97,6 +97,13 @@ class Battle : GameState {
         battler.draw(_camera.topLeft);
       }
     }
+    foreach(battler ; _battlers) { // second pass for info boxes
+      auto sprite = battler.sprite;
+      auto rect = Rect2i.CenteredAt(battler.pos, sprite.width, sprite.height);
+      if (_camera.intersects(rect)) {
+        battler.drawInfoBox;
+      }
+    }
     _state.draw();
 
     _tileCursor.draw();
