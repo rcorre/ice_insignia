@@ -494,23 +494,12 @@ class Battle : GameState {
 
       _attacks.popFront;
       if (_attacks.empty || !_attacker.alive || !_defender.alive) { // no attacks left to show
-        _attacker.hideInfoBox;
-        _defender.hideInfoBox;
+        Battler enemy = _attacker.team == BattleTeam.ally ? _defender : _attacker;
+        enemy.hideInfoBox;
         _initialAttacker.moved = true; // end attacker's turn
         Battler friendly = _attacker.team == BattleTeam.ally ? _attacker : _defender;
-        AttributeSet awards;
-        bool leveled = friendly.awardXp(_playerXp, awards);
-        if (leveled) {
-          return new Wait(pauseTime, new LevelUp(friendly, awards, _initialAttacker.team == BattleTeam.ally));
-        }
-        else {
-          if (_initialAttacker.team == BattleTeam.ally) {
-            return new PlayerTurn;
-          }
-          else {
-            return new EnemyTurn;
-          }
-        }
+        bool wasPlayerTurn = _initialAttacker.team == BattleTeam.ally;
+        return new Wait(pauseTime, new AwardXp(friendly, _playerXp, wasPlayerTurn));
       }
       else {
         return new Wait(pauseTime, new ExecuteCombat(_attacks, _initialAttacker, _playerXp));
@@ -560,18 +549,57 @@ class Battle : GameState {
     }
   }
 
+  class AwardXp : State {
+    this(Battler battler, int xp, bool wasPlayerTurn) {
+      _battler = battler;
+      _xp = xp;
+      _wasPlayerTurn = wasPlayerTurn;
+    }
+
+    void start() {
+      _leveled = _battler.awardXp(_xp, _awards, _leftoverXp);
+      _started = true;
+    }
+
+    override State update(float time) {
+      if (!_started) { start; }
+      if (_battler.isXpTransitioning) {
+        return null;
+      }
+      else if (_leveled) {
+        return new Wait(pauseTime, new LevelUp(_battler, _awards, _wasPlayerTurn, _leftoverXp));
+      }
+      else {
+        _battler.hideInfoBox;
+        return _wasPlayerTurn ? new PlayerTurn : new EnemyTurn;
+      }
+    }
+
+    private:
+    Battler _battler;
+    bool _started;
+    bool _wasPlayerTurn;
+    bool _leveled;
+    AttributeSet _awards;
+    int _xp, _leftoverXp;
+  }
+
   class LevelUp : State {
-    this(Battler battler, AttributeSet awards, bool wasPlayerTurn) {
+    this(Battler battler, AttributeSet awards, bool wasPlayerTurn, int leftoverXp) {
       _view = new LevelUpView(Vector2i.Zero, battler, awards);
       _wasPlayerTurn = wasPlayerTurn;
       _battler = battler;
       _awards = awards;
+      _leftoverXp = leftoverXp;
     }
 
     override State update(float time) {
       _view.update(time);
       if (_view.doneAnimating && (_input.confirm || _input.cancel || _input.inspect)) {
         _battler.applyLevelUp(_awards);
+        if (_leftoverXp > 0) {
+          return new AwardXp(_battler, _leftoverXp, _wasPlayerTurn);
+        }
         return _wasPlayerTurn ? new PlayerTurn : new EnemyTurn;
       }
       return null;
@@ -584,6 +612,7 @@ class Battle : GameState {
     private:
     LevelUpView _view;
     bool _wasPlayerTurn;
+    int _leftoverXp;
     AttributeSet _awards;
     Battler _battler;
   }

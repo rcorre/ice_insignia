@@ -17,6 +17,7 @@ private enum {
   damageFlashColor = Color(0.5, 0, 0),
   fadeSpectrum = [Color.red, Color.clear],
   hpTransitionRate = 20,
+  xpTransitionRate = 60,
 }
 
 enum BattleTeam {
@@ -59,6 +60,7 @@ class Battler {
 
     BattlerInfoBox infoBox() { return _infoBox; }
     bool isHpTransitioning() { return _infoBox.healthBar.isTransitioning; }
+    bool isXpTransitioning() { return _infoBox.xpBar.isTransitioning; }
 
     string aiType() {return _aiType; }
   }
@@ -101,6 +103,11 @@ class Battler {
     if (_hp <= 0) {
       _sprite.fade(fadeTime, fadeSpectrum);
     }
+  }
+
+  bool awardXp(int amount, out AttributeSet bonuses, out int leftover) {
+    _infoBox.xpBar.transition(xp, min(xp + amount, xpLimit), xpTransitionRate);
+    return character.awardXp(amount, bonuses, leftover);
   }
 
   bool canAttack(Battler other) {

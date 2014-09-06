@@ -98,8 +98,9 @@ class Character {
   }
 
   /// if results in level-up, returns true and assigns bonuses
-  bool awardXp(int val, out AttributeSet bonuses) {
+  bool awardXp(int val, out AttributeSet bonuses, out int leftover) {
     if (_xp + val >= xpLimit) {
+      leftover = _xp + val - xpLimit;
       bonuses = getLevelBonuses();
       _xp = (_xp + val) % xpLimit;
       return true;
