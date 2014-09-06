@@ -17,7 +17,20 @@ public import model.attribute;
 
 alias AttributeSet = ValueSet!Attribute;
 
-private enum talentAwardLevels = [1, 3, 6, 10, 15, 20];
+private enum {
+  talentAwardLevels = [1, 3, 6, 10, 15, 20],
+  basePotential = [
+    "maxHp"        : 60,
+    "strength"     : 40,
+    "skill"        : 40,
+    "speed"        : 40,
+    "defense"      : 40,
+    "resist"       : 40,
+    "luck"         : 40,
+    "move"         : 0,
+    "constitution" : 10
+  ]
+}
 
 class Character {
   mixin JsonizeMe;
@@ -29,13 +42,13 @@ class Character {
   }
 
   /// load saved character
-  @jsonize this(string name, string model, AttributeSet attributes, AttributeSet potential,
-      int level, int xp, Item[itemCapacity] items, string[] talentKeys = [])
+  @jsonize this(string name, string model, AttributeSet attributes, int level, int xp, Item[itemCapacity] items,
+      string[] talentKeys = [])
   {
     _name = name;
     _model = model;
     _attributes = attributes;
-    _potential = potential;
+    _potential = basePotential;
     _level = level;
     _xp = xp;
     _items = items;

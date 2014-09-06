@@ -14,19 +14,6 @@
         "constitution" : 4
       }
     },
-    "potential" : {
-      "valueSet" : {
-        "maxHp"        : 50,
-        "strength"     : 50,
-        "skill"        : 50,
-        "speed"        : 50,
-        "defense"      : 50,
-        "resist"       : 50,
-        "luck"         : 50,
-        "move"         : 0,
-        "constitution" : 10
-      }
-    },
     "talentKeys" : [
       "sword1"
     ],
@@ -46,19 +33,6 @@
         "luck"         : 0,
         "move"         : 5,
         "constitution" : 6
-      }
-    },
-    "potential" : {
-      "valueSet" : {
-        "maxHp"        : 50,
-        "strength"     : 50,
-        "skill"        : 50,
-        "speed"        : 50,
-        "defense"      : 50,
-        "resist"       : 50,
-        "luck"         : 50,
-        "move"         : 0,
-        "constitution" : 10
       }
     },
     "talentKeys" : [
@@ -82,19 +56,6 @@
         "constitution" : 5
       }
     },
-    "potential" : {
-      "valueSet" : {
-        "maxHp"        : 50,
-        "strength"     : 50,
-        "skill"        : 50,
-        "speed"        : 50,
-        "defense"      : 50,
-        "resist"       : 50,
-        "luck"         : 50,
-        "move"         : 0,
-        "constitution" : 10
-      }
-    },
     "talentKeys" : [
       "lance1"
     ],
@@ -116,21 +77,8 @@
         "constitution" : 4
       }
     },
-    "potential" : {
-      "valueSet" : {
-        "maxHp"        : 50,
-        "strength"     : 50,
-        "skill"        : 50,
-        "speed"        : 50,
-        "defense"      : 50,
-        "resist"       : 50,
-        "luck"         : 50,
-        "move"         : 0,
-        "constitution" : 10
-      }
-    },
     "talentKeys" : [
-      "lance1"
+      "bow1"
     ],
     "names" : ["Neebs"]
   }

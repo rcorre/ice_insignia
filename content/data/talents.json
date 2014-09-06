@@ -11,11 +11,11 @@
     },
     "potential" : {
       "valueSet" : {
-        "maxHp"        : 5,
-        "strength"     : 8,
+        "maxHp"        : 0,
+        "strength"     : 5,
         "skill"        : 15,
         "speed"        : 10,
-        "defense"      : 5,
+        "defense"      : 0,
         "resist"       : 0,
         "luck"         : 10,
         "move"         : 0,
@@ -29,6 +29,7 @@
     "key" : "sword2",
     "title" : "Blade Expertise",
     "description" : "Wield Tier 2 swords",
+    "prerequisite" : "sword1",
     "bonus" : {
       "valueSet" : {
         "skill" : 2,
@@ -37,11 +38,11 @@
     },
     "potential" : {
       "valueSet" : {
-        "maxHp"        : 5,
-        "strength"     : 8,
+        "maxHp"        : 0,
+        "strength"     : 5,
         "skill"        : 15,
         "speed"        : 10,
-        "defense"      : 5,
+        "defense"      : 0,
         "resist"       : 0,
         "luck"         : 10,
         "move"         : 0,
@@ -55,6 +56,7 @@
     "key" : "sword3",
     "title" : "Blade Mastery",
     "description" : "Wield Tier 3 swords",
+    "prerequisite" : "sword3",
     "bonus" : {
       "valueSet" : {
         "skill" : 2,
@@ -63,11 +65,11 @@
     },
     "potential" : {
       "valueSet" : {
-        "maxHp"        : 5,
-        "strength"     : 8,
+        "maxHp"        : 0,
+        "strength"     : 5,
         "skill"        : 15,
         "speed"        : 10,
-        "defense"      : 5,
+        "defense"      : 0,
         "resist"       : 0,
         "luck"         : 10,
         "move"         : 0,
@@ -91,13 +93,13 @@
       "valueSet" : {
         "maxHp"        : 10,
         "strength"     : 15,
-        "skill"        : 5,
+        "skill"        : 0,
         "speed"        : 5,
-        "defense"      : 5,
+        "defense"      : 0,
         "resist"       : 0,
         "luck"         : 0,
         "move"         : 0,
-        "constitution" : 8
+        "constitution" : 10
       }
     },
     "weaponSkill" : "axe",
@@ -116,18 +118,191 @@
     },
     "potential" : {
       "valueSet" : {
-        "maxHp"        : 8,
+        "maxHp"        : 5,
         "strength"     : 10,
         "skill"        : 10,
-        "speed"        : 8,
+        "speed"        : 0,
         "defense"      : 10,
         "resist"       : 0,
         "luck"         : 0,
         "move"         : 0,
-        "constitution" : 0
+        "constitution" : 5
       }
     },
     "weaponSkill" : "lance",
     "weaponTier" : 1
+  },
+  "bow1" : {
+    "key" : "bow1",
+    "title" : "Lance Proficiency",
+    "description" : "Wield Tier 1 bows",
+    "bonus" : {
+      "valueSet" : {
+        "skill"    : 1,
+        "strength" : 1,
+        "speed"    : 1
+      }
+    },
+    "potential" : {
+      "valueSet" : {
+        "maxHp"        : 0,
+        "strength"     : 5,
+        "skill"        : 15,
+        "speed"        : 5,
+        "defense"      : 0,
+        "resist"       : 10,
+        "luck"         : 5,
+        "move"         : 0,
+        "constitution" : 0
+      }
+    },
+    "weaponSkill" : "bow",
+    "weaponTier" : 1
+  },
+  "lightweight" : {
+    "key" : "lightweight",
+    "title" : "Lightweight",
+    "description" : "Greater mobility at the cost of constitution",
+    "bonus" : {
+      "valueSet" : {
+        "speed"        : 2,
+        "move"         : 1,
+        "constitution" : -1
+      }
+    },
+    "potential" : {
+      "valueSet" : {
+        "maxHp"        : 0,
+        "strength"     : 0,
+        "skill"        : 5,
+        "speed"        : 20,
+        "defense"      : 0,
+        "resist"       : 0,
+        "luck"         : 5,
+        "move"         : 0,
+        "constitution" : 0
+      }
+    }
+  },
+  "lockpicking" : {
+    "key" : "lockpicking",
+    "title" : "Lockpicking",
+    "description" : "Use lockpicks to open doors and chests",
+    "bonus" : {
+      "valueSet" : {
+        "speed" : 1,
+        "luck"  : 1,
+        "skill" : 1
+      }
+    },
+    "potential" : {
+      "valueSet" : {
+        "maxHp"        : 0,
+        "strength"     : 0,
+        "skill"        : 5,
+        "speed"        : 10,
+        "defense"      : 0,
+        "resist"       : 0,
+        "luck"         : 15,
+        "move"         : 0,
+        "constitution" : 0
+      }
+    }
+  },
+  "fortitude" : {
+    "key" : "fortitude",
+    "title" : "Fortitude",
+    "description" : "Greater constitution and health",
+    "bonus" : {
+      "valueSet" : {
+        "maxHp" : 5,
+        "constitution" : 2
+      }
+    },
+    "potential" : {
+      "valueSet" : {
+        "maxHp"        : 15,
+        "strength"     : 0,
+        "skill"        : 0,
+        "speed"        : 0,
+        "defense"      : 0,
+        "resist"       : 0,
+        "luck"         : 0,
+        "move"         : 0,
+        "constitution" : 15
+      }
+    }
+  },
+  "theft" : {
+    "key" : "theft",
+    "title" : "Theft",
+    "description" : "Pickpocket small items",
+    "bonus" : {
+      "valueSet" : {
+        "luck" : 2,
+        "skill" : 1
+      }
+    },
+    "potential" : {
+      "valueSet" : {
+        "maxHp"        : 0,
+        "strength"     : 0,
+        "skill"        : 10,
+        "speed"        : 10,
+        "defense"      : 0,
+        "resist"       : 0,
+        "luck"         : 10,
+        "move"         : 0,
+        "constitution" : 0
+      }
+    }
+  },
+  "armor1" : {
+    "key" : "armor1",
+    "title" : "Armor",
+    "description" : "Wear armor to improve defense",
+    "bonus" : {
+      "valueSet" : {
+        "defense" : 2
+      }
+    },
+    "potential" : {
+      "valueSet" : {
+        "maxHp"        : 0,
+        "strength"     : 0,
+        "skill"        : 0,
+        "speed"        : 0,
+        "defense"      : 20,
+        "resist"       : 0,
+        "luck"         : 0,
+        "move"         : 0,
+        "constitution" : 10
+      }
+    }
+  },
+  "armor2" : {
+    "key" : "armor2",
+    "title" : "Heavy Armor",
+    "description" : "Don a massive suit of armor",
+    "prerequisite" : "armor1",
+    "bonus" : {
+      "valueSet" : {
+        "defense" : 4,
+        "move" : -1
+      }
+    },
+    "potential" : {
+      "valueSet" : {
+        "maxHp"        : 0,
+        "strength"     : 0,
+        "skill"        : 0,
+        "speed"        : 0,
+        "defense"      : 20,
+        "resist"       : 0,
+        "luck"         : 0,
+        "move"         : 0,
+        "constitution" : 10
+      }
+    }
   }
 }
