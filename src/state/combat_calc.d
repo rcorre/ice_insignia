@@ -1,11 +1,21 @@
 module state.combat_calc;
 
 import std.random : uniform;
-import std.algorithm : max, min;
+import std.algorithm : max, min, reduce;
 import util.math : clamp;
 import model.battler;
 import model.item;
 import tilemap.tile;
+
+private enum {
+  levelXpFactor  = 3f,   /// higher means less xp reward/penalty for difference in level
+  baseXp         = 3f,   /// xp awarded for being in combat
+  attackXpFactor = 2.5f, /// xp awarded per damage point dealt
+  killXpBonus    = 30f,  /// xp awarded for a kill
+  dodgeXp        = 10f,  /// xp awarded for a dodge
+  lockpickXp     = 30f,  /// xp awarded for picking a lock
+  stealXp        = 40f,  /// xp awarded for stealing
+}
 
 CombatResult[] constructAttackSeries(CombatPrediction attack, CombatPrediction counter) {
   auto attacker = attack.attacker;
@@ -107,13 +117,23 @@ class CombatResult {
   Battler attacker, defender;
 
   @property int xpAward() {
-    return damageDealt * 10; // TODO: tweak
+    auto player = (attacker.team == BattleTeam.ally) ? attacker : defender;
+    auto enemy  = (attacker.team == BattleTeam.ally) ? defender : attacker;
+    float levelFactor = cast(float) (enemy.level + levelXpFactor) / (player.level + levelXpFactor);
+    if (player == attacker) {
+      return cast(int) ((damageDealt * attackXpFactor + baseXp) * levelFactor);
+    }
+    else {
+      auto dodgeBonus = hit ? 0 : dodgeXp;
+      return cast(int) ((baseXp + dodgeBonus) * levelFactor);
+    }
   }
 }
 
 /// deduce how much xp to award to player from a combat series
 int playerXp(CombatResult[] series) {
-  return 60; // TODO
+  // TODO: check for kill
+  return reduce!((a, b) => a + b.xpAward)(0, series);
 }
 
 private:
