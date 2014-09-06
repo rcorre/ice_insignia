@@ -17,7 +17,7 @@
     "talentKeys" : [
       "sword1"
     ],
-    "names" : ["William", "Cecil", "Foltest", "Roderick", "Markham"]
+    "names" : ["William", "Cecil", "Foltest", "Roderick", "Markham", "Doralingus", "Vyse"]
   },
 
   "Fighter" : {
@@ -38,7 +38,7 @@
     "talentKeys" : [
       "axe1"
     ],
-    "names" : ["Hector", "Golbez", "Zoltan", "Frunkwad", "Markham"]
+    "names" : ["Hector", "Golbez", "Zoltan", "Frunkwad", "Dorcas"]
   },
 
   "Soldier" : {
@@ -80,6 +80,6 @@
     "talentKeys" : [
       "bow1"
     ],
-    "names" : ["Neebs"]
+    "names" : ["Neebs", "Wil"]
   }
 }
