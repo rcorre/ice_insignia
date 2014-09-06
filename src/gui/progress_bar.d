@@ -1,5 +1,6 @@
 module gui.progress_bar;
 
+import std.math : abs;
 import std.string : format;
 import util.math : lerp;
 import graphics.all;
@@ -45,18 +46,18 @@ class ProgressBar(T : real) {
   void update(float time) {
     if (_totalTransitionTime != 0) {
       _transitionTimer += time;
-      val = _transitionStart.lerp(_transitionTarget, _transitionTimer * _totalTransitionTime);
+      val = _transitionStart.lerp(_transitionTarget, _transitionTimer / _totalTransitionTime);
       if (_transitionTimer > _totalTransitionTime) {
         _totalTransitionTime = 0;
       }
     }
   }
 
-  void transition(T start, T end, float time) {
+  void transition(T start, T end, float speed) {
     _transitionStart = start;
     _transitionTarget = end;
     _transitionTimer = 0;
-    _totalTransitionTime = time;
+    _totalTransitionTime = abs(end - start) / speed;
   }
 
   void draw() {

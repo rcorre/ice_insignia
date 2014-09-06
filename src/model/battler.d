@@ -16,7 +16,7 @@ private enum {
   fadeTime = 0.5,/// duration of flash used to indicate damage
   damageFlashColor = Color(0.5, 0, 0),
   fadeSpectrum = [Color.red, Color.clear],
-  hpTransitionTime = 1
+  hpTransitionRate = 20,
 }
 
 enum BattleTeam {
@@ -95,7 +95,7 @@ class Battler {
     amount = amount.clamp(0, _hp);
     if (amount > 0) {
       _sprite.flash(damageFlashTime, damageFlashColor);
-      _infoBox.healthBar.transition(_hp, _hp - amount, hpTransitionTime);
+      _infoBox.healthBar.transition(_hp, _hp - amount, hpTransitionRate);
     }
     _hp -= amount;
     if (_hp <= 0) {

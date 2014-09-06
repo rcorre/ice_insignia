@@ -20,7 +20,7 @@ import geometry.all;
 
 private enum {
   scrollSpeed = 12,       /// camera scroll rate (pixels/sec)
-  battlerMoveSpeed = 250, /// battler move speed (pixels/sec)
+  battlerMoveSpeed = 300, /// battler move speed (pixels/sec)
   attackSpeed = 12,       /// movement rate of attack animation
   attackShiftDist = 8,    /// pixels to shift when showing attack
 
@@ -512,7 +512,7 @@ class Battle : GameState {
         }
       }
       else {
-        return new Wait(1, new ExecuteCombat(_attacks, _initialAttacker, _playerXp));
+        return new Wait(0.3, new ExecuteCombat(_attacks, _initialAttacker, _playerXp));
       }
       return null;
     }
