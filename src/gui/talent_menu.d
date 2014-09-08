@@ -6,13 +6,14 @@ import std.algorithm : filter, max;
 import graphics.all;
 import geometry.all;
 import gui.selection_menu;
+import gui.talent_view;
 import model.item;
 import model.talent;
 
 class TalentMenu : SelectionMenu!Talent {
-  this(Vector2i pos, Talent[] talents, Action onChoose, HoverAction onHover, bool focus = false)
+  this(Vector2i pos, Talent[] talents, Action onChoose, bool focus = false)
   {
-    super(pos, talents, onChoose, onHover, focus);
+    super(pos, talents, onChoose, &showTalentDetail, focus);
   }
 
   protected override {
@@ -27,6 +28,9 @@ class TalentMenu : SelectionMenu!Talent {
         Vector2i size = talent.sprite.size;
         talent.sprite.draw(rect.topLeft + size / 2);
         _talentFont.draw(talent.title, rect.topLeft + Vector2i(size.x, 0));
+        if (isSelected && _detailBox) {
+          _detailBox.draw;
+        }
       }
     }
 
@@ -38,10 +42,15 @@ class TalentMenu : SelectionMenu!Talent {
       return max(entry.sprite.height, _talentFont.heightOf(entry.title));
     }
   }
+
+  void showTalentDetail(Talent talent, Rect2i area) {
+    _detailBox = new TalentView(talent, area.topLeft - Vector2i(TalentView.width, 0));
+  }
 }
 
 private:
 static Font _talentFont;
+static TalentView _detailBox;
 
 static this() {
   _talentFont = getFont("talentSlot");

@@ -148,8 +148,7 @@ class CharacterSheet {
     makeAttributeBars(showPotential);
     _inventoryMenu = new InventoryMenu(_topLeft + equipmentPos, _character.items,
         inventoryAction, null, InventoryMenu.ShowPrice.no, false);
-    _talentMenu = new TalentMenu(_topLeft + talentPos, _character.talents, talentAction, null,
-        false);
+    _talentMenu = new TalentMenu(_topLeft + talentPos, _character.talents, talentAction, false);
   }
 
   void makeAttributeBars(bool showPotential) {

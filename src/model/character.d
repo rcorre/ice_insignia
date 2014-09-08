@@ -59,7 +59,7 @@ class Character {
     _name       = spec.name;
     _model      = spec.model;
     _attributes = spec.attributes;
-    _potential  = spec.potential;
+    _potential  = basePotential;
   }
 
   @property {
