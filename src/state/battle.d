@@ -9,9 +9,7 @@ import allegro;
 import state.gamestate;
 import state.combat_calc;
 import util.input;
-import model.battler;
-import model.character;
-import model.item;
+import model.all;
 import gui.all;
 import ai.all;
 import graphics.all;
@@ -31,6 +29,7 @@ private enum {
   battleInfoOffset = Vector2i(16, 16),
   characterSheetPos = Vector2i(128, 56),
   itemInfoOffset = Vector2i(220, 0),
+  talentMenuPos = Vector2i(256, 256),
 }
 
 class Battle : GameState {
@@ -613,6 +612,9 @@ class Battle : GameState {
       _view.update(time);
       if (_view.doneAnimating && (_input.confirm || _input.cancel || _input.inspect)) {
         _battler.applyLevelUp(_awards);
+        if (_battler.canGetNewTalent) {
+          return new AwardTalent(_battler, _view, _leftoverXp, _wasPlayerTurn);
+        }
         if (_leftoverXp > 0) {
           _battler.infoBox.xpBar.val = 0;
           return new AwardXp(_battler, _leftoverXp, _wasPlayerTurn);
@@ -632,6 +634,41 @@ class Battle : GameState {
     int _leftoverXp;
     AttributeSet _awards;
     Battler _battler;
+  }
+
+  class AwardTalent : State {
+    this(Battler battler, LevelUpView currentView, int leftoverXp, bool wasPlayerTurn) {
+      _battler = battler;
+      _view = currentView;
+      _leftoverXp = leftoverXp;
+      _talentChooser = new TalentMenu(talentMenuPos, battler.availableNewTalents, &chooseTalent, true);
+    }
+
+    override State update(float time) {
+      _view.update(time);
+      if (_done) {
+        return new AwardXp(_battler, _leftoverXp, _wasPlayerTurn);
+      }
+      return null;
+    }
+
+    override void draw() {
+      _view.draw;
+      _talentChooser.draw;
+    }
+
+    private:
+    LevelUpView _view;
+    TalentMenu _talentChooser;
+    bool _wasPlayerTurn;
+    int _leftoverXp;
+    Battler _battler;
+    bool _done;
+
+    void chooseTalent(Talent t) {
+      _battler.addTalent(t);
+      _done = true;
+    }
   }
 
   class Wait : State {

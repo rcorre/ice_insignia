@@ -15,7 +15,7 @@
    version="1.1"
    inkscape:version="0.48.5 r10040"
    sodipodi:docname="talent_view.svg"
-   inkscape:export-filename="/home/erethar/project/ice_insignia/content/image/item_view.png"
+   inkscape:export-filename="/home/erethar/project/ice_insignia/content/image/talent_view.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
@@ -28,12 +28,12 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="2.0742188"
-     inkscape:cx="97.761734"
-     inkscape:cy="4.9868449"
+     inkscape:cx="41.858144"
+     inkscape:cy="-7.8685315"
      inkscape:document-units="px"
-     inkscape:current-layer="layer2"
+     inkscape:current-layer="svg2"
      showgrid="true"
-     inkscape:snap-global="true"
+     inkscape:snap-global="false"
      inkscape:window-width="958"
      inkscape:window-height="1059"
      inkscape:window-x="0"
@@ -84,11 +84,12 @@
   <g
      inkscape:groupmode="layer"
      id="layer2"
-     inkscape:label="overlay">
+     inkscape:label="overlay"
+     style="display:inline">
     <text
        transform="translate(1.3258252,-923.03636)"
        xml:space="preserve"
-       style="font-size:18.86155318999999864px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       style="font-size:18.86155319px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
        x="64"
        y="956.36218"
        id="text3029"
@@ -103,7 +104,7 @@
        id="text3033"
        y="988.36218"
        x="16"
-       style="font-size:18.86155318999999864px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       style="font-size:18.86155319px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
        xml:space="preserve"><tspan
          y="988.36218"
          x="16"
@@ -118,6 +119,12 @@
        height="32"
        width="32"
        id="rect3031"
-       style="opacity:0.80000000000000004;fill:none;stroke:#28170b;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+       style="opacity:0.8;fill:none;stroke:#28170b;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
   </g>
+  <path
+     style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     d="M -0.48210922,-0.55738826 17.838041,52.474625"
+     id="path3045"
+     inkscape:connector-curvature="0"
+     sodipodi:nodetypes="cc" />
 </svg>

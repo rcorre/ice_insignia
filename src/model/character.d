@@ -18,7 +18,7 @@ public import model.attribute;
 alias AttributeSet = ValueSet!Attribute;
 
 private enum {
-  talentAwardLevels = [1, 3, 6, 10, 15, 20],
+  talentAwardLevels = [1, 2, 3, 6, 10, 15, 20],
   basePotential = [
     "maxHp"        : 60,
     "strength"     : 40,
@@ -137,6 +137,20 @@ class Character {
   AttributeSet getLevelBonuses() {
     auto bonuses = _potential.map!(p => uniform!"[]"(0, 100) > p ? 0 : 1);
     return bonuses;
+  }
+
+  bool canGetNewTalent() {
+    auto talentsDeserved = talentAwardLevels.countUntil!(a => a > _level);
+    return talentsDeserved > _talents.length;
+  }
+
+  Talent[] availableNewTalents() {
+    bool canGetTalent(Talent talent) {
+      if (_talents.canFind(talent)) { return false; } // already have it
+      string prereq = talent.prerequesite;
+      return prereq is null || _talents.canFind!(a => a.key == prereq);
+    }
+    return array(allTalents.filter!canGetTalent);
   }
 
   void applyLevelUp(AttributeSet bonuses) {

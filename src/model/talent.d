@@ -43,6 +43,10 @@ Talent loadTalent(string key) {
   return _talentStore[key];
 }
 
+Talent[] allTalents() {
+  return _talentStore.values;
+}
+
 private Talent[string] _talentStore;
 
 static this() {
