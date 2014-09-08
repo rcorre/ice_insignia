@@ -23,8 +23,8 @@ class LevelUpView : CharacterSheet {
   this(Vector2i topLeft, Battler battler, AttributeSet bonuses) {
     super(topLeft, battler, true);
     _bonuses = bonuses;
-    _attributesToLevel = array([EnumMembers!Attribute].filter!(a => bonuses[a] > 0));
-    _bonusText = array(_attributesToLevel.map!(a => format("+%d", bonuses[a])));
+    _attributesToLevel = array([EnumMembers!Attribute].filter!(a => bonuses[a] != 0));
+    _bonusText = array(_attributesToLevel.map!(a => format("%+d", bonuses[a])));
   }
 
   @property {
@@ -46,7 +46,7 @@ class LevelUpView : CharacterSheet {
     foreach(i, pos, anim ; lockstep(_positions, _arrowAnimations)) {
       anim.draw(pos);
       if (anim.isStopped) {
-        _font.draw(_bonusText[i], pos + textOffset, bonusColor);
+        _font.draw(_bonusText[i], pos + textOffset, anim.tint);
       }
     }
   }
@@ -56,7 +56,9 @@ class LevelUpView : CharacterSheet {
     auto bar = statBarFor(_attributesToLevel.front);
     _bars ~= bar;
     _positions ~= bar.bounds.topRight + arrowOffset;
-    _arrowAnimations ~= new AnimatedSprite(animationName, &endAnimation);
+    auto sprite = new AnimatedSprite(animationName, &endAnimation);
+    _arrowAnimations ~= sprite;
+    sprite.tint = _bonuses[_attributesToLevel.front] > 0 ? Color.green : Color.red;
   }
 
   void endAnimation() {
