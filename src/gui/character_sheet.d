@@ -109,6 +109,12 @@ class CharacterSheet {
     }
   }
 
+  void update(float time) {
+    foreach(bar ; _progressBars) {
+      bar.update(time);
+    }
+  }
+
   void draw() {
     _bgTexture.drawTopLeft(_topLeft);
     foreach(bar ; _progressBars) {
@@ -128,6 +134,14 @@ class CharacterSheet {
       return _progressBars[0];
     }
     return _progressBars[2 * a + 1];
+  }
+
+  ProgressBar!int potentialBarFor(ulong i) {
+    auto a = to!Attribute(i);
+    if (a == Attribute.maxHp) {
+      return _progressBars[1];
+    }
+    return _progressBars[2 * a + 2];
   }
 
   private:

@@ -15,23 +15,28 @@ private enum {
   animationName = "levelUpArrow",
   arrowOffset = Vector2i(10, 5),
   textOffset = Vector2i(-11, -10),
-  bonusColor = Color(0, 0.8, 0.2)
+  bonusColor = Color(0, 0.8, 0.2),
+  potentialTransitionSpeed = 10
 }
 
 /// displays info about a character's stats
 class LevelUpView : CharacterSheet {
-  this(Vector2i topLeft, Battler battler, AttributeSet bonuses) {
+  this(Vector2i topLeft, Battler battler, AttributeSet bonuses, AttributeSet potentials =
+      AttributeSet.init)
+  {
     super(topLeft, battler, true);
     _bonuses = bonuses;
     _attributesToLevel = array([EnumMembers!Attribute].filter!(a => bonuses[a] != 0));
     _bonusText = array(_attributesToLevel.map!(a => format("%+d", bonuses[a])));
+    _potentials = potentials;
   }
 
   @property {
     bool doneAnimating() { return _attributesToLevel.empty; }
   }
 
-  void update(float time) {
+  override void update(float time) {
+    super.update(time);
     if (!_attributesToLevel.empty && _arrowAnimations.empty) {
       startAnimation;
     }
@@ -53,12 +58,15 @@ class LevelUpView : CharacterSheet {
 
   void startAnimation() {
     if (_attributesToLevel.empty) { return; }
-    auto bar = statBarFor(_attributesToLevel.front);
+    auto attribute = _attributesToLevel.front;
+    auto bar = statBarFor(attribute);
     _bars ~= bar;
     _positions ~= bar.bounds.topRight + arrowOffset;
     auto sprite = new AnimatedSprite(animationName, &endAnimation);
     _arrowAnimations ~= sprite;
-    sprite.tint = _bonuses[_attributesToLevel.front] > 0 ? Color.green : Color.red;
+    sprite.tint = _bonuses[attribute] > 0 ? Color.green : Color.red;
+    auto potentialBar = potentialBarFor(attribute);
+    potentialBar.transition(potentialBar.val + _potentials[attribute], potentialTransitionSpeed);
   }
 
   void endAnimation() {
@@ -74,7 +82,7 @@ class LevelUpView : CharacterSheet {
   }
 
   private:
-  AttributeSet _bonuses;
+  AttributeSet _bonuses, _potentials;
   Attribute[] _attributesToLevel;
   AnimatedSprite[] _arrowAnimations;
   string[] _bonusText;

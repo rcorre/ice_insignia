@@ -674,7 +674,7 @@ class Battle : GameState {
 
     void chooseTalent(Talent t) {
       _chosenTalent = t;
-      _view = new LevelUpView(Vector2i.Zero, _battler, t.bonus);
+      _view = new LevelUpView(Vector2i.Zero, _battler, t.bonus, t.potential);
       _talentChooser = null;
     }
   }

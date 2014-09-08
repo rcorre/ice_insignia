@@ -54,6 +54,10 @@ class ProgressBar(T : real) {
     _totalTransitionTime = abs(end - start) / speed;
   }
 
+  void transition(T end, float speed) {
+    transition(val, end, speed);
+  }
+
   void draw() {
     _area.drawFilled(_bgColor);
     _filledArea.drawFilled(_fgColor);
