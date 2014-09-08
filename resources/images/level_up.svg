@@ -256,7 +256,9 @@
      sodipodi:cx="16"
      id="path3881"
      style="fill:none;stroke:#aad400;stroke-width:2.66002488;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
-     sodipodi:type="spiral" />
+     sodipodi:type="spiral"
+     inkscape:export-xdpi="90"
+     inkscape:export-ydpi="90" />
   <path
      transform="matrix(0.75187266,0,0,0.75187266,3.940074,15.970037)"
      d="m 19.999996,16.000001 c -2.011644,0.50291 -4.115373,0.621861 -6.170886,0.34892"
