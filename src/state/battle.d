@@ -647,8 +647,10 @@ class Battle : GameState {
 
     override State update(float time) {
       _view.update(time);
-      _talentChooser.handleInput(_input);
-      if (_done) {
+      if (_talentChooser) { // waiting to choose talent
+        _talentChooser.handleInput(_input);
+      }
+      else if (_view.doneAnimating && _input.confirm) { // done showing talent increase
         return new AwardXp(_battler, _leftoverXp, _wasPlayerTurn);
       }
       return null;
@@ -656,7 +658,9 @@ class Battle : GameState {
 
     override void draw() {
       _view.draw;
-      _talentChooser.draw;
+      if (_talentChooser) {
+        _talentChooser.draw;
+      }
     }
 
     private:
@@ -665,11 +669,11 @@ class Battle : GameState {
     bool _wasPlayerTurn;
     int _leftoverXp;
     Battler _battler;
-    bool _done;
 
     void chooseTalent(Talent t) {
       _battler.addTalent(t);
-      _done = true;
+      _view = new LevelUpView(Vector2i.Zero, _battler, t.bonus);
+      _talentChooser = null;
     }
   }
 
