@@ -651,6 +651,7 @@ class Battle : GameState {
         _talentChooser.handleInput(_input);
       }
       else if (_view.doneAnimating && _input.confirm) { // done showing talent increase
+        _battler.addTalent(_chosenTalent);
         return new AwardXp(_battler, _leftoverXp, _wasPlayerTurn);
       }
       return null;
@@ -666,12 +667,13 @@ class Battle : GameState {
     private:
     LevelUpView _view;
     TalentMenu _talentChooser;
+    Talent _chosenTalent;
     bool _wasPlayerTurn;
     int _leftoverXp;
     Battler _battler;
 
     void chooseTalent(Talent t) {
-      _battler.addTalent(t);
+      _chosenTalent = t;
       _view = new LevelUpView(Vector2i.Zero, _battler, t.bonus);
       _talentChooser = null;
     }

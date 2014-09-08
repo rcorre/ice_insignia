@@ -127,7 +127,7 @@ class CharacterSheet {
     if (a == Attribute.maxHp) {
       return _progressBars[0];
     }
-    return _progressBars[2 * a];
+    return _progressBars[2 * a + 1];
   }
 
   private:
@@ -173,6 +173,9 @@ class CharacterSheet {
   void makeXpAndHpBars(int currentHp) {
     auto area = Rect2i(_topLeft + hpBarPos, hpBarWidth, hpBarHeight);
     _progressBars ~= new ProgressBar!int(area, currentHp, _character.maxHp, hpBarFg, hpBarBg, hpTextColor);
+    auto area2 = Rect2i(area.x, area.y + hpBarHeight, hpBarWidth, potentialBarHeight);
+    _progressBars ~= new ProgressBar!int(area2, _character.potential.maxHp, 100, potentialBarFg,
+        potentialBarBg, attributeTextColor, ProgressBar!int.DrawText.none);
     area = Rect2i(_topLeft + xpBarPos, xpBarWidth, xpBarHeight);
     _progressBars ~= new ProgressBar!int(area, _character.xp, _character.xpLimit, xpBarFg, xpBarBg, xpTextColor);
   }

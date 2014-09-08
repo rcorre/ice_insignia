@@ -66,7 +66,7 @@ class LevelUpView : CharacterSheet {
       _bars.front.maxVal = _bars.front.maxVal + _bonuses[_attributesToLevel.front];
     }
     else {
-      _bars.front.val = _bars.front.val + 1;
+      _bars.front.val = _bars.front.val + _bonuses[_attributesToLevel.front];
     }
     _attributesToLevel.popFront;
     _bars.popFront;
