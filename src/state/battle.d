@@ -29,7 +29,7 @@ private enum {
   battleInfoOffset = Vector2i(16, 16),
   characterSheetPos = Vector2i(128, 56),
   itemInfoOffset = Vector2i(220, 0),
-  talentMenuPos = Vector2i(256, 256),
+  talentMenuPos = Vector2i(600, 40),
 }
 
 class Battle : GameState {
@@ -642,10 +642,12 @@ class Battle : GameState {
       _view = currentView;
       _leftoverXp = leftoverXp;
       _talentChooser = new TalentMenu(talentMenuPos, battler.availableNewTalents, &chooseTalent, true);
+      _wasPlayerTurn = wasPlayerTurn;
     }
 
     override State update(float time) {
       _view.update(time);
+      _talentChooser.handleInput(_input);
       if (_done) {
         return new AwardXp(_battler, _leftoverXp, _wasPlayerTurn);
       }

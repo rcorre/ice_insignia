@@ -56,7 +56,7 @@
     "key" : "sword3",
     "title" : "Blade Mastery",
     "description" : "Wield Tier 3 swords",
-    "prerequisite" : "sword3",
+    "prerequisite" : "sword2",
     "bonus" : {
       "valueSet" : {
         "skill" : 2,

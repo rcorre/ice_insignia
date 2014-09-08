@@ -147,8 +147,8 @@ class Character {
   Talent[] availableNewTalents() {
     bool canGetTalent(Talent talent) {
       if (_talents.canFind(talent)) { return false; } // already have it
-      string prereq = talent.prerequesite;
-      return prereq is null || _talents.canFind!(a => a.key == prereq);
+      string prereq = talent.prerequisite;
+      return (prereq is null) || _talents.canFind!(a => a.key == prereq);
     }
     return array(allTalents.filter!canGetTalent);
   }

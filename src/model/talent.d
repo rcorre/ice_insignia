@@ -11,7 +11,7 @@ import model.attribute;
 class Talent {
   @jsonize this(string key, string title, string description, ValueSet!Attribute bonus,
       ValueSet!Attribute potential, ItemType weaponSkill = ItemType.none, int weaponTier = 0,
-      string prerequesite = null)
+      string prerequisite = null)
   {
     this.key = key;
     this.title = title;
@@ -20,7 +20,7 @@ class Talent {
     this.potential = potential;
     this.weaponSkill = weaponSkill;
     this.weaponTier = weaponTier;
-    this.prerequesite = prerequesite;
+    this.prerequisite = prerequisite;
     this.sprite = new Sprite(key);
   }
 
@@ -28,7 +28,7 @@ class Talent {
     string key;
     string title;
     string description;
-    string prerequesite;
+    string prerequisite;
     ValueSet!Attribute bonus;     /// instant additions to stats
     ValueSet!Attribute potential; /// improvements to potential
     ItemType weaponSkill;
