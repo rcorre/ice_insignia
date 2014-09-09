@@ -168,7 +168,7 @@
   </tile>
  </tileset>
  <tileset firstgid="101" name="units" tilewidth="32" tileheight="32">
-  <image source="../../content/image/units_red.png" width="160" height="160"/>
+  <image source="../../content/image/units_red.png" width="192" height="192"/>
  </tileset>
  <layer name="Terrain" width="32" height="32">
   <data encoding="base64" compression="zlib">
@@ -191,12 +191,12 @@
     <property name="Handaxe" value=""/>
    </properties>
   </object>
-  <object name="Soldier" type="1" gid="107" x="320" y="864">
+  <object name="Soldier" type="1" gid="108" x="320" y="864">
    <properties>
     <property name="Spear" value=""/>
    </properties>
   </object>
-  <object name="Mercenary" type="1" gid="112" x="576" y="832">
+  <object name="Mercenary" type="1" gid="114" x="576" y="832">
    <properties>
     <property name="Broadsword" value=""/>
    </properties>
