@@ -15,7 +15,11 @@
       }
     },
     "talentKeys" : [
-      "sword1"
+      "sword1",
+      "sword2",
+      "lockpicking",
+      "sword3",
+      "armor1"
     ],
     "names" : ["William", "Cecil", "Foltest", "Roderick", "Markham", "Doralingus", "Vyse"]
   },
@@ -36,7 +40,11 @@
       }
     },
     "talentKeys" : [
-      "axe1"
+      "axe1",
+      "fortitude",
+      "axe2",
+      "axe3",
+      "armor1"
     ],
     "names" : ["Hector", "Golbez", "Zoltan", "Frunkwad", "Dorcas"]
   },
@@ -57,7 +65,11 @@
       }
     },
     "talentKeys" : [
-      "lance1"
+      "lance1",
+      "armor1",
+      "lance2",
+      "armor2",
+      "lance3"
     ],
     "names" : ["Liemry", "Kain", "Marcus", "Cid"]
   },
@@ -78,7 +90,11 @@
       }
     },
     "talentKeys" : [
-      "bow1"
+      "bow1",
+      "lightweight",
+      "bow2",
+      "theft",
+      "bow3"
     ],
     "names" : ["Neebs", "Wil"]
   }

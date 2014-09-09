@@ -3,7 +3,7 @@
     "name"     : "Dirk",
     "type"     : "sword",
     "maxUses"  : 30,
-    "damage"   : 4,
+    "damage"   : 3,
     "hit"      : 90,
     "crit"     : 10,
     "minRange" : 1,
@@ -16,7 +16,7 @@
     "name"     : "Broadsword",
     "type"     : "sword",
     "maxUses"  : 40,
-    "damage"   : 7,
+    "damage"   : 6,
     "hit"      : 80,
     "crit"     : 0,
     "minRange" : 1,
@@ -25,11 +25,68 @@
     "price"    : 120
   },
 
+  "falchion": {
+    "name"     : "Falchion",
+    "type"     : "sword",
+    "maxUses"  : 30,
+    "damage"   : 8,
+    "hit"      : 70,
+    "crit"     : 20,
+    "minRange" : 1,
+    "maxRange" : 1,
+    "weight"   : 7,
+    "price"    : 300,
+    "tier"     : 2
+  },
+
+  "sabre": {
+    "name"     : "Sabre",
+    "type"     : "sword",
+    "maxUses"  : 30,
+    "damage"   : 6,
+    "hit"      : 85,
+    "crit"     : 10,
+    "minRange" : 1,
+    "maxRange" : 1,
+    "weight"   : 4,
+    "price"    : 240,
+    "tier"     : 2
+
+  },
+
+  "claymore": {
+    "name"     : "Claymore",
+    "type"     : "sword",
+    "maxUses"  : 30,
+    "damage"   : 13,
+    "hit"      : 75,
+    "crit"     : 10,
+    "minRange" : 1,
+    "maxRange" : 1,
+    "weight"   : 10,
+    "price"    : 420,
+    "tier"     : 3
+  },
+
+  "sabredisk": {
+    "name"     : "Sabredisk",
+    "type"     : "sword",
+    "maxUses"  : 15,
+    "damage"   : 9,
+    "hit"      : 70,
+    "crit"     : 20,
+    "minRange" : 1,
+    "maxRange" : 2,
+    "weight"   : 6,
+    "price"    : 500,
+    "tier"     : 3
+  },
+
   "quarterstaff": {
     "name"     : "Quarterstaff",
     "type"     : "lance",
     "maxUses"  : 40,
-    "damage"   : 4,
+    "damage"   : 3,
     "hit"      : 100,
     "crit"     : 0,
     "minRange" : 1,
@@ -42,7 +99,7 @@
     "name"     : "Spear",
     "type"     : "lance",
     "maxUses"  : 35,
-    "damage"   : 6,
+    "damage"   : 5,
     "hit"      : 85,
     "crit"     : 0,
     "minRange" : 1,
@@ -51,12 +108,67 @@
     "price"    : 120
   },
 
+  "pike": {
+    "name"     : "Pike",
+    "type"     : "lance",
+    "maxUses"  : 35,
+    "damage"   : 8,
+    "hit"      : 75,
+    "crit"     : 0,
+    "minRange" : 1,
+    "maxRange" : 1,
+    "weight"   : 8,
+    "price"    : 280
+  },
+
+  "javelin": {
+    "name"     : "Javelin",
+    "type"     : "lance",
+    "maxUses"  : 20,
+    "damage"   : 6,
+    "hit"      : 70,
+    "crit"     : 5,
+    "minRange" : 1,
+    "maxRange" : 2,
+    "weight"   : 6,
+    "price"    : 220,
+    "tier"     : 2
+  },
+
+  "glaive": {
+    "name"     : "Glaive",
+    "type"     : "lance",
+    "maxUses"  : 20,
+    "damage"   : 10,
+    "hit"      : 80,
+    "crit"     : 15,
+    "minRange" : 1,
+    "maxRange" : 1,
+    "weight"   : 9,
+    "price"    : 500,
+    "tier"     : 3
+  },
+
+  "halberd": {
+    "name"     : "Halberd",
+    "type"     : "lance",
+    "maxUses"  : 30,
+    "damage"   : 12,
+    "hit"      : 70,
+    "crit"     : 0,
+    "minRange" : 1,
+    "maxRange" : 1,
+    "weight"   : 11,
+    "price"    : 450,
+    "tier"     : 3
+  },
+
   "handaxe": {
-    "name"     : "Handaxe",
+    "name"     : "Tomahawk",
     "type"     : "axe",
     "maxUses"  : 25,
-    "damage"   : 6,
-    "hit"      : 60,
+    "damage"   : 5,
+    "hit"      : 70,
     "crit"     : 0,
     "minRange" : 1,
     "maxRange" : 2,
@@ -68,13 +180,69 @@
     "name"     : "Mace",
     "type"     : "axe",
     "maxUses"  : 40,
-    "damage"   : 7,
+    "damage"   : 6,
     "hit"      : 70,
     "crit"     : 0,
     "minRange" : 1,
     "maxRange" : 1,
     "weight"   : 7,
     "price"    : 110
+  },
+
+  "battleaxe": {
+    "name"     : "Battleaxe",
+    "type"     : "axe",
+    "maxUses"  : 40,
+    "damage"   : 10,
+    "hit"      : 75,
+    "crit"     : 0,
+    "minRange" : 1,
+    "maxRange" : 1,
+    "weight"   : 10,
+    "price"    : 250,
+    "tier"     : 2
+  },
+
+  "flail": {
+    "name"     : "Flail",
+    "type"     : "axe",
+    "maxUses"  : 40,
+    "damage"   : 7,
+    "hit"      : 70,
+    "crit"     : 0,
+    "minRange" : 1,
+    "maxRange" : 1,
+    "weight"   : 8,
+    "price"    : 230,
+    "tier"     : 2
+  },
+
+  "greataxe": {
+    "name"     : "Greataxe",
+    "type"     : "axe",
+    "maxUses"  : 35,
+    "damage"   : 16,
+    "hit"      : 70,
+    "crit"     : 0,
+    "minRange" : 1,
+    "maxRange" : 1,
+    "weight"   : 12,
+    "price"    : 440,
+    "tier"     : 3
+  },
+
+  "warhammer": {
+    "name"     : "Warhammer",
+    "type"     : "axe",
+    "maxUses"  : 40,
+    "damage"   : 13,
+    "hit"      : 70,
+    "crit"     : 0,
+    "minRange" : 1,
+    "maxRange" : 1,
+    "weight"   : 14,
+    "price"    : 420,
+    "tier"     : 3
   },
 
   "shortbow": {
@@ -88,5 +256,61 @@
     "maxRange" : 2,
     "weight"   : 4,
     "price"    : 120
+  },
+
+  "longbow": {
+    "name"     : "Longbow",
+    "type"     : "bow",
+    "maxUses"  : 30,
+    "damage"   : 6,
+    "hit"      : 75,
+    "crit"     : 0,
+    "minRange" : 2,
+    "maxRange" : 3,
+    "weight"   : 5,
+    "price"    : 270,
+    "tier"     : 2
+  },
+
+  "crossbow": {
+    "name"     : "Crossbow",
+    "type"     : "bow",
+    "maxUses"  : 30,
+    "damage"   : 8,
+    "hit"      : 80,
+    "crit"     : 15,
+    "minRange" : 2,
+    "maxRange" : 2,
+    "weight"   : 7,
+    "price"    : 240,
+    "tier"     : 2
+  },
+
+  "greatbow": {
+    "name"     : "Greatbow",
+    "type"     : "bow",
+    "maxUses"  : 20,
+    "damage"   : 9,
+    "hit"      : 70,
+    "crit"     : 0,
+    "minRange" : 2,
+    "maxRange" : 3,
+    "weight"   : 7,
+    "price"    : 470,
+    "tier"     : 3
+  },
+
+  "arbalest": {
+    "name"     : "Arbalest",
+    "type"     : "bow",
+    "maxUses"  : 25,
+    "damage"   : 11,
+    "hit"      : 70,
+    "crit"     : 15,
+    "minRange" : 2,
+    "maxRange" : 2,
+    "weight"   : 9,
+    "price"    : 450,
+    "tier"     : 3
   }
 }

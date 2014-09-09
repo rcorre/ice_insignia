@@ -105,6 +105,58 @@
     "weaponSkill" : "axe",
     "weaponTier" : 1
   },
+  "axe2" : {
+    "key" : "axe2",
+    "title" : "Axe Expertise",
+    "description" : "Wield Tier 2 axes",
+    "bonus" : {
+      "valueSet" : {
+        "strength" : 2,
+        "speed" : 1
+      }
+    },
+    "potential" : {
+      "valueSet" : {
+        "maxHp"        : 10,
+        "strength"     : 15,
+        "skill"        : 0,
+        "speed"        : 5,
+        "defense"      : 0,
+        "resist"       : 0,
+        "luck"         : 0,
+        "move"         : 0,
+        "constitution" : 10
+      }
+    },
+    "weaponSkill" : "axe",
+    "weaponTier" : 2
+  },
+  "axe3" : {
+    "key" : "axe3",
+    "title" : "Axe Mastery",
+    "description" : "Wield Tier 3 axes",
+    "bonus" : {
+      "valueSet" : {
+        "strength" : 2,
+        "speed" : 1
+      }
+    },
+    "potential" : {
+      "valueSet" : {
+        "maxHp"        : 10,
+        "strength"     : 15,
+        "skill"        : 0,
+        "speed"        : 5,
+        "defense"      : 0,
+        "resist"       : 0,
+        "luck"         : 0,
+        "move"         : 0,
+        "constitution" : 10
+      }
+    },
+    "weaponSkill" : "axe",
+    "weaponTier" : 3
+  },
   "lance1" : {
     "key" : "lance1",
     "title" : "Lance Proficiency",
@@ -132,9 +184,63 @@
     "weaponSkill" : "lance",
     "weaponTier" : 1
   },
+  "lance2" : {
+    "key" : "lance2",
+    "title" : "Lance Expertise",
+    "description" : "Wield Tier 2 lances",
+    "bonus" : {
+      "valueSet" : {
+        "skill"    : 1,
+        "strength" : 1,
+        "speed"    : 1
+      }
+    },
+    "potential" : {
+      "valueSet" : {
+        "maxHp"        : 5,
+        "strength"     : 10,
+        "skill"        : 10,
+        "speed"        : 0,
+        "defense"      : 10,
+        "resist"       : 0,
+        "luck"         : 0,
+        "move"         : 0,
+        "constitution" : 5
+      }
+    },
+    "weaponSkill" : "lance",
+    "weaponTier" : 2
+  },
+  "lance3" : {
+    "key" : "lance3",
+    "title" : "Lance Mastery",
+    "description" : "Wield Tier 3 lances",
+    "bonus" : {
+      "valueSet" : {
+        "skill"    : 1,
+        "strength" : 1,
+        "speed"    : 1
+      }
+    },
+    "potential" : {
+      "valueSet" : {
+        "maxHp"        : 5,
+        "strength"     : 10,
+        "skill"        : 10,
+        "speed"        : 0,
+        "defense"      : 10,
+        "resist"       : 0,
+        "luck"         : 0,
+        "move"         : 0,
+        "constitution" : 5
+      }
+    },
+    "weaponSkill" : "lance",
+    "weaponTier" : 1
+  },
   "bow1" : {
     "key" : "bow1",
-    "title" : "Lance Proficiency",
+    "title" : "Bow Proficiency",
     "description" : "Wield Tier 1 bows",
     "bonus" : {
       "valueSet" : {
@@ -158,6 +264,60 @@
     },
     "weaponSkill" : "bow",
     "weaponTier" : 1
+  },
+  "bow2" : {
+    "key" : "bow2",
+    "title" : "Bow Expertise",
+    "description" : "Wield Tier 2 bows",
+    "bonus" : {
+      "valueSet" : {
+        "skill"    : 1,
+        "strength" : 1,
+        "speed"    : 1
+      }
+    },
+    "potential" : {
+      "valueSet" : {
+        "maxHp"        : 0,
+        "strength"     : 5,
+        "skill"        : 15,
+        "speed"        : 5,
+        "defense"      : 0,
+        "resist"       : 10,
+        "luck"         : 5,
+        "move"         : 0,
+        "constitution" : 0
+      }
+    },
+    "weaponSkill" : "bow",
+    "weaponTier" : 2
+  },
+  "bow3" : {
+    "key" : "bow3",
+    "title" : "Bow Mastery",
+    "description" : "Wield Tier 3 bows",
+    "bonus" : {
+      "valueSet" : {
+        "skill"    : 1,
+        "strength" : 1,
+        "speed"    : 1
+      }
+    },
+    "potential" : {
+      "valueSet" : {
+        "maxHp"        : 0,
+        "strength"     : 5,
+        "skill"        : 15,
+        "speed"        : 5,
+        "defense"      : 0,
+        "resist"       : 10,
+        "luck"         : 5,
+        "move"         : 0,
+        "constitution" : 0
+      }
+    },
+    "weaponSkill" : "bow",
+    "weaponTier" : 3
   },
   "lightweight" : {
     "key" : "lightweight",

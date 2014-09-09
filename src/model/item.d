@@ -73,7 +73,7 @@ class ItemData {
     int minRange;
     int maxRange;
     int weight;
-    int tier;
+    int tier = 1;
     int price;
   }
 }
