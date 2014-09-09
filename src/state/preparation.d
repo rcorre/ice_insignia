@@ -21,12 +21,12 @@ class Preparation : GameState {
   this(SaveData data) {
     _data = data;
     auto forHire = [
-      generateCharacter("Mercenary"),
-      generateCharacter("Mercenary"),
-      generateCharacter("Fighter"),
-      generateCharacter("Fighter"),
-      generateCharacter("Soldier"),
-      generateCharacter("Soldier"),
+      generateCharacter("mercenary"),
+      generateCharacter("mercenary"),
+      generateCharacter("fighter"),
+      generateCharacter("fighter"),
+      generateCharacter("soldier"),
+      generateCharacter("soldier"),
     ];
     auto forSale = [
       new Item("dirk"),

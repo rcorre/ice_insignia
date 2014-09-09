@@ -1,5 +1,5 @@
 {
-  "Mercenary" : {
+  "mercenary" : {
     "model" : "mercenary",
     "attributes" : {
       "valueSet" : {
@@ -24,7 +24,7 @@
     "names" : ["William", "Cecil", "Foltest", "Roderick", "Markham", "Doralingus", "Vyse"]
   },
 
-  "Fighter" : {
+  "fighter" : {
     "model" : "fighter",
     "attributes" : {
       "valueSet" : {
@@ -49,7 +49,7 @@
     "names" : ["Hector", "Golbez", "Zoltan", "Frunkwad", "Dorcas"]
   },
 
-  "Soldier" : {
+  "soldier" : {
     "model" : "soldier",
     "attributes" : {
       "valueSet" : {
@@ -74,7 +74,7 @@
     "names" : ["Liemry", "Kain", "Marcus", "Cid"]
   },
 
-  "Hunter" : {
+  "hunter" : {
     "model" : "hunter",
     "attributes" : {
       "valueSet" : {

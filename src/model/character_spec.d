@@ -1,9 +1,9 @@
 module model.character_spec;
 
-import std.string : splitLines;
 import std.file : readText;
 import std.range : front;
 import std.random;
+import std.string;
 import std.algorithm;
 import std.ascii;
 import std.array;

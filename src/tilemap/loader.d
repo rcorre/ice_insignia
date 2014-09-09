@@ -1,7 +1,7 @@
 module tilemap.loader;
 
 import std.conv;
-import std.range : empty;
+import std.range;
 import std.array : array;
 import std.algorithm : find, sort, filter, map;
 import allegro;
@@ -128,8 +128,15 @@ class MapObject {
   mixin JsonizeMe;
 
   Battler generateEnemy(int tileWidth, int tileHeight, TileSet[] tilesets) {
+    string[] itemNames = [];
+    foreach(i ; iota(0, Character.itemCapacity)) {
+      auto key = format("item%d", i);
+      if (key in properties) {
+        itemNames ~= properties[key];
+      }
+    }
     // type is used to store level
-    auto character = generateCharacter(name, to!int(type), properties.keys);
+    auto character = generateCharacter(name, to!int(type), itemNames);
 
     int col = x / tileWidth;
     int row = y / tileHeight;
