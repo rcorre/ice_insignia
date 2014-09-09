@@ -65,7 +65,7 @@ class ItemData {
 
   @jsonize {
     string name;
-    ItemType type;
+    ItemType type = ItemType.none;
     int maxUses;
     int damage;
     int hit;
@@ -75,6 +75,7 @@ class ItemData {
     int weight;
     int tier = 1;
     int price;
+    int heal;
   }
 }
 

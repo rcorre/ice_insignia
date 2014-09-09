@@ -312,5 +312,30 @@
     "weight"   : 9,
     "price"    : 450,
     "tier"     : 3
+  },
+
+  "poultice"  : {
+    "name"    : "Poultice",
+    "maxUses" : 3,
+    "price"   : 100,
+    "heal"    : 10
+  },
+
+  "doorkey" : {
+    "name"  : "Door Key",
+    "maxUses"  : 1,
+    "price" : 100
+  },
+
+  "chestkey": {
+    "name"     : "Chest Key",
+    "maxUses"     : 1,
+    "price"    : 200
+  },
+
+  "lockpick": {
+    "name"     : "Lockpick",
+    "maxUses"     : 10,
+    "price"    : 250
   }
 }
