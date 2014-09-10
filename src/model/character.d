@@ -18,7 +18,7 @@ public import model.attribute;
 alias AttributeSet = ValueSet!Attribute;
 
 private enum {
-  talentAwardLevels = [1, 2, 3, 6, 10, 15, 20],
+  talentAwardLevels = [1, 3, 6, 10, 15, 20],
   basePotential = [
     "maxHp"        : 60,
     "strength"     : 40,
@@ -179,6 +179,7 @@ Character generateCharacter(string name, int level = 1) {
   auto spec =  loadCharacterSpec(name);
   auto character = new Character(spec);
   foreach(key ; spec.talentKeys) {
+    if (!character.canGetNewTalent) { break; }
     character.addTalent(loadTalent(key));
   }
   for(int i = 1 ; i < level ; i++) {
