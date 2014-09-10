@@ -175,14 +175,11 @@ class Character {
   Talent[] _talents;
 }
 
-Character generateCharacter(string name, int level = 1, string[] itemNames = []) {
+Character generateCharacter(string name, int level = 1) {
   auto spec =  loadCharacterSpec(name);
   auto character = new Character(spec);
   foreach(key ; spec.talentKeys) {
     character.addTalent(loadTalent(key));
-  }
-  foreach(item ; itemNames) {
-    assert(character.addItem(loadItem(item)));
   }
   for(int i = 1 ; i < level ; i++) {
     character.applyLevelUp(character.getLevelBonuses());

@@ -10,6 +10,7 @@ import tilemap.tile;
 import tilemap.tilemap;
 import model.battler;
 import model.character;
+import model.item;
 import graphics.sprite;
 import graphics.texture;
 import geometry.vector;
@@ -128,15 +129,17 @@ class MapObject {
   mixin JsonizeMe;
 
   Battler generateEnemy(int tileWidth, int tileHeight, TileSet[] tilesets) {
-    string[] itemNames = [];
+    // type is used to store level
+    auto character = generateCharacter(name, to!int(type));
+
+    int dropItem = to!int(properties.get("drop", "-1")); // index of item to drop, if any
     foreach(i ; iota(0, Character.itemCapacity)) {
       auto key = format("item%d", i);
       if (key in properties) {
-        itemNames ~= properties[key];
+        auto itemName = properties[key];
+        character.addItem(new Item(itemName, dropItem == i));
       }
     }
-    // type is used to store level
-    auto character = generateCharacter(name, to!int(type), itemNames);
 
     int col = x / tileWidth;
     int row = y / tileHeight;

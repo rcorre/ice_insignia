@@ -6,6 +6,7 @@ import allegro;
 import gui.all;
 import model.character;
 import model.battler;
+import model.item;
 import geometry.all;
 import graphics.all;
 import util.input;

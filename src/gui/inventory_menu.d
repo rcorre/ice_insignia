@@ -10,14 +10,14 @@ import model.item;
 
 class InventoryMenu : SelectionMenu!Item {
   enum ShowPrice { no, full, resale }
-  this(Vector2i pos, Item[] items, Action onChoose, HoverAction onHover, 
+  this(Vector2i pos, Item[] items, Action onChoose, HoverAction onHover,
       ShowPrice showPrice = ShowPrice.no, bool focus = true)
   {
     _showPrice = showPrice;
     super(pos, items, onChoose, onHover, focus);
   }
 
-  this(Vector2i pos, Item[5] items, Action onChoose, HoverAction onHover, 
+  this(Vector2i pos, Item[5] items, Action onChoose, HoverAction onHover,
       ShowPrice showPrice = ShowPrice.no, bool focus = true)
   {
     _showPrice = showPrice;
@@ -33,9 +33,10 @@ class InventoryMenu : SelectionMenu!Item {
         rect.drawFilled(Color.gray, 5, 5);
       }
       if (item) {
+        auto color = (item.drop) ? Color.green : Color.black;
         Vector2i size = item.sprite.size;
         item.sprite.draw(rect.topLeft + size / 2);
-        _font.draw(itemText(item), rect.topLeft + Vector2i(size.x, 0));
+        _font.draw(itemText(item), rect.topLeft + Vector2i(size.x, 0), color);
       }
     }
 

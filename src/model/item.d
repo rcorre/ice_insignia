@@ -10,11 +10,6 @@ import graphics.sprite;
 
 private enum resalePriceFactor = 0.5;
 
-Item loadItem(string name, int uses = -1) {
-  name = toLower(name);
-  return new Item(name, uses);
-}
-
 enum ItemType {
   none,
   sword,
@@ -32,14 +27,17 @@ class Item {
   const ItemData data;
   alias data this;
 
+  const bool drop; // whether item is dropped when holder is defeated
+
   mixin JsonizeMe;
 
-  @jsonize this(string name, int uses = -1) {
+  @jsonize this(string name, bool drop = false, int uses = -1) {
     name = name.toLower;
     assert(name in _itemData, "could not load item named " ~ name);
     data = _itemData[name];
     this.uses = (uses == -1) ? data.maxUses : uses;
     _sprite = new Sprite(data.name);
+    this.drop = drop;
   }
 
   @jsonize { // json output

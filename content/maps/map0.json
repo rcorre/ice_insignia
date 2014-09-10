@@ -138,6 +138,7 @@
                  "name":"soldier",
                  "properties":
                     {
+                     "drop":"1",
                      "item0":"quarterstaff",
                      "item1":"doorkey"
                     },

@@ -978,6 +978,7 @@
   </object>
   <object name="soldier" type="1" gid="108" x="416" y="192">
    <properties>
+    <property name="drop" value="1"/>
     <property name="item0" value="quarterstaff"/>
     <property name="item1" value="doorkey"/>
    </properties>
