@@ -19,3 +19,4 @@ public import gui.element;
 public import gui.container;
 public import gui.button_sprites;
 public import gui.level_up_view;
+public import gui.item_notification;

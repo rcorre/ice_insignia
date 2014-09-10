@@ -1,6 +1,7 @@
 module model.battler;
 
-import std.algorithm : max;
+import std.range;
+import std.algorithm;
 import std.math : abs;
 import allegro;
 import geometry.all;
@@ -63,6 +64,10 @@ class Battler {
     bool isXpTransitioning() { return _infoBox.xpBar.isTransitioning; }
 
     string aiType() {return _aiType; }
+    Item itemToDrop() {
+      auto r = items[].find!"a !is null && a.drop";
+      return r.empty ? null : r.front;
+    }
   }
 
   void update(float time) {

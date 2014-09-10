@@ -506,7 +506,8 @@ class Battle : GameState {
         Battler friendly = _attacker.team == BattleTeam.ally ? _attacker : _defender;
         bool wasPlayerTurn = _initialAttacker.team == BattleTeam.ally;
         if (friendly.alive) {
-          return new Wait(pauseTime, new AwardXp(friendly, _playerXp, wasPlayerTurn));
+          auto item = enemy.alive ? null : enemy.itemToDrop;
+          return new Wait(pauseTime, new AwardXp(friendly, _playerXp, wasPlayerTurn, item));
         }
         else {
           friendly.hideInfoBox;
@@ -562,10 +563,14 @@ class Battle : GameState {
   }
 
   class AwardXp : State {
-    this(Battler battler, int xp, bool wasPlayerTurn) {
+    this(Battler battler, int xp, bool wasPlayerTurn, Item itemToAward = null) {
       _battler = battler;
       _xp = xp;
       _wasPlayerTurn = wasPlayerTurn;
+      if (itemToAward) {
+        auto pos = Vector2i(Settings.screenW, Settings.screenH) / 2;
+        _itemNotification = new ItemNotification(pos, itemToAward);
+      }
     }
 
     void start() {
@@ -578,6 +583,12 @@ class Battle : GameState {
     }
 
     override State update(float time) {
+      if (_itemNotification) {
+        if (_input.confirm) {
+          _itemNotification = null;
+        }
+        return null;
+      }
       if (!_started) { start; }
       if (_battler.isXpTransitioning) {
         return null;
@@ -590,6 +601,10 @@ class Battle : GameState {
       }
     }
 
+    override void draw() {
+      if (_itemNotification) { _itemNotification.draw; }
+    }
+
     private:
     Battler _battler;
     bool _started;
@@ -597,6 +612,7 @@ class Battle : GameState {
     bool _leveled;
     AttributeSet _awards;
     int _xp, _leftoverXp;
+    ItemNotification _itemNotification;
   }
 
   class LevelUp : State {
@@ -619,6 +635,7 @@ class Battle : GameState {
           _battler.infoBox.xpBar.val = 0;
           return new AwardXp(_battler, _leftoverXp, _wasPlayerTurn);
         }
+        _battler.hideInfoBox;
         return _wasPlayerTurn ? new PlayerTurn : new EnemyTurn;
       }
       return null;
