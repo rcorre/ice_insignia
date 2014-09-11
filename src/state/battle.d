@@ -159,6 +159,7 @@ class Battle : GameState {
       _turnOver = moveableAllies.empty;
       if (!_turnOver) {
         _unitJumpList = cycle(array(moveableAllies));
+        _inspectJumpList = cycle(_allies ~ _enemies);
         _tileCursor.active = true;
       }
     }
@@ -184,28 +185,42 @@ class Battle : GameState {
       }
       // jump to next ready unit
       else if (_input.next) {
-        auto nextBattler = _unitJumpList[_unitJumpIdx++];
-        _tileCursor.place(_map.tileAt(nextBattler.row, nextBattler.col));
+        if (_characterSheet) {
+          auto battlerToInspect = _inspectJumpList[++_inspectJumpIdx];
+          _characterSheet = new CharacterSheet(characterSheetPos, battlerToInspect);
+        }
+        else {
+          auto nextBattler = _unitJumpList[_unitJumpIdx++];
+          _tileCursor.place(_map.tileAt(nextBattler.row, nextBattler.col));
+        }
       }
       else if (_input.previous) {
-        auto nextBattler = _unitJumpList[_unitJumpIdx--];
-        _tileCursor.place(_map.tileAt(nextBattler.row, nextBattler.col));
+        if (_characterSheet) {
+          auto battlerToInspect = _inspectJumpList[--_inspectJumpIdx];
+          _characterSheet = new CharacterSheet(characterSheetPos, battlerToInspect);
+        }
+        else {
+          auto nextBattler = _unitJumpList[_unitJumpIdx--];
+          _tileCursor.place(_map.tileAt(nextBattler.row, nextBattler.col));
+        }
       }
       else if (_input.inspect) {
         auto pos = Vector2i(Settings.screenW / 2, Settings.screenH / 2);
         auto battlerToInspect = _tileCursor.tile.battler;
         if (_characterSheet) {
           _characterSheet = null;
+          _tileCursor.active = true;
         }
         else if (battlerToInspect) {
           _characterSheet = new CharacterSheet(characterSheetPos, battlerToInspect);
+          _inspectJumpIdx = _inspectJumpList.countUntil(battlerToInspect);
+          _tileCursor.active = false;
         }
       }
       else if (_input.cancel) {
         _characterSheet = null;
+        _tileCursor.active = true;
       }
-
-      // TODO: make character sheet a new state
 
       return null;
     }
@@ -218,8 +233,8 @@ class Battle : GameState {
 
     private:
     bool _turnOver;
-    uint _unitJumpIdx;
-    Cycle!(Battler[]) _unitJumpList;
+    ulong _unitJumpIdx, _inspectJumpIdx;
+    Cycle!(Battler[]) _unitJumpList, _inspectJumpList;
     CharacterSheet _characterSheet;
   }
 
