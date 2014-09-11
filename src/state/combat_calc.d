@@ -1,7 +1,8 @@
 module state.combat_calc;
 
 import std.random : uniform;
-import std.algorithm : max, min, reduce;
+import std.algorithm;
+import std.array;
 import util.math : clamp;
 import model.battler;
 import model.item;
@@ -138,7 +139,16 @@ class CombatResult {
 /// deduce how much xp to award to player from a combat series
 int playerXp(CombatResult[] series) {
   // TODO: check for kill
-  return reduce!((a, b) => a + b.xpAward)(0, series);
+  auto xp = reduce!((a, b) => a + b.xpAward)(0, series);
+  if (series.wouldKillEnemy) {
+    auto attacker = series.front.attacker;
+    auto defender = series.front.defender;
+    auto player = (attacker.team == BattleTeam.ally) ? attacker : defender;
+    auto enemy  = (attacker.team == BattleTeam.ally) ? defender : attacker;
+    float levelFactor = cast(float) (enemy.level + levelXpFactor) / (player.level + levelXpFactor);
+    xp += killXpBonus * levelFactor;
+  }
+  return xp;
 }
 
 private:
@@ -146,6 +156,13 @@ private:
 int adjustedSpeed(Battler b) {
   int penalty = min(0, b.constitution  - b.equippedWeapon.weight);
   return b.speed + penalty;
+}
+
+bool wouldKillEnemy(CombatResult[] series) {
+  auto first = series.front;
+  auto enemy = first.attacker.team == BattleTeam.enemy ? first.attacker : first.defender;
+  auto dmg = series.filter!(a => a.defender == enemy).map!"a.damageDealt".sum;
+  return dmg >= enemy.hp;
 }
 
 enum advantageMap = [

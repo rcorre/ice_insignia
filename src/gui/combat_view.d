@@ -2,7 +2,7 @@ module gui.combat_view;
 
 import std.conv;
 import std.string : format;
-import std.algorithm : reduce;
+import std.algorithm;
 import geometry.all;
 import graphics.all;
 import state.combat_calc;
