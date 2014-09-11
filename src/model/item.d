@@ -27,7 +27,7 @@ class Item {
   const ItemData data;
   alias data this;
 
-  const bool drop; // whether item is dropped when holder is defeated
+  bool drop; // whether item is dropped when holder is defeated
 
   mixin JsonizeMe;
 
