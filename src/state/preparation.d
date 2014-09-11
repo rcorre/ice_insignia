@@ -1,6 +1,7 @@
 module state.preparation;
 
 import std.range;
+import allegro;
 import state.gamestate;
 import gui.all;
 import geometry.all;
@@ -66,6 +67,12 @@ class Preparation : GameState {
     activeView.draw();
     drawButtonSprite("lb", lbButtonPos);
     drawButtonSprite("rb", rbButtonPos);
+  }
+
+  override void handleEvent(ALLEGRO_EVENT ev) {
+    if (ev.type == ALLEGRO_EVENT_JOYSTICK_CONFIGURATION) {
+      _input.reconfigureGamepad();
+    }
   }
 
   override void onExit() {

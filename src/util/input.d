@@ -37,6 +37,15 @@ class InputManager {
     _gamePad = new GamePad(0);
   }
 
+  void reconfigureGamepad() {
+    al_reconfigure_joysticks();
+    _gamePad = new GamePad(0);
+    debug {
+      import std.stdio;
+      writeln("reconfigure");
+    }
+  }
+
   void update(float time) {
     _gamePad.update(time);
     _prevKeyboardState = _curKeyboardState;

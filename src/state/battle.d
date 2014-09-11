@@ -87,6 +87,12 @@ class Battle : GameState {
     return null;
   }
 
+  override void handleEvent(ALLEGRO_EVENT ev) {
+    if (ev.type == ALLEGRO_EVENT_JOYSTICK_CONFIGURATION) {
+      _input.reconfigureGamepad();
+    }
+  }
+
   override void draw() {
     _map.draw(Vector2i(0,0), _camera);
     foreach(battler ; _battlers) {

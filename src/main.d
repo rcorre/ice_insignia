@@ -62,6 +62,7 @@ void process_events() {
         }
       default:
     }
+    _currentState.handleEvent(event);
   }
 }
 
