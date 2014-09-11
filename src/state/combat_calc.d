@@ -137,7 +137,6 @@ class CombatResult {
 
 /// deduce how much xp to award to player from a combat series
 int playerXp(CombatResult[] series) {
-  return 100;
   // TODO: check for kill
   return reduce!((a, b) => a + b.xpAward)(0, series);
 }

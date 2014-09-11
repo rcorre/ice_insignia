@@ -567,7 +567,8 @@ class Battle : GameState {
       _battler = battler;
       _xp = xp;
       _wasPlayerTurn = wasPlayerTurn;
-      if (itemToAward) {
+      if (itemToAward && battler.addItem(itemToAward)) {
+        itemToAward.drop = false; // unmark the item as droppable
         auto pos = Vector2i(Settings.screenW, Settings.screenH) / 2;
         _itemNotification = new ItemNotification(pos, itemToAward);
       }
