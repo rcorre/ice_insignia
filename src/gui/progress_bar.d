@@ -61,7 +61,7 @@ class ProgressBar(T : real) {
   void draw() {
     _area.drawFilled(_bgColor);
     _filledArea.drawFilled(_fgColor);
-    _font.draw(_text, _area.topLeft, _textColor);
+    _font.draw(_text, _area.topLeft - Vector2i.UnitY, _textColor);
   }
 
   private:
