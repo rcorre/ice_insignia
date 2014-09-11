@@ -13,7 +13,7 @@ private enum {
   levelXpFactor  = 2f,   /// higher means less xp reward/penalty for difference in level
   baseXp         = 5f,   /// xp awarded for being in combat
   attackXpFactor = 3f, /// xp awarded per damage point dealt
-  killXpBonus    = 30f,  /// xp awarded for a kill
+  killXpBonus    = 40f,  /// xp awarded for a kill
   dodgeXp        = 10f,  /// xp awarded for a dodge
   lockpickXp     = 30f,  /// xp awarded for picking a lock
   stealXp        = 40f,  /// xp awarded for stealing
