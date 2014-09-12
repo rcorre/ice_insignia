@@ -40,10 +40,6 @@ class InputManager {
   void reconfigureGamepad() {
     al_reconfigure_joysticks();
     _gamePad = new GamePad(0);
-    debug {
-      import std.stdio;
-      writeln("reconfigure");
-    }
   }
 
   void update(float time) {
@@ -52,35 +48,11 @@ class InputManager {
     _prevMouseState = _curMouseState;
     al_get_keyboard_state(&_curKeyboardState);
     al_get_mouse_state(&_curMouseState);
-
-    /*
-    if (keyHeld(ALLEGRO_KEY_W)) {
-      if (_scrollAccumulator.y < -1) { _scrollAccumulator.y = 0; }
-      _scrollAccumulator.y -= scrollSpeed * time;
-    }
-    else if (keyHeld(ALLEGRO_KEY_S)) {
-      if (_scrollAccumulator.y > 1) { _scrollAccumulator.y = 0; }
-      _scrollAccumulator.y += scrollSpeed * time;
-    }
-    if (keyHeld(ALLEGRO_KEY_A)) {
-      if (_scrollAccumulator.x < -1) { _scrollAccumulator.x = 0; }
-      _scrollAccumulator.x -= scrollSpeed * time;
-    }
-    else if (keyHeld(ALLEGRO_KEY_D)) {
-      if (_scrollAccumulator.x > 1) { _scrollAccumulator.x = 0; }
-      _scrollAccumulator.x += scrollSpeed * time;
-    }
-
-    if (keyReleased(ALLEGRO_KEY_W) || keyReleased(ALLEGRO_KEY_S)) {
-      _scrollAccumulator.y = 0;
-    }
-    if (keyReleased(ALLEGRO_KEY_A) || keyReleased(ALLEGRO_KEY_D)) {
-      _scrollAccumulator.x = 0;
-    }
-    */
   }
 
   @property {
+    bool gamepadConnected() { return _gamePad.connected; }
+
     Vector2f scrollDirection() {
       Vector2f scroll = Vector2f.Zero;
       if (keyHeld(Keymap.up)) {
@@ -97,24 +69,7 @@ class InputManager {
       }
       return scroll == Vector2f.Zero ? _gamePad.scrollDirection : scroll;
     }
-    /*
-    Vector2i scrollDirection() {
-      Vector2i scroll;
-      if ( _scrollAccumulator.y <= -1) {
-        scroll.y = -1;
-      }
-      else if ( _scrollAccumulator.y >= 1) {
-        scroll.y = 1;
-      }
-      if ( _scrollAccumulator.x <= -1) {
-        scroll.x = -1;
-      }
-      else if ( _scrollAccumulator.x >= 1) {
-        scroll.x = 1;
-      }
-      return scroll;
-    }
-    */
+
     bool selectUp()    { return keyPressed(Keymap.up)    || _gamePad.tappedUp; }
     bool selectDown()  { return keyPressed(Keymap.down)  || _gamePad.tappedDown; }
     bool selectLeft()  { return keyPressed(Keymap.left)  || _gamePad.tappedLeft; }

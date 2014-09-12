@@ -32,6 +32,12 @@ class Font {
     al_draw_text(_font, color, pos.x, pos.y, 0, toStringz(to!string(text)));
   }
 
+  void drawCentered(T)(T text, Vector2i pos, Color color = Color.black) if (is(typeof(to!string(T.init)) : string)) {
+    auto s = to!string(text);
+    auto textArea = Rect2i.CenteredAt(pos, widthOf(s), heightOf(s));
+    al_draw_text(_font, color, textArea.x, textArea.y, 0, toStringz(s));
+  }
+
   /// draw multiple lines of text at position pos
   void draw(string[] lines, Vector2i pos, Color color = Color.black) {
     foreach(line ; lines) {

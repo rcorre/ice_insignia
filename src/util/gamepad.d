@@ -36,6 +36,8 @@ class GamePad {
   }
 
   @property {
+    bool connected() { return _joystick !is null; }
+
     Vector2f scrollDirection() {
       auto scroll = _currentState.leftStickPos;
       return (scroll.len < deadZone) ? Vector2f.Zero : scroll;

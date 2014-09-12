@@ -14,8 +14,8 @@ import tilemap.loader;
 
 private enum {
   // button sprites
-  lbButtonPos = Vector2i(32, 56),
-  rbButtonPos = Vector2i(32, 560),
+  lbButtonPos = Vector2i(36, 70),
+  rbButtonPos = Vector2i(36, 560),
 }
 
 class Preparation : GameState {
@@ -65,8 +65,8 @@ class Preparation : GameState {
   /// render game state to screen
   override void draw() {
     activeView.draw();
-    drawButtonSprite("lb", lbButtonPos);
-    drawButtonSprite("rb", rbButtonPos);
+    drawInputIcon("previous", lbButtonPos, _input.gamepadConnected);
+    drawInputIcon("next", rbButtonPos, _input.gamepadConnected);
   }
 
   override void handleEvent(ALLEGRO_EVENT ev) {

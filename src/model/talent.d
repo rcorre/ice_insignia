@@ -10,7 +10,7 @@ import model.attribute;
 
 class Talent {
   @jsonize this(string key, string title, string description, ValueSet!Attribute bonus,
-      ValueSet!Attribute potential, ItemType weaponSkill = ItemType.none, int weaponTier = 0,
+      ValueSet!Attribute potential, ItemType weaponSkill = ItemType.other, int weaponTier = 0,
       string prerequisite = null)
   {
     this.key = key;

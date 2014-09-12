@@ -27,20 +27,20 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.1466667"
-     inkscape:cx="400"
-     inkscape:cy="300"
+     inkscape:zoom="3.2432632"
+     inkscape:cx="541.68036"
+     inkscape:cy="362.51786"
      inkscape:document-units="px"
-     inkscape:current-layer="layer4"
+     inkscape:current-layer="layer3"
      showgrid="true"
-     inkscape:window-width="1598"
-     inkscape:window-height="879"
+     inkscape:window-width="1918"
+     inkscape:window-height="1059"
      inkscape:window-x="0"
      inkscape:window-y="19"
      inkscape:window-maximized="0"
      showguides="true"
      inkscape:guide-bbox="true"
-     inkscape:snap-global="false">
+     inkscape:snap-global="true">
     <inkscape:grid
        type="xygrid"
        id="grid2993"
@@ -67,7 +67,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -185,110 +185,40 @@
   <g
      inkscape:groupmode="layer"
      id="layer5"
-     inkscape:label="ShopTabs">
-    <g
-       style="display:inline"
-       id="g5902">
-      <rect
-         ry="8"
-         rx="8"
-         y="152"
-         x="448"
-         height="64"
-         width="64"
-         id="rect5821"
-         style="display:inline;fill:#cccccc;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:4;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
-      <text
-         sodipodi:linespacing="125%"
-         id="text5823"
-         y="625.9538"
-         x="455.30273"
-         style="font-size:18px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;display:inline;font-family:Sans"
-         xml:space="preserve"
-         transform="translate(0,-452.36218)"><tspan
-           y="625.9538"
-           x="455.30273"
-           id="tspan5825"
-           sodipodi:role="line">Tier 1</tspan></text>
-    </g>
-    <g
-       style="display:inline"
-       id="g5907"
-       transform="translate(96,0)">
-      <rect
-         style="fill:#cccccc;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:4;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;display:inline"
-         id="rect5909"
-         width="64"
-         height="64"
-         x="448"
-         y="152"
-         rx="8"
-         ry="8" />
-      <text
-         transform="translate(0,-452.36218)"
-         xml:space="preserve"
-         style="font-size:18px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;display:inline;font-family:Sans"
-         x="455.30273"
-         y="625.9538"
-         id="text5911"
-         sodipodi:linespacing="125%"><tspan
-           sodipodi:role="line"
-           id="tspan5913"
-           x="455.30273"
-           y="625.9538">Tier 2</tspan></text>
-    </g>
-    <g
-       style="display:inline"
-       transform="translate(193,0)"
-       id="g5915">
-      <rect
-         ry="8"
-         rx="8"
-         y="152"
-         x="448"
-         height="64"
-         width="64"
-         id="rect5917"
-         style="fill:#cccccc;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:4;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;display:inline" />
-      <text
-         sodipodi:linespacing="125%"
-         id="text5919"
-         y="625.9538"
-         x="455.30273"
-         style="font-size:18px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;display:inline;font-family:Sans"
-         xml:space="preserve"
-         transform="translate(0,-452.36218)"><tspan
-           y="625.9538"
-           x="455.30273"
-           id="tspan5921"
-           sodipodi:role="line">Tier 3</tspan></text>
-    </g>
-  </g>
+     inkscape:label="ShopTabs" />
   <g
      inkscape:groupmode="layer"
      id="layer3"
      inkscape:label="Shop"
      style="display:inline">
     <text
-       transform="translate(0,-452.36218)"
        sodipodi:linespacing="125%"
        id="text5815"
-       y="556.36218"
-       x="542"
+       y="104"
+       x="530"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;display:inline;font-family:Sans"
        xml:space="preserve"><tspan
-         y="556.36218"
-         x="542"
+         y="104"
+         x="530"
          id="tspan5817"
          sodipodi:role="line">Shop</tspan></text>
     <rect
-       style="fill:#cccccc;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:4;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;display:inline"
+       style="fill:#cccccc;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:4.25610638;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;display:inline"
        id="rect5819"
-       width="320"
-       height="352"
-       x="416"
-       y="184"
-       rx="32"
+       width="319.7439"
+       height="398.83691"
+       x="416.12805"
+       y="137.03503"
+       rx="31.97439"
+       ry="36.2579" />
+    <rect
+       style="opacity:1;fill:#c8ab37;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect3302"
+       width="128"
+       height="32"
+       x="512"
+       y="152"
+       rx="12"
        ry="32" />
   </g>
   <g

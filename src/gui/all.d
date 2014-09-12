@@ -17,6 +17,7 @@ public import gui.talent_view;
 public import gui.item_slot;
 public import gui.element;
 public import gui.container;
-public import gui.button_sprites;
+public import gui.input_icon;
 public import gui.level_up_view;
 public import gui.item_notification;
+public import gui.textbox;

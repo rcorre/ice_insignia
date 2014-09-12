@@ -22,7 +22,7 @@ class Sprite {
     _col = to!int(data["col"]);
     _tint = tint;
     assert(_row >= 0 && _col >= 0 && _row < _texture.numRows && _col < _texture.numCols,
-        format("sprite coord %d, %d is out of bounds", _row, _col));
+        format("sprite coord %d, %d is out of bounds (%s)", _row, _col, spriteName));
     _baseScale = to!int(data.get("baseScale", "1"));
   }
 

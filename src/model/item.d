@@ -11,7 +11,7 @@ import graphics.sprite;
 private enum resalePriceFactor = 0.5;
 
 enum ItemType {
-  none,
+  other,
   sword,
   axe,
   lance,
@@ -20,7 +20,6 @@ enum ItemType {
   light,
   dark,
   staff,
-  other
 }
 
 class Item {
@@ -48,7 +47,7 @@ class Item {
   @property {
     auto sprite() { return _sprite; }
     static Item none() { return new Item("none", 0); }
-    bool isWeapon() { with(ItemType) { return type != none && type != staff && type != other; } }
+    bool isWeapon() { with(ItemType) { return type != other && type != staff; } }
     int resalePrice() {
       return cast(int) (price * resalePriceFactor * cast(float) uses / maxUses);
     }
@@ -63,7 +62,7 @@ class ItemData {
 
   @jsonize {
     string name;
-    ItemType type = ItemType.none;
+    ItemType type = ItemType.other;
     int maxUses;
     int damage;
     int hit;

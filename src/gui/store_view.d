@@ -3,13 +3,7 @@ module gui.store_view;
 import std.string : format;
 import std.algorithm : countUntil;
 import std.range;
-import gui.element;
-import gui.container;
-import gui.roster_slot;
-import gui.string_menu;
-import gui.inventory_menu;
-import gui.character_sheet;
-import gui.item_view;
+import gui.all;
 import geometry.all;
 import graphics.all;
 import model.character;
@@ -20,10 +14,12 @@ import util.savegame;
 private enum {
   goldOffset = Vector2i(120, 25),
   storagePos = Vector2i(100, 140),
-  shopPos = Vector2i(480, 220),
+  shopPos = Vector2i(470, 200),
+  categoryPos = Vector2i(577, 167),
   cursorShade = Color(0, 0, 0.5, 0.8),
   shopInfoOffset = Vector2i(-100, 0),
   storageInfoOffset = Vector2i(100, 0),
+  inputIconOffset = Vector2i(64, 0),
 }
 
 class StoreView : GUIContainer {
@@ -45,6 +41,11 @@ class StoreView : GUIContainer {
       _shopMenu.draw;
       if (_itemView) { _itemView.draw; }
       _goldFont.draw(format("%dG", _data.gold), bounds.topLeft + goldOffset);
+      _categoryFont.drawCentered(_category, categoryPos);
+      if (_shopMenu.hasFocus) {
+        drawInputIcon("previous", categoryPos - inputIconOffset, _gamepadConnected);
+        drawInputIcon("next", categoryPos + inputIconOffset, _gamepadConnected);
+      }
     }
 
     void handleInput(InputManager input) {
@@ -54,6 +55,7 @@ class StoreView : GUIContainer {
       }
       _storageMenu.handleInput(input);
       _shopMenu.handleInput(input);
+      _gamepadConnected = input.gamepadConnected;
       super.handleInput(input);
     }
   }
@@ -89,11 +91,14 @@ class StoreView : GUIContainer {
   private:
   InventoryMenu _storageMenu, _shopMenu;
   ItemView _itemView;
+  ItemType _category;
   SaveData _data;
+  bool _gamepadConnected;
 }
 
-private static Font _goldFont;
+private static Font _goldFont, _categoryFont;
 
 static this() {
   _goldFont = getFont("rosterGold");
+  _categoryFont = getFont("shopCategory");
 }
