@@ -163,7 +163,7 @@
     "tier"     : 3
   },
 
-  "handaxe": {
+  "tomahawk": {
     "name"     : "Tomahawk",
     "type"     : "axe",
     "maxUses"  : 25,

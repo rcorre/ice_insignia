@@ -29,12 +29,14 @@ class StoreView : GUIContainer {
     _data = data;
     auto cursor = new AnimatedSprite("target", cursorShade);
     super(pos, Anchor.topLeft, "store_view", cursor);
-    with(InventoryMenu.ShowPrice) {
-      _storageMenu = new InventoryMenu(storagePos, _data.items, &sellItem, &storageHover, resale);
-      _shopMenu = new InventoryMenu(shopPos, forSale, &purchaseItem, &shopHover, full, false);
-    }
-    _storageMenu.hasFocus = true;
+    _storeStock = forSale;
     _categorySelector = bicycle([EnumMembers!ItemType][]);
+    with(InventoryMenu.ShowPrice) {
+      _storageMenu = new InventoryMenu(storagePos, _data.items, &sellItem, &storageHover, resale,
+          true);
+      auto items = itemsForSale(_categorySelector.front);
+      _shopMenu = new InventoryMenu(shopPos, items, &purchaseItem, &shopHover, full, false);
+    }
   }
 
   override {
@@ -58,10 +60,14 @@ class StoreView : GUIContainer {
         _shopMenu.hasFocus = !_shopMenu.hasFocus;
       }
       else if (input.previous && _shopMenu.hasFocus) {
-        _categorySelector.reverse;
+        auto stock = itemsForSale(_categorySelector.reverse);
+        _shopMenu = new InventoryMenu(shopPos, stock, &purchaseItem, &shopHover,
+            InventoryMenu.ShowPrice.full, true);
       }
       else if (input.next && _shopMenu.hasFocus) {
-        _categorySelector.advance;
+        auto stock = itemsForSale(_categorySelector.advance);
+        _shopMenu = new InventoryMenu(shopPos, stock, &purchaseItem, &shopHover,
+            InventoryMenu.ShowPrice.full, true);
       }
       else {
         _storageMenu.handleInput(input);
@@ -107,6 +113,11 @@ class StoreView : GUIContainer {
   Bicycle!(ItemType[]) _categorySelector;
   SaveData _data;
   bool _gamepadConnected;
+  Item[] _storeStock;
+
+  Item[] itemsForSale(ItemType type) {
+    return array(_storeStock.filter!(x => x.type == type));
+  }
 }
 
 private static Font _goldFont, _categoryFont;

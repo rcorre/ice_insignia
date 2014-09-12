@@ -9,7 +9,7 @@ import model.item;
 private enum {
   textureName = "item_view",
   fontName = "weaponInfo",
-  spriteOffset = Vector2i(-66, -42),
+  spriteOffset = Vector2i(-68, -40),
   nameOffset   = Vector2i(-38, -49),
   dmgOffset    = Vector2i(-58,  -8),
   crtOffset    = Vector2i( -1,  -8),
