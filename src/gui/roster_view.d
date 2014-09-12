@@ -81,7 +81,7 @@ class RosterView : GUIContainer {
       }
     }
 
-    void handleInput(InputManager input) {
+    bool handleInput(InputManager input) {
       final switch(_state) with (State) {
         case editInventory:
           if (input.cancel) {
@@ -129,6 +129,7 @@ class RosterView : GUIContainer {
             super.handleInput(input);
           }
       }
+      return false; // TODO
     }
   }
 

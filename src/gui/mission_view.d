@@ -55,14 +55,15 @@ class MissionView : GUIContainer {
           bounds.topLeft + countOffset);
     }
 
-    void handleInput(InputManager input) {
+    bool handleInput(InputManager input) {
       if (input.start) {
         auto units = _slots.filter!"a.active".find!"a.character !is null".map!"a.character";
         if (!units.empty) {
           _startCmd(array(units));
         }
+        return true;
       }
-      super.handleInput(input);
+      return super.handleInput(input);
     }
   }
 

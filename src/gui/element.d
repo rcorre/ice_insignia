@@ -32,7 +32,8 @@ abstract class GUIElement {
     Rect2i bounds() { return _bounds; }
   }
 
-  void handleInput(InputManager input) {
+  /// return true if input handled
+  bool handleInput(InputManager input) {
     if (input.selectRight) {
       moveCursor(Vector2i(1, 0));
     }
@@ -51,6 +52,10 @@ abstract class GUIElement {
     else if (input.cancel) {
       handleCancel;
     }
+    else {
+      return false;
+    }
+    return true;
   }
 
   // abstract

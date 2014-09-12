@@ -3,12 +3,14 @@ module gui.store_view;
 import std.string : format;
 import std.algorithm : countUntil;
 import std.range;
+import std.traits;
 import gui.all;
 import geometry.all;
 import graphics.all;
 import model.character;
 import model.item;
 import util.input;
+import util.bicycle;
 import util.savegame;
 
 private enum {
@@ -32,6 +34,7 @@ class StoreView : GUIContainer {
       _shopMenu = new InventoryMenu(shopPos, forSale, &purchaseItem, &shopHover, full, false);
     }
     _storageMenu.hasFocus = true;
+    _categorySelector = bicycle([EnumMembers!ItemType][]);
   }
 
   override {
@@ -41,22 +44,32 @@ class StoreView : GUIContainer {
       _shopMenu.draw;
       if (_itemView) { _itemView.draw; }
       _goldFont.draw(format("%dG", _data.gold), bounds.topLeft + goldOffset);
-      _categoryFont.drawCentered(_category, categoryPos);
+      _categoryFont.drawCentered(_categorySelector.front, categoryPos);
       if (_shopMenu.hasFocus) {
         drawInputIcon("previous", categoryPos - inputIconOffset, _gamepadConnected);
         drawInputIcon("next", categoryPos + inputIconOffset, _gamepadConnected);
       }
     }
 
-    void handleInput(InputManager input) {
+    bool handleInput(InputManager input) {
+      _gamepadConnected = input.gamepadConnected;
       if (input.selectLeft || input.selectRight) {
         _storageMenu.hasFocus = !_storageMenu.hasFocus;
         _shopMenu.hasFocus = !_shopMenu.hasFocus;
       }
-      _storageMenu.handleInput(input);
-      _shopMenu.handleInput(input);
-      _gamepadConnected = input.gamepadConnected;
+      else if (input.previous && _shopMenu.hasFocus) {
+        _categorySelector.reverse;
+      }
+      else if (input.next && _shopMenu.hasFocus) {
+        _categorySelector.advance;
+      }
+      else {
+        _storageMenu.handleInput(input);
+        _shopMenu.handleInput(input);
+        return false;
+      }
       super.handleInput(input);
+      return true;
     }
   }
 
@@ -73,7 +86,7 @@ class StoreView : GUIContainer {
       auto hadRoom = _data.addItem(item);
       if (hadRoom) {
         _data.gold -= item.price;
-          saveGame(_data);
+        saveGame(_data);
       }
     }
   }
@@ -91,7 +104,7 @@ class StoreView : GUIContainer {
   private:
   InventoryMenu _storageMenu, _shopMenu;
   ItemView _itemView;
-  ItemType _category;
+  Bicycle!(ItemType[]) _categorySelector;
   SaveData _data;
   bool _gamepadConnected;
 }

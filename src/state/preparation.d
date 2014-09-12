@@ -50,6 +50,9 @@ class Preparation : GameState {
   override GameState update(float time) {
     activeView.update(time);
     _input.update(time);
+    if (activeView.handleInput(_input)) {
+      return _startBattle;
+    }
     if (_input.next) {
       ++_viewIdx;
       _missionView.regenerateRoster;
@@ -58,7 +61,6 @@ class Preparation : GameState {
       --_viewIdx;
       _missionView.regenerateRoster;
     }
-    activeView.handleInput(_input);
     return _startBattle;
   }
 
