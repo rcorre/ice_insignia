@@ -128,6 +128,15 @@ class Character {
     return false;
   }
 
+  bool removeItem(Item toRemove) {
+    auto idx = _items[].countUntil(toRemove);
+    if (idx < 0) {
+      return false;
+    }
+    _items[idx] = null;
+    return true;
+  }
+
   /// access an attribute by name
   int opDispatch(string m)() const if (hasMember!(Attribute, m)) {
     return _attributes.opDispatch!m;

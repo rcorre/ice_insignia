@@ -3,12 +3,12 @@ module state.battle;
 import std.array;
 import std.math;
 import std.range;
-import std.typecons : tuple;
-import std.algorithm : map, all;
+import std.algorithm;
 import allegro;
 import state.gamestate;
 import state.combat_calc;
 import util.input;
+import util.bicycle;
 import model.all;
 import gui.all;
 import ai.all;
@@ -30,6 +30,7 @@ private enum {
   characterSheetPos = Vector2i(128, 56),
   itemInfoOffset = Vector2i(220, 0),
   talentMenuPos = Vector2i(600, 40),
+  screenCenter = Vector2i(Settings.screenW, Settings.screenH) / 2,
 }
 
 class Battle : GameState {
@@ -205,16 +206,18 @@ class Battle : GameState {
         }
       }
       else if (_input.inspect) {
-        auto pos = Vector2i(Settings.screenW / 2, Settings.screenH / 2);
-        auto battlerToInspect = _tileCursor.tile.battler;
         if (_characterSheet) {
           _characterSheet = null;
           _tileCursor.active = true;
         }
-        else if (battlerToInspect) {
-          _characterSheet = new CharacterSheet(characterSheetPos, battlerToInspect);
-          _inspectJumpIdx = _inspectJumpList.countUntil(battlerToInspect);
-          _tileCursor.active = false;
+        else {
+          auto pos = Vector2i(Settings.screenW / 2, Settings.screenH / 2);
+          auto battlerToInspect = _tileCursor.tile.battler;
+          if (battlerToInspect) {
+            _characterSheet = new CharacterSheet(characterSheetPos, battlerToInspect);
+            _inspectJumpIdx = _inspectJumpList.countUntil(battlerToInspect);
+            _tileCursor.active = false;
+          }
         }
       }
       else if (_input.cancel) {
@@ -346,6 +349,7 @@ class Battle : GameState {
       _currentTile = currentTile;
       _prevTile = prevTile;
       _enemiesInRange = array(_enemies.filter!(a => _battler.canAttack(a)));
+      _stealableEnemies = array(_enemies.filter!(a => _battler.canStealFrom(a)));
       _targetSprite = new AnimatedSprite("target", targetShade);
       auto selectPos = _battler.pos - _camera.topLeft - Vector2i(50, 50);
       _selectionView = new StringMenu(selectPos, getActions(), &handleSelection);
@@ -396,7 +400,7 @@ class Battle : GameState {
 
     private:
     Battler _battler;
-    Battler[] _enemiesInRange;
+    Battler[] _enemiesInRange, _stealableEnemies;
     Tile _currentTile, _prevTile;
     StringMenu _selectionView;
     InventoryMenu _inventoryView;
@@ -408,6 +412,9 @@ class Battle : GameState {
       string[] actions;
       if (!_enemiesInRange.empty) {
         actions ~= "Attack";
+      }
+      if (!_stealableEnemies.empty) {
+        actions ~= "Steal";
       }
       actions ~= "Inventory";
       actions ~= "Wait";
@@ -428,6 +435,8 @@ class Battle : GameState {
           _battler.moved = true;
           _requestedState = new PlayerTurn;
           break;
+        case "Steal":
+          _requestedState = new ConsiderSteal(_battler, _enemiesInRange);
         default:
       }
     }
@@ -490,6 +499,94 @@ class Battle : GameState {
       _view = new CombatView(Vector2i(20, 20), _attack, _counter);
       _tileCursor.place(_defendTerrain);
     }
+  }
+
+  class ConsiderSteal : State {
+    this(Battler battler, Battler[] targets) {
+      _battler = battler;
+      _targets = bicycle(targets);
+      setTarget(_targets.front);
+    }
+
+    override State update(float time) {
+      if (_selectedItem) {
+        return new ExecuteSteal(_battler, _targets.front, _selectedItem);
+      }
+      _menu.handleInput(_input);
+      if (_input.selectLeft) {
+        setTarget(_targets.reverse);
+      }
+      else if (_input.selectRight) {
+        setTarget(_targets.advance);
+      }
+      return null;
+    }
+
+    override void draw() {
+      _menu.draw();
+    }
+
+    private:
+    Battler _battler;
+    Bicycle!(Battler[]) _targets;
+    InventoryMenu _menu;
+    Item _selectedItem;
+
+    void setTarget(Battler target) {
+      _tileCursor.place(_map.tileAtPos(target.pos));
+      auto items = array(_targets.front.items[].filter!(x => x !is null).drop(1));
+      _menu = new InventoryMenu(screenCenter, items, &onChoose);
+    }
+
+    void onChoose(Item item) {
+      _selectedItem = item;
+    }
+  }
+
+  class ExecuteSteal : State {
+    this(Battler stealer, Battler target, Item item) {
+      _stealer = stealer;
+      _target = target;
+      _item = item;
+    }
+
+    override State update(float time) {
+      if (!_started) {
+        auto attackDirection = (_target.pos - _stealer.pos).normalized;
+        _stealer.sprite.shift(attackDirection * attackShiftDist, attackSpeed);
+        _started = true;
+      }
+
+      if (_stealer.sprite.isJiggling) {
+        return null;
+      }
+
+      if (_notification) {
+        if (_input.confirm) {
+          return _stealer.team == BattleTeam.ally ? new PlayerTurn : new EnemyTurn;
+        }
+        else {
+          return null;
+        }
+      }
+
+      _target.removeItem(_item);
+      _stealer.addItem(_item);
+      _notification = new ItemNotification(screenCenter, _item);
+      return null;
+    }
+
+    override void draw() {
+      if (_notification) {
+        _notification.draw;
+      }
+    }
+
+    private:
+    Battler _stealer, _target;
+    Item _item;
+    ItemNotification _notification;
+    bool _started;
   }
 
   class ExecuteCombat : State {

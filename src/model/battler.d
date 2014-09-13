@@ -123,6 +123,17 @@ class Battler {
     return other.alive && dist >= character.equippedWeapon.minRange && dist <= character.equippedWeapon.maxRange;
   }
 
+  auto stealableItems() {
+    return items[].drop(1).filter!(x => x !is null); // cant steal equipped item
+  }
+
+  bool canStealFrom(Battler other) {
+    auto dist = abs(row - other.row) + abs(col - other.col);
+    auto hasPickpocket = talents.canFind!(x => x.key == "theft");
+    bool hasSpace = !items[].filter!(x => x is null).empty;
+    return hasPickpocket && dist == 1 && !other.stealableItems.empty;
+  }
+
   const BattleTeam team;
   Character character;
 
