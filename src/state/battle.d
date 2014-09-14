@@ -548,6 +548,7 @@ class Battle : GameState {
       _stealer = stealer;
       _target = target;
       _item = item;
+      _item.drop = false;
     }
 
     override State update(float time) {
@@ -576,7 +577,6 @@ class Battle : GameState {
       }
 
       _target.removeItem(_item);
-      _item.drop = false;
       _stealer.addItem(_item);
       _notification = new ItemNotification(screenCenter, _item);
       return null;
