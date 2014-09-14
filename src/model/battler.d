@@ -63,6 +63,18 @@ class Battler {
     bool isHpTransitioning() { return _infoBox.healthBar.isTransitioning; }
     bool isXpTransitioning() { return _infoBox.xpBar.isTransitioning; }
 
+    bool canPickLocks() {
+      return talents.canFind!(x => x.key == "lockpicking") && items[].canFind!(x => x.name == "Lockpick");
+    }
+
+    bool canOpenDoor() {
+      return items[].canFind!(x => x.name == "Door Key") || canPickLocks;
+    }
+
+    bool canOpenChest() {
+      return items[].canFind!(x => x.name == "Chest Key") || canPickLocks;
+    }
+
     string aiType() {return _aiType; }
     Item itemToDrop() {
       auto r = items[].find!"a !is null && a.drop";

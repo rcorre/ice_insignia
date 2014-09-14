@@ -6,34 +6,28 @@ import model.item;
 import tilemap.tile;
 
 abstract class TileObject {
-  this(Tile tile, Vector2i pos, Sprite sprite) {
-    _tile   = tile;
+  this(Sprite sprite) {
     _sprite = sprite;
-    _pos    = pos;
   }
 
   @property {
-    Tile tile()     { return _tile; }
     Sprite sprite() { return _sprite; }
-    Vector2i pos()  { return _pos; }
 
     bool impassable();
     string name();
   }
 
-  void draw(Vector2i offset) {
-    sprite.draw(pos - offset);
+  void draw(Vector2i pos) {
+    sprite.draw(pos);
   }
 
   private:
-  Tile _tile;
   Sprite _sprite;
-  Vector2i _pos;
 }
 
 class Chest : TileObject {
-  this(Tile tile, Vector2i pos, Sprite sprite, Item item) {
-    super(tile, pos, sprite);
+  this(Sprite sprite, Item item) {
+    super(sprite);
   }
 
   @property {
@@ -47,8 +41,8 @@ class Chest : TileObject {
 }
 
 class Wall : TileObject {
-  this(Tile tile, Vector2i pos, Sprite sprite, int hp) {
-    super(tile, pos, sprite);
+  this(Sprite sprite, int hp) {
+    super(sprite);
   }
 
   @property {
@@ -66,8 +60,8 @@ class Wall : TileObject {
 }
 
 class Door : TileObject {
-  this(Tile tile, Vector2i pos, Sprite sprite) {
-    super(tile, pos, sprite);
+  this(Sprite sprite) {
+    super(sprite);
   }
 
   @property {

@@ -156,7 +156,7 @@ class MapObject {
     }
 
     int col = x / tileWidth;
-    int row = y / tileHeight;
+    int row = y / tileHeight - 1;
     auto pos = Vector2i(x, y) + Vector2i(tileWidth, tileHeight) / 2;
 
     auto aiType = properties.get("aiType", "agressive");
@@ -165,27 +165,30 @@ class MapObject {
   }
 
   TileObject generateObject(TileMap map, TileSet[] tilesets) {
-    int tileWidth = map.tileWidth;
-    int tileHeight = map.tileHeight;
-    int col = x / tileWidth;
-    int row = y / tileHeight;
-    auto pos = Vector2i(x, y) + Vector2i(tileWidth, tileHeight) / 2;
-    auto tile = map.tileAtPos(pos);
+    int col = x / map.tileWidth;
+    int row = y / map.tileHeight - 1;
+    auto tile = map.tileAt(row, col);
     auto sprite = gidToSprite(gid, tilesets);
+    TileObject obj;
 
     switch (type) {
       case "chest":
         assert("item" in properties, format("chest at %d,%d has no item", row, col));
         auto item = new Item(properties["item"]);
-        return new Chest(tile, pos, sprite, item);
+        obj = new Chest(sprite, item);
+        break;
       case "door":
-        return new Door(tile, pos, sprite);
+        obj = new Door(sprite);
+        break;
       case "wall":
         int hp = properties.get("hp", "20").to!int;
-        return new Wall(tile, pos, sprite, hp);
+        obj = new Wall(sprite, hp);
+        break;
       default:
         assert(0, type ~ " is not a valid TileObject type");
     }
+    tile.object = obj;
+    return obj;
   }
 
   @jsonize @property {

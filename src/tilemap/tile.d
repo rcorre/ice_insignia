@@ -5,11 +5,14 @@ import util.jsonizer;
 import model.battler;
 import graphics.sprite;
 import geometry.vector;
+import tilemap.object;
 
 enum impasseCost = 500; /// represents an impassable tile
 
 class Tile {
-  this(int row, int col, Sprite terrainSprite, Sprite featureSprite, string name, int moveCost, int defense, int avoid) {
+  this(int row, int col, Sprite terrainSprite, Sprite featureSprite, string name, int moveCost, int defense,
+      int avoid)
+  {
     _row = row;
     _col = col;
     _terrainSprite = terrainSprite;
@@ -39,6 +42,8 @@ class Tile {
       assert(_battler is null || b is null, format("tile at %d,%d is already occupied", row, col));
       _battler = b;
     }
+
+    auto ref object() { return _object; }
   }
 
   void draw(Vector2i pos) {
@@ -47,6 +52,9 @@ class Tile {
     }
     if (_featureSprite) {
       _featureSprite.draw(pos);
+    }
+    if (_object) {
+      _object.draw(pos);
     }
   }
 
@@ -57,4 +65,5 @@ class Tile {
     string _name;
     Sprite _terrainSprite, _featureSprite;
     Battler _battler;
+    TileObject _object;
 }
