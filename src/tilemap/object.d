@@ -1,4 +1,4 @@
-module tilemap.tileobject;
+module tilemap.object;
 
 import graphics.all;
 import geometry.all;
@@ -18,6 +18,7 @@ abstract class TileObject {
     Vector2i pos()  { return _pos; }
 
     bool impassable();
+    string name();
   }
 
   void draw(Vector2i offset) {
@@ -35,8 +36,11 @@ class Chest : TileObject {
     super(tile, pos, sprite);
   }
 
-  @property auto item() { return _item; }
-  @property override bool impassable() { return false; }
+  @property {
+    auto item() { return _item; }
+    override bool impassable() { return false; }
+    override string name() { return "Chest"; }
+  }
 
   private:
   Item _item;
@@ -47,8 +51,11 @@ class Wall : TileObject {
     super(tile, pos, sprite);
   }
 
-  @property auto hp() { return _hp; }
-  @property override bool impassable() { return true; }
+  @property {
+    auto hp() { return _hp; }
+    override bool impassable() { return true; }
+    override string name() { return "Wall"; }
+  }
 
   void damage(int amount) {
     assert(0, "TODO");
@@ -63,5 +70,8 @@ class Door : TileObject {
     super(tile, pos, sprite);
   }
 
-  @property override bool impassable() { return true; }
+  @property {
+    override bool impassable() { return true; }
+    override string name() { return "Door"; }
+  }
 }

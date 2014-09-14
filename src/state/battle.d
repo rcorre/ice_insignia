@@ -37,6 +37,14 @@ class Battle : GameState {
   this(LevelData data, Character[] playerUnits) {
     _map = data.map;
     _enemies = data.enemies;
+    _objects = data.objects;
+    debug {
+      import std.stdio;
+      writeln("map objects");
+      foreach (obj ; _objects) {
+        writeln(obj.name);
+      }
+    }
     foreach(enemy ; _enemies) { // place enemies
       placeBattler(enemy, _map.tileAt(enemy.row, enemy.col));
     }
@@ -133,6 +141,7 @@ class Battle : GameState {
   Battler[] _allies;
   Battler[] _enemies;
   Battler[] _neutrals;
+  TileObject[] _objects;
   State _state;
   TileInfoBox _tileInfoBox;
   BattlerInfoBox _battlerInfoBox;

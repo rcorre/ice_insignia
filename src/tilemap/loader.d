@@ -2,12 +2,14 @@ module tilemap.loader;
 
 import std.conv;
 import std.range;
-import std.array : array;
-import std.algorithm : find, sort, filter, map;
+import std.string;
+import std.array;
+import std.algorithm;
 import allegro;
 import util.jsonizer;
 import tilemap.tile;
 import tilemap.tilemap;
+import tilemap.object;
 import model.battler;
 import model.character;
 import model.item;
@@ -23,6 +25,7 @@ LevelData loadLevel(int mapNumber) {
   auto level = new LevelData;
   level.map = mapData.constructMap();
   level.enemies = mapData.constructEnemies();
+  level.objects = mapData.constructObjects(level.map);
   level.spawnPoints = mapData.getSpawnPoints();
   return level;
 }
@@ -32,6 +35,7 @@ class LevelData {
   Vector2i[] spawnPoints;
   Battler[] enemies;
   Battler[] neutrals;
+  TileObject[] objects;
 }
 
 private:
@@ -74,6 +78,16 @@ class MapData {
       enemies ~= obj.generateEnemy(tilewidth, tileheight, tilesets);
     }
     return enemies;
+  }
+
+  TileObject[] constructObjects(TileMap map) {
+    TileObject[] objects;
+    auto objectLayer = layers.find!(x => x.name == "Objects");
+    assert(!objectLayer.empty, "could not find layer named Objects");
+    foreach(obj ; objectLayer[0].objects) {
+      objects ~= obj.generateObject(map, tilesets);
+    }
+    return objects;
   }
 
   Vector2i[] getSpawnPoints() {
@@ -148,6 +162,30 @@ class MapObject {
     auto aiType = properties.get("aiType", "agressive");
 
     return new Battler(character, row, col, pos, BattleTeam.enemy, aiType);
+  }
+
+  TileObject generateObject(TileMap map, TileSet[] tilesets) {
+    int tileWidth = map.tileWidth;
+    int tileHeight = map.tileHeight;
+    int col = x / tileWidth;
+    int row = y / tileHeight;
+    auto pos = Vector2i(x, y) + Vector2i(tileWidth, tileHeight) / 2;
+    auto tile = map.tileAtPos(pos);
+    auto sprite = gidToSprite(gid, tilesets);
+
+    switch (type) {
+      case "chest":
+        assert("item" in properties, format("chest at %d,%d has no item", row, col));
+        auto item = new Item(properties["item"]);
+        return new Chest(tile, pos, sprite, item);
+      case "door":
+        return new Door(tile, pos, sprite);
+      case "wall":
+        int hp = properties.get("hp", "20").to!int;
+        return new Wall(tile, pos, sprite, hp);
+      default:
+        assert(0, type ~ " is not a valid TileObject type");
+    }
   }
 
   @jsonize @property {
