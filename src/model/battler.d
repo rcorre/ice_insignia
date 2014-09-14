@@ -64,7 +64,7 @@ class Battler {
     bool isXpTransitioning() { return _infoBox.xpBar.isTransitioning; }
 
     bool canPickLocks() {
-      return talents.canFind!(x => x.key == "lockpicking") && 
+      return talents.canFind!(x => x.key == "lockpicking") &&
         items[].canFind!(x => x !is null && x.name == "Lockpick");
     }
 
@@ -74,6 +74,20 @@ class Battler {
 
     bool canOpenChest() {
       return items[].canFind!(x => x !is null && x.name == "Chest Key") || canPickLocks;
+    }
+
+    /// return true if item totally consumed
+    bool useItem(Item item) {
+      auto idx = items[].countUntil(item);
+      assert(idx >= 0, "trying to use item " ~ item.name ~ " but it is not in inventory");
+      if (--items[idx].uses <= 0) {
+        items[idx] = null;
+        if (idx == 0) { // was equipped weapon
+          equipNextWeapon();
+        }
+        return true;
+      }
+      return false;
     }
 
     string aiType() {return _aiType; }

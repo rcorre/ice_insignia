@@ -3,8 +3,8 @@ module model.character;
 import std.conv;
 import std.string : format;
 import std.random : uniform;
-import std.range : empty;
-import std.array : array;
+import std.array: array;
+import std.range;
 import std.algorithm;
 import allegro;
 import util.jsonizer;
@@ -107,6 +107,12 @@ class Character {
     }
     _xp = (_xp + val) % xpLimit;
     return false;
+  }
+
+  /// called when current weapon broken to equip a new weapon
+  void equipNextWeapon() {
+    auto item = _items[].find!(x => canWield(x));
+    equippedWeapon = item.front;
   }
 
   bool canWield(Item item) {

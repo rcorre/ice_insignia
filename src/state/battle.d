@@ -631,6 +631,10 @@ class Battle : GameState {
         auto attackDirection = (_defender.pos - _attacker.pos).normalized;
         _attacker.sprite.shift(attackDirection * attackShiftDist, attackSpeed);
         if (_result.hit) {
+          bool itemDestroyed = _attacker.useItem(_attacker.equippedWeapon);
+          if (itemDestroyed) { // remove all further attacks from this character
+            _attacks = _attacks.remove!(x => x.attacker == _attacker);
+          }
           _defender.dealDamage(_result.damageDealt);
         }
         _started = true;
