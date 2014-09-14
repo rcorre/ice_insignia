@@ -665,7 +665,7 @@
    <tile gid="42"/>
    <tile gid="45"/>
    <tile gid="42"/>
-   <tile gid="44"/>
+   <tile gid="0"/>
    <tile gid="42"/>
    <tile gid="42"/>
    <tile gid="42"/>
@@ -996,6 +996,19 @@
   <object name="hunter" type="2" gid="120" x="192" y="160">
    <properties>
     <property name="item0" value="shortbow"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Objects" width="25" height="19">
+  <object name="broadsword" type="chest" gid="41" x="320" y="448">
+   <properties>
+    <property name="item" value="broadsword"/>
+   </properties>
+  </object>
+  <object type="door" gid="44" x="160" y="256"/>
+  <object type="wall" gid="45" x="96" y="256">
+   <properties>
+    <property name="hp" value="20"/>
    </properties>
   </object>
  </objectgroup>
