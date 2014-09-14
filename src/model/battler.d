@@ -64,15 +64,16 @@ class Battler {
     bool isXpTransitioning() { return _infoBox.xpBar.isTransitioning; }
 
     bool canPickLocks() {
-      return talents.canFind!(x => x.key == "lockpicking") && items[].canFind!(x => x.name == "Lockpick");
+      return talents.canFind!(x => x.key == "lockpicking") && 
+        items[].canFind!(x => x !is null && x.name == "Lockpick");
     }
 
     bool canOpenDoor() {
-      return items[].canFind!(x => x.name == "Door Key") || canPickLocks;
+      return items[].canFind!(x => x !is null && x.name == "Door Key") || canPickLocks;
     }
 
     bool canOpenChest() {
-      return items[].canFind!(x => x.name == "Chest Key") || canPickLocks;
+      return items[].canFind!(x => x !is null && x.name == "Chest Key") || canPickLocks;
     }
 
     string aiType() {return _aiType; }

@@ -142,7 +142,7 @@
  </tile>
  <tile id="48">
   <properties>
-   <property name="name" value="Shore"/>
+   <property name="name" value="Water"/>
   </properties>
  </tile>
  <tile id="49">

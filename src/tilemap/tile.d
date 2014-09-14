@@ -24,7 +24,7 @@ class Tile {
   }
 
   @property {
-    string name() { return _name; }
+    string name() { return _object is null ? _name : _object.name; }
     int row() { return _row; }
     int col() { return _col; }
     /// returns the move cost of the terrain, or impasseCost if tile is occupied

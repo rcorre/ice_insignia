@@ -38,13 +38,6 @@ class Battle : GameState {
     _map = data.map;
     _enemies = data.enemies;
     _objects = data.objects;
-    debug {
-      import std.stdio;
-      writeln("map objects");
-      foreach (obj ; _objects) {
-        writeln(obj.name);
-      }
-    }
     foreach(enemy ; _enemies) { // place enemies
       placeBattler(enemy, _map.tileAt(enemy.row, enemy.col));
     }
@@ -360,6 +353,20 @@ class Battle : GameState {
       _enemiesInRange = array(_enemies.filter!(a => _battler.canAttack(a)));
       _stealableEnemies = array(_enemies.filter!(a => _battler.canStealFrom(a)));
       _targetSprite = new AnimatedSprite("target", targetShade);
+      // find openable object
+      if (_battler.canOpenChest) {
+        if (cast(Chest) currentTile.object) {
+          _openableObject = currentTile.object;
+        }
+      }
+      if (_battler.canOpenDoor) {
+        auto neighbors = _map.neighbors(currentTile);
+        auto tile = neighbors.find!(x => (cast(Door) x.object) !is null);
+        if (!tile.empty) {
+          _openableObject = tile.front.object;
+        }
+      }
+      // create menu
       auto selectPos = _battler.pos - _camera.topLeft - Vector2i(50, 50);
       _selectionView = new StringMenu(selectPos, getActions(), &handleSelection);
       _selectionView.keepInside(Rect2i(0, 0, _camera.width, _camera.height));
@@ -410,6 +417,7 @@ class Battle : GameState {
     private:
     Battler _battler;
     Battler[] _enemiesInRange, _stealableEnemies;
+    TileObject _openableObject;
     Tile _currentTile, _prevTile;
     StringMenu _selectionView;
     InventoryMenu _inventoryView;
@@ -424,6 +432,9 @@ class Battle : GameState {
       }
       if (!_stealableEnemies.empty) {
         actions ~= "Steal";
+      }
+      if (_openableObject !is null) {
+        actions ~= "Open";
       }
       actions ~= "Inventory";
       actions ~= "Wait";
