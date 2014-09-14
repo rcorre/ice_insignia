@@ -114,6 +114,7 @@ class Battler {
   }
 
   bool awardXp(int amount, out AttributeSet bonuses, out int leftover) {
+    assert(_infoBox, "infobox not shown to award xp");
     _infoBox.xpBar.transition(xp, min(xp + amount, xpLimit), xpTransitionRate);
     return character.awardXp(amount, bonuses, leftover);
   }
@@ -130,7 +131,7 @@ class Battler {
   bool canStealFrom(Battler other) {
     auto dist = abs(row - other.row) + abs(col - other.col);
     auto hasPickpocket = talents.canFind!(x => x.key == "theft");
-    bool hasSpace = !items[].filter!(x => x is null).empty;
+    bool hasSpace = items[].canFind!(x => x is null);
     return hasPickpocket && dist == 1 && !other.stealableItems.empty;
   }
 

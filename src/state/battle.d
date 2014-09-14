@@ -563,7 +563,12 @@ class Battle : GameState {
 
       if (_notification) {
         if (_input.confirm) {
-          return _stealer.team == BattleTeam.ally ? new PlayerTurn : new EnemyTurn;
+          if (_stealer.team == BattleTeam.ally) {
+            return new AwardXp(_stealer, computeStealXp(_stealer, _target), true);
+          }
+          else {
+            return new EnemyTurn;
+          }
         }
         else {
           return null;
@@ -571,6 +576,7 @@ class Battle : GameState {
       }
 
       _target.removeItem(_item);
+      _item.drop = false;
       _stealer.addItem(_item);
       _notification = new ItemNotification(screenCenter, _item);
       return null;
@@ -690,6 +696,7 @@ class Battle : GameState {
         auto pos = Vector2i(Settings.screenW, Settings.screenH) / 2;
         _itemNotification = new ItemNotification(pos, itemToAward);
       }
+      _battler.showInfoBox(screenCenter);
     }
 
     void start() {

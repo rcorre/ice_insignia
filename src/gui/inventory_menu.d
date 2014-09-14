@@ -8,6 +8,11 @@ import geometry.all;
 import gui.selection_menu;
 import model.item;
 
+private enum {
+  normColor = Color.black,
+  dropColor = Color(0, 0.8, 0.2)
+}
+
 class InventoryMenu : SelectionMenu!Item {
   enum ShowPrice { no, full, resale }
   this(Vector2i pos, Item[] items, Action onChoose, HoverAction onHover = null,
@@ -33,7 +38,7 @@ class InventoryMenu : SelectionMenu!Item {
         rect.drawFilled(Color.gray, 5, 5);
       }
       if (item) {
-        auto color = (item.drop) ? Color.green : Color.black;
+        auto color = (item.drop) ? dropColor : normColor;
         Vector2i size = item.sprite.size;
         item.sprite.draw(rect.topLeft + size / 2);
         _font.draw(itemText(item), rect.topLeft + Vector2i(size.x, 0), color);

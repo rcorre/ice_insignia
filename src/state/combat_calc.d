@@ -125,13 +125,12 @@ class CombatResult {
   @property int xpAward() {
     auto player = (attacker.team == BattleTeam.ally) ? attacker : defender;
     auto enemy  = (attacker.team == BattleTeam.ally) ? defender : attacker;
-    float levelFactor = cast(float) (enemy.level + levelXpFactor) / (player.level + levelXpFactor);
     if (player == attacker) {
-      return cast(int) ((damageDealt * attackXpFactor + baseXp) * levelFactor);
+      return cast(int) ((damageDealt * attackXpFactor + baseXp) * levelFactor(player, enemy));
     }
     else {
       auto dodgeBonus = hit ? 0 : dodgeXp;
-      return cast(int) ((baseXp + dodgeBonus) * levelFactor);
+      return cast(int) ((baseXp + dodgeBonus) * levelFactor(player, enemy));
     }
   }
 }
@@ -145,13 +144,21 @@ int playerXp(CombatResult[] series) {
     auto defender = series.front.defender;
     auto player = (attacker.team == BattleTeam.ally) ? attacker : defender;
     auto enemy  = (attacker.team == BattleTeam.ally) ? defender : attacker;
-    float levelFactor = cast(float) (enemy.level + levelXpFactor) / (player.level + levelXpFactor);
-    xp += killXpBonus * levelFactor;
+    xp += killXpBonus * levelFactor(player, enemy);
   }
   return xp;
 }
 
+int computeStealXp(Battler stealer, Battler target) {
+  return cast(int) (stealXp * levelFactor(stealer, target));
+}
+
 private:
+// how much level difference influences xp
+float levelFactor(Battler player, Battler enemy) {
+    return cast(float) (enemy.level + levelXpFactor) / (player.level + levelXpFactor);
+}
+
 // speed after adjustment for weapon weight
 int adjustedSpeed(Battler b) {
   int penalty = min(0, b.constitution  - b.equippedWeapon.weight);
