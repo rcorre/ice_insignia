@@ -4,6 +4,7 @@ import std.array;
 import std.math;
 import std.range;
 import std.algorithm;
+import std.container;
 import allegro;
 import state.gamestate;
 import state.combat_calc;
@@ -54,7 +55,7 @@ class Battle : GameState {
     _camera = Rect2i(0, 0, Settings.screenW, Settings.screenH);
     _input = new InputManager;
     _tileCursor = new TileCursor;
-    _state = new PlayerTurn;
+    pushState(new PlayerTurn);
   }
 
   override GameState update(float time) {
@@ -65,11 +66,7 @@ class Battle : GameState {
       battler.update(time);
     }
 
-    auto newState = _state.update(time);
-    if (newState) {
-      _state.onExit();
-      _state = newState;
-    }
+    currentState.update(time);
 
     // handle mouse -- display tile info
     auto tile = _tileCursor.tile;
@@ -111,7 +108,7 @@ class Battle : GameState {
         battler.drawInfoBox;
       }
     }
-    _state.draw();
+    currentState.draw();
 
     _tileCursor.draw();
     if (_tileInfoBox) {
@@ -135,11 +132,26 @@ class Battle : GameState {
   Battler[] _enemies;
   Battler[] _neutrals;
   TileObject[] _objects;
-  State _state;
+  SList!State _stateStack;
   TileInfoBox _tileInfoBox;
   BattlerInfoBox _battlerInfoBox;
   int _cursorRow, _cursorCol;
   TileCursor _tileCursor;
+
+  // state management
+  @property auto currentState() { return _stateStack.front; }
+  void pushState(State state) {
+    _stateStack.insertFront(state);
+  }
+  void popState() {
+    assert(!_stateStack.empty);
+    _stateStack.front.onExit();
+    _stateStack.removeFront;
+  }
+  void setState(State state) {
+    popState();
+    pushState(state);
+  }
 
   void placeBattler(Battler b, Tile t) {
     auto currentTile = _map.tileAt(b.row, b.col);
@@ -151,7 +163,7 @@ class Battle : GameState {
   }
 
   abstract class State {
-    State update(float time);
+    void update(float time);
     void draw() {}
     void onExit() {}
   }
@@ -167,13 +179,13 @@ class Battle : GameState {
       }
     }
 
-    override State update(float time) {
+    override void update(float time) {
       _tileCursor.handleInput(_input);
       if (_turnOver || _input.endTurn) {
         foreach(battler ; _allies) {
           battler.moved = false;
         }
-        return new EnemyTurn;
+        setState(new EnemyTurn);
       }
 
       _cursorRow = cast(int) clamp(_cursorRow, 0, _map.numRows - 1);
@@ -183,7 +195,7 @@ class Battle : GameState {
       if (_input.confirm) {
         auto tile = _tileCursor.tile;
         if (tile && tile.battler && !tile.battler.moved) {
-          return new PlayerUnitSelected(tile.battler, tile);
+          setState(new PlayerUnitSelected(tile.battler, tile));
         }
       }
       // jump to next ready unit
@@ -226,8 +238,6 @@ class Battle : GameState {
         _characterSheet = null;
         _tileCursor.active = true;
       }
-
-      return null;
     }
 
     override void draw() {
@@ -252,7 +262,7 @@ class Battle : GameState {
       _tileHighlight.tint = moveTint;
     }
 
-    override State update(float time) {
+    override void update(float time) {
       _tileCursor.handleInput(_input);
       _tileHighlight.update(time);
       auto tile = _tileCursor.tile;
@@ -263,13 +273,12 @@ class Battle : GameState {
         }
         if (_selectedPath && _input.confirm) {
           _tileCursor.active = false;
-          return new MoveBattler(_battler, _tile, _selectedPath);
+          setState(new MoveBattler(_battler, _tile, _selectedPath));
         }
       }
       if (_input.cancel) {
-        return new PlayerTurn;
+        setState(new PlayerTurn);
       }
-      return null;
     }
 
     override void draw() {
@@ -308,31 +317,30 @@ class Battle : GameState {
       currentTile.battler = null;  // remove battler from current tile
     }
 
-    override State update(float time) {
+    override void update(float time) {
       if (_path.empty) { /// completed move
         placeBattler(_battler, _endTile); // place battler on final tile
         if (_battler.team == BattleTeam.ally) {
-          return new ChooseBattlerAction(_battler, _endTile, _originTile);
+          setState(new ChooseBattlerAction(_battler, _endTile, _originTile));
         }
         else {
           auto behavior = getAI(_battler, _map, _allies, _enemies);
-          return new EnemyChooseAction(_battler, behavior);
+          setState(new EnemyChooseAction(_battler, behavior));
         }
       }
-
-      auto target = cast(Vector2f) _map.tileToPos(_path.front);
-      auto disp = target - _pos;
-      float dist = battlerMoveSpeed * time;
-      if (disp.len <= dist) {
-        _pos = target;
-        _path.popFront;
-      }
       else {
-        _pos += disp.unit * dist;
+        auto target = cast(Vector2f) _map.tileToPos(_path.front);
+        auto disp = target - _pos;
+        float dist = battlerMoveSpeed * time;
+        if (disp.len <= dist) {
+          _pos = target;
+          _path.popFront;
+        }
+        else {
+          _pos += disp.unit * dist;
+        }
+        _battler.pos = _pos;
       }
-      _battler.pos = _pos;
-
-      return null;
     }
 
     private:
@@ -372,9 +380,10 @@ class Battle : GameState {
       _selectionView.keepInside(Rect2i(0, 0, _camera.width, _camera.height));
     }
 
-    override State update(float time) {
+    override void update(float time) {
       if (_requestedState) {
-        return _requestedState;
+        setState(_requestedState);
+        return;
       }
 
       _targetSprite.update(time);
@@ -391,10 +400,9 @@ class Battle : GameState {
         }
         else {
           placeBattler(_battler, _prevTile);
-          return new PlayerTurn;
+          setState(new PlayerTurn);
         }
       }
-      return null;
     }
 
     override void draw() {
@@ -482,10 +490,10 @@ class Battle : GameState {
       setTarget(targets[0]);
     }
 
-    override State update(float time) {
+    override void update(float time) {
       if (_input.confirm) {
         auto series = constructAttackSeries(_attack, _counter);
-        return new ExecuteCombat(series, _attacker, series.playerXp);
+        setState(new ExecuteCombat(series, _attacker, series.playerXp));
       }
       else if (_input.selectLeft) {
         _targetIdx = (_targetIdx - 1) % _targets.length;
@@ -495,7 +503,6 @@ class Battle : GameState {
         _targetIdx = (_targetIdx + 1) % _targets.length;
         setTarget(_targets[_targetIdx]);
       }
-      return null;
     }
 
     override void draw() {
@@ -528,9 +535,10 @@ class Battle : GameState {
       setTarget(_targets.front);
     }
 
-    override State update(float time) {
+    override void update(float time) {
       if (_selectedItem) {
-        return new ExecuteSteal(_battler, _targets.front, _selectedItem);
+        setState(new ExecuteSteal(_battler, _targets.front, _selectedItem));
+        return;
       }
       _menu.handleInput(_input);
       if (_input.selectLeft) {
@@ -539,7 +547,6 @@ class Battle : GameState {
       else if (_input.selectRight) {
         setTarget(_targets.advance);
       }
-      return null;
     }
 
     override void draw() {
@@ -571,7 +578,7 @@ class Battle : GameState {
       _item.drop = false;
     }
 
-    override State update(float time) {
+    override void update(float time) {
       if (!_started) {
         auto attackDirection = (_target.pos - _stealer.pos).normalized;
         _stealer.sprite.shift(attackDirection * attackShiftDist, attackSpeed);
@@ -579,27 +586,28 @@ class Battle : GameState {
       }
 
       if (_stealer.sprite.isJiggling) {
-        return null;
+        return;
       }
 
       if (_notification) {
         if (_input.confirm) {
           if (_stealer.team == BattleTeam.ally) {
-            return new AwardXp(_stealer, computeStealXp(_stealer, _target), true);
+            setState(new AwardXp(_stealer, computeStealXp(_stealer, _target), true));
+            return;
           }
           else {
-            return new EnemyTurn;
+            setState(new EnemyTurn);
+            return;
           }
         }
         else {
-          return null;
+          return;
         }
       }
 
       _target.removeItem(_item);
       _stealer.addItem(_item);
       _notification = new ItemNotification(screenCenter, _item);
-      return null;
     }
 
     override void draw() {
@@ -626,7 +634,7 @@ class Battle : GameState {
       _playerXp = playerXp;
     }
 
-    override State update(float time) {
+    override void update(float time) {
       if (!_started) {
         auto attackDirection = (_defender.pos - _attacker.pos).normalized;
         _attacker.sprite.shift(attackDirection * attackShiftDist, attackSpeed);
@@ -643,7 +651,7 @@ class Battle : GameState {
       if (_attacker.sprite.isJiggling || _defender.sprite.isFlashing || _attacker.isHpTransitioning ||
           _defender.isHpTransitioning)
       {
-        return null;
+        return;
       }
 
       _attacks.popFront;
@@ -655,17 +663,16 @@ class Battle : GameState {
         bool wasPlayerTurn = _initialAttacker.team == BattleTeam.ally;
         if (friendly.alive) {
           auto item = enemy.alive ? null : enemy.itemToDrop;
-          return new Wait(pauseTime, new AwardXp(friendly, _playerXp, wasPlayerTurn, item));
+          setState(new Wait(pauseTime, new AwardXp(friendly, _playerXp, wasPlayerTurn, item)));
         }
         else {
           friendly.hideInfoBox;
-          return new Wait(pauseTime, wasPlayerTurn ? new PlayerTurn : new EnemyTurn);
+          setState(new Wait(pauseTime, wasPlayerTurn ? new PlayerTurn : new EnemyTurn));
         }
       }
       else {
-        return new Wait(pauseTime, new ExecuteCombat(_attacks, _initialAttacker, _playerXp));
+        setState(new Wait(pauseTime, new ExecuteCombat(_attacks, _initialAttacker, _playerXp)));
       }
-      return null;
     }
 
     private:
@@ -732,22 +739,21 @@ class Battle : GameState {
       _battler.hideInfoBox;
     }
 
-    override State update(float time) {
+    override void update(float time) {
       if (_itemNotification) {
         if (_input.confirm) {
           _itemNotification = null;
         }
-        return null;
+        return;
       }
       if (!_started) { start; }
       if (_battler.isXpTransitioning) {
-        return null;
       }
       else if (_leveled) {
-        return new Wait(pauseTime, new LevelUp(_battler, _awards, _wasPlayerTurn, _leftoverXp));
+        setState(new Wait(pauseTime, new LevelUp(_battler, _awards, _wasPlayerTurn, _leftoverXp)));
       }
       else {
-        return new Wait(pauseTime, _wasPlayerTurn ? new PlayerTurn : new EnemyTurn, &end);
+        setState(new Wait(pauseTime, _wasPlayerTurn ? new PlayerTurn : new EnemyTurn, &end));
       }
     }
 
@@ -774,21 +780,22 @@ class Battle : GameState {
       _leftoverXp = leftoverXp;
     }
 
-    override State update(float time) {
+    override void update(float time) {
       _view.update(time);
       if (_view.doneAnimating && (_input.confirm || _input.cancel || _input.inspect)) {
         _battler.applyLevelUp(_awards);
         if (_battler.canGetNewTalent) {
-          return new AwardTalent(_battler, _view, _leftoverXp, _wasPlayerTurn);
+          setState(new AwardTalent(_battler, _view, _leftoverXp, _wasPlayerTurn));
         }
-        if (_leftoverXp > 0) {
+        else if (_leftoverXp > 0) {
           _battler.infoBox.xpBar.val = 0;
-          return new AwardXp(_battler, _leftoverXp, _wasPlayerTurn);
+          setState(new AwardXp(_battler, _leftoverXp, _wasPlayerTurn));
         }
-        _battler.hideInfoBox;
-        return _wasPlayerTurn ? new PlayerTurn : new EnemyTurn;
+        else {
+          _battler.hideInfoBox;
+          setState(_wasPlayerTurn ? new PlayerTurn : new EnemyTurn);
+        }
       }
-      return null;
     }
 
     override void draw() {
@@ -812,16 +819,15 @@ class Battle : GameState {
       _wasPlayerTurn = wasPlayerTurn;
     }
 
-    override State update(float time) {
+    override void update(float time) {
       _view.update(time);
       if (_talentChooser) { // waiting to choose talent
         _talentChooser.handleInput(_input);
       }
       else if (_view.doneAnimating && _input.confirm) { // done showing talent increase
         _battler.addTalent(_chosenTalent);
-        return new AwardXp(_battler, _leftoverXp, _wasPlayerTurn);
+        setState(new AwardXp(_battler, _leftoverXp, _wasPlayerTurn));
       }
-      return null;
     }
 
     override void draw() {
@@ -853,13 +859,12 @@ class Battle : GameState {
       _onWaitEnd = onWaitEnd;
     }
 
-    override State update(float time) {
+    override void update(float time) {
       _timer -= time;
       if (_timer < 0) {
         if (_onWaitEnd) { _onWaitEnd(); }
-        return _nextState;
+        setState(_nextState);
       }
-      return null;
     }
 
     private:
@@ -880,20 +885,24 @@ class Battle : GameState {
       }
     }
 
-    override State update(float time) {
+    override void update(float time) {
       if (_battler is null) {
         foreach(enemy ; _enemies) {
           enemy.moved = false;
         }
-        return new PlayerTurn;
+        setState(new PlayerTurn);
       }
 
-      auto path = _behavior.moveRequest;
-      if (path) {
-        auto selfTerrain = _map.tileAt(_battler.row, _battler.col);
-        return new MoveBattler(_battler, selfTerrain, path);
+      else {
+        auto path = _behavior.moveRequest;
+        if (path) {
+          auto selfTerrain = _map.tileAt(_battler.row, _battler.col);
+          setState(new MoveBattler(_battler, selfTerrain, path));
+        }
+        else {
+          setState(new EnemyChooseAction(_battler, _behavior));
+        }
       }
-      return new EnemyChooseAction(_battler, _behavior);
     }
 
     private:
@@ -907,7 +916,7 @@ class Battle : GameState {
       _behavior = behavior;
     }
 
-    override State update(float time) {
+    override void update(float time) {
       auto selfTerrain = _map.tileAt(_battler.row, _battler.col);
       auto target = _behavior.attackRequest;
       if (target) {
@@ -915,11 +924,12 @@ class Battle : GameState {
         auto attack  = new CombatPrediction(_battler, target, targetTerrain);
         auto counter = new CombatPrediction(target, _battler, selfTerrain);
         auto series = constructAttackSeries(attack, counter);
-        return new ExecuteCombat(series, _battler, series.playerXp);
+        setState(new ExecuteCombat(series, _battler, series.playerXp));
       }
-
-      _battler.moved = true; // skip turn
-      return new Wait(1, new EnemyTurn);
+      else {
+        _battler.moved = true; // skip turn
+        setState(new Wait(pauseTime, new EnemyTurn));
+      }
     }
 
     private:
