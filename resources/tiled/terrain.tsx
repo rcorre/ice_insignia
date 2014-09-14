@@ -12,6 +12,36 @@
    <property name="name" value="Water"/>
   </properties>
  </tile>
+ <tile id="4">
+  <properties>
+   <property name="name" value="Road"/>
+  </properties>
+ </tile>
+ <tile id="5">
+  <properties>
+   <property name="name" value="Road"/>
+  </properties>
+ </tile>
+ <tile id="6">
+  <properties>
+   <property name="name" value="Road"/>
+  </properties>
+ </tile>
+ <tile id="7">
+  <properties>
+   <property name="name" value="Road"/>
+  </properties>
+ </tile>
+ <tile id="8">
+  <properties>
+   <property name="name" value="Road"/>
+  </properties>
+ </tile>
+ <tile id="9">
+  <properties>
+   <property name="name" value="Road"/>
+  </properties>
+ </tile>
  <tile id="10">
   <properties>
    <property name="avoid" value="20"/>
@@ -28,6 +58,36 @@
    <property name="defense" value="3"/>
    <property name="moveCost" value="3"/>
    <property name="name" value="Hill"/>
+  </properties>
+ </tile>
+ <tile id="14">
+  <properties>
+   <property name="name" value="Road"/>
+  </properties>
+ </tile>
+ <tile id="15">
+  <properties>
+   <property name="name" value="Road"/>
+  </properties>
+ </tile>
+ <tile id="16">
+  <properties>
+   <property name="name" value="Road"/>
+  </properties>
+ </tile>
+ <tile id="17">
+  <properties>
+   <property name="name" value="Road"/>
+  </properties>
+ </tile>
+ <tile id="18">
+  <properties>
+   <property name="name" value="Road"/>
+  </properties>
+ </tile>
+ <tile id="19">
+  <properties>
+   <property name="name" value="Road"/>
   </properties>
  </tile>
  <tile id="21">
@@ -52,6 +112,26 @@
   <properties>
    <property name="moveCost" value="20"/>
    <property name="name" value="Wall"/>
+  </properties>
+ </tile>
+ <tile id="25">
+  <properties>
+   <property name="name" value="Road"/>
+  </properties>
+ </tile>
+ <tile id="27">
+  <properties>
+   <property name="name" value="Road"/>
+  </properties>
+ </tile>
+ <tile id="28">
+  <properties>
+   <property name="name" value="Road"/>
+  </properties>
+ </tile>
+ <tile id="29">
+  <properties>
+   <property name="name" value="Road"/>
   </properties>
  </tile>
  <tile id="31">

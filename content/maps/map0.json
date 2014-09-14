@@ -23,18 +23,18 @@
          "y":0
         }, 
         {
-         "height":19,
+         "height":0,
          "name":"Neutrals",
          "objects":[],
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
-         "width":25,
+         "width":0,
          "x":0,
          "y":0
         }, 
         {
-         "height":19,
+         "height":0,
          "name":"Allies",
          "objects":[
                 {
@@ -110,12 +110,12 @@
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
-         "width":25,
+         "width":0,
          "x":0,
          "y":0
         }, 
         {
-         "height":19,
+         "height":0,
          "name":"Enemies",
          "objects":[
                 {
@@ -193,12 +193,12 @@
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
-         "width":25,
+         "width":0,
          "x":0,
          "y":0
         }, 
         {
-         "height":19,
+         "height":0,
          "name":"Objects",
          "objects":[
                 {
@@ -246,7 +246,7 @@
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
-         "width":25,
+         "width":0,
          "x":0,
          "y":0
         }],
@@ -292,6 +292,30 @@
                  "moveCost":"3",
                  "name":"Hill"
                 },
+             "14":
+                {
+                 "name":"Road"
+                },
+             "15":
+                {
+                 "name":"Road"
+                },
+             "16":
+                {
+                 "name":"Road"
+                },
+             "17":
+                {
+                 "name":"Road"
+                },
+             "18":
+                {
+                 "name":"Road"
+                },
+             "19":
+                {
+                 "name":"Road"
+                },
              "2":
                 {
                  "moveCost":"20",
@@ -316,6 +340,22 @@
                 {
                  "moveCost":"20",
                  "name":"Wall"
+                },
+             "25":
+                {
+                 "name":"Road"
+                },
+             "27":
+                {
+                 "name":"Road"
+                },
+             "28":
+                {
+                 "name":"Road"
+                },
+             "29":
+                {
+                 "name":"Road"
                 },
              "31":
                 {
@@ -355,6 +395,10 @@
                 {
                  "name":"Shore"
                 },
+             "4":
+                {
+                 "name":"Road"
+                },
              "41":
                 {
                  "moveCost":"20",
@@ -389,11 +433,15 @@
                 },
              "48":
                 {
-                 "name":"Shore"
+                 "name":"Water"
                 },
              "49":
                 {
                  "name":"Shore"
+                },
+             "5":
+                {
+                 "name":"Road"
                 },
              "57":
                 {
@@ -406,6 +454,22 @@
              "59":
                 {
                  "name":"Shore"
+                },
+             "6":
+                {
+                 "name":"Road"
+                },
+             "7":
+                {
+                 "name":"Road"
+                },
+             "8":
+                {
+                 "name":"Road"
+                },
+             "9":
+                {
+                 "name":"Road"
                 }
             },
          "tilewidth":32

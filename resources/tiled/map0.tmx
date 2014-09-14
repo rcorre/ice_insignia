@@ -13,6 +13,31 @@
     <property name="name" value="Water"/>
    </properties>
   </tile>
+  <tile id="4">
+   <properties>
+    <property name="name" value="Road"/>
+   </properties>
+  </tile>
+  <tile id="5">
+   <properties>
+    <property name="name" value="Road"/>
+   </properties>
+  </tile>
+  <tile id="6">
+   <properties>
+    <property name="name" value="Road"/>
+   </properties>
+  </tile>
+  <tile id="7">
+   <properties>
+    <property name="name" value="Road"/>
+   </properties>
+  </tile>
+  <tile id="8">
+   <properties>
+    <property name="name" value="Road"/>
+   </properties>
+  </tile>
   <tile id="9">
    <properties>
     <property name="name" value="Road"/>
@@ -34,6 +59,36 @@
     <property name="defense" value="3"/>
     <property name="moveCost" value="3"/>
     <property name="name" value="Hill"/>
+   </properties>
+  </tile>
+  <tile id="14">
+   <properties>
+    <property name="name" value="Road"/>
+   </properties>
+  </tile>
+  <tile id="15">
+   <properties>
+    <property name="name" value="Road"/>
+   </properties>
+  </tile>
+  <tile id="16">
+   <properties>
+    <property name="name" value="Road"/>
+   </properties>
+  </tile>
+  <tile id="17">
+   <properties>
+    <property name="name" value="Road"/>
+   </properties>
+  </tile>
+  <tile id="18">
+   <properties>
+    <property name="name" value="Road"/>
+   </properties>
+  </tile>
+  <tile id="19">
+   <properties>
+    <property name="name" value="Road"/>
    </properties>
   </tile>
   <tile id="21">
@@ -58,6 +113,26 @@
    <properties>
     <property name="moveCost" value="20"/>
     <property name="name" value="Wall"/>
+   </properties>
+  </tile>
+  <tile id="25">
+   <properties>
+    <property name="name" value="Road"/>
+   </properties>
+  </tile>
+  <tile id="27">
+   <properties>
+    <property name="name" value="Road"/>
+   </properties>
+  </tile>
+  <tile id="28">
+   <properties>
+    <property name="name" value="Road"/>
+   </properties>
+  </tile>
+  <tile id="29">
+   <properties>
+    <property name="name" value="Road"/>
    </properties>
   </tile>
   <tile id="31">
@@ -1133,15 +1208,15 @@
    <tile gid="0"/>
   </data>
  </layer>
- <objectgroup name="Neutrals" width="25" height="19"/>
- <objectgroup name="Allies" width="25" height="19">
+ <objectgroup name="Neutrals" width="0" height="0"/>
+ <objectgroup name="Allies" width="0" height="0">
   <object name="Spawn" type="spawn" gid="100" x="288" y="512"/>
   <object name="Spawn" type="spawn" gid="100" x="256" y="480"/>
   <object name="Spawn" type="spawn" gid="100" x="320" y="480"/>
   <object name="Spawn" type="spawn" gid="100" x="384" y="480"/>
   <object name="Spawn" type="spawn" gid="100" x="352" y="512"/>
  </objectgroup>
- <objectgroup name="Enemies" width="25" height="19">
+ <objectgroup name="Enemies" width="0" height="0">
   <object name="mercenary" type="2" gid="114" x="128" y="160">
    <properties>
     <property name="item0" value="broadsword"/>
@@ -1170,7 +1245,7 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup name="Objects" width="25" height="19">
+ <objectgroup name="Objects" width="0" height="0">
   <object name="broadsword" type="chest" gid="41" x="320" y="448">
    <properties>
     <property name="item" value="broadsword"/>
