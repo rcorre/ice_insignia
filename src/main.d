@@ -17,7 +17,7 @@ int main(char[][] args) {
 
   return al_run_allegro({
       while(_run) {
-        process_events();
+        process_event();
         if (_frameTick) {
           main_update();
           main_draw();
@@ -29,41 +29,39 @@ int main(char[][] args) {
   });
 }
 
-void process_events() {
+void process_event() {
   ALLEGRO_EVENT event;
-  while(al_get_next_event(event_queue, &event))
+  al_wait_for_event(event_queue, &event);
+  switch(event.type)
   {
-    switch(event.type)
-    {
-      case ALLEGRO_EVENT_TIMER:
-        {
-          if (event.timer.source == frame_timer) {
-            _frameTick = true;
-          }
-          break;
+    case ALLEGRO_EVENT_TIMER:
+      {
+        if (event.timer.source == frame_timer) {
+          _frameTick = true;
         }
-      case ALLEGRO_EVENT_DISPLAY_CLOSE:
+        break;
+      }
+    case ALLEGRO_EVENT_DISPLAY_CLOSE:
+      {
+        _run = false;
+        break;
+      }
+    case ALLEGRO_EVENT_KEY_DOWN:
+      {
+        switch(event.keyboard.keycode)
         {
-          _run = false;
-          break;
+          case ALLEGRO_KEY_ESCAPE:
+            {
+              _run = false;
+              break;
+            }
+          default:
         }
-      case ALLEGRO_EVENT_KEY_DOWN:
-        {
-          switch(event.keyboard.keycode)
-          {
-            case ALLEGRO_KEY_ESCAPE:
-              {
-                _run = false;
-                break;
-              }
-            default:
-          }
-          break;
-        }
-      default:
-    }
-    _currentState.handleEvent(event);
+        break;
+      }
+    default:
   }
+  _currentState.handleEvent(event);
 }
 
 void main_update() {
