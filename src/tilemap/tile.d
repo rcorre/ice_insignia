@@ -27,18 +27,6 @@ class Tile {
     string name() { return _object is null ? _name : _object.name; }
     int row() { return _row; }
     int col() { return _col; }
-    /// returns the move cost of the terrain, or impasseCost if tile is occupied
-    int moveCost() {
-      if (_object !is null && object.impassable) {
-        return impasseCost;
-      }
-      else if (battler !is null) {
-        return impasseCost;
-      }
-      else {
-        return _moveCost;
-      }
-    }
     int defense() { return _defense; }
     int avoid() { return _avoid; }
 
@@ -54,6 +42,19 @@ class Tile {
     auto ref object() { return _object; }
   }
 
+  /// returns the move cost of the terrain for the given traveller
+  int moveCost(Battler traveller) {
+    if (_object !is null && object.impassable) {
+      return impasseCost;
+    }
+    else if (battler !is null && battler.team != traveller.team) {
+      return impasseCost;
+    }
+    else {
+      return _moveCost;
+    }
+  }
+
   void draw(Vector2i pos) {
     if (_terrainSprite) {
       _terrainSprite.draw(pos);
@@ -67,11 +68,11 @@ class Tile {
   }
 
   private:
-    int _row, _col;
-    int _moveCost;
-    int _defense, _avoid;
-    string _name;
-    Sprite _terrainSprite, _featureSprite;
-    Battler _battler;
-    TileObject _object;
+  int _row, _col;
+  int _moveCost;
+  int _defense, _avoid;
+  string _name;
+  Sprite _terrainSprite, _featureSprite;
+  Battler _battler;
+  TileObject _object;
 }

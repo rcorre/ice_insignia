@@ -6,18 +6,23 @@ import std.array;
 import std.math : abs;
 import tilemap.tilemap;
 import tilemap.tile;
+import model.battler;
 
 class PathFinder {
   private enum noParent = -1;
 
-  this(TileMap map, Tile start, int moveRange) {
+  this(TileMap map, Tile start, Battler battler) {
     _map = map;
     _start = start;
-    _moveRange = moveRange;
+    _battler = battler;
+    _moveRange = _battler.move;
     djikstra();
     foreach(i ; iota(0, numTiles)) {
-      if (_dist[i] <= moveRange) {
-        _tilesInRange ~= idxToTile(i);
+      if (_dist[i] <= _moveRange) {
+        auto tile = idxToTile(i);
+        if (tile.battler is null) {
+          _tilesInRange ~= idxToTile(i);
+        }
       }
     }
   }
@@ -27,7 +32,7 @@ class PathFinder {
   /// return path to end, or null if end is not reachable
   Tile[] pathTo(Tile end) {
     int idx = tileToIdx(end);
-    if (_dist[idx] > _moveRange) {
+    if (end.battler !is null || _dist[idx] > _moveRange) {
       return null;
     }
     int startIdx = tileToIdx(_start);
@@ -49,8 +54,8 @@ class PathFinder {
     int cost = 0;
     // skip start as it will be seen as occupied
     foreach(tile ; fullPath.drop(1)) {
-      cost += tile.moveCost;
-      if (cost <= _moveRange) {
+      cost += tile.moveCost(_battler);
+      if (cost <= _moveRange && tile.battler is null) {
         path ~= tile;
       }
     }
@@ -64,6 +69,7 @@ class PathFinder {
   int[] _dist;
   int[] _prev;
   Tile[] _tilesInRange;
+  Battler _battler;
 
   int tileToIdx(Tile tile) {
     return tile.row * _map.numCols + tile.col;
@@ -104,7 +110,7 @@ class PathFinder {
 
       foreach(tile ; _map.neighbors(idxToTile(u))) {
         auto v = tileToIdx(tile);
-        auto alt = _dist[u] + tile.moveCost;
+        auto alt = _dist[u] + tile.moveCost(_battler);
         if (alt < _dist[v]) {
           _dist[v] = alt;
           _prev[v] = u;
@@ -142,7 +148,7 @@ class PathFinder {
       foreach(tile ; _map.neighbors(idxToTile(current))) {
         auto neighbor = tileToIdx(tile);
         if (closedset.canFind(neighbor)) { continue; }
-        auto tentative_gscore = gscore[current] + tile.moveCost;
+        auto tentative_gscore = gscore[current] + tile.moveCost(_battler);
 
         if (!openset.canFind(neighbor) || tentative_gscore < gscore[neighbor]) {
           parent[neighbor] = current;

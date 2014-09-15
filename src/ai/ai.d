@@ -9,7 +9,7 @@ abstract class AI {
     _map = map;
     _enemies = enemies;
     _allies = allies;
-    _pathFinder = new PathFinder(map, _map.tileAt(self.row, self.col), self.move);
+    _pathFinder = new PathFinder(map, _map.tileAt(self.row, self.col), self);
   }
 
   @property {

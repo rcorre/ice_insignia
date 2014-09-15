@@ -260,7 +260,7 @@ class Battle : GameState {
     this(Battler battler, Tile tile) {
       _battler = battler;
       _tile = tile;
-      _pathFinder = new PathFinder(_map, _tile, _battler.move);
+      _pathFinder = new PathFinder(_map, _tile, _battler);
       _tileHighlight = new AnimatedSprite("tile_highlight");
       _tileHighlight.tint = moveTint;
     }
