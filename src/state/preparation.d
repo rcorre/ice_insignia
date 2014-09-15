@@ -9,6 +9,7 @@ import util.input;
 import model.character;
 import model.item;
 import util.savegame;
+import util.bicycle;
 import state.battle;
 import tilemap.loader;
 
@@ -63,23 +64,23 @@ class Preparation : GameState {
     auto storeView = new StoreView(Vector2i.Zero, data, forSale);
     _missionView = new MissionView(Vector2i.Zero, data, _levelData, &startMission);
     GUIContainer[] views = [rosterView, storeView, _missionView];
-    _views = cycle(views);
+    _views = bicycle(views);
     _input = new InputManager;
   }
 
   /// returns a GameState to request a state transition, null otherwise
   override GameState update(float time) {
-    activeView.update(time);
+    _views.front.update(time);
     _input.update(time);
-    if (activeView.handleInput(_input)) {
+    if (_views.front.handleInput(_input)) {
       return _startBattle;
     }
     if (_input.next) {
-      ++_viewIdx;
+      _views.advance;
       _missionView.regenerateRoster;
     }
     else if (_input.previous) {
-      --_viewIdx;
+      _views.reverse;
       _missionView.regenerateRoster;
     }
     return _startBattle;
@@ -87,7 +88,7 @@ class Preparation : GameState {
 
   /// render game state to screen
   override void draw() {
-    activeView.draw();
+    _views.front.draw();
     drawInputIcon("previous", lbButtonPos, _input.gamepadConnected);
     drawInputIcon("next", rbButtonPos, _input.gamepadConnected);
   }
@@ -105,14 +106,8 @@ class Preparation : GameState {
     _startBattle = new Battle(_levelData, party);
   }
 
-  @property auto activeView() {
-    assert(_views[_viewIdx] !is null);
-    return _views[_viewIdx];
-  }
-
   private:
-  int _viewIdx;
-  Cycle!(GUIContainer[]) _views;
+  Bicycle!(GUIContainer[]) _views;
   InputManager _input;
   SaveData _data;
   Battle _startBattle;
