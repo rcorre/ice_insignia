@@ -22,6 +22,13 @@ enum ItemType {
   staff,
 }
 
+enum ItemEffect {
+  none,
+  cripple,
+  antiArmor,
+  counter
+}
+
 class Item {
   const ItemData data;
   alias data this;
@@ -62,6 +69,7 @@ class ItemData {
 
   @jsonize {
     string name;
+    string text;
     ItemType type = ItemType.other;
     int maxUses;
     int damage;
@@ -73,6 +81,7 @@ class ItemData {
     int tier = 1;
     int price;
     int heal;
+    ItemEffect effect;
   }
 }
 

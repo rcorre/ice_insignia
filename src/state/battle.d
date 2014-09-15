@@ -607,8 +607,8 @@ class Battle : GameState {
     void setTarget(Battler target) {
       _defender = target;
       _defendTerrain = _map.tileAt(target.row, target.col);
-      _attack = new CombatPrediction(_attacker, _defender, _defendTerrain);
-      _counter = new CombatPrediction(_defender, _attacker, _attackTerrain);
+      _attack = new CombatPrediction(_attacker, _defender, _defendTerrain, false);
+      _counter = new CombatPrediction(_defender, _attacker, _attackTerrain, true);
       _view = new CombatView(Vector2i(20, 20), _attack, _counter);
       _tileCursor.place(_defendTerrain);
     }
@@ -1007,8 +1007,8 @@ class Battle : GameState {
       auto target = _behavior.attackRequest;
       if (target) {
         auto targetTerrain = _map.tileAt(target.row, target.col);
-        auto attack  = new CombatPrediction(_battler, target, targetTerrain);
-        auto counter = new CombatPrediction(target, _battler, selfTerrain);
+        auto attack  = new CombatPrediction(_battler, target, targetTerrain, false);
+        auto counter = new CombatPrediction(target, _battler, selfTerrain, true);
         auto series = constructAttackSeries(attack, counter);
         setState(new ExecuteCombat(series, _battler, series.playerXp));
       }

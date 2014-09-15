@@ -24,6 +24,7 @@ private enum {
   // combat results
   triangleBonus = 1.2,
   trianglePenalty = 0.8,
+  counterBonus = 0.4,     /// counterattack bonus for weapon with counter ability
 }
 
 CombatResult[] constructAttackSeries(CombatPrediction attack, CombatPrediction counter) {
@@ -43,21 +44,29 @@ CombatResult[] constructAttackSeries(CombatPrediction attack, CombatPrediction c
 }
 
 class CombatPrediction {
-  this(Battler attacker, Battler defender, Tile defenderTerrain) {
+  this(Battler attacker, Battler defender, Tile defenderTerrain, bool isCounter) {
     this.attacker = attacker;
     this.defender = defender;
     this.defenderTerrain = defenderTerrain;
+    this.isCounter = isCounter;
   }
 
   @property {
     int damage() {
       int dmg = attacker.equippedWeapon.damage + attacker.strength;
+      auto effect = attacker.equippedWeapon.effect;
       int def = defender.defense + defenderTerrain.defense;
+      if (effect == ItemEffect.antiArmor) {
+        def /= 2;
+      }
       if (triangleAdvantage) {
         dmg *= triangleBonus;
       }
       else if (triangleDisadvantage) {
         dmg *= trianglePenalty;
+      }
+      if (isCounter && effect == ItemEffect.counter) {
+        dmg *= counterBonus;
       }
       return max(0, dmg - def);
     }
@@ -103,6 +112,7 @@ class CombatPrediction {
 
   Battler attacker, defender;
   Tile defenderTerrain;
+  bool isCounter;
 }
 
 CombatResult resolve(CombatPrediction pred) {
