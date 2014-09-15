@@ -79,12 +79,12 @@ class Character {
     auto talents() { return _talents; }
 
     Item equippedWeapon() {
-      return (_items[0] && _items[0].isWeapon) ? _items[0] : Item.none;
+      return (_items[0] && canWield(_items[0])) ? _items[0] : Item.none;
     }
 
     /// set equipped weapon
     void equippedWeapon(Item item) {
-      if (item) {
+      if (item && canWield(item)) {
         auto idx = _items[].countUntil(item);
         assert(idx >= 0);
         _items[idx] = _items[0];
