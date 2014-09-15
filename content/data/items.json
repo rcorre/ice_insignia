@@ -68,6 +68,34 @@
     "tier"     : 3
   },
 
+  "katana": {
+    "name"     : "Katana",
+    "type"     : "sword",
+    "maxUses"  : 25,
+    "damage"   : 10,
+    "hit"      : 85,
+    "crit"     : 20,
+    "minRange" : 1,
+    "maxRange" : 1,
+    "weight"   : 7,
+    "price"    : 460,
+    "tier"     : 3
+  },
+
+  "dancing": {
+    "name"     : "Dancing",
+    "type"     : "sword",
+    "maxUses"  : 15,
+    "damage"   : 7,
+    "hit"      : 80,
+    "crit"     : 10,
+    "minRange" : 1,
+    "maxRange" : 2,
+    "weight"   : 3,
+    "price"    : 300,
+    "tier"     : 2
+  },
+
   "sabredisk": {
     "name"     : "Sabredisk",
     "type"     : "sword",
@@ -126,7 +154,7 @@
     "type"     : "lance",
     "maxUses"  : 20,
     "damage"   : 6,
-    "hit"      : 70,
+    "hit"      : 75,
     "crit"     : 5,
     "minRange" : 1,
     "maxRange" : 2,
@@ -163,36 +191,87 @@
     "tier"     : 3
   },
 
-  "tomahawk": {
-    "name"     : "Tomahawk",
-    "type"     : "axe",
-    "maxUses"  : 25,
-    "damage"   : 5,
+  "harpoon": {
+    "name"     : "Harpoon",
+    "type"     : "lance",
+    "maxUses"  : 10,
+    "damage"   : 8,
     "hit"      : 70,
     "crit"     : 0,
     "minRange" : 1,
     "maxRange" : 2,
-    "weight"   : 5,
-    "price"    : 120
+    "weight"   : 8,
+    "price"    : 300,
+    "tier"     : 2,
+    "effect"   : "cripple",
+    "text"     : "cripple movement"
+  },
+
+  "scythe": {
+    "name"     : "Scythe",
+    "type"     : "lance",
+    "maxUses"  : 20,
+    "damage"   : 12,
+    "hit"      : 70,
+    "crit"     : 20,
+    "minRange" : 1,
+    "maxRange" : 1,
+    "weight"   : 8,
+    "price"    : 520,
+    "tier"     : 3,
+    "effect"   : "cripple",
+    "text"     : "cripple movement"
   },
 
   "mace": {
     "name"     : "Mace",
     "type"     : "axe",
     "maxUses"  : 40,
-    "damage"   : 6,
+    "damage"   : 5,
     "hit"      : 70,
     "crit"     : 0,
     "minRange" : 1,
     "maxRange" : 1,
-    "weight"   : 7,
-    "price"    : 110
+    "weight"   : 6,
+    "price"    : 110,
+    "effect"   : "antiArmor",
+    "text"     : "penetrate 1/2 armor"
   },
 
   "battleaxe": {
     "name"     : "Battleaxe",
     "type"     : "axe",
-    "maxUses"  : 40,
+    "maxUses"  : 35,
+    "damage"   : 6,
+    "hit"      : 75,
+    "crit"     : 0,
+    "minRange" : 1,
+    "maxRange" : 1,
+    "weight"   : 7,
+    "price"    : 150,
+    "tier"     : 2
+  },
+
+  "vengeance": {
+    "name"     : "Vengeance",
+    "type"     : "axe",
+    "maxUses"  : 20,
+    "damage"   : 6,
+    "hit"      : 80,
+    "crit"     : 0,
+    "minRange" : 1,
+    "maxRange" : 1,
+    "weight"   : 5,
+    "price"    : 250,
+    "tier"     : 2,
+    "effect"   : "counter",
+    "effect"   : "powerful counter-attack"
+  },
+
+  "crescentaxe": {
+    "name"     : "Crescent Axe",
+    "type"     : "axe",
+    "maxUses"  : 30,
     "damage"   : 10,
     "hit"      : 75,
     "crit"     : 0,
@@ -206,15 +285,30 @@
   "flail": {
     "name"     : "Flail",
     "type"     : "axe",
-    "maxUses"  : 40,
-    "damage"   : 7,
-    "hit"      : 70,
+    "maxUses"  : 30,
+    "damage"   : 9,
+    "hit"      : 65,
     "crit"     : 0,
     "minRange" : 1,
     "maxRange" : 1,
     "weight"   : 8,
-    "price"    : 230,
-    "tier"     : 2
+    "price"    : 290,
+    "tier"     : 2,
+    "effect"   : "antiArmor",
+    "text"     : "penetrate 1/2 armor"
+  },
+
+  "tomahawk": {
+    "name"     : "Tomahawk",
+    "type"     : "axe",
+    "maxUses"  : 25,
+    "damage"   : 7,
+    "hit"      : 70,
+    "crit"     : 0,
+    "minRange" : 1,
+    "maxRange" : 2,
+    "weight"   : 5,
+    "price"    : 220
   },
 
   "greataxe": {
@@ -242,7 +336,9 @@
     "maxRange" : 1,
     "weight"   : 14,
     "price"    : 420,
-    "tier"     : 3
+    "tier"     : 3,
+    "effect"   : "antiArmor",
+    "text"     : "penetrate 1/2 armor"
   },
 
   "shortbow": {
