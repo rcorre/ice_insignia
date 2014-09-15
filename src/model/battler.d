@@ -73,7 +73,9 @@ class Battler {
     }
 
     bool canOpenChest() {
-      return items[].canFind!(x => x !is null && x.name == "Chest Key") || canPickLocks;
+      bool hasChestKey = items[].canFind!(x => x !is null && x.name == "Chest Key");
+      bool hasSpace = items[].canFind!(x => x is null);
+      return hasSpace && (hasChestKey || canPickLocks);
     }
 
     /// return true if item totally consumed

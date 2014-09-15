@@ -24,6 +24,9 @@ private enum {
   attackShiftDist = 8,    /// pixels to shift when showing attack
   pauseTime = 0.5,        /// time to pause between states
 
+  chestFadeTime = 0.5,
+  doorFadeTime = 0.5,
+
   tileInfoPos    = cast(Vector2i) Vector2f(Settings.screenW * 0.9f, Settings.screenH * 0.9f),
   battlerInfoPos = cast(Vector2i) Vector2f(Settings.screenW * 0.1f, Settings.screenH * 0.9f),
 
@@ -364,14 +367,14 @@ class Battle : GameState {
       // find openable object
       if (_battler.canOpenChest) {
         if (cast(Chest) currentTile.object) {
-          _openableObject = currentTile.object;
+          _chestTile = currentTile;
         }
       }
       if (_battler.canOpenDoor) {
         auto neighbors = _map.neighbors(currentTile);
         auto tile = neighbors.find!(x => (cast(Door) x.object) !is null);
         if (!tile.empty) {
-          _openableObject = tile.front.object;
+          _doorTile = tile.front;
         }
       }
       // create menu
@@ -425,7 +428,7 @@ class Battle : GameState {
     private:
     Battler _battler;
     Battler[] _enemiesInRange, _stealableEnemies;
-    TileObject _openableObject;
+    Tile _doorTile, _chestTile; // tile holding door or chest that is available to open
     Tile _currentTile, _prevTile;
     StringMenu _selectionView;
     InventoryMenu _inventoryView;
@@ -441,8 +444,11 @@ class Battle : GameState {
       if (!_stealableEnemies.empty) {
         actions ~= "Steal";
       }
-      if (_openableObject !is null) {
-        actions ~= "Open";
+      if (_doorTile !is null) {
+        actions ~= "Door";
+      }
+      if (_chestTile !is null) {
+        actions ~= "Chest";
       }
       actions ~= "Inventory";
       actions ~= "Wait";
@@ -465,6 +471,13 @@ class Battle : GameState {
           break;
         case "Steal":
           _requestedState = new ConsiderSteal(_battler, _enemiesInRange);
+          break;
+        case "Chest":
+          _requestedState = new OpenChest(_battler);
+          break;
+        case "Door":
+          _requestedState = new OpenDoor(_battler, _doorTile);
+          break;
         default:
       }
     }
@@ -479,6 +492,56 @@ class Battle : GameState {
         _itemView.keepInside(Rect2i(0, 0, _camera.width, _camera.height));
       }
     }
+  }
+
+  class OpenDoor : State {
+    this(Battler battler, Tile tile) {
+      _battler = battler;
+      _tile = tile;
+      _sprite = tile.object.sprite;
+
+      Item item;  // item to use to unlock door
+      if (battler.canPickLocks) {
+        item = battler.items[].find!(x => x.name == "Lockpick").front;
+        // TODO: award xp for picking lock
+      }
+      else {
+        item = battler.items[].find!(x => x.name == "Door Key").front;
+      }
+      battler.useItem(item);
+      _sprite.fade(1, Color.clear);
+    }
+
+    override void update(float time) {
+      if (!_sprite.isFlashing) {
+        setState(new PlayerTurn);
+      }
+    }
+
+    private:
+      Battler _battler;
+      Tile _tile;
+      Sprite _sprite;
+  }
+
+  class OpenChest : State {
+    this(Battler battler) {
+      _battler = battler;
+      _chest = cast(Chest) _map.tileAtPos(_battler.pos).object;
+      assert(_chest, "OpenChest could not find on battler's tile");
+      _chest.sprite.fade(chestFadeTime, Color.clear);
+    }
+
+    override void update(float time) {
+      _chest.sprite.update(time);
+      if (!_chest.sprite.isFlashing) {
+        setState(new PlayerTurn);  //TODO award item
+      }
+    }
+
+    private:
+    Battler _battler;
+    Chest _chest;
   }
 
   class ConsiderAttack : State {
