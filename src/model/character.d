@@ -25,7 +25,6 @@ private enum {
     "skill"        : 40,
     "speed"        : 40,
     "defense"      : 40,
-    "resist"       : 40,
     "luck"         : 40,
     "move"         : 0,
     "constitution" : 10
@@ -47,8 +46,7 @@ class Character {
   {
     _name = name;
     _model = model;
-    _attributes = attributes;
-    _potential = basePotential;
+    _attributes = attributes; _potential = basePotential;
     _level = level;
     _xp = xp;
     _items = items;
@@ -215,7 +213,6 @@ unittest {
       "skill"        : 4,
       "speed"        : 5,
       "defense"      : 5,
-      "resist"       : 3,
       "luck"         : 2,
       "move"         : 4,
       "constitution" : 5
@@ -228,7 +225,6 @@ unittest {
       "skill"        : 8,
       "speed"        : 5,
       "defense"      : 4,
-      "resist"       : 5,
       "luck"         : 2,
       "move"         : 0,
       "constitution" : 1

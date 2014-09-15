@@ -8,7 +8,6 @@
         "skill"        : 4,
         "speed"        : 3,
         "defense"      : 2,
-        "resist"       : 1,
         "luck"         : 1,
         "move"         : 5,
         "constitution" : 4
@@ -33,7 +32,6 @@
         "skill"        : 3,
         "speed"        : 2,
         "defense"      : 2,
-        "resist"       : 1,
         "luck"         : 0,
         "move"         : 5,
         "constitution" : 6
@@ -58,7 +56,6 @@
         "skill"        : 3,
         "speed"        : 3,
         "defense"      : 2,
-        "resist"       : 0,
         "luck"         : 0,
         "move"         : 5,
         "constitution" : 5
@@ -83,7 +80,6 @@
         "skill"        : 5,
         "speed"        : 4,
         "defense"      : 1,
-        "resist"       : 2,
         "luck"         : 1,
         "move"         : 5,
         "constitution" : 4
