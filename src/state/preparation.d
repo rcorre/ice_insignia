@@ -20,16 +20,11 @@ private enum {
 }
 
 class Preparation : GameState {
-  this(SaveData data) {
+  this(SaveData data, bool newMission) {
     _data = data;
-    auto forHire = [
-      generateCharacter("mercenary"),
-      generateCharacter("mercenary"),
-      generateCharacter("fighter"),
-      generateCharacter("fighter"),
-      generateCharacter("soldier"),
-      generateCharacter("soldier"),
-    ];
+    if (newMission) {
+      data.advanceMission;
+    }
     auto forSale = [
       new Item("dirk"),
       new Item("broadsword"),
@@ -60,7 +55,7 @@ class Preparation : GameState {
       new Item("lockpick"),
     ];
     _levelData = loadLevel(data.mission);
-    auto rosterView = new RosterView(Vector2i.Zero, data, forHire);
+    auto rosterView = new RosterView(Vector2i.Zero, data, data.forHire);
     auto storeView = new StoreView(Vector2i.Zero, data, forSale);
     _missionView = new MissionView(Vector2i.Zero, data, _levelData, &startMission);
     GUIContainer[] views = [rosterView, storeView, _missionView];

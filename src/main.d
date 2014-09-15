@@ -13,7 +13,7 @@ private GameState _currentState;
 
 int main(char[][] args) {
   auto data = loadSave();
-  _currentState = new Preparation(data);
+  _currentState = new Preparation(data, false);
 
   return al_run_allegro({
       while(_run) {
