@@ -62,14 +62,13 @@ class TileMap {
   }
 
   Tile[] neighbors(Tile tile, int range = 1) {
-    if (range > 1) { assert("neighbors not implemented with range > 1"); }
     Tile[] list;
     int row = tile.row;
     int col = tile.col;
-    if (row > 0)           { list ~= _tiles[row - 1][col]; }
-    if (row < numRows - 1) { list ~= _tiles[row + 1][col]; }
-    if (col > 0)           { list ~= _tiles[row][col - 1]; }
-    if (col < numCols - 1) { list ~= _tiles[row][col + 1]; }
+    if (row > range - 1)       { list ~= _tiles[row - range][col]; }
+    if (row < numRows - range) { list ~= _tiles[row + range][col]; }
+    if (col > range - 1)       { list ~= _tiles[row][col - range]; }
+    if (col < numCols - range) { list ~= _tiles[row][col + range]; }
     return list;
   }
 
