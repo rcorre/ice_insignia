@@ -500,48 +500,71 @@ class Battle : GameState {
       _tile = tile;
       _sprite = tile.object.sprite;
 
-      Item item;  // item to use to unlock door
       if (battler.canPickLocks) {
-        item = battler.items[].find!(x => x.name == "Lockpick").front;
-        // TODO: award xp for picking lock
+        auto item = battler.items[].find!(x => x.name == "Lockpick").front;
+        battler.useItem(item);
+        _pickedLock = true;
       }
       else {
-        item = battler.items[].find!(x => x.name == "Door Key").front;
+        auto item = battler.items[].find!(x => x.name == "Door Key").front;
+        battler.useItem(item);
       }
-      battler.useItem(item);
-      _sprite.fade(1, Color.clear);
+      _sprite.fade(doorFadeTime, Color.clear);
     }
 
     override void update(float time) {
       if (!_sprite.isFlashing) {
-        setState(new PlayerTurn);
+        if (_battler.team == BattleTeam.ally) {
+          if (_pickedLock) {
+            int xp = computeLockpickXp(_battler);
+            setState(new AwardXp(_battler, xp, true));
+          }
+          else {
+            setState(new PlayerTurn);
+          }
+        }
+        else {
+          setState(new EnemyTurn);
+        }
       }
     }
 
     private:
-      Battler _battler;
-      Tile _tile;
-      Sprite _sprite;
+    Battler _battler;
+    Tile _tile;
+    Sprite _sprite;
+    bool _pickedLock;
   }
 
   class OpenChest : State {
     this(Battler battler) {
       _battler = battler;
-      _chest = cast(Chest) _map.tileAtPos(_battler.pos).object;
+      _tile = _map.tileAtPos(_battler.pos);
+      _chest = cast(Chest) _tile.object;
       assert(_chest, "OpenChest could not find on battler's tile");
+      assert(_chest.item, "no item in chest");
       _chest.sprite.fade(chestFadeTime, Color.clear);
     }
 
     override void update(float time) {
       _chest.sprite.update(time);
       if (!_chest.sprite.isFlashing) {
-        setState(new PlayerTurn);  //TODO award item
+        _battler.moved = true;
+        _tile.object = null;
+        if (_battler.team == BattleTeam.ally) {
+          int xp = computeLockpickXp(_battler);
+          setState(new AwardXp(_battler, xp, true, _chest.item));
+        }
+        else {
+          setState(new EnemyTurn);
+        }
       }
     }
 
     private:
     Battler _battler;
     Chest _chest;
+    Tile _tile;
   }
 
   class ConsiderAttack : State {

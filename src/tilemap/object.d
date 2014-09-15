@@ -27,6 +27,7 @@ abstract class TileObject {
 
 class Chest : TileObject {
   this(Sprite sprite, Item item) {
+    _item = item;
     super(sprite);
   }
 

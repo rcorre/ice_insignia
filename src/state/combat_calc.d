@@ -1,6 +1,7 @@
 module state.combat_calc;
 
 import std.random : uniform;
+import std.math : pow;
 import std.algorithm;
 import std.array;
 import util.math : clamp;
@@ -15,8 +16,10 @@ private enum {
   attackXpFactor = 3f, /// xp awarded per damage point dealt
   killXpBonus    = 40f,  /// xp awarded for a kill
   dodgeXp        = 10f,  /// xp awarded for a dodge
-  lockpickXp     = 30f,  /// xp awarded for picking a lock
-  stealXp        = 40f,  /// xp awarded for stealing
+
+  lockpickXp          = 50f, /// xp for picking a lock at level 1
+  lockpickLevelFactor = 0.8, /// lockpick xp factor for each level over 1
+  stealXp             = 40f, /// xp awarded for stealing
 
   // combat results
   triangleBonus = 1.2,
@@ -151,6 +154,10 @@ int playerXp(CombatResult[] series) {
 
 int computeStealXp(Battler stealer, Battler target) {
   return cast(int) (stealXp * levelFactor(stealer, target));
+}
+
+int computeLockpickXp(Battler battler) {
+  return cast(int) (lockpickXp * lockpickLevelFactor.pow(battler.level));
 }
 
 private:
