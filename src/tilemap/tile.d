@@ -29,7 +29,15 @@ class Tile {
     int col() { return _col; }
     /// returns the move cost of the terrain, or impasseCost if tile is occupied
     int moveCost() {
-      return (battler is null) ? _moveCost : impasseCost;
+      if (_object !is null && object.impassable) {
+        return impasseCost;
+      }
+      else if (battler !is null) {
+        return impasseCost;
+      }
+      else {
+        return _moveCost;
+      }
     }
     int defense() { return _defense; }
     int avoid() { return _avoid; }
