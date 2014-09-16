@@ -649,7 +649,8 @@ class Battle : GameState {
     void setWallTarget(Wall target) {
       _defender = target;
       _tileCursor.place(_map.tileAt(target.row, target.col));
-      _view = new WallCombatView(screenCenter, _attacker, target);
+      auto pos = _map.tileCoordToPos(target.row, target.col);
+      _view = new WallCombatView(pos - _camera.topLeft, _attacker, target);
     }
 
     void setBattlerTarget(Battler target) {
@@ -658,7 +659,7 @@ class Battle : GameState {
       _defendTerrain = _map.tileAt(target.row, target.col);
       _attack = new CombatPrediction(_attacker, defender, _defendTerrain, false);
       _counter = new CombatPrediction(defender, _attacker, _attackTerrain, true);
-      _view = new BattlerCombatView(screenCenter, _attack, _counter);
+      _view = new BattlerCombatView(defender.pos - _camera.topLeft, _attack, _counter);
       _tileCursor.place(_defendTerrain);
     }
   }

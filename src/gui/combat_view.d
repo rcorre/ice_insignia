@@ -3,25 +3,40 @@ module gui.combat_view;
 import std.conv;
 import std.string : format;
 import std.algorithm;
+import allegro;
 import geometry.all;
 import graphics.all;
 import state.combat_calc;
 import tilemap.object;
 import model.battler;
 
+private enum buffer = 20; // distance between view and sprite
 private enum spacing = Vector2i(193, 0);
 private enum {
-  offsetSprite       = Vector2i(49, 49),
-  offsetName         = Vector2i(73,41),
-  offsetWeaponSprite = Vector2i(49, 113),
-  offsetWeaponName   = Vector2i(73, 105),
-  offsetDamage       = Vector2i(105, 137),
-  offsetHit          = Vector2i(105, 169),
-  offsetCrit         = Vector2i(105, 201),
+  offsetSprite       = Vector2i(25, 49),
+  offsetName         = Vector2i(49, 41),
+  offsetWeaponSprite = Vector2i(25, 113),
+  offsetWeaponName   = Vector2i(49, 105),
+  offsetDamage       = Vector2i(81, 137),
+  offsetHit          = Vector2i(81, 169),
+  offsetCrit         = Vector2i(81, 201),
 }
 
 abstract class CombatView {
   this(Vector2i pos) {
+    if (pos.x > Settings.screenW / 2) {
+      pos.x -= (buffer + width / 2);
+    }
+    else {
+      pos.x += buffer;
+    }
+
+    if (pos.y > Settings.screenH / 2) {
+      pos.y -= (buffer + height / 2);
+    }
+    else {
+      pos.y += buffer;
+    }
     _area = Rect2i.CenteredAt(pos, width, height);
   }
 
@@ -87,7 +102,7 @@ class WallCombatView : CombatView {
     _font.draw(_attacker.attackHit           , offset + offsetHit);
     _font.draw(_attacker.attackCrit          , offset + offsetCrit);
 
-    _font.draw(_wall.name , offset + offsetSprite     + spacing);
+    _font.draw(_wall.name , offset + offsetName       + spacing);
     _font.draw("none"     , offset + offsetWeaponName + spacing);
     _font.draw(0          , offset + offsetDamage     + spacing);
     _font.draw(0          , offset + offsetHit        + spacing);
