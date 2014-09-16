@@ -77,8 +77,12 @@ class Battle : GameState {
     auto tile = _tileCursor.tile;
     if (tile) {
       _tileInfoBox = new TileInfoBox(tileInfoPos, tile.name, tile.defense, tile.avoid);
+      auto wall = cast(Wall) tile.object;
       if (tile.battler) {
         _battlerInfoBox = new BattlerInfoBox(battlerInfoPos, tile.battler);
+      }
+      else if (wall)  {
+        _battlerInfoBox = new BattlerInfoBox(battlerInfoPos, wall);
       }
       else {
         _battlerInfoBox = null;
@@ -875,10 +879,6 @@ class Battle : GameState {
 
       _attacker.moved = true; // end attacker's turn
       if (!_wall.alive) {
-        debug {
-          import std.stdio;
-          writeln(__FUNCTION__, ": ", "wall destroyed");
-        }
         auto tile = _map.tileAt(_wall.row, _wall.col);
         tile.object = null;
       }
