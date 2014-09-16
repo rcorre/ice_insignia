@@ -90,6 +90,10 @@ class Character {
       }
     }
 
+    bool isArmed() {
+      return canWield(_items[0]);
+    }
+
     bool canAwardTalent() {
       return talentAwardLevels.canFind(level);
     }
@@ -114,7 +118,7 @@ class Character {
   }
 
   bool canWield(Item item) {
-    return _talents.canFind!(x => x.weaponSkill == item.type && x.weaponTier == item.tier);
+    return item !is null && _talents.canFind!(x => x.weaponSkill == item.type && x.weaponTier == item.tier);
   }
 
   ref Item itemAt(ulong slot) {

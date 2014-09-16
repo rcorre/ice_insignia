@@ -7,3 +7,4 @@ public import model.character_spec;
 public import model.item;
 public import model.talent;
 public import model.valueset;
+public import model.attackable;

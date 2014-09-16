@@ -249,7 +249,7 @@
     "maxRange" : 1,
     "weight"   : 7,
     "price"    : 150,
-    "tier"     : 2
+    "tier"     : 1
   },
 
   "vengeance": {
@@ -263,9 +263,9 @@
     "maxRange" : 1,
     "weight"   : 5,
     "price"    : 250,
-    "tier"     : 2,
+    "tier"     : 1,
     "effect"   : "counter",
-    "effect"   : "powerful counter-attack"
+    "text"   : "powerful counter-attack"
   },
 
   "crescentaxe": {
@@ -308,7 +308,8 @@
     "minRange" : 1,
     "maxRange" : 2,
     "weight"   : 5,
-    "price"    : 220
+    "price"    : 220,
+    "tier"     : 2
   },
 
   "greataxe": {

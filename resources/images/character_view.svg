@@ -28,12 +28,12 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.5541257"
-     inkscape:cx="258.02289"
+     inkscape:cx="138.34145"
      inkscape:cy="258.02289"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
-     inkscape:window-width="958"
+     inkscape:window-width="1918"
      inkscape:window-height="1059"
      inkscape:window-x="0"
      inkscape:window-y="19"
@@ -126,17 +126,6 @@
        x="176"
        y="720.36218"
        ry="8" />
-    <text
-       xml:space="preserve"
-       style="font-size:21.19750977px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Monospace;-inkscape-font-specification:Monospace"
-       x="180.28235"
-       y="745.03473"
-       id="text3790-8"
-       sodipodi:linespacing="125%"><tspan
-         sodipodi:role="line"
-         id="tspan3792-5"
-         x="180.28235"
-         y="745.03473">Mag</tspan></text>
     <rect
        ry="8"
        y="752.36218"
@@ -148,11 +137,11 @@
     <text
        sodipodi:linespacing="125%"
        id="text3803"
-       y="777.03473"
+       y="745.03473"
        x="180.28235"
        style="font-size:21.19750977px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Monospace;-inkscape-font-specification:Monospace"
        xml:space="preserve"><tspan
-         y="777.03473"
+         y="745.03473"
          x="180.28235"
          id="tspan3805"
          sodipodi:role="line">Skl</tspan></text>
@@ -168,13 +157,13 @@
        xml:space="preserve"
        style="font-size:21.19750977px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Monospace;-inkscape-font-specification:Monospace"
        x="180.28235"
-       y="809.03473"
+       y="777.03473"
        id="text3811"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3813"
          x="180.28235"
-         y="809.03473">Spd</tspan></text>
+         y="777.03473">Spd</tspan></text>
     <rect
        ry="8"
        y="816.36218"
@@ -186,11 +175,11 @@
     <text
        sodipodi:linespacing="125%"
        id="text3819"
-       y="841.03473"
+       y="809.03473"
        x="180.28235"
        style="font-size:21.19750977px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Monospace;-inkscape-font-specification:Monospace"
        xml:space="preserve"><tspan
-         y="841.03473"
+         y="809.03473"
          x="180.28235"
          id="tspan3821"
          sodipodi:role="line">Lck</tspan></text>
@@ -206,40 +195,24 @@
        xml:space="preserve"
        style="font-size:21.19750977px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Monospace;-inkscape-font-specification:Monospace"
        x="180.28235"
-       y="873.03473"
+       y="841.03473"
        id="text3827"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3829"
          x="180.28235"
-         y="873.03473">Def</tspan></text>
-    <rect
-       ry="8"
-       y="912.36218"
-       x="176"
-       height="32"
-       width="160"
-       id="rect3833"
-       style="opacity:0.8;fill:none;stroke:#2b1100;stroke-width:2.58198881;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
-    <rect
-       style="opacity:0.8;fill:none;stroke:#2b1100;stroke-width:2.58198881;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
-       id="rect3841"
-       width="160"
-       height="32"
-       x="176"
-       y="944.36218"
-       ry="8" />
+         y="841.03473">Def</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:21.19750977px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Monospace;-inkscape-font-specification:Monospace"
        x="180.28235"
-       y="969.03473"
+       y="905.03473"
        id="text3843"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3845"
          x="180.28235"
-         y="969.03473">Con</tspan></text>
+         y="905.03473">Con</tspan></text>
     <rect
        ry="8"
        y="880.36218"
@@ -249,27 +222,16 @@
        id="rect3849"
        style="opacity:0.8;fill:none;stroke:#2b1100;stroke-width:2.58198881;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
     <text
-       sodipodi:linespacing="125%"
-       id="text3851"
-       y="905.03473"
-       x="180.28235"
-       style="font-size:21.19750977px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Monospace;-inkscape-font-specification:Monospace"
-       xml:space="preserve"><tspan
-         y="905.03473"
-         x="180.28235"
-         id="tspan3853"
-         sodipodi:role="line">Res</tspan></text>
-    <text
        xml:space="preserve"
        style="font-size:21.19750977px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Monospace;-inkscape-font-specification:Monospace"
        x="180.28235"
-       y="937.03473"
+       y="873.03473"
        id="text3855"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3857"
          x="180.28235"
-         y="937.03473">Mov</tspan></text>
+         y="873.03473">Mov</tspan></text>
     <rect
        style="opacity:0.8;fill:none;stroke:#2b1100;stroke-width:2.58198881;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
        id="rect3891"

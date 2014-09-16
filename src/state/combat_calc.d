@@ -6,6 +6,7 @@ import std.algorithm;
 import std.array;
 import util.math : clamp;
 import model.battler;
+import model.character;
 import model.item;
 import tilemap.tile;
 
@@ -25,6 +26,28 @@ private enum {
   triangleBonus = 1.2,
   trianglePenalty = 0.8,
   counterBonus = 0.4,     /// counterattack bonus for weapon with counter ability
+}
+
+// speed after adjustment for weapon weight
+int adjustedSpeed(Character c) {
+  int penalty = min(0, c.constitution  - c.equippedWeapon.weight);
+  return c.speed + penalty;
+}
+
+int attackDamage(Character c) {
+  return c.equippedWeapon.damage + c.strength;
+}
+
+int attackHit(Character c) {
+  return c.equippedWeapon.hit + c.skill * 4;
+}
+
+int attackCrit(Character c) {
+  return c.equippedWeapon.crit + c.luck * 2;
+}
+
+int avoid(Character c) {
+  return c.adjustedSpeed * 4;
 }
 
 CombatResult[] constructAttackSeries(CombatPrediction attack, CombatPrediction counter) {
@@ -53,7 +76,7 @@ class CombatPrediction {
 
   @property {
     int damage() {
-      int dmg = attacker.equippedWeapon.damage + attacker.strength;
+      int dmg = attacker.attackDamage;
       auto effect = attacker.equippedWeapon.effect;
       int def = defender.defense + defenderTerrain.defense;
       if (effect == ItemEffect.antiArmor) {
@@ -72,8 +95,8 @@ class CombatPrediction {
     }
 
     int hit() {
-      int acc = attacker.equippedWeapon.hit + attacker.skill * 4;
-      int avoid = defender.adjustedSpeed * 4 + defenderTerrain.avoid;
+      int acc = attacker.attackHit;
+      int avoid = defender.avoid + defenderTerrain.avoid;
       if (triangleAdvantage) {
         acc *= triangleBonus;
       }
@@ -84,7 +107,7 @@ class CombatPrediction {
     }
 
     int crit() {
-      int crt = attacker.equippedWeapon.crit + attacker.luck * 2;
+      int crt = attacker.attackCrit;
       int anti_crt = defender.luck * 2;
       if (triangleAdvantage) {
         crt *= 1.2;
@@ -174,12 +197,6 @@ private:
 // how much level difference influences xp
 float levelFactor(Battler player, Battler enemy) {
     return cast(float) (enemy.level + levelXpFactor) / (player.level + levelXpFactor);
-}
-
-// speed after adjustment for weapon weight
-int adjustedSpeed(Battler b) {
-  int penalty = min(0, b.constitution  - b.equippedWeapon.weight);
-  return b.speed + penalty;
 }
 
 bool wouldKillEnemy(CombatResult[] series) {

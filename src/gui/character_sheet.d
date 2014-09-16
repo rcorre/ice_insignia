@@ -10,6 +10,7 @@ import model.item;
 import geometry.all;
 import graphics.all;
 import util.input;
+import state.combat_calc;
 
 protected enum {
   textureName        = "character_view",
@@ -42,7 +43,7 @@ protected enum {
   equipmentSep       = 32,
   talentPos         = Vector2i(350, 100),
   talentsSep         = 32,
-  combatStatsPos     = Vector2i(269, 129),
+  combatStatsPos     = Vector2i(271, 125),
   combatStatsSep     = 32
 }
 
@@ -126,6 +127,27 @@ class CharacterSheet {
     _sprite.draw(_topLeft + spritePos);
     _nameFont.draw(_character.name, _topLeft + namePos);
     _levelFont.draw(to!string(_character.level), _topLeft + lvlPos);
+    drawCombatStats;
+  }
+
+  void drawCombatStats() {
+    Vector2i pos = _topLeft + combatStatsPos;
+    // damage
+    auto str = _character.isArmed ? to!string(_character.attackDamage) : "-";
+    _statsFont.draw(str, pos);
+    pos.y += combatStatsSep;
+    // hit
+    str = _character.isArmed ? to!string(_character.attackHit) : "-";
+    _statsFont.draw(str, pos);
+    pos.y += combatStatsSep;
+    // crit
+    str = _character.isArmed ? to!string(_character.attackCrit) : "-";
+    _statsFont.draw(str, pos);
+    pos.y += combatStatsSep;
+    // avoid
+    str = _character.isArmed ? to!string(_character.avoid) : "-";
+    _statsFont.draw(str, pos);
+    pos.y += combatStatsSep;
   }
 
   protected:
@@ -195,9 +217,10 @@ class CharacterSheet {
     _progressBars ~= new ProgressBar!int(area, _character.xp, _character.xpLimit, xpBarFg, xpBarBg, xpTextColor);
   }
 
-  static Font _nameFont, _levelFont;
+  static Font _nameFont, _levelFont, _statsFont;
   static this() {
     _nameFont  = getFont("characterSheetName");
     _levelFont = getFont("characterSheetLevel");
+    _statsFont = getFont("combatStats");
   }
 }

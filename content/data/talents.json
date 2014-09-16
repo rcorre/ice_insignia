@@ -16,7 +16,6 @@
         "skill"        : 15,
         "speed"        : 10,
         "defense"      : 0,
-        "resist"       : 0,
         "luck"         : 10,
         "move"         : 0,
         "constitution" : 0
@@ -43,7 +42,6 @@
         "skill"        : 15,
         "speed"        : 10,
         "defense"      : 0,
-        "resist"       : 0,
         "luck"         : 10,
         "move"         : 0,
         "constitution" : 0
@@ -70,7 +68,6 @@
         "skill"        : 15,
         "speed"        : 10,
         "defense"      : 0,
-        "resist"       : 0,
         "luck"         : 10,
         "move"         : 0,
         "constitution" : 0
@@ -96,7 +93,6 @@
         "skill"        : 0,
         "speed"        : 5,
         "defense"      : 0,
-        "resist"       : 0,
         "luck"         : 0,
         "move"         : 0,
         "constitution" : 10
@@ -123,7 +119,6 @@
         "skill"        : 0,
         "speed"        : 5,
         "defense"      : 0,
-        "resist"       : 0,
         "luck"         : 0,
         "move"         : 0,
         "constitution" : 10
@@ -150,7 +145,6 @@
         "skill"        : 0,
         "speed"        : 5,
         "defense"      : 0,
-        "resist"       : 0,
         "luck"         : 0,
         "move"         : 0,
         "constitution" : 10
@@ -177,7 +171,6 @@
         "skill"        : 10,
         "speed"        : 0,
         "defense"      : 10,
-        "resist"       : 0,
         "luck"         : 0,
         "move"         : 0,
         "constitution" : 5
@@ -205,7 +198,6 @@
         "skill"        : 10,
         "speed"        : 0,
         "defense"      : 10,
-        "resist"       : 0,
         "luck"         : 0,
         "move"         : 0,
         "constitution" : 5
@@ -233,7 +225,6 @@
         "skill"        : 10,
         "speed"        : 0,
         "defense"      : 10,
-        "resist"       : 0,
         "luck"         : 0,
         "move"         : 0,
         "constitution" : 5
@@ -260,7 +251,6 @@
         "skill"        : 15,
         "speed"        : 5,
         "defense"      : 0,
-        "resist"       : 10,
         "luck"         : 5,
         "move"         : 0,
         "constitution" : 0
@@ -287,7 +277,6 @@
         "skill"        : 15,
         "speed"        : 5,
         "defense"      : 0,
-        "resist"       : 10,
         "luck"         : 5,
         "move"         : 0,
         "constitution" : 0
@@ -314,7 +303,6 @@
         "skill"        : 15,
         "speed"        : 5,
         "defense"      : 0,
-        "resist"       : 10,
         "luck"         : 5,
         "move"         : 0,
         "constitution" : 0
@@ -341,7 +329,6 @@
         "skill"        : 5,
         "speed"        : 20,
         "defense"      : 0,
-        "resist"       : 0,
         "luck"         : 5,
         "move"         : 0,
         "constitution" : 0
@@ -366,7 +353,6 @@
         "skill"        : 5,
         "speed"        : 10,
         "defense"      : 0,
-        "resist"       : 0,
         "luck"         : 15,
         "move"         : 0,
         "constitution" : 0
@@ -390,7 +376,6 @@
         "skill"        : 0,
         "speed"        : 0,
         "defense"      : 0,
-        "resist"       : 0,
         "luck"         : 0,
         "move"         : 0,
         "constitution" : 15
@@ -414,7 +399,6 @@
         "skill"        : 10,
         "speed"        : 10,
         "defense"      : 0,
-        "resist"       : 0,
         "luck"         : 10,
         "move"         : 0,
         "constitution" : 0
@@ -437,7 +421,6 @@
         "skill"        : 0,
         "speed"        : 0,
         "defense"      : 20,
-        "resist"       : 0,
         "luck"         : 0,
         "move"         : 0,
         "constitution" : 10
@@ -462,7 +445,6 @@
         "skill"        : 0,
         "speed"        : 0,
         "defense"      : 20,
-        "resist"       : 0,
         "luck"         : 0,
         "move"         : 0,
         "constitution" : 10

@@ -361,7 +361,9 @@ class Battle : GameState {
       _battler = battler;
       _currentTile = currentTile;
       _prevTile = prevTile;
-      _enemiesInRange = array(_enemies.filter!(a => _battler.canAttack(a)));
+      auto enemiesInRange = cast(Attackable[]) array(_enemies.filter!(a => _battler.canAttack(a)));
+      auto wallsInRange = cast(Attackable[]) array(_objects.filter!(a => cast(Wall) a));
+      _targetsInRange = enemiesInRange ~ wallsInRange;
       _stealableEnemies = array(_enemies.filter!(a => _battler.canStealFrom(a)));
       _targetSprite = new AnimatedSprite("target", targetShade);
       // find openable object
@@ -427,7 +429,8 @@ class Battle : GameState {
 
     private:
     Battler _battler;
-    Battler[] _enemiesInRange, _stealableEnemies;
+    Battler[] _stealableEnemies;
+    Attackable[] _targetsInRange;
     Tile _doorTile, _chestTile; // tile holding door or chest that is available to open
     Tile _currentTile, _prevTile;
     StringMenu _selectionView;
@@ -438,7 +441,7 @@ class Battle : GameState {
 
     string[] getActions() {
       string[] actions;
-      if (!_enemiesInRange.empty) {
+      if (!_targetsInRange.empty) {
         actions ~= "Attack";
       }
       if (!_stealableEnemies.empty) {
@@ -458,7 +461,7 @@ class Battle : GameState {
     void handleSelection(string action) {
       switch(action) {
         case "Attack":
-          _requestedState = new ConsiderAttack(_battler, _enemiesInRange);
+          _requestedState = new ConsiderAttack(_battler, _targetsInRange);
           break;
         case "Inventory":
           auto menuPos = _battler.pos - _camera.topLeft - Vector2i(50, 50);
@@ -470,7 +473,7 @@ class Battle : GameState {
           _requestedState = new PlayerTurn;
           break;
         case "Steal":
-          _requestedState = new ConsiderSteal(_battler, _enemiesInRange);
+          _requestedState = new ConsiderSteal(_battler, _stealableEnemies);
           break;
         case "Chest":
           _requestedState = new OpenChest(_battler);
@@ -568,26 +571,29 @@ class Battle : GameState {
   }
 
   class ConsiderAttack : State {
-    this(Battler attacker, Battler[] targets) {
+    this(Battler attacker, Attackable[] targets) {
       assert(!targets.empty);
       _attacker = attacker;
-      _targets = targets;
+      _targets = bicycle(targets);
       _attackTerrain = _map.tileAt(attacker.row, attacker.col);
       setTarget(targets[0]);
     }
 
     override void update(float time) {
       if (_input.confirm) {
-        auto series = constructAttackSeries(_attack, _counter);
-        setState(new ExecuteCombat(series, _attacker, series.playerXp));
+        if (cast(Battler) _targets.front) {
+          auto series = constructAttackSeries(_attack, _counter);
+          setState(new ExecuteCombat(series, _attacker, series.playerXp));
+        }
+        else {
+          assert(0);
+        }
       }
       else if (_input.selectLeft) {
-        _targetIdx = (_targetIdx - 1) % _targets.length;
-        setTarget(_targets[_targetIdx]);
+        setTarget(_targets.advance);
       }
       else if (_input.selectRight) {
-        _targetIdx = (_targetIdx + 1) % _targets.length;
-        setTarget(_targets[_targetIdx]);
+        setTarget(_targets.reverse);
       }
     }
 
@@ -597,18 +603,32 @@ class Battle : GameState {
     }
 
     private:
-    Battler[] _targets;
-    ulong _targetIdx;
-    Battler _attacker, _defender;
+    Bicycle!(Attackable[]) _targets;
+    Battler _attacker;
+    Attackable _defender;
     Tile _attackTerrain, _defendTerrain;
     CombatPrediction _attack, _counter;
     CombatView _view;
 
-    void setTarget(Battler target) {
+    void setTarget(Attackable target) {
+      auto battler = cast(Battler) target;
+      if (battler) {
+        setBattlerTarget(battler);
+      }
+      setWallTarget(cast(Wall) target);
+    }
+
+    void setWallTarget(Wall target) {
       _defender = target;
+      _tileCursor.place(_map.tileAt(target.row, target.col));
+    }
+
+    void setBattlerTarget(Battler target) {
+      _defender = target;
+      auto defender = cast(Battler) _defender;
       _defendTerrain = _map.tileAt(target.row, target.col);
-      _attack = new CombatPrediction(_attacker, _defender, _defendTerrain, false);
-      _counter = new CombatPrediction(_defender, _attacker, _attackTerrain, true);
+      _attack = new CombatPrediction(_attacker, defender, _defendTerrain, false);
+      _counter = new CombatPrediction(defender, _attacker, _attackTerrain, true);
       _view = new CombatView(Vector2i(20, 20), _attack, _counter);
       _tileCursor.place(_defendTerrain);
     }

@@ -175,14 +175,14 @@ class MapObject {
       case "chest":
         assert("item" in properties, format("chest at %d,%d has no item", row, col));
         auto item = new Item(properties["item"]);
-        obj = new Chest(sprite, item);
+        obj = new Chest(sprite, item, row, col);
         break;
       case "door":
-        obj = new Door(sprite);
+        obj = new Door(sprite, row, col);
         break;
       case "wall":
         int hp = properties.get("hp", "20").to!int;
-        obj = new Wall(sprite, hp);
+        obj = new Wall(sprite, hp, row, col);
         break;
       default:
         assert(0, type ~ " is not a valid TileObject type");

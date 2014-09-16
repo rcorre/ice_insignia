@@ -1,12 +1,14 @@
 module tilemap.object;
 
+import std.algorithm;
 import graphics.all;
 import geometry.all;
 import model.item;
+import model.attackable;
 import tilemap.tile;
 
 abstract class TileObject {
-  this(Sprite sprite) {
+  this(Sprite sprite, int row, int col) {
     _sprite = sprite;
   }
 
@@ -15,6 +17,9 @@ abstract class TileObject {
 
     bool impassable();
     string name();
+
+    int row() { return _row; }
+    int col() { return _col; }
   }
 
   void draw(Vector2i pos) {
@@ -23,12 +28,13 @@ abstract class TileObject {
 
   private:
   Sprite _sprite;
+  int _row, _col;
 }
 
 class Chest : TileObject {
-  this(Sprite sprite, Item item) {
+  this(Sprite sprite, Item item, int row, int col) {
     _item = item;
-    super(sprite);
+    super(sprite, row, col);
   }
 
   @property {
@@ -41,19 +47,24 @@ class Chest : TileObject {
   Item _item;
 }
 
-class Wall : TileObject {
-  this(Sprite sprite, int hp) {
-    super(sprite);
+class Wall : TileObject, Attackable {
+  this(Sprite sprite, int hp, int row, int col) {
+    super(sprite, row, col);
   }
 
   @property {
     auto hp() { return _hp; }
-    override bool impassable() { return true; }
-    override string name() { return "Wall"; }
+    bool alive() { return _hp > 0; }
+    override {
+      bool impassable() { return true; }
+      string name() { return "Wall"; }
+      int row() { return super.row; }
+      int col() { return super.col; }
+    }
   }
 
-  void damage(int amount) {
-    assert(0, "TODO");
+  void dealDamage(int amount) {
+    _hp = max(hp - amount, 0);
   }
 
   private:
@@ -61,8 +72,8 @@ class Wall : TileObject {
 }
 
 class Door : TileObject {
-  this(Sprite sprite) {
-    super(sprite);
+  this(Sprite sprite, int row, int col) {
+    super(sprite, row, col);
   }
 
   @property {

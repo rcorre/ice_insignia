@@ -10,6 +10,7 @@ import util.math;
 import gui.battler_info;
 import model.character;
 import model.item;
+import model.attackable;
 
 private enum {
   movedTint = Color(0.6,0.6,0.6,0.9),
@@ -27,7 +28,7 @@ enum BattleTeam {
   neutral
 }
 
-class Battler {
+class Battler : Attackable {
   alias character this;
 
   this(Character c, int row, int col, Vector2i pos, BattleTeam team, string aiType = "agressive") {
@@ -43,8 +44,10 @@ class Battler {
 
   @property {
     Sprite sprite() { return _sprite; }
-    ref int row() { return _row; }
-    ref int col() { return _col; }
+    int row() { return _row; }
+    int col() { return _col; }
+    int row(int val) { return _row = val; }
+    int col(int val) { return _col = val; }
     ref Vector2i pos() { return _pos; }
     int hp() { return _hp; }
 
