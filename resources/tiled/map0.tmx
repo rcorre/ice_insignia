@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="25" height="19" tilewidth="32" tileheight="32">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="25" height="19" tilewidth="32" tileheight="32">
  <tileset firstgid="1" name="terrain" tilewidth="32" tileheight="32">
   <image source="../../content/image/terrain.png" width="320" height="320"/>
   <tile id="0">
@@ -1208,15 +1208,15 @@
    <tile gid="0"/>
   </data>
  </layer>
- <objectgroup name="Neutrals" width="0" height="0"/>
- <objectgroup name="Allies" width="0" height="0">
+ <objectgroup name="Neutrals"/>
+ <objectgroup name="Allies">
   <object name="Spawn" type="spawn" gid="100" x="288" y="512"/>
   <object name="Spawn" type="spawn" gid="100" x="256" y="480"/>
   <object name="Spawn" type="spawn" gid="100" x="320" y="480"/>
   <object name="Spawn" type="spawn" gid="100" x="384" y="480"/>
   <object name="Spawn" type="spawn" gid="100" x="352" y="512"/>
  </objectgroup>
- <objectgroup name="Enemies" width="0" height="0">
+ <objectgroup name="Enemies">
   <object name="mercenary" type="2" gid="114" x="128" y="160">
    <properties>
     <property name="item0" value="broadsword"/>
@@ -1245,7 +1245,7 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup name="Objects" width="0" height="0">
+ <objectgroup name="Objects">
   <object name="broadsword" type="chest" gid="41" x="320" y="448">
    <properties>
     <property name="item" value="broadsword"/>
@@ -1253,6 +1253,11 @@
   </object>
   <object type="door" gid="44" x="160" y="256"/>
   <object type="wall" gid="45" x="96" y="256">
+   <properties>
+    <property name="hp" value="20"/>
+   </properties>
+  </object>
+  <object type="wall" gid="45" x="288" y="416">
    <properties>
     <property name="hp" value="20"/>
    </properties>

@@ -6,6 +6,8 @@ import std.algorithm;
 import geometry.all;
 import graphics.all;
 import state.combat_calc;
+import tilemap.object;
+import model.battler;
 
 private enum {
   separatorWidth = 150 /// distance between attack and counter info
@@ -30,6 +32,30 @@ class CombatView {
       format("Damage : %d x%d", counter.damage, counter.doubleHit ? 2 : 1),
       format("Hit    : %d", counter.hit),
       format("Crit   : %d", counter.crit)
+    ];
+    auto width  = separatorWidth + reduce!((total, text) => max(total, _font.widthOf(text)))(0, _attackInfo);
+    auto height = reduce!((total, text) => total + _font.heightOf(text))(0, _attackInfo);
+    _area = Rect2i(pos.x, pos.y, width, height);
+  }
+
+  this(Vector2i pos, Battler attacker, Wall wall) {
+    _attackInfo = [
+      attacker.name,
+      attacker.equippedWeapon.name,
+      "false",
+      "false",
+      format("Damage : %d", attacker.attackDamage),
+      format("Hit    : %d", 100),
+      format("Crit   : %d", 0)
+    ];
+    _counterInfo = [
+      wall.name,
+      "none",
+      "false",
+      "false",
+      format("Damage : %d", 0),
+      format("Hit    : %d", 0),
+      format("Crit   : %d", 0)
     ];
     auto width  = separatorWidth + reduce!((total, text) => max(total, _font.widthOf(text)))(0, _attackInfo);
     auto height = reduce!((total, text) => total + _font.heightOf(text))(0, _attackInfo);

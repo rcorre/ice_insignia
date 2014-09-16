@@ -4,6 +4,7 @@ import graphics.all;
 import geometry.all;
 import gui.progress_bar;
 import model.battler;
+import tilemap.object;
 
 private enum {
   textureName     = "battler_info",
@@ -32,6 +33,14 @@ class BattlerInfoBox {
     _sprite = new CharacterSprite(b.model, b.team);
   }
 
+  this(Vector2i pos, Wall wall) {
+    _name = wall.name;
+    _area = Rect2i(pos, width, height);
+    auto healthArea = Rect2i(pos + healthBarOffset, healthBarSize);
+    _healthBar = new ProgressBar!int(healthArea, wall.hp, wall.maxHp, healthFg, healthBg);
+    _sprite = wall.sprite;
+  }
+
   @property {
     static {
       int width() { return _texture.width; }
@@ -43,7 +52,9 @@ class BattlerInfoBox {
 
   void update(float time) {
     _healthBar.update(time);
-    _xpBar.update(time);
+    if (_xpBar !is null) {
+      _xpBar.update(time);
+    }
   }
 
   void draw() {
@@ -51,7 +62,9 @@ class BattlerInfoBox {
     _sprite.draw(_area.topLeft + spriteOffset);
     _font.draw(_name, _area.topLeft + nameOffset);
     _healthBar.draw();
-    _xpBar.draw();
+    if (_xpBar !is null) {
+      _xpBar.draw();
+    }
   }
 
   private:

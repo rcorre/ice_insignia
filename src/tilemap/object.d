@@ -10,6 +10,8 @@ import tilemap.tile;
 abstract class TileObject {
   this(Sprite sprite, int row, int col) {
     _sprite = sprite;
+    _row = row;
+    _col = col;
   }
 
   @property {
@@ -50,10 +52,13 @@ class Chest : TileObject {
 class Wall : TileObject, Attackable {
   this(Sprite sprite, int hp, int row, int col) {
     super(sprite, row, col);
+    _maxHp = hp;
+    _hp = hp;
   }
 
   @property {
     auto hp() { return _hp; }
+    auto maxHp() { return _maxHp; }
     bool alive() { return _hp > 0; }
     override {
       bool impassable() { return true; }
@@ -65,10 +70,17 @@ class Wall : TileObject, Attackable {
 
   void dealDamage(int amount) {
     _hp = max(hp - amount, 0);
+    sprite.flash(damageFlashTime, damageFlashColor);
   }
 
   private:
-  int _hp;
+  int _hp, _maxHp;
+  enum {
+    damageFlashTime = 0.22,/// duration of flash used to indicate damage
+    fadeTime = 0.5,/// duration of flash used to indicate damage
+    damageFlashColor = Color(0.5, 0, 0),
+    fadeSpectrum = [Color.red, Color.clear],
+  }
 }
 
 class Door : TileObject {

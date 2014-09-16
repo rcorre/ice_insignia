@@ -5,6 +5,7 @@ import std.math;
 import std.range;
 import std.algorithm;
 import std.container;
+import std.variant;
 import allegro;
 import state.gamestate;
 import state.combat_calc;
@@ -35,6 +36,7 @@ private enum {
   itemInfoOffset = Vector2i(220, 0),
   talentMenuPos = Vector2i(600, 40),
   screenCenter = Vector2i(Settings.screenW, Settings.screenH) / 2,
+  hpTransitionRate = 20,
 }
 
 class Battle : GameState {
@@ -69,7 +71,7 @@ class Battle : GameState {
       battler.update(time);
     }
 
-    currentState.update(time);
+    currentState.updateState(time);
 
     // handle mouse -- display tile info
     auto tile = _tileCursor.tile;
@@ -111,7 +113,7 @@ class Battle : GameState {
         battler.drawInfoBox;
       }
     }
-    currentState.draw();
+    currentState.drawState();
 
     _tileCursor.draw();
     if (_tileInfoBox) {
@@ -166,13 +168,30 @@ class Battle : GameState {
   }
 
   abstract class State {
+    private bool _started;
+    final void updateState(float time) {
+      if (!_started) {
+        onStart();
+        _started = true;
+      }
+      update(time);
+    }
+    final void drawState() {
+      if (_started) {
+        draw();
+      }
+    }
     void update(float time);
     void draw() {}
+    void onStart() {}
     void onExit() {}
   }
 
   class PlayerTurn : State {
     this() {
+    }
+
+    override void onStart() {
       auto moveableAllies = _allies.filter!"!a.moved";
       _turnOver = moveableAllies.empty;
       if (!_turnOver) {
@@ -361,8 +380,9 @@ class Battle : GameState {
       _battler = battler;
       _currentTile = currentTile;
       _prevTile = prevTile;
-      auto enemiesInRange = cast(Attackable[]) array(_enemies.filter!(a => _battler.canAttack(a)));
-      auto wallsInRange = cast(Attackable[]) array(_objects.filter!(a => cast(Wall) a));
+      auto enemiesInRange = array(_enemies.filter!(a => _battler.canAttack(a)).map!(a =>
+            Variant(a)));
+      auto wallsInRange = array(_objects.filter!(a => _battler.canAttack(a)).map!(a => Variant(a)));
       _targetsInRange = enemiesInRange ~ wallsInRange;
       _stealableEnemies = array(_enemies.filter!(a => _battler.canStealFrom(a)));
       _targetSprite = new AnimatedSprite("target", targetShade);
@@ -430,7 +450,7 @@ class Battle : GameState {
     private:
     Battler _battler;
     Battler[] _stealableEnemies;
-    Attackable[] _targetsInRange;
+    Variant[] _targetsInRange;
     Tile _doorTile, _chestTile; // tile holding door or chest that is available to open
     Tile _currentTile, _prevTile;
     StringMenu _selectionView;
@@ -571,7 +591,7 @@ class Battle : GameState {
   }
 
   class ConsiderAttack : State {
-    this(Battler attacker, Attackable[] targets) {
+    this(Battler attacker, Variant[] targets) {
       assert(!targets.empty);
       _attacker = attacker;
       _targets = bicycle(targets);
@@ -581,12 +601,14 @@ class Battle : GameState {
 
     override void update(float time) {
       if (_input.confirm) {
-        if (cast(Battler) _targets.front) {
+        if (_targets.front.type == typeid(Battler)) {
           auto series = constructAttackSeries(_attack, _counter);
           setState(new ExecuteCombat(series, _attacker, series.playerXp));
         }
         else {
-          assert(0);
+          popState();
+          pushState(_attacker.team == BattleTeam.ally ? new PlayerTurn : new EnemyTurn);
+          pushState(new AttackWall(_attacker, cast(Wall) _targets.front.get!TileObject));
         }
       }
       else if (_input.selectLeft) {
@@ -603,24 +625,27 @@ class Battle : GameState {
     }
 
     private:
-    Bicycle!(Attackable[]) _targets;
+    Bicycle!(Variant[]) _targets;
     Battler _attacker;
     Attackable _defender;
     Tile _attackTerrain, _defendTerrain;
     CombatPrediction _attack, _counter;
     CombatView _view;
 
-    void setTarget(Attackable target) {
-      auto battler = cast(Battler) target;
-      if (battler) {
+    void setTarget(Variant target) {
+      if (target.type == typeid(Battler)) {
+        Battler battler = target.get!Battler;
         setBattlerTarget(battler);
       }
-      setWallTarget(cast(Wall) target);
+      else {
+        setWallTarget(cast(Wall) target.get!TileObject);
+      }
     }
 
     void setWallTarget(Wall target) {
       _defender = target;
       _tileCursor.place(_map.tileAt(target.row, target.col));
+      _view = new CombatView(Vector2i(20, 20), _attacker, target);
     }
 
     void setBattlerTarget(Battler target) {
@@ -823,6 +848,89 @@ class Battle : GameState {
     }
   }
 
+  class AttackWall : State {
+    this(Battler attacker, Wall wall) {
+      _attacker = attacker;
+      _wall = wall;
+      _info = new BattlerInfoBox(screenCenter, _wall);
+    }
+
+    override void update(float time) {
+      if (!_started) {
+        auto wallPos = _map.tileCoordToPos(_wall.row, _wall.col);
+        auto attackDirection = (wallPos - _attacker.pos).normalized;
+        _attacker.sprite.shift(attackDirection * attackShiftDist, attackSpeed);
+        bool itemDestroyed = _attacker.useItem(_attacker.equippedWeapon);
+        _wall.dealDamage(_attacker.attackDamage);
+        _info.healthBar.transition(max(0, _wall.hp - _attacker.attackDamage), hpTransitionRate);
+        _started = true;
+      }
+
+      _wall.sprite.update(time);
+      _info.healthBar.update(time);
+      if (_attacker.sprite.isJiggling || _wall.sprite.isFlashing || _info.healthBar.isTransitioning)
+      {
+        return;
+      }
+
+      _attacker.moved = true; // end attacker's turn
+      if (!_wall.alive) {
+        debug {
+          import std.stdio;
+          writeln(__FUNCTION__, ": ", "wall destroyed");
+        }
+        auto tile = _map.tileAt(_wall.row, _wall.col);
+        tile.object = null;
+      }
+      popState();
+    }
+
+    override void draw() {
+      _info.draw;
+    }
+
+    private:
+    Battler _attacker;
+    Wall _wall;
+    BattlerInfoBox _info;
+    bool _started;
+
+    /*
+    // these methods try to place info boxes so they are visible and next to the battler they represent
+    void showBattlerInfoBoxes(Battler b1, Battler b2) {
+      // check if b1 is topRight
+      if (b1.row < b2.row || b1.col > b2.col) {
+        showTopRightInfo(b1);
+        showBottomLeftInfo(b2);
+      }
+      else {
+        showTopRightInfo(b2);
+        showBottomLeftInfo(b1);
+      }
+    }
+
+    void showTopRightInfo(Battler b) {
+      auto size = Vector2i(BattlerInfoBox.width, BattlerInfoBox.height);
+      auto shift = Vector2i(size.x, -size.y) / 2 + Vector2i(battleInfoOffset.x, -battleInfoOffset.y);
+      auto area = Rect2i.CenteredAt(b.pos + shift - _camera.topLeft, size.x, size.y);
+      if (area.top < 0) { area.y += shift.y; }
+      if (area.right > _camera.width) { area.x -= shift.x; }
+
+      b.showInfoBox(area.topLeft);
+    }
+
+    void showBottomLeftInfo(Battler b) {
+      auto size = Vector2i(BattlerInfoBox.width, BattlerInfoBox.height);
+      auto shift = Vector2i(-size.x, size.y) / 2 + Vector2i(-battleInfoOffset.x, battleInfoOffset.y);
+      auto area = Rect2i.CenteredAt(b.pos + shift - _camera.topLeft, size.x, size.y);
+      if (area.left < 0) { area.x += shift.x; }
+      if (area.bottom > _camera.height) { area.y -= shift.y; }
+
+      b.showInfoBox(area.topLeft);
+    }
+    */
+  }
+
   class AwardXp : State {
     this(Battler battler, int xp, bool wasPlayerTurn, Item itemToAward = null) {
       _battler = battler;
@@ -836,7 +944,7 @@ class Battle : GameState {
       _battler.showInfoBox(screenCenter);
     }
 
-    void start() {
+    void begin() {
       _leveled = _battler.awardXp(_xp, _awards, _leftoverXp);
       _started = true;
     }
@@ -852,7 +960,7 @@ class Battle : GameState {
         }
         return;
       }
-      if (!_started) { start; }
+      if (!_started) { begin; }
       if (_battler.isXpTransitioning) {
       }
       else if (_leveled) {

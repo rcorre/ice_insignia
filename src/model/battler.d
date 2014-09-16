@@ -11,6 +11,7 @@ import gui.battler_info;
 import model.character;
 import model.item;
 import model.attackable;
+import tilemap.object;
 
 private enum {
   movedTint = Color(0.6,0.6,0.6,0.9),
@@ -154,6 +155,13 @@ class Battler : Attackable {
   bool canAttack(Battler other) {
     auto dist = abs(row - other.row) + abs(col - other.col);
     return other.alive && dist >= character.equippedWeapon.minRange && dist <= character.equippedWeapon.maxRange;
+  }
+
+  bool canAttack(TileObject obj) {
+    auto wall = cast(Wall) obj;
+    if (wall is null) { return false; }
+    auto dist = abs(row - obj.row) + abs(col - obj.col);
+    return wall.alive && dist >= character.equippedWeapon.minRange && dist <= character.equippedWeapon.maxRange;
   }
 
   auto stealableItems() {

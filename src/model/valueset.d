@@ -21,10 +21,6 @@ struct ValueSet(T) if (is(T == enum)) {
 
   @jsonize this(int[string] valueSet) {
     foreach(key, val ; valueSet) {
-      debug {
-        import std.stdio;
-        writeln(__FUNCTION__, ": ", "key = ", key);
-      }
       _values[to!T(key)] = val;
     }
   }

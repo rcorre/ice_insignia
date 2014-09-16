@@ -23,6 +23,7 @@
          "y":0
         }, 
         {
+         "draworder":"topdown",
          "height":0,
          "name":"Neutrals",
          "objects":[],
@@ -34,6 +35,7 @@
          "y":0
         }, 
         {
+         "draworder":"topdown",
          "height":0,
          "name":"Allies",
          "objects":[
@@ -45,6 +47,7 @@
                     {
 
                     },
+                 "rotation":0,
                  "type":"spawn",
                  "visible":true,
                  "width":0,
@@ -59,6 +62,7 @@
                     {
 
                     },
+                 "rotation":0,
                  "type":"spawn",
                  "visible":true,
                  "width":0,
@@ -73,6 +77,7 @@
                     {
 
                     },
+                 "rotation":0,
                  "type":"spawn",
                  "visible":true,
                  "width":0,
@@ -87,6 +92,7 @@
                     {
 
                     },
+                 "rotation":0,
                  "type":"spawn",
                  "visible":true,
                  "width":0,
@@ -101,6 +107,7 @@
                     {
 
                     },
+                 "rotation":0,
                  "type":"spawn",
                  "visible":true,
                  "width":0,
@@ -115,6 +122,7 @@
          "y":0
         }, 
         {
+         "draworder":"topdown",
          "height":0,
          "name":"Enemies",
          "objects":[
@@ -126,6 +134,7 @@
                     {
                      "item0":"broadsword"
                     },
+                 "rotation":0,
                  "type":"2",
                  "visible":true,
                  "width":0,
@@ -142,6 +151,7 @@
                      "item0":"quarterstaff",
                      "item1":"doorkey"
                     },
+                 "rotation":0,
                  "type":"1",
                  "visible":true,
                  "width":0,
@@ -156,6 +166,7 @@
                     {
                      "item0":"mace"
                     },
+                 "rotation":0,
                  "type":"1",
                  "visible":true,
                  "width":0,
@@ -170,6 +181,7 @@
                     {
                      "item0":"dirk"
                     },
+                 "rotation":0,
                  "type":"1",
                  "visible":true,
                  "width":0,
@@ -184,6 +196,7 @@
                     {
                      "item0":"shortbow"
                     },
+                 "rotation":0,
                  "type":"2",
                  "visible":true,
                  "width":0,
@@ -198,6 +211,7 @@
          "y":0
         }, 
         {
+         "draworder":"topdown",
          "height":0,
          "name":"Objects",
          "objects":[
@@ -209,6 +223,7 @@
                     {
                      "item":"broadsword"
                     },
+                 "rotation":0,
                  "type":"chest",
                  "visible":true,
                  "width":0,
@@ -223,6 +238,7 @@
                     {
 
                     },
+                 "rotation":0,
                  "type":"door",
                  "visible":true,
                  "width":0,
@@ -237,11 +253,27 @@
                     {
                      "hp":"20"
                     },
+                 "rotation":0,
                  "type":"wall",
                  "visible":true,
                  "width":0,
                  "x":96,
                  "y":256
+                }, 
+                {
+                 "gid":45,
+                 "height":0,
+                 "name":"",
+                 "properties":
+                    {
+                     "hp":"20"
+                    },
+                 "rotation":0,
+                 "type":"wall",
+                 "visible":true,
+                 "width":0,
+                 "x":288,
+                 "y":416
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -255,6 +287,7 @@
     {
 
     },
+ "renderorder":"right-down",
  "tileheight":32,
  "tilesets":[
         {
