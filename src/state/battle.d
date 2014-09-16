@@ -856,20 +856,20 @@ class Battle : GameState {
     this(Battler attacker, Wall wall) {
       _attacker = attacker;
       _wall = wall;
-      _info = new BattlerInfoBox(screenCenter, _wall);
+      showInfoBox(_attacker, _wall);
+    }
+
+    override void onStart() {
+      auto wallPos = _map.tileCoordToPos(_wall.row, _wall.col);
+      auto attackDirection = (wallPos - _attacker.pos).normalized;
+      _attacker.sprite.shift(attackDirection * attackShiftDist, attackSpeed);
+      bool itemDestroyed = _attacker.useItem(_attacker.equippedWeapon);
+      _info.healthBar.transition(max(0, _wall.hp - _attacker.attackDamage), hpTransitionRate);
+      _wall.dealDamage(_attacker.attackDamage);
+      _started = true;
     }
 
     override void update(float time) {
-      if (!_started) {
-        auto wallPos = _map.tileCoordToPos(_wall.row, _wall.col);
-        auto attackDirection = (wallPos - _attacker.pos).normalized;
-        _attacker.sprite.shift(attackDirection * attackShiftDist, attackSpeed);
-        bool itemDestroyed = _attacker.useItem(_attacker.equippedWeapon);
-        _wall.dealDamage(_attacker.attackDamage);
-        _info.healthBar.transition(max(0, _wall.hp - _attacker.attackDamage), hpTransitionRate);
-        _started = true;
-      }
-
       _wall.sprite.update(time);
       _info.healthBar.update(time);
       if (_attacker.sprite.isJiggling || _wall.sprite.isFlashing || _info.healthBar.isTransitioning)
@@ -883,6 +883,7 @@ class Battle : GameState {
         tile.object = null;
       }
       popState();
+      pushState(new Wait(pauseTime));
     }
 
     override void draw() {
@@ -894,41 +895,38 @@ class Battle : GameState {
     Wall _wall;
     BattlerInfoBox _info;
     bool _started;
-
-    /*
-    // these methods try to place info boxes so they are visible and next to the battler they represent
-    void showBattlerInfoBoxes(Battler b1, Battler b2) {
+    
+    void showInfoBox(Battler attacker, Wall wall) {
       // check if b1 is topRight
-      if (b1.row < b2.row || b1.col > b2.col) {
-        showTopRightInfo(b1);
-        showBottomLeftInfo(b2);
+      if (wall.row < attacker.row || wall.col > attacker.col) {
+        showTopRightInfo(wall);
       }
       else {
-        showTopRightInfo(b2);
-        showBottomLeftInfo(b1);
+        showBottomLeftInfo(wall);
       }
     }
 
-    void showTopRightInfo(Battler b) {
+    void showTopRightInfo(Wall wall) {
       auto size = Vector2i(BattlerInfoBox.width, BattlerInfoBox.height);
       auto shift = Vector2i(size.x, -size.y) / 2 + Vector2i(battleInfoOffset.x, -battleInfoOffset.y);
-      auto area = Rect2i.CenteredAt(b.pos + shift - _camera.topLeft, size.x, size.y);
+      auto pos = _map.tileCoordToPos(wall.row, wall.col);
+      auto area = Rect2i.CenteredAt(pos + shift - _camera.topLeft, size.x, size.y);
       if (area.top < 0) { area.y += shift.y; }
       if (area.right > _camera.width) { area.x -= shift.x; }
 
-      b.showInfoBox(area.topLeft);
+      _info = new BattlerInfoBox(area.topLeft, wall);
     }
 
-    void showBottomLeftInfo(Battler b) {
+    void showBottomLeftInfo(Wall wall) {
       auto size = Vector2i(BattlerInfoBox.width, BattlerInfoBox.height);
       auto shift = Vector2i(-size.x, size.y) / 2 + Vector2i(-battleInfoOffset.x, battleInfoOffset.y);
-      auto area = Rect2i.CenteredAt(b.pos + shift - _camera.topLeft, size.x, size.y);
+      auto pos = _map.tileCoordToPos(wall.row, wall.col);
+      auto area = Rect2i.CenteredAt(pos + shift - _camera.topLeft, size.x, size.y);
       if (area.left < 0) { area.x += shift.x; }
       if (area.bottom > _camera.height) { area.y -= shift.y; }
 
-      b.showInfoBox(area.topLeft);
+      _info = new BattlerInfoBox(area.topLeft, wall);
     }
-    */
   }
 
   class AwardXp : State {
@@ -1067,7 +1065,7 @@ class Battle : GameState {
   }
 
   class Wait : State {
-    this(float time, State nextState, void delegate() onWaitEnd = null) {
+    this(float time, State nextState = null, void delegate() onWaitEnd = null) {
       _timer = time;
       _nextState = nextState;
       _onWaitEnd = onWaitEnd;
@@ -1077,7 +1075,12 @@ class Battle : GameState {
       _timer -= time;
       if (_timer < 0) {
         if (_onWaitEnd) { _onWaitEnd(); }
-        setState(_nextState);
+        if (_nextState) {
+          setState(_nextState);
+        }
+        else {
+          popState();
+        }
       }
     }
 
