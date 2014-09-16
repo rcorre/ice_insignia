@@ -649,7 +649,7 @@ class Battle : GameState {
     void setWallTarget(Wall target) {
       _defender = target;
       _tileCursor.place(_map.tileAt(target.row, target.col));
-      _view = new CombatView(Vector2i(20, 20), _attacker, target);
+      _view = new WallCombatView(screenCenter, _attacker, target);
     }
 
     void setBattlerTarget(Battler target) {
@@ -658,7 +658,7 @@ class Battle : GameState {
       _defendTerrain = _map.tileAt(target.row, target.col);
       _attack = new CombatPrediction(_attacker, defender, _defendTerrain, false);
       _counter = new CombatPrediction(defender, _attacker, _attackTerrain, true);
-      _view = new CombatView(Vector2i(20, 20), _attack, _counter);
+      _view = new BattlerCombatView(screenCenter, _attack, _counter);
       _tileCursor.place(_defendTerrain);
     }
   }
@@ -895,7 +895,7 @@ class Battle : GameState {
     Wall _wall;
     BattlerInfoBox _info;
     bool _started;
-    
+
     void showInfoBox(Battler attacker, Wall wall) {
       // check if b1 is topRight
       if (wall.row < attacker.row || wall.col > attacker.col) {

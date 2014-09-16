@@ -9,71 +9,102 @@ import state.combat_calc;
 import tilemap.object;
 import model.battler;
 
+private enum spacing = Vector2i(193, 0);
 private enum {
-  separatorWidth = 150 /// distance between attack and counter info
+  offsetSprite       = Vector2i(49, 49),
+  offsetName         = Vector2i(73,41),
+  offsetWeaponSprite = Vector2i(49, 113),
+  offsetWeaponName   = Vector2i(73, 105),
+  offsetDamage       = Vector2i(105, 137),
+  offsetHit          = Vector2i(105, 169),
+  offsetCrit         = Vector2i(105, 201),
 }
 
-class CombatView {
-  this(Vector2i pos, CombatPrediction attack, CombatPrediction counter) {
-    _attackInfo = [
-      attack.attacker.name,
-      attack.attacker.equippedWeapon.name,
-      to!string(attack.triangleAdvantage),
-      to!string(attack.triangleDisadvantage),
-      format("Damage : %d x%d", attack.damage, attack.doubleHit ? 2 : 1),
-      format("Hit    : %d", attack.hit),
-      format("Crit   : %d", attack.crit)
-    ];
-    _counterInfo = [
-      counter.attacker.name,
-      counter.attacker.equippedWeapon.name,
-      to!string(counter.triangleAdvantage),
-      to!string(counter.triangleDisadvantage),
-      format("Damage : %d x%d", counter.damage, counter.doubleHit ? 2 : 1),
-      format("Hit    : %d", counter.hit),
-      format("Crit   : %d", counter.crit)
-    ];
-    auto width  = separatorWidth + reduce!((total, text) => max(total, _font.widthOf(text)))(0, _attackInfo);
-    auto height = reduce!((total, text) => total + _font.heightOf(text))(0, _attackInfo);
-    _area = Rect2i(pos.x, pos.y, width, height);
+abstract class CombatView {
+  this(Vector2i pos) {
+    _area = Rect2i.CenteredAt(pos, width, height);
   }
 
-  this(Vector2i pos, Battler attacker, Wall wall) {
-    _attackInfo = [
-      attacker.name,
-      attacker.equippedWeapon.name,
-      "false",
-      "false",
-      format("Damage : %d", attacker.attackDamage),
-      format("Hit    : %d", 100),
-      format("Crit   : %d", 0)
-    ];
-    _counterInfo = [
-      wall.name,
-      "none",
-      "false",
-      "false",
-      format("Damage : %d", 0),
-      format("Hit    : %d", 0),
-      format("Crit   : %d", 0)
-    ];
-    auto width  = separatorWidth + reduce!((total, text) => max(total, _font.widthOf(text)))(0, _attackInfo);
-    auto height = reduce!((total, text) => total + _font.heightOf(text))(0, _attackInfo);
-    _area = Rect2i(pos.x, pos.y, width, height);
+  @property {
+    Rect2i area() { return _area; }
+    static {
+      int width() { return _texture.width; }
+      int height() { return _texture.height; }
+    }
   }
 
   void draw() {
-    _area.drawFilled;
-    _font.draw(_attackInfo, _area.topLeft);
-    _font.draw(_counterInfo, _area.topLeft + Vector2i.UnitX * separatorWidth);
+    _texture.draw(area.center);
+  }
+
+  private Rect2i _area;
+}
+
+class BattlerCombatView : CombatView {
+  this(Vector2i pos, CombatPrediction attack, CombatPrediction counter) {
+    super(pos);
+    _attack = attack;
+    _counter = counter;
+  }
+
+  override void draw() {
+    super.draw();
+    drawPrediction(_attack, _area.topLeft);
+    drawPrediction(_counter, _area.topLeft + spacing);
+  }
+
+  private:
+  CombatPrediction _attack, _counter;
+
+  void drawPrediction(CombatPrediction pred, Vector2i offset) {
+    auto unit = pred.attacker;
+    unit.sprite.draw(offset + offsetSprite);
+    unit.equippedWeapon.sprite.draw(offset + offsetWeaponSprite);
+    _font.draw(unit.name                , offset + offsetName);
+    _font.draw(unit.equippedWeapon.name , offset + offsetWeaponName);
+    _font.draw(pred.damage              , offset + offsetDamage);
+    _font.draw(pred.hit                 , offset + offsetHit);
+    _font.draw(pred.crit                , offset + offsetCrit);
+  }
+}
+
+class WallCombatView : CombatView {
+  this(Vector2i pos, Battler attacker, Wall wall) {
+    super(pos);
+    _attacker = attacker;
+    _wall = wall;
+  }
+
+  override void draw() {
+    super.draw();
+    auto offset = area.topLeft;
+    // draw attacker
+    _attacker.sprite.draw(offset + offsetSprite);
+    _attacker.equippedWeapon.sprite.draw(offset + offsetWeaponSprite);
+    _font.draw(_attacker.name                , offset + offsetName);
+    _font.draw(_attacker.equippedWeapon.name , offset + offsetWeaponName);
+    _font.draw(_attacker.attackDamage        , offset + offsetDamage);
+    _font.draw(_attacker.attackHit           , offset + offsetHit);
+    _font.draw(_attacker.attackCrit          , offset + offsetCrit);
+
+    _font.draw(_wall.name , offset + offsetSprite     + spacing);
+    _font.draw("none"     , offset + offsetWeaponName + spacing);
+    _font.draw(0          , offset + offsetDamage     + spacing);
+    _font.draw(0          , offset + offsetHit        + spacing);
+    _font.draw(0          , offset + offsetCrit       + spacing);
   }
 
   private:
   Rect2i _area;
-  string[] _attackInfo, _counterInfo;
-  static Font _font ;
+  Battler _attacker;
+  Wall _wall;
+}
 
-  static this() {
-    _font = getFont("combat_info_font");
-  }
+private:
+static Font _font ;
+static Texture _texture;
+
+static this() {
+  _font = getFont("combat_info_font");
+  _texture = getTexture("combat_view");
 }
