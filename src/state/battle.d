@@ -1099,7 +1099,7 @@ class Battle : GameState {
       }
       else {
         _battler = findReady.front;
-        _behavior = new AgressiveAI(_battler, _map, _allies, _enemies);
+        _behavior = getAI(_battler, _map, _allies, _enemies);
       }
     }
 
@@ -1113,7 +1113,7 @@ class Battle : GameState {
 
       else {
         auto path = _behavior.moveRequest;
-        if (path) {
+        if (path !is null) {
           auto selfTerrain = _map.tileAt(_battler.row, _battler.col);
           setState(new MoveBattler(_battler, selfTerrain, path));
         }

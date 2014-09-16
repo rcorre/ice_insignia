@@ -10,7 +10,7 @@ AI getAI(Battler b, TileMap map, Battler[] enemies, Battler[] allies) {
     case "agressive":
       return new AgressiveAI(b, map, enemies, allies);
     case "territorial":
-      return new AgressiveAI(b, map, enemies, allies);
+      return new TerritorialAI(b, map, enemies, allies);
     case "camper":
       return new CamperAI(b, map, enemies, allies);
     default:

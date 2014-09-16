@@ -1219,6 +1219,7 @@
  <objectgroup name="Enemies">
   <object name="mercenary" type="2" gid="114" x="128" y="160">
    <properties>
+    <property name="ai" value="territorial"/>
     <property name="item0" value="broadsword"/>
    </properties>
   </object>
@@ -1241,6 +1242,7 @@
   </object>
   <object name="hunter" type="2" gid="120" x="192" y="160">
    <properties>
+    <property name="ai" value="territorial"/>
     <property name="item0" value="shortbow"/>
    </properties>
   </object>

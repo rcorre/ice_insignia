@@ -159,7 +159,7 @@ class MapObject {
     int row = y / tileHeight - 1;
     auto pos = Vector2i(x, y) + Vector2i(tileWidth, tileHeight) / 2;
 
-    auto aiType = properties.get("aiType", "agressive");
+    auto aiType = properties.get("ai", "agressive");
 
     return new Battler(character, row, col, pos, BattleTeam.enemy, aiType);
   }

@@ -132,6 +132,7 @@
                  "name":"mercenary",
                  "properties":
                     {
+                     "ai":"territorial",
                      "item0":"broadsword"
                     },
                  "rotation":0,
@@ -194,6 +195,7 @@
                  "name":"hunter",
                  "properties":
                     {
+                     "ai":"territorial",
                      "item0":"shortbow"
                     },
                  "rotation":0,
