@@ -418,6 +418,7 @@
     "maxRange" : 1,
     "price"    : 160,
     "heal"     : 8,
+    "useOnAlly": true,
     "tier"     : 1
   },
 
@@ -456,7 +457,8 @@
     "minRange" : 1,
     "maxRange" : 1,
     "price"    : 300,
-    "heal"     : 18
+    "heal"     : 18,
+    "useOnAlly": true,
     "tier"     : 2
   },
 
@@ -485,7 +487,8 @@
     "minRange" : 1,
     "maxRange" : 5,
     "price"    : 500,
-    "heal"     : 15
+    "heal"     : 15,
+    "useOnAlly": true,
     "tier"     : 3
   },
 
@@ -495,7 +498,7 @@
     "text"     : "reduce armor",
     "statEffect" : {
       "valueSet" : {
-        "armor" : -5
+        "defense" : -5
       }
     },
     "maxUses"  : 10,
@@ -511,7 +514,7 @@
     "text"     : "increase armor",
     "statEffect" : {
       "valueSet" : {
-        "armor" : 4
+        "defense" : 4
       }
     },
     "maxUses"  : 10,

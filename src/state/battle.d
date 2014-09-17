@@ -482,6 +482,9 @@ class Battle : GameState {
       }
       if (!_adjacentAllies.empty) {
         actions ~= "Trade";
+        if (_battler.items[].canFind!(a => a.useOnAlly)) {
+          actions ~= "Magic";
+        }
       }
       actions ~= "Inventory";
       actions ~= "Wait";
@@ -513,6 +516,9 @@ class Battle : GameState {
           break;
         case "Trade":
           _requestedState = new Trade(_battler, _adjacentAllies, _prevTile);
+          break;
+        case "Magic":
+          _requestedState = new ConsiderMagic(_battler, _adjacentAllies, _prevTile);
           break;
         default:
       }
@@ -713,6 +719,72 @@ class Battle : GameState {
 
     void onChoose(Item item) {
       _selectedItem = item;
+    }
+  }
+
+  class ConsiderMagic : State {
+    this(Battler battler, Battler[] adjacentAllies, Tile prevTile) {
+      _battler = battler;
+      _targets = bicycle(adjacentAllies);
+      _prevTile = prevTile;
+    }
+
+    override void onStart() {
+      showBattlerInfoBoxes(_battler, _targets.front);
+    }
+
+    override void update(float time) {
+      if (_input.selectLeft) {
+        _targets.front.hideInfoBox;
+        auto newTarget = _targets.reverse;
+        showBattlerInfoBoxes(_battler, newTarget);
+      }
+      else if (_input.selectLeft) {
+        _targets.front.hideInfoBox;
+        auto newTarget = _targets.advance;
+        showBattlerInfoBoxes(_battler, newTarget);
+      }
+    }
+
+    override void draw() {
+    }
+
+    private:
+    Battler _battler;
+    Bicycle!(Battler[]) _targets;
+    Tile _prevTile;
+
+    // these methods try to place info boxes so they are visible and next to the battler they represent
+    void showBattlerInfoBoxes(Battler b1, Battler b2) {
+      // check if b1 is topRight
+      if (b1.row < b2.row || b1.col > b2.col) {
+        showTopRightInfo(b1);
+        showBottomLeftInfo(b2);
+      }
+      else {
+        showTopRightInfo(b2);
+        showBottomLeftInfo(b1);
+      }
+    }
+
+    void showTopRightInfo(Battler b) {
+      auto size = Vector2i(BattlerInfoBox.width, BattlerInfoBox.height);
+      auto shift = Vector2i(size.x, -size.y) / 2 + Vector2i(battleInfoOffset.x, -battleInfoOffset.y);
+      auto area = Rect2i.CenteredAt(b.pos + shift - _camera.topLeft, size.x, size.y);
+      if (area.top < 0) { area.y += shift.y; }
+      if (area.right > _camera.width) { area.x -= shift.x; }
+
+      b.showInfoBox(area.topLeft);
+    }
+
+    void showBottomLeftInfo(Battler b) {
+      auto size = Vector2i(BattlerInfoBox.width, BattlerInfoBox.height);
+      auto shift = Vector2i(-size.x, size.y) / 2 + Vector2i(-battleInfoOffset.x, battleInfoOffset.y);
+      auto area = Rect2i.CenteredAt(b.pos + shift - _camera.topLeft, size.x, size.y);
+      if (area.left < 0) { area.x += shift.x; }
+      if (area.bottom > _camera.height) { area.y -= shift.y; }
+
+      b.showInfoBox(area.topLeft);
     }
   }
 

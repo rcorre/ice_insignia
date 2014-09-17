@@ -53,6 +53,7 @@ class Preparation : GameState {
       new Item("doorkey"),
       new Item("chestkey"),
       new Item("lockpick"),
+      new Item("heal"),
     ];
     _levelData = loadLevel(data.mission);
     auto rosterView = new RosterView(Vector2i.Zero, data, data.forHire);

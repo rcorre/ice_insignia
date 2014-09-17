@@ -311,6 +311,55 @@
     "weaponSkill" : "bow",
     "weaponTier" : 3
   },
+
+  "magic1" : {
+    "key" : "magic1",
+    "title" : "Magic Proficiency",
+    "description" : "Wield Tier 1 magic",
+    "bonus" : {
+      "valueSet" : {
+      }
+    },
+    "potential" : {
+      "valueSet" : {
+      }
+    },
+    "weaponSkill" : "magic",
+    "weaponTier" : 1
+  },
+
+  "magic2" : {
+    "key" : "magic2",
+    "title" : "Magic Expertise",
+    "bonus" : {
+      "valueSet" : {
+      }
+    },
+    "potential" : {
+      "valueSet" : {
+      }
+    },
+    "description" : "Wield Tier 2 magic",
+    "weaponSkill" : "magic",
+    "weaponTier" : 2
+  },
+
+  "magic3" : {
+    "key" : "magic1",
+    "title" : "Magic Mastery",
+    "bonus" : {
+      "valueSet" : {
+      }
+    },
+    "potential" : {
+      "valueSet" : {
+      }
+    },
+    "description" : "Wield Tier 3 magic",
+    "weaponSkill" : "magic",
+    "weaponTier" : 3
+  },
+
   "lightweight" : {
     "key" : "lightweight",
     "title" : "Lightweight",

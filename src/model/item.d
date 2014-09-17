@@ -21,7 +21,7 @@ enum ItemType {
   anima,
   light,
   dark,
-  staff,
+  magic,
 }
 
 enum ItemEffect {
@@ -56,7 +56,7 @@ class Item {
   @property {
     auto sprite() { return _sprite; }
     static Item none() { return new Item("none", 0); }
-    bool isWeapon() { with(ItemType) { return type != other && type != staff; } }
+    bool isWeapon() { with(ItemType) { return type != other && type != magic; } }
     int resalePrice() {
       return cast(int) (price * resalePriceFactor * cast(float) uses / maxUses);
     }
@@ -85,6 +85,7 @@ class ItemData {
     int heal;
     ItemEffect effect;
     bool useOnSelf;
+    bool useOnAlly;
     AttributeSet statEffect;
   }
 }
