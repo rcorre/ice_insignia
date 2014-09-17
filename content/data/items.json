@@ -203,7 +203,6 @@
     "weight"   : 8,
     "price"    : 300,
     "tier"     : 2,
-    "effect"   : "cripple",
     "text"     : "cripple movement"
   },
 
@@ -219,7 +218,6 @@
     "weight"   : 8,
     "price"    : 520,
     "tier"     : 3,
-    "effect"   : "cripple",
     "text"     : "cripple movement"
   },
 
@@ -411,11 +409,159 @@
     "tier"     : 3
   },
 
+  "heal": {
+    "name"     : "Heal",
+    "type"     : "magic",
+    "text"     : "minor healing",
+    "maxUses"  : 25,
+    "minRange" : 1,
+    "maxRange" : 1,
+    "price"    : 160,
+    "heal"     : 8,
+    "tier"     : 1
+  },
+
+  "knock": {
+    "name"     : "Knock",
+    "type"     : "magic",
+    "text"     : "unlock doors",
+    "maxUses"  : 10,
+    "minRange" : 1,
+    "maxRange" : 1,
+    "price"    : 200,
+    "tier"     : 1
+  },
+
+  "enfeeble": {
+    "name"     : "Enfeeble",
+    "type"     : "magic",
+    "text"     : "reduce strength",
+    "maxUses"  : 15,
+    "minRange" : 1,
+    "maxRange" : 2,
+    "price"    : 290,
+    "statEffect" : {
+      "valueSet" : {
+        "strength"     : -4
+      }
+    },
+    "tier"     : 2
+  },
+
+  "cure": {
+    "name"     : "Cure",
+    "type"     : "magic",
+    "text"     : "major healing",
+    "maxUses"  : 15,
+    "minRange" : 1,
+    "maxRange" : 1,
+    "price"    : 300,
+    "heal"     : 18
+    "tier"     : 2
+  },
+
+  "sloth": {
+    "name"     : "Sloth",
+    "type"     : "magic",
+    "text"     : "reduce speed",
+    "maxUses"  : 12,
+    "minRange" : 1,
+    "maxRange" : 2,
+    "price"    : 350,
+    "statEffect" : {
+      "valueSet" : {
+        "speed"     : -4,
+        "move"     : -2
+      }
+    },
+    "tier"     : 2
+  },
+
+  "mend": {
+    "name"     : "Mend",
+    "type"     : "magic",
+    "text"     : "distance healing",
+    "maxUses"  : 10,
+    "minRange" : 1,
+    "maxRange" : 5,
+    "price"    : 500,
+    "heal"     : 15
+    "tier"     : 3
+  },
+
+  "frailty": {
+    "name"     : "Frailty",
+    "type"     : "magic",
+    "text"     : "reduce armor",
+    "statEffect" : {
+      "valueSet" : {
+        "armor" : -5
+      }
+    },
+    "maxUses"  : 10,
+    "minRange" : 1,
+    "maxRange" : 2,
+    "price"    : 450,
+    "tier"     : 3
+  },
+
+  "ward": {
+    "name"     : "Ward",
+    "type"     : "magic",
+    "text"     : "increase armor",
+    "statEffect" : {
+      "valueSet" : {
+        "armor" : 4
+      }
+    },
+    "maxUses"  : 10,
+    "minRange" : 1,
+    "maxRange" : 2,
+    "price"    : 520,
+    "tier"     : 3
+  },
+
   "poultice"  : {
-    "name"    : "Poultice",
-    "maxUses" : 3,
-    "price"   : 100,
-    "heal"    : 10
+    "name"      : "Poultice",
+    "maxUses"   : 3,
+    "price"     : 100,
+    "heal"      : 10,
+    "useOnSelf" : true
+  },
+
+  "elixir"  : {
+    "name"      : "Elixir",
+    "maxUses"   : 3,
+    "price"     : 400,
+    "heal"      : 25,
+    "useOnSelf" : true
+  },
+
+  "might"  : {
+    "name"      : "Giant's Might",
+    "text"      : "Bestow temporary strength",
+    "maxUses"   : 2,
+    "price"     : 300,
+    "useOnSelf" : true,
+    "statEffect" : {
+      "valueSet" : {
+        "strength" : 4
+      }
+    }
+  },
+
+  "haste"  : {
+    "name"      : "Haste",
+    "text"      : "Bestow temporary agility",
+    "maxUses"   : 2,
+    "price"     : 370,
+    "useOnSelf" : true,
+    "statEffect" : {
+      "valueSet" : {
+        "speed" : 4,
+        "move" : 2
+      }
+    }
   },
 
   "doorkey" : {

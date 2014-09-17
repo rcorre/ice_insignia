@@ -1,5 +1,9 @@
 module model.attribute;
 
+import model.valueset;
+
+alias AttributeSet = ValueSet!Attribute;
+
 enum Attribute {
   maxHp,
   strength,

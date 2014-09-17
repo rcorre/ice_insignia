@@ -15,8 +15,6 @@ import model.character_spec;
 import graphics.sprite;
 public import model.attribute;
 
-alias AttributeSet = ValueSet!Attribute;
-
 private enum {
   talentAwardLevels = [1, 3, 6, 10, 15, 20],
   basePotential = [

@@ -7,6 +7,8 @@ import allegro;
 import util.jsonizer;
 import geometry.vector;
 import graphics.sprite;
+import model.valueset;
+import model.attribute;
 
 private enum resalePriceFactor = 0.5;
 
@@ -24,9 +26,9 @@ enum ItemType {
 
 enum ItemEffect {
   none,
-  cripple,
+  // weapon
   antiArmor,
-  counter
+  counter,
 }
 
 class Item {
@@ -82,6 +84,8 @@ class ItemData {
     int price;
     int heal;
     ItemEffect effect;
+    bool useOnSelf;
+    AttributeSet statEffect;
   }
 }
 
