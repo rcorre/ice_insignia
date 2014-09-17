@@ -1084,6 +1084,7 @@ class Battle : GameState {
     override void onStart() {
       _traderMenu = new InventoryMenu(traderPos, _trader.items, &chooseGive);
       _otherMenu = new InventoryMenu(otherPos, _others.front.items, &chooseReceive);
+      _traderMenu.hasFocus = false;
     }
 
     override void update(float time) {
@@ -1094,6 +1095,9 @@ class Battle : GameState {
       else if (_input.previous) {
         auto other = _others.reverse;
         _otherMenu = new InventoryMenu(otherPos, other.items, &chooseReceive);
+      }
+      else if (_input.selectLeft || _input.selectRight) {
+        swapFocus();
       }
       else if (_input.cancel) {
         if (_itemsSwapped) {
@@ -1107,6 +1111,12 @@ class Battle : GameState {
       }
       _traderMenu.handleInput(_input);
       _otherMenu.handleInput(_input);
+      if (_swapFocus) { swapFocus(); }
+    }
+
+    override void draw() {
+      _traderMenu.draw();
+      _otherMenu.draw();
     }
 
     private:
@@ -1117,7 +1127,7 @@ class Battle : GameState {
     Item _give, _take;
     Vector2i traderPos = screenCenter - Vector2i(100, 0);
     Vector2i otherPos = screenCenter + Vector2i(100, 0);
-    bool _itemsSwapped, _chosenGive, _chosenTake;
+    bool _itemsSwapped, _chosenGive, _chosenTake, _swapFocus;
 
     void chooseGive(Item item) {
       _give = item;
@@ -1125,6 +1135,7 @@ class Battle : GameState {
       if (_chosenTake) {
         swapItems();
       }
+      _swapFocus = true;
     }
 
     void chooseReceive(Item item) {
@@ -1133,6 +1144,7 @@ class Battle : GameState {
       if (_chosenGive) {
         swapItems();
       }
+      _swapFocus = true;
     }
 
     void swapItems() {
@@ -1141,6 +1153,19 @@ class Battle : GameState {
       _others.front.removeItem(_take);
       _others.front.addItem(_give);
       _itemsSwapped = true;
+      _traderMenu = new InventoryMenu(traderPos, _trader.items, &chooseGive);
+      _otherMenu = new InventoryMenu(otherPos, _others.front.items, &chooseReceive);
+      _traderMenu.hasFocus = false;
+      _take = null;
+      _give = null;
+      _chosenGive = false;
+      _chosenTake = false;
+    }
+
+    void swapFocus() {
+      _traderMenu.hasFocus = !_traderMenu.hasFocus;
+      _otherMenu.hasFocus = !_otherMenu.hasFocus;
+      _swapFocus = false;
     }
   }
 
