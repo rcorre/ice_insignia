@@ -10,8 +10,6 @@ import state.combat_calc;
 import tilemap.object;
 import model.battler;
 
-private enum buffer = 20; // distance between view and sprite
-private enum spacing = Vector2i(193, 0);
 private enum {
   offsetSprite       = Vector2i(25, 49),
   offsetName         = Vector2i(49, 41),
@@ -20,6 +18,12 @@ private enum {
   offsetDamage       = Vector2i(81, 137),
   offsetHit          = Vector2i(81, 169),
   offsetCrit         = Vector2i(81, 201),
+  multOffset         = Vector2f(8, 0),
+  multRotation       = 2.0,
+  spacing            = Vector2i(193, 0),
+  buffer             = 20, // distance between view and sprite
+  advantageSprite    = "upArrow",
+  disadvantageSprite = "downArrow"
 }
 
 abstract class CombatView {
@@ -48,6 +52,8 @@ abstract class CombatView {
     }
   }
 
+  void update(float time) { }
+
   void draw() {
     _texture.draw(area.center);
   }
@@ -60,6 +66,14 @@ class BattlerCombatView : CombatView {
     super(pos);
     _attack = attack;
     _counter = counter;
+    _advantageSprite = new AnimatedSprite(advantageSprite);
+    _disadvantageSprite = new AnimatedSprite(disadvantageSprite);
+  }
+
+  override void update(float time) {
+    _multOffset.rotate(time * multRotation);
+    _advantageSprite.update(time);
+    _disadvantageSprite.update(time);
   }
 
   override void draw() {
@@ -70,6 +84,8 @@ class BattlerCombatView : CombatView {
 
   private:
   CombatPrediction _attack, _counter;
+  Vector2f _multOffset = multOffset;
+  AnimatedSprite _advantageSprite, _disadvantageSprite;
 
   void drawPrediction(CombatPrediction pred, Vector2i offset) {
     auto unit = pred.attacker;
@@ -80,6 +96,15 @@ class BattlerCombatView : CombatView {
     _font.draw(pred.damage              , offset + offsetDamage);
     _font.draw(pred.hit                 , offset + offsetHit);
     _font.draw(pred.crit                , offset + offsetCrit);
+    if (pred.doubleHit) {
+      _font.draw("x2", cast(Vector2i) (offset + offsetDamage + _multOffset), Color.green);
+    }
+    if (pred.triangleAdvantage) {
+      _advantageSprite.draw(offset + offsetWeaponSprite);
+    }
+    else if (pred.triangleDisadvantage) {
+      _disadvantageSprite.draw(offset + offsetWeaponSprite);
+    }
   }
 }
 

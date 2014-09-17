@@ -613,6 +613,7 @@ class Battle : GameState {
     }
 
     override void update(float time) {
+      _view.update(time);
       if (_input.confirm) {
         if (_targets.front.type == typeid(Battler)) {
           auto series = constructAttackSeries(_attack, _counter);
