@@ -407,6 +407,8 @@ class Battle : GameState {
       auto selectPos = _battler.pos - _camera.topLeft - Vector2i(50, 50);
       _selectionView = new StringMenu(selectPos, getActions(), &handleSelection);
       _selectionView.keepInside(Rect2i(0, 0, _camera.width, _camera.height));
+      _adjacentAllies = array(_map.neighbors(currentTile).map!(a => a.battler)
+          .filter!(a => a !is null));
     }
 
     override void update(float time) {
@@ -454,6 +456,7 @@ class Battle : GameState {
     private:
     Battler _battler;
     Battler[] _stealableEnemies;
+    Battler[] _adjacentAllies;
     Variant[] _targetsInRange;
     Tile _doorTile, _chestTile; // tile holding door or chest that is available to open
     Tile _currentTile, _prevTile;
@@ -476,6 +479,9 @@ class Battle : GameState {
       }
       if (_chestTile !is null) {
         actions ~= "Chest";
+      }
+      if (!_adjacentAllies.empty) {
+        actions ~= "Trade";
       }
       actions ~= "Inventory";
       actions ~= "Wait";
@@ -504,6 +510,9 @@ class Battle : GameState {
           break;
         case "Door":
           _requestedState = new OpenDoor(_battler, _doorTile);
+          break;
+        case "Trade":
+          _requestedState = new Trade(_battler, _adjacentAllies, _prevTile);
           break;
         default:
       }
@@ -1062,6 +1071,76 @@ class Battle : GameState {
       _chosenTalent = t;
       _view = new LevelUpView(Vector2i.Zero, _battler, t.bonus, t.potential);
       _talentChooser = null;
+    }
+  }
+
+  class Trade : State {
+    this(Battler trader, Battler[] allies, Tile prevTile) {
+      _trader = trader;
+      _others = bicycle(allies);
+      _prevTile = prevTile;
+    }
+
+    override void onStart() {
+      _traderMenu = new InventoryMenu(traderPos, _trader.items, &chooseGive);
+      _otherMenu = new InventoryMenu(otherPos, _others.front.items, &chooseReceive);
+    }
+
+    override void update(float time) {
+      if (_input.next) {
+        auto other = _others.advance;
+        _otherMenu = new InventoryMenu(otherPos, other.items, &chooseReceive);
+      }
+      else if (_input.previous) {
+        auto other = _others.reverse;
+        _otherMenu = new InventoryMenu(otherPos, other.items, &chooseReceive);
+      }
+      else if (_input.cancel) {
+        if (_itemsSwapped) {
+          _trader.moved = true;
+          setState(new PlayerTurn);
+        }
+        else {
+          auto currentTile = _map.tileAt(_trader.row, _trader.col);
+          setState(new ChooseBattlerAction(_trader, currentTile, _prevTile));
+        }
+      }
+      _traderMenu.handleInput(_input);
+      _otherMenu.handleInput(_input);
+    }
+
+    private:
+    Battler _trader;
+    Bicycle!(Battler[]) _others;
+    Tile _prevTile;
+    InventoryMenu _traderMenu, _otherMenu;
+    Item _give, _take;
+    Vector2i traderPos = screenCenter - Vector2i(100, 0);
+    Vector2i otherPos = screenCenter + Vector2i(100, 0);
+    bool _itemsSwapped, _chosenGive, _chosenTake;
+
+    void chooseGive(Item item) {
+      _give = item;
+      _chosenGive = true;
+      if (_chosenTake) {
+        swapItems();
+      }
+    }
+
+    void chooseReceive(Item item) {
+      _take = item;
+      _chosenTake = true;
+      if (_chosenGive) {
+        swapItems();
+      }
+    }
+
+    void swapItems() {
+      _trader.removeItem(_give);
+      _trader.addItem(_take);
+      _others.front.removeItem(_take);
+      _others.front.addItem(_give);
+      _itemsSwapped = true;
     }
   }
 
