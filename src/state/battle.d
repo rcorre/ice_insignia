@@ -403,12 +403,12 @@ class Battle : GameState {
           _doorTile = tile.front;
         }
       }
+      _adjacentAllies = array(_map.neighbors(currentTile).map!(a => a.battler)
+          .filter!(a => a !is null));
       // create menu
       auto selectPos = _battler.pos - _camera.topLeft - Vector2i(50, 50);
       _selectionView = new StringMenu(selectPos, getActions(), &handleSelection);
       _selectionView.keepInside(Rect2i(0, 0, _camera.width, _camera.height));
-      _adjacentAllies = array(_map.neighbors(currentTile).map!(a => a.battler)
-          .filter!(a => a !is null));
     }
 
     override void update(float time) {
