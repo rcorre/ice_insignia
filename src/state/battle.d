@@ -769,7 +769,9 @@ class Battle : GameState {
     }
 
     void onChoose(Item magic) {
-      setState(new ExecuteMagic(_battler, _targets.front, magic));
+      popState();
+      pushState(new ExecuteMagic(_battler, _targets.front, magic));
+      pushState(new Wait(pauseTime));
     }
 
     // these methods try to place info boxes so they are visible and next to the battler they represent
@@ -823,7 +825,9 @@ class Battle : GameState {
       else {
         bool wasPlayerTurn = _caster.team == BattleTeam.ally;
         _target.hideInfoBox();
-        setState(new AwardXp(_caster, computeCastXp(_caster, _target), wasPlayerTurn));
+        popState();
+        pushState(new AwardXp(_caster, computeCastXp(_caster, _target), wasPlayerTurn));
+        pushState(new Wait(pauseTime));
       }
     }
 

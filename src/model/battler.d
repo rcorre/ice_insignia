@@ -19,8 +19,8 @@ private enum {
   fadeTime = 0.5,/// duration of flash used to indicate damage
   damageFlashColor = Color(0.5, 0, 0),
   fadeSpectrum = [Color.red, Color.clear],
-  healFlashColor = Color(0.0, 0.7, 0),
-  healFlashTime = 0.22,
+  healFlashColor = Color(0.0, 1.0, 0),
+  healFlashTime = 0.42,
   hpTransitionRate = 20,
   xpTransitionRate = 80,
 }
