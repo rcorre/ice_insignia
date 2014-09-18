@@ -209,7 +209,7 @@ class Battle : GameState {
       _tileCursor.handleInput(_input);
       if (_turnOver || _input.endTurn) {
         foreach(battler ; _allies) {
-          battler.moved = false;
+          battler.passTurn();
         }
         setState(new EnemyTurn);
       }
@@ -404,7 +404,7 @@ class Battle : GameState {
         }
       }
       _adjacentAllies = array(_map.neighbors(currentTile).map!(a => a.battler)
-          .filter!(a => a !is null));
+          .filter!(a => a !is null && a.team == BattleTeam.ally));
       // create menu
       auto selectPos = _battler.pos - _camera.topLeft - Vector2i(50, 50);
       _selectionView = new StringMenu(selectPos, getActions(), &handleSelection);
@@ -1334,7 +1334,7 @@ class Battle : GameState {
     override void update(float time) {
       if (_battler is null) {
         foreach(enemy ; _enemies) {
-          enemy.moved = false;
+          enemy.passTurn();
         }
         setState(new PlayerTurn);
       }

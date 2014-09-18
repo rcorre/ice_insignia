@@ -66,7 +66,9 @@ class Character {
       int xp() { return _xp; }
 
       AttributeSet potential() { return _potential; }
-      AttributeSet attributes() { return _attributes; }
+      AttributeSet attributes() { return _attributes + _statEffects; }
+      AttributeSet baseAttributes() { return _attributes; }
+      AttributeSet statEffects() { return _statEffects; }
 
       auto items() { return _items; }
       auto talentKeys() { return array(_talents.map!"a.key"); }
@@ -95,6 +97,11 @@ class Character {
     bool canAwardTalent() {
       return talentAwardLevels.canFind(level);
     }
+  }
+
+  void passTurn() {
+    auto norm = _attributes.map!(a => (a == 0) ? 0 : (a < 0 ? -1 : 1));
+    _statEffects = _statEffects + norm;
   }
 
   /// if results in level-up, returns true and assigns bonuses
@@ -180,12 +187,16 @@ class Character {
     _potential = _potential + talent.potential;
   }
 
+  void applyStatEffects(AttributeSet effects) {
+    _statEffects = _statEffects + effects;
+  }
+
   private:
   string _name;
   string _model;
   int _xp;
   int _level = 1;
-  AttributeSet _attributes, _potential;
+  AttributeSet _attributes, _statEffects, _potential;
   Item[itemCapacity] _items;
   Talent[] _talents;
 }

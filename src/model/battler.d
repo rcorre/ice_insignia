@@ -134,6 +134,7 @@ class Battler : Attackable {
 
   void passTurn() {
     _moved = false;
+    character.passTurn();
   }
 
   void dealDamage(int amount) {
@@ -198,7 +199,7 @@ class Battler : Attackable {
   }
 
   bool canWieldMagic(Item item) {
-    return item.type == ItemType.magic &&
+    return item !is null && item.type == ItemType.magic &&
       talents.canFind!(a => a.weaponSkill == ItemType.magic && a.weaponTier >= item.tier);
   }
 
