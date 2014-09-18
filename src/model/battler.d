@@ -133,7 +133,7 @@ class Battler : Attackable {
   }
 
   void passTurn() {
-    _moved = false;
+    moved = false;
     character.passTurn();
   }
 

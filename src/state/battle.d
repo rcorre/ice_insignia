@@ -482,7 +482,7 @@ class Battle : GameState {
       }
       if (!_adjacentAllies.empty) {
         actions ~= "Trade";
-        if (_battler.items[].canFind!(a => a.useOnAlly)) {
+        if (_battler.items[].canFind!(a => a !is null && a.useOnAlly)) {
           actions ~= "Magic";
         }
       }
