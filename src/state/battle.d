@@ -730,29 +730,47 @@ class Battle : GameState {
     }
 
     override void onStart() {
-      showBattlerInfoBoxes(_battler, _targets.front);
+      setTarget(_targets.front);
     }
 
     override void update(float time) {
       if (_input.selectLeft) {
         _targets.front.hideInfoBox;
         auto newTarget = _targets.reverse;
-        showBattlerInfoBoxes(_battler, newTarget);
+        setTarget(newTarget);
       }
       else if (_input.selectLeft) {
         _targets.front.hideInfoBox;
         auto newTarget = _targets.advance;
-        showBattlerInfoBoxes(_battler, newTarget);
+        setTarget(newTarget);
+      }
+      else if (_input.cancel) {
+        auto currentTile = _map.tileAt(_battler.row, _battler.col);
+        setState(new ChooseBattlerAction(_battler, currentTile, _prevTile));
+      }
+      else {
+        _magicMenu.handleInput(_input);
       }
     }
 
     override void draw() {
+      _magicMenu.draw();
     }
 
     private:
     Battler _battler;
     Bicycle!(Battler[]) _targets;
     Tile _prevTile;
+    InventoryMenu _magicMenu;
+
+    void setTarget(Battler b) {
+      showBattlerInfoBoxes(_battler, b);
+      _magicMenu = new InventoryMenu(screenCenter, _battler.magicOptions(b), &onChoose);
+    }
+
+    void onChoose(Item magic) {
+      setState(new ExecuteMagic(_battler, _targets.front, magic));
+    }
 
     // these methods try to place info boxes so they are visible and next to the battler they represent
     void showBattlerInfoBoxes(Battler b1, Battler b2) {
@@ -786,6 +804,35 @@ class Battle : GameState {
 
       b.showInfoBox(area.topLeft);
     }
+  }
+
+  class ExecuteMagic : State {
+    this(Battler caster, Battler target, Item magic) {
+      _caster = caster;
+      _target = target;
+      _magic = magic;
+    }
+
+    override void onStart() {
+      _target.heal(_magic.heal);
+    }
+
+    override void update(float time) {
+      if (_target.sprite.isFlashing || _target.isHpTransitioning) {
+      }
+      else {
+        bool wasPlayerTurn = _caster.team == BattleTeam.ally;
+        _target.hideInfoBox();
+        setState(new AwardXp(_caster, computeCastXp(_caster, _target), wasPlayerTurn));
+      }
+    }
+
+    override void draw() {
+    }
+
+    private:
+    Battler _caster, _target;
+    Item _magic;
   }
 
   class ExecuteSteal : State {

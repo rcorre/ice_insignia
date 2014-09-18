@@ -19,6 +19,8 @@ private enum {
   fadeTime = 0.5,/// duration of flash used to indicate damage
   damageFlashColor = Color(0.5, 0, 0),
   fadeSpectrum = [Color.red, Color.clear],
+  healFlashColor = Color(0.0, 0.7, 0),
+  healFlashTime = 0.22,
   hpTransitionRate = 20,
   xpTransitionRate = 80,
 }
@@ -146,6 +148,15 @@ class Battler : Attackable {
     }
   }
 
+  void heal(int amount) {
+    amount = amount.clamp(0, maxHp - _hp);
+    if (amount > 0) {
+      _sprite.flash(healFlashTime, healFlashColor);
+      _infoBox.healthBar.transition(_hp, _hp + amount, hpTransitionRate);
+    }
+    _hp += amount;
+  }
+
   bool awardXp(int amount, out AttributeSet bonuses, out int leftover) {
     assert(_infoBox, "infobox not shown to award xp");
     _infoBox.xpBar.transition(xp, min(xp + amount, xpLimit), xpTransitionRate);
@@ -173,6 +184,22 @@ class Battler : Attackable {
     auto hasPickpocket = talents.canFind!(x => x.key == "theft");
     bool hasSpace = items[].canFind!(x => x is null);
     return hasPickpocket && dist == 1 && !other.stealableItems.empty;
+  }
+
+  Item[] magicOptions(Battler target) {
+    return array(items[].filter!(a => canMagic(target, a)));
+  }
+
+  bool canMagic(Battler other, Item item) {
+    if (item is null) { return false; }
+    auto dist = abs(row - other.row) + abs(col - other.col);
+    bool inRange = dist >= item.minRange && dist <= item.maxRange;
+    return inRange && canWieldMagic(item);
+  }
+
+  bool canWieldMagic(Item item) {
+    return item.type == ItemType.magic &&
+      talents.canFind!(a => a.weaponSkill == ItemType.magic && a.weaponTier >= item.tier);
   }
 
   const BattleTeam team;

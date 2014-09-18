@@ -21,6 +21,7 @@ private enum {
   lockpickXp          = 50f, /// xp for picking a lock at level 1
   lockpickLevelFactor = 0.8, /// lockpick xp factor for each level over 1
   stealXp             = 40f, /// xp awarded for stealing
+  castXp              = 15f,
 
   // combat results
   triangleBonus = 1.2,
@@ -187,6 +188,10 @@ int playerXp(CombatResult[] series) {
 
 int computeStealXp(Battler stealer, Battler target) {
   return cast(int) (stealXp * levelFactor(stealer, target));
+}
+
+int computeCastXp(Battler caster, Battler target) {
+  return cast(int) (castXp * levelFactor(caster, target));
 }
 
 int computeLockpickXp(Battler battler) {
