@@ -525,7 +525,12 @@ class Battle : GameState {
     }
 
     void selectItem(Item item) {
-      _battler.equippedWeapon = item;
+      if (_battler.canWield(item)) {
+        _battler.equippedWeapon = item;
+      }
+      else if (item.useOnSelf) {
+        setState(new UseItem(_battler, item));
+      }
     }
 
     void showItemInfo(Item item ,Rect2i rect) {
@@ -534,6 +539,34 @@ class Battle : GameState {
         _itemView.keepInside(Rect2i(0, 0, _camera.width, _camera.height));
       }
     }
+  }
+
+  class UseItem : State {
+    this(Battler battler, Item item) {
+      _battler = battler;
+      _item = item;
+      _battler.showInfoBox(screenCenter);
+    }
+
+    override void onStart() {
+      if (_item.heal > 0) {
+        _battler.heal(_item.heal);
+      }
+    }
+
+    override void update(float time) {
+      if (!(_battler.isHpTransitioning || _battler.sprite.isFlashing)) {
+        _battler.moved = true;
+        setState(_battler.team == BattleTeam.ally ? new PlayerTurn : new EnemyTurn);
+      }
+    }
+
+    override void draw() {
+    }
+
+    private:
+    Battler _battler;
+    Item _item;
   }
 
   class OpenDoor : State {

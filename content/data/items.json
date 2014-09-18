@@ -479,8 +479,8 @@
     "tier"     : 2
   },
 
-  "mend": {
-    "name"     : "Mend",
+  "respite": {
+    "name"     : "Respite",
     "type"     : "magic",
     "text"     : "distance healing",
     "maxUses"  : 10,
@@ -508,8 +508,8 @@
     "tier"     : 3
   },
 
-  "ward": {
-    "name"     : "Ward",
+  "stoneskin": {
+    "name"     : "Stoneskin",
     "type"     : "magic",
     "text"     : "increase armor",
     "statEffect" : {
