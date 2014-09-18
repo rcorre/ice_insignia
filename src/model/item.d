@@ -86,7 +86,7 @@ class ItemData {
     ItemEffect effect;
     bool useOnSelf;
     bool useOnAlly;
-    AttributeSet statEffect;
+    AttributeSet statEffects;
   }
 }
 

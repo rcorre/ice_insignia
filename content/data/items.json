@@ -441,7 +441,7 @@
     "minRange" : 1,
     "maxRange" : 2,
     "price"    : 290,
-    "statEffect" : {
+    "statEffects" : {
       "valueSet" : {
         "strength"     : -4
       }
@@ -470,7 +470,7 @@
     "minRange" : 1,
     "maxRange" : 2,
     "price"    : 350,
-    "statEffect" : {
+    "statEffects" : {
       "valueSet" : {
         "speed"     : -4,
         "move"     : -2
@@ -496,7 +496,7 @@
     "name"     : "Frailty",
     "type"     : "magic",
     "text"     : "reduce armor",
-    "statEffect" : {
+    "statEffects" : {
       "valueSet" : {
         "defense" : -5
       }
@@ -512,7 +512,7 @@
     "name"     : "Stoneskin",
     "type"     : "magic",
     "text"     : "increase armor",
-    "statEffect" : {
+    "statEffects" : {
       "valueSet" : {
         "defense" : 4
       }
@@ -546,7 +546,7 @@
     "maxUses"   : 2,
     "price"     : 300,
     "useOnSelf" : true,
-    "statEffect" : {
+    "statEffects" : {
       "valueSet" : {
         "strength" : 4
       }
@@ -559,7 +559,7 @@
     "maxUses"   : 2,
     "price"     : 370,
     "useOnSelf" : true,
-    "statEffect" : {
+    "statEffects" : {
       "valueSet" : {
         "speed" : 4,
         "move" : 2

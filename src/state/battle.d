@@ -552,6 +552,7 @@ class Battle : GameState {
       if (_item.heal > 0) {
         _battler.heal(_item.heal);
       }
+      _battler.applyStatEffects(_item.statEffects);
     }
 
     override void update(float time) {
