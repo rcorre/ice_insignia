@@ -47,7 +47,7 @@ class Battler : Attackable {
 
     _healSound = new SoundSample("heal");
     _hitSound = new SoundSample("hit");
-    //_missSound = new SoundSample("miss");
+    _missSound = new SoundSample("miss");
     _walkSound = new SoundSample("step");
   }
 
@@ -116,6 +116,22 @@ class Battler : Attackable {
     if (_infoBox) {
       _infoBox.update(time);
     }
+  }
+
+  void playHealSound() {
+    _healSound.play();
+  }
+
+  void playMissSound() {
+    _missSound.play();
+  }
+
+  void playWalkSound() {
+    _walkSound.play();
+  }
+
+  void stopWalkSound() {
+    _walkSound.stop();
   }
 
   void draw(Vector2i offset) {
@@ -222,5 +238,5 @@ class Battler : Attackable {
   bool _moved;
   BattlerInfoBox _infoBox;
   string _aiType;
-  SoundSample _hitSound, _healSound, _walkSound;
+  SoundSample _hitSound, _healSound, _walkSound, _missSound;
 }

@@ -343,8 +343,13 @@ class Battle : GameState {
       currentTile.battler = null;  // remove battler from current tile
     }
 
+    override void onStart() {
+      _battler.playWalkSound();
+    }
+
     override void update(float time) {
       if (_path.empty) { /// completed move
+        _battler.stopWalkSound();
         placeBattler(_battler, _endTile); // place battler on final tile
         if (_battler.team == BattleTeam.ally) {
           setState(new ChooseBattlerAction(_battler, _endTile, _originTile));
@@ -947,6 +952,9 @@ class Battle : GameState {
             _attacks = _attacks.remove!(x => x.attacker == _attacker);
           }
           _defender.dealDamage(_result.damageDealt);
+        }
+        else {
+          _defender.playMissSound();
         }
         _started = true;
       }
