@@ -397,6 +397,7 @@ class Battle : GameState {
       _targetsInRange = enemiesInRange ~ wallsInRange;
       _stealableEnemies = array(_enemies.filter!(a => _battler.canStealFrom(a)));
       _targetSprite = new AnimatedSprite("target", targetShade);
+      _magicableAllies = array(_allies.filter!(a => !_battler.magicOptions(a).empty));
       // find openable object
       if (_battler.canOpenChest) {
         if (cast(Chest) currentTile.object) {
@@ -464,6 +465,7 @@ class Battle : GameState {
     Battler _battler;
     Battler[] _stealableEnemies;
     Battler[] _adjacentAllies;
+    Battler[] _magicableAllies;
     Variant[] _targetsInRange;
     Tile _doorTile, _chestTile; // tile holding door or chest that is available to open
     Tile _currentTile, _prevTile;
@@ -489,9 +491,9 @@ class Battle : GameState {
       }
       if (!_adjacentAllies.empty) {
         actions ~= "Trade";
-        if (_battler.items[].canFind!(a => a !is null && a.useOnAlly)) {
-          actions ~= "Magic";
-        }
+      }
+      if (!_magicableAllies.empty) {
+        actions ~= "Magic";
       }
       actions ~= "Inventory";
       actions ~= "Wait";
@@ -525,7 +527,7 @@ class Battle : GameState {
           _requestedState = new Trade(_battler, _adjacentAllies, _prevTile);
           break;
         case "Magic":
-          _requestedState = new ConsiderMagic(_battler, _adjacentAllies, _prevTile);
+          _requestedState = new ConsiderMagic(_battler, _magicableAllies, _prevTile);
           break;
         default:
       }
@@ -863,14 +865,14 @@ class Battle : GameState {
 
     override void onStart() {
       _target.heal(_magic.heal);
+      _target.applyStatEffects(_magic.statEffects);
     }
 
     override void update(float time) {
-      if (_target.sprite.isFlashing || _target.isHpTransitioning) {
-      }
-      else {
+      if (!(_target.sprite.isFlashing || _target.isHpTransitioning)) {
         bool wasPlayerTurn = _caster.team == BattleTeam.ally;
         _target.hideInfoBox();
+        _caster.moved = true;
         popState();
         pushState(new AwardXp(_caster, computeCastXp(_caster, _target), wasPlayerTurn));
         pushState(new Wait(pauseTime));
