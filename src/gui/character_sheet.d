@@ -122,12 +122,12 @@ class CharacterSheet {
     foreach(bar ; _progressBars) {
       bar.draw();
     }
+    drawCombatStats;
     _inventoryMenu.draw;
     _talentMenu.draw;
     _sprite.draw(_topLeft + spritePos);
     _nameFont.draw(_character.name, _topLeft + namePos);
     _levelFont.draw(to!string(_character.level), _topLeft + lvlPos);
-    drawCombatStats;
   }
 
   void drawCombatStats() {

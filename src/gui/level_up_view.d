@@ -10,6 +10,7 @@ import graphics.all;
 import gui.all;
 import model.character;
 import model.battler;
+import util.sound;
 
 private enum {
   animationName = "levelUpArrow",
@@ -67,6 +68,7 @@ class LevelUpView : CharacterSheet {
     sprite.tint = _bonuses[attribute] > 0 ? Color.green : Color.red;
     auto potentialBar = potentialBarFor(attribute);
     potentialBar.transition(potentialBar.val + _potentials[attribute], potentialTransitionSpeed);
+    playSound("statUp");
   }
 
   void endAnimation() {
