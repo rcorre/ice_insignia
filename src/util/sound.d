@@ -12,14 +12,18 @@ enum Playmode {
   bidir = ALLEGRO_PLAYMODE.ALLEGRO_PLAYMODE_BIDIR
 }
 
+void playSound(string key) {
+  assert(key in _samples, "no sound sample named " ~ key);
+  auto sample = new SoundSample(key);
+  sample.play();
+}
+
 class SoundSample {
   this(string key) {
     assert(key in _soundData.entries, "could not find sound data for " ~ key);
     auto data = _soundData.entries[key];
-    auto path = toStringz(_soundDir ~ data["file"]);
-    assert(path.to!string.exists, "no sound file at " ~ path.to!string);
-    _sample = al_load_sample(path);
-    assert(_sample !is null, "failed to load sound " ~ path.to!string);
+    _sample = _samples[key];
+    assert(_sample !is null, "failed to load sound " ~ key);
     _gain   = to!float(data.get("gain", "1"));
     _speed  = to!float(data.get("speed", "1"));
     _pan    = to!float(data.get("pan", "0"));
@@ -47,10 +51,16 @@ class SoundSample {
 }
 
 private:
+ALLEGRO_SAMPLE*[string] _samples;
 ConfigData _soundData;
 string _soundDir;
 
 static this() {
   _soundData = loadConfigFile(Paths.soundData);
   _soundDir = _soundData.globals["soundDir"];
+  foreach(key, data ; _soundData.entries) {
+    auto path = (_soundDir ~ data["file"]);
+    assert(path.exists, "no sound file at " ~ path);
+    _samples[key] = al_load_sample(path.toStringz);
+  }
 }

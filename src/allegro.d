@@ -38,7 +38,7 @@ enum Settings {
   fps     = 30,   /// frames-per-second of update/draw loop
   screenW = 800,  /// screen width
   screenH = 600,  /// screen height
-  numAudioSamples = 2,  /// number of audio samples to reserve
+  numAudioSamples = 1,  /// number of audio samples to reserve
 }
 
 /// paths to configuration files and content

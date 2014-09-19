@@ -11,6 +11,7 @@ import state.gamestate;
 import state.combat_calc;
 import util.input;
 import util.bicycle;
+import util.sound;
 import model.all;
 import gui.all;
 import ai.all;
@@ -591,10 +592,15 @@ class Battle : GameState {
         auto item = battler.items[].find!(x => x.name == "Door Key").front;
         battler.useItem(item);
       }
+    }
+
+    override void onStart() {
       _sprite.fade(doorFadeTime, Color.clear);
+      playSound("open");
     }
 
     override void update(float time) {
+      _sprite.update(time);
       if (!_sprite.isFlashing) {
         if (_battler.team == BattleTeam.ally) {
           if (_pickedLock) {
