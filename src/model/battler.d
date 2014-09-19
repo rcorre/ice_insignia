@@ -7,6 +7,7 @@ import allegro;
 import geometry.all;
 import graphics.all;
 import util.math;
+import util.sound;
 import gui.battler_info;
 import model.character;
 import model.item;
@@ -43,6 +44,11 @@ class Battler : Attackable {
     this.team = team;
     _hp = c.maxHp;
     _aiType = aiType;
+
+    _healSound = new SoundSample("heal");
+    _hitSound = new SoundSample("hit");
+    //_missSound = new SoundSample("miss");
+    _walkSound = new SoundSample("step");
   }
 
   @property {
@@ -147,6 +153,7 @@ class Battler : Attackable {
     if (_hp <= 0) {
       _sprite.fade(fadeTime, fadeSpectrum);
     }
+    _hitSound.play();
   }
 
   void heal(int amount) {
@@ -156,6 +163,7 @@ class Battler : Attackable {
       _infoBox.healthBar.transition(_hp, _hp + amount, hpTransitionRate);
     }
     _hp += amount;
+    _healSound.play();
   }
 
   bool awardXp(int amount, out AttributeSet bonuses, out int leftover) {
@@ -214,4 +222,5 @@ class Battler : Attackable {
   bool _moved;
   BattlerInfoBox _infoBox;
   string _aiType;
+  SoundSample _hitSound, _healSound, _walkSound;
 }

@@ -14,6 +14,8 @@ else
 	pragma(lib, "allegro_font");
 	pragma(lib, "allegro_ttf");
 	pragma(lib, "allegro_color");
+	pragma(lib, "allegro_audio");
+	pragma(lib, "allegro_acodec");
 }
 
 // make all allegro functions available
@@ -23,6 +25,8 @@ public import allegro5.allegro_image;
 public import allegro5.allegro_font;
 public import allegro5.allegro_ttf;
 public import allegro5.allegro_color;
+public import allegro5.allegro_audio;
+public import allegro5.allegro_acodec;
 
 // global variables
 ALLEGRO_DISPLAY* display;
@@ -34,6 +38,7 @@ enum Settings {
   fps     = 30,   /// frames-per-second of update/draw loop
   screenW = 800,  /// screen width
   screenH = 600,  /// screen height
+  numAudioSamples = 2,  /// number of audio samples to reserve
 }
 
 /// paths to configuration files and content
@@ -44,6 +49,7 @@ enum Paths {
   fontData            = "content/fonts.cfg",
   backgroundDir       = "content/image/background/",
   mapDir              = "content/maps",
+  soundData           = "content/sounds.cfg",
   characterData       = "content/data/characters.json",
   itemData            = "content/data/items.json",
   talentData          = "content/data/talents.json",
@@ -61,10 +67,14 @@ static this() {
   al_install_keyboard();
   al_install_mouse();
   al_install_joystick();
+  al_install_audio();
+  al_init_acodec_addon();
   al_init_image_addon();
   al_init_font_addon();
   al_init_ttf_addon();
   al_init_primitives_addon();
+
+  al_reserve_samples(Settings.numAudioSamples);
 
   al_register_event_source(event_queue, al_get_display_event_source(display));
   al_register_event_source(event_queue, al_get_keyboard_event_source());
