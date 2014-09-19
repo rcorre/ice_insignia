@@ -24,6 +24,7 @@ private enum {
   attackSpeed = 12,       /// movement rate of attack animation
   attackShiftDist = 8,    /// pixels to shift when showing attack
   pauseTime = 0.5,        /// time to pause between states
+  walkPauseTime = 0.1,    /// time to pause before moving battler to sync sound
 
   chestFadeTime = 0.5,
   doorFadeTime = 0.5,
@@ -299,7 +300,7 @@ class Battle : GameState {
         }
         if (_selectedPath && _input.confirm) {
           _tileCursor.active = false;
-          setState(new MoveBattler(_battler, _tile, _selectedPath));
+          setState(new Wait(walkPauseTime, new MoveBattler(_battler, _tile, _selectedPath)));
         }
       }
       if (_input.cancel) {
@@ -341,10 +342,10 @@ class Battle : GameState {
       _originTile = currentTile;
       _endTile = path.back;
       currentTile.battler = null;  // remove battler from current tile
+      _battler.playWalkSound();
     }
 
     override void onStart() {
-      _battler.playWalkSound();
     }
 
     override void update(float time) {
@@ -1385,7 +1386,7 @@ class Battle : GameState {
         auto path = _behavior.moveRequest;
         if (path !is null) {
           auto selfTerrain = _map.tileAt(_battler.row, _battler.col);
-          setState(new MoveBattler(_battler, selfTerrain, path));
+          setState(new Wait(walkPauseTime, new MoveBattler(_battler, selfTerrain, path)));
         }
         else {
           setState(new EnemyChooseAction(_battler, _behavior));
