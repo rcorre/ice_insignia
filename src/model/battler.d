@@ -80,6 +80,11 @@ class Battler : Attackable {
         items[].canFind!(x => x !is null && x.name == "Lockpick");
     }
 
+    bool canKnock() {
+      auto knock = items[].find!(a => a.name == "Knock");
+      return knock.empty ? false : canWieldMagic(knock.front);
+    }
+
     bool canOpenDoor() {
       return items[].canFind!(x => x !is null && x.name == "Door Key") || canPickLocks;
     }
@@ -95,7 +100,7 @@ class Battler : Attackable {
       auto idx = items[].countUntil(item);
       assert(idx >= 0, "trying to use item " ~ item.name ~ " but it is not in inventory");
       if (--items[idx].uses <= 0) {
-        items[idx] = null;
+        removeItem(item);
         if (idx == 0) { // was equipped weapon
           equipNextWeapon();
         }

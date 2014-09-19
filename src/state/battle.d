@@ -562,6 +562,7 @@ class Battle : GameState {
         _battler.heal(_item.heal);
       }
       _battler.applyStatEffects(_item.statEffects);
+      _battler.useItem(_item);
     }
 
     override void update(float time) {
@@ -584,14 +585,19 @@ class Battle : GameState {
       _battler = battler;
       _tile = tile;
       _sprite = tile.object.sprite;
+      int dist = abs(battler.row - tile.row) + abs(battler.col - tile.col);
 
-      if (battler.canPickLocks) {
+      if (battler.canPickLocks && dist == 1) {
         auto item = battler.items[].find!(x => x.name == "Lockpick").front;
         battler.useItem(item);
-        _pickedLock = true;
+        _awardXp = true;
+      }
+      else if (dist == 1 && battler.items[].canFind!(a => a.name == "Door Key")) {
+        auto item = battler.items[].find!(x => x.name == "Door Key").front;
+        battler.useItem(item);
       }
       else {
-        auto item = battler.items[].find!(x => x.name == "Door Key").front;
+        auto item = battler.items[].find!(x => x.name == "Knock").front;
         battler.useItem(item);
       }
     }
@@ -605,7 +611,7 @@ class Battle : GameState {
       _sprite.update(time);
       if (!_sprite.isFlashing) {
         if (_battler.team == BattleTeam.ally) {
-          if (_pickedLock) {
+          if (_awardXp) {
             int xp = computeLockpickXp(_battler);
             setState(new AwardXp(_battler, xp, true));
           }
@@ -623,7 +629,7 @@ class Battle : GameState {
     Battler _battler;
     Tile _tile;
     Sprite _sprite;
-    bool _pickedLock;
+    bool _awardXp;
   }
 
   class OpenChest : State {
@@ -633,7 +639,21 @@ class Battle : GameState {
       _chest = cast(Chest) _tile.object;
       assert(_chest, "OpenChest could not find on battler's tile");
       assert(_chest.item, "no item in chest");
+    }
+
+    override void onStart() {
       _chest.sprite.fade(chestFadeTime, Color.clear);
+      if (_battler.canPickLocks) {
+        auto lockPick = _battler.items[].find!(a => a.name == "Lockpick");
+        assert(!lockPick.empty, "expected battler " ~ _battler.name ~ " to have a lockpick");
+        _battler.useItem(lockPick.front);
+        _pickedLock = true;
+      }
+      else {
+        auto chestKey = _battler.items[].find!(a => a.name == "Chest Key");
+        assert(!chestKey.empty, "expected battler " ~ _battler.name ~ " to have a chest key");
+        _battler.useItem(chestKey.front);
+      }
     }
 
     override void update(float time) {
@@ -655,6 +675,7 @@ class Battle : GameState {
     Battler _battler;
     Chest _chest;
     Tile _tile;
+    bool _pickedLock;
   }
 
   class ConsiderAttack : State {
@@ -866,6 +887,7 @@ class Battle : GameState {
     override void onStart() {
       _target.heal(_magic.heal);
       _target.applyStatEffects(_magic.statEffects);
+      _caster.useItem(_magic);
     }
 
     override void update(float time) {
@@ -924,7 +946,7 @@ class Battle : GameState {
 
       _target.removeItem(_item);
       _stealer.addItem(_item);
-      _notification = new ItemNotification(screenCenter, _item);
+      _notification = new ItemNotification(screenCenter, _item, " acquired");
     }
 
     override void draw() {
@@ -1122,7 +1144,7 @@ class Battle : GameState {
       if (itemToAward && battler.addItem(itemToAward)) {
         itemToAward.drop = false; // unmark the item as droppable
         auto pos = Vector2i(Settings.screenW, Settings.screenH) / 2;
-        _itemNotification = new ItemNotification(pos, itemToAward);
+        _itemNotification = new ItemNotification(pos, itemToAward, " acquired");
       }
       _battler.showInfoBox(screenCenter);
     }

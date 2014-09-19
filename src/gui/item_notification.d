@@ -7,38 +7,34 @@ import model.item;
 // pixels between text and item sprite
 private enum {
   spriteSpacing = 10,
-  textPrefix = "Got a",
   bgColor = Color(0.7, 0.7, 0.7, 0.7),
   fontName = "itemNotification"
 }
 
 class ItemNotification {
-  this(Vector2i center, Item item) {
+  this(Vector2i center, Item item, string text) {
     _sprite = item.sprite;
-    _itemName = item.name;
-    auto prefixWidth = _font.widthOf(textPrefix);
-    auto suffixWidth = _font.widthOf(_itemName);
-    int width = prefixWidth + spriteSpacing + _sprite.width + suffixWidth;
+    _text = item.name ~ " " ~ text;
+    auto textWidth = _font.widthOf(_text);
+    int width = _sprite.width + spriteSpacing + textWidth;
     int height = _sprite.height;
     _area = Rect2i.CenteredAt(center, width, height);
-    _spritePos = _area.topLeft + Vector2i(prefixWidth + spriteSpacing + _sprite.width / 2, _sprite.height / 2);
-    int textY = (_sprite.height - _font.heightOf(textPrefix)) / 2;
-    _prefixPos = _area.topLeft + Vector2i(0, textY);
-    _namePos = _area.topLeft + Vector2i(_sprite.width + prefixWidth + spriteSpacing, textY);
+    _spritePos = _area.topLeft + _sprite.size / 2;
+    int textY = (_sprite.height - _font.heightOf(_text)) / 2;
+    _textPos = _area.topLeft + Vector2i(_sprite.width + spriteSpacing, textY);
   }
 
   void draw() {
     _area.drawFilled(bgColor);
-    _font.draw(textPrefix, _prefixPos);
     _sprite.draw(_spritePos);
-    _font.draw(_itemName, _namePos);
+    _font.draw(_text, _textPos);
   }
 
   private:
   Sprite _sprite;
   Rect2i _area;
-  Vector2i _spritePos, _namePos, _prefixPos;
-  string _itemName;
+  Vector2i _spritePos, _textPos;
+  string _text;
 }
 
 private static Font _font;

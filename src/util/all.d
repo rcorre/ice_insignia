@@ -1,11 +1,11 @@
 module util.all;
 
-public import bicycle.d;
-public import config.d;
-public import gamepad.d;
-public import input.d;
-public import jsonizer.d;
-public import math.d;
-public import removal_list.d;
-public import savegame.d;
-public import sound.d;
+public import util.bicycle;
+public import util.config;
+public import util.gamepad;
+public import util.input;
+public import util.jsonizer;
+public import util.math;
+public import util.removal_list;
+public import util.savegame;
+public import util.sound;
