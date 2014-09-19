@@ -422,6 +422,18 @@
     "tier"     : 1
   },
 
+  "surestrike": {
+    "name"     : "Surestrike",
+    "type"     : "magic",
+    "text"     : "improve accuracy",
+    "maxUses"  : 15,
+    "minRange" : 1,
+    "maxRange" : 1,
+    "price"    : 220,
+    "useOnAlly": true,
+    "tier"     : 1
+  },
+
   "knock": {
     "name"     : "Knock",
     "type"     : "magic",
@@ -431,22 +443,6 @@
     "maxRange" : 1,
     "price"    : 200,
     "tier"     : 1
-  },
-
-  "enfeeble": {
-    "name"     : "Enfeeble",
-    "type"     : "magic",
-    "text"     : "reduce strength",
-    "maxUses"  : 15,
-    "minRange" : 1,
-    "maxRange" : 2,
-    "price"    : 290,
-    "statEffects" : {
-      "valueSet" : {
-        "strength"     : -4
-      }
-    },
-    "tier"     : 2
   },
 
   "cure": {
@@ -462,20 +458,19 @@
     "tier"     : 2
   },
 
-  "sloth": {
-    "name"     : "Sloth",
+  "stoneskin": {
+    "name"     : "Stoneskin",
     "type"     : "magic",
-    "text"     : "reduce speed",
-    "maxUses"  : 12,
-    "minRange" : 1,
-    "maxRange" : 2,
-    "price"    : 350,
+    "text"     : "increase armor",
     "statEffects" : {
       "valueSet" : {
-        "speed"     : -4,
-        "move"     : -2
+        "defense" : 3
       }
     },
+    "maxUses"  : 10,
+    "minRange" : 1,
+    "maxRange" : 1,
+    "price"    : 380,
     "tier"     : 2
   },
 
@@ -492,35 +487,20 @@
     "tier"     : 3
   },
 
-  "frailty": {
-    "name"     : "Frailty",
+  "fate": {
+    "name"     : "Fate",
     "type"     : "magic",
-    "text"     : "reduce armor",
-    "statEffects" : {
-      "valueSet" : {
-        "defense" : -5
-      }
-    },
+    "text"     : "bestow great luck",
     "maxUses"  : 10,
     "minRange" : 1,
-    "maxRange" : 2,
-    "price"    : 450,
-    "tier"     : 3
-  },
-
-  "stoneskin": {
-    "name"     : "Stoneskin",
-    "type"     : "magic",
-    "text"     : "increase armor",
+    "maxRange" : 1,
     "statEffects" : {
       "valueSet" : {
-        "defense" : 4
+        "luck" : 5
       }
     },
-    "maxUses"  : 10,
-    "minRange" : 1,
-    "maxRange" : 2,
-    "price"    : 520,
+    "price"    : 500,
+    "useOnAlly": true,
     "tier"     : 3
   },
 
