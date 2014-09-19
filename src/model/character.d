@@ -100,7 +100,7 @@ class Character {
   }
 
   void passTurn() {
-    auto norm = _attributes.map!(a => (a == 0) ? 0 : (a < 0 ? 1 : -1));
+    auto norm = _statEffects.map!(a => a == 0 ? 0 : (a < 0 ? -1 : 1));
     _statEffects = _statEffects + norm;
   }
 
