@@ -16,6 +16,7 @@ int main(char[][] args) {
   _currentState = new Preparation(data, false);
 
   return al_run_allegro({
+      al_hide_mouse_cursor(display);
       while(_run) {
         process_event();
         if (_frameTick) {
