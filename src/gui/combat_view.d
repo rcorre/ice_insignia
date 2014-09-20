@@ -19,7 +19,7 @@ private enum {
   offsetDamage       = Vector2i(81, 137),
   offsetHit          = Vector2i(81, 169),
   offsetCrit         = Vector2i(81, 201),
-  offsetInputIcon    = Vector2i(-10, -20),
+  offsetInputIcon    = Vector2i(-20, -20),
   multOffset         = Vector2f(8, 0),
   multRotation       = 2.0,
   spacing            = Vector2i(193, 0),
@@ -82,9 +82,8 @@ class BattlerCombatView : CombatView {
     super.draw(gamepad);
     drawPrediction(_attack, _area.topLeft);
     drawPrediction(_counter, _area.topLeft + spacing);
-    drawInputIcon("previous", _area.topLeft + offsetWeaponSprite + offsetInputIcon, gamepad,
-        "previous");
-    drawInputIcon("next", _area.topLeft + offsetWeaponSprite + offsetInputIcon.mirroredH, gamepad, "next");
+    drawInputIcon("previous", _area.topLeft + offsetWeaponSprite + offsetInputIcon, gamepad);
+    drawInputIcon("next", _area.topLeft + offsetWeaponSprite + offsetInputIcon.mirroredH, gamepad);
   }
 
   private:

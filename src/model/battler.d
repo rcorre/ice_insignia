@@ -108,8 +108,8 @@ class Battler : Attackable {
       if (lockpick !is null && hasTalent("lockpicking")) {
         return lockpick;
       }
-      auto doorKey = findItem("Door Key");
-      return doorKey;
+      auto chestKey = findItem("Chest Key");
+      return chestKey;
     }
 
     /// return true if item totally consumed

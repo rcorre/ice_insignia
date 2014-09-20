@@ -123,7 +123,8 @@ class Character {
   }
 
   bool canWield(Item item) {
-    return item !is null && _talents.canFind!(x => x.weaponSkill == item.type && x.weaponTier == item.tier);
+    return item !is null && item.type != ItemType.magic && _talents.canFind!(x => x.weaponSkill ==
+        item.type && x.weaponTier == item.tier); 
   }
 
   ref Item itemAt(ulong slot) {
