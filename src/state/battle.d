@@ -502,9 +502,8 @@ class Battle : GameState {
           _requestedState = new ConsiderAttack(_battler, _targetsInRange);
           break;
         case "Inventory":
-          auto menuPos = _battler.pos - _camera.topLeft - Vector2i(50, 50);
-          _inventoryView = new InventoryMenu(menuPos, _battler.items, &selectItem, &showItemInfo);
-          _inventoryView.keepInside(Rect2i(0, 0, _camera.width, _camera.height));
+          _inventoryView = new InventoryMenu(screenCenter, _battler.items, &selectItem, &showItemInfo,
+              InventoryMenu.ShowPrice.no, true, true);
           break;
         case "Wait":
           _battler.moved = true;
@@ -783,7 +782,7 @@ class Battle : GameState {
     void setTarget(Battler target) {
       _tileCursor.place(_map.tileAtPos(target.pos));
       auto items = array(_targets.front.items[].filter!(x => x !is null).drop(1));
-      _menu = new InventoryMenu(screenCenter, items, &onChoose);
+      _menu = new InventoryMenu(screenCenter, items, &onChoose, null, InventoryMenu.ShowPrice.no, true, true);
     }
 
     void onChoose(Item item) {
@@ -834,7 +833,8 @@ class Battle : GameState {
 
     void setTarget(Battler b) {
       showBattlerInfoBoxes(_battler, b);
-      _magicMenu = new InventoryMenu(screenCenter, _battler.magicOptions(b), &onChoose);
+      _magicMenu = new InventoryMenu(screenCenter, _battler.magicOptions(b), &onChoose, null,
+          InventoryMenu.ShowPrice.no, true, true);
     }
 
     void onChoose(Item magic) {
@@ -1279,9 +1279,10 @@ class Battle : GameState {
     }
 
     override void onStart() {
-      _traderMenu = new InventoryMenu(traderPos, _trader.items, &chooseGive);
-      _otherMenu = new InventoryMenu(otherPos, _others.front.items, &chooseReceive);
-      _traderMenu.hasFocus = false;
+      _traderMenu = new InventoryMenu(traderPos, _trader.items, &chooseGive, null,
+          InventoryMenu.ShowPrice.no, false, true);
+      _otherMenu = new InventoryMenu(otherPos, _others.front.items, &chooseReceive, null,
+          InventoryMenu.ShowPrice.no, true, true);
     }
 
     override void update(float time) {

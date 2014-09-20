@@ -6,6 +6,7 @@ import std.algorithm : map, reduce, max;
 import graphics.all;
 import geometry.all;
 import util.input;
+import gui.input_icon;
 
 private enum {
   fontName = "selection_font",
@@ -16,7 +17,9 @@ abstract class SelectionMenu(T) {
   alias Action = void delegate(T);
   alias HoverAction = void delegate(T, Rect2i);
 
-  this(Vector2i pos, T[] selections, Action onChoose, HoverAction onHover, bool hasFocus = true) {
+  this(Vector2i pos, T[] selections, Action onChoose, HoverAction onHover = null, bool hasFocus = true,
+      bool drawBackButton = false) 
+  {
     // the width/height of each entry is normalized to the largest entry
     if (selections is null || selections.empty) {
       _entryWidth = 0; // TODO: use texture
@@ -32,11 +35,8 @@ abstract class SelectionMenu(T) {
     _selections = selections;
     _onChoose = onChoose;
     _onHover = onHover;
+    _drawBackButton = drawBackButton;
     this.hasFocus = hasFocus;
-  }
-
-  this(Vector2i pos, T[] selections, Action onChoose) {
-    this(pos, selections, onChoose, null);
   }
 
   @property bool hasFocus() { return _hasFocus; }
@@ -71,6 +71,8 @@ abstract class SelectionMenu(T) {
     if (input.confirm && _onChoose !is null) {
       _onChoose(_selections[_cursorIdx]);
     }
+
+    _gamepadConnected = input.gamepadConnected;
   }
 
   final void callHoverAction() {
@@ -88,12 +90,16 @@ abstract class SelectionMenu(T) {
       drawEntry(entry, rect, isSelected);
       rect.y += _entryHeight + spacingY;
     }
+    if (_drawBackButton) {
+      drawInputIcon("cancel", rect.center, _gamepadConnected, "back");
+    }
   }
 
   protected:
   void drawEntry(T entry, Rect2i rect, bool isSelected);
   int entryWidth(T entry);
   int entryHeight(T entry);
+  bool _gamepadConnected;
 
   static Font _font;
 
@@ -104,7 +110,7 @@ abstract class SelectionMenu(T) {
   int _cursorIdx;
   HoverAction _onHover;
   Action _onChoose;
-  bool _hasFocus;
+  bool _hasFocus, _drawBackButton;
 
   static this() {
     _font = getFont(fontName);

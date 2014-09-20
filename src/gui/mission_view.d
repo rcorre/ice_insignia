@@ -7,6 +7,7 @@ import std.string : format;
 import gui.element;
 import gui.container;
 import gui.roster_slot;
+import gui.input_icon;
 import geometry.all;
 import graphics.all;
 import model.character;
@@ -18,6 +19,7 @@ private enum {
   goldOffset     = Vector2i(120, 25),
   rosterStartPos = Vector2i(113, 105),
   countOffset    = Vector2i(419, 449),
+  startOffset    = Vector2i(311, 457),
   cursorShade    = Color(0, 0, 0.5, 0.8),
   numRecruitCols = 3,
   rosterSpacingX = 64,
@@ -53,9 +55,11 @@ class MissionView : GUIContainer {
       _goldFont.draw(format("%dG", _data.gold), bounds.topLeft + goldOffset);
       _countFont.draw(format("%d / %d Units", _numActiveUnits, _unitsAllowedOnMission),
           bounds.topLeft + countOffset);
+      drawInputIcon("start", bounds.topLeft + startOffset, _gamepadConnected);
     }
 
     bool handleInput(InputManager input) {
+      _gamepadConnected = input.gamepadConnected;
       if (input.start) {
         auto units = _slots.filter!"a.active".find!"a.character !is null".map!"a.character";
         if (!units.empty) {
@@ -96,6 +100,7 @@ class MissionView : GUIContainer {
   int _unitsAllowedOnMission;
   StartCommand _startCmd;
   LevelData _mapData;
+  bool _gamepadConnected;
 }
 
 private static Font _goldFont, _countFont;

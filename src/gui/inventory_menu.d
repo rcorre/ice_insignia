@@ -6,6 +6,7 @@ import std.algorithm : filter, max;
 import graphics.all;
 import geometry.all;
 import gui.selection_menu;
+import gui.input_icon;
 import model.item;
 
 private enum {
@@ -16,17 +17,17 @@ private enum {
 class InventoryMenu : SelectionMenu!Item {
   enum ShowPrice { no, full, resale }
   this(Vector2i pos, Item[] items, Action onChoose, HoverAction onHover = null,
-      ShowPrice showPrice = ShowPrice.no, bool focus = true)
+      ShowPrice showPrice = ShowPrice.no, bool focus = true, bool drawBackButton = false)
   {
     _showPrice = showPrice;
-    super(pos, items, onChoose, onHover, focus);
+    super(pos, items, onChoose, onHover, focus, drawBackButton);
   }
 
   this(Vector2i pos, Item[5] items, Action onChoose, HoverAction onHover = null,
-      ShowPrice showPrice = ShowPrice.no, bool focus = true)
+      ShowPrice showPrice = ShowPrice.no, bool focus = true, bool drawBackButton = false)
   {
     _showPrice = showPrice;
-    super(pos, items.dup, onChoose, onHover, focus);
+    super(pos, items.dup, onChoose, onHover, focus, drawBackButton);
   }
 
   protected override {
