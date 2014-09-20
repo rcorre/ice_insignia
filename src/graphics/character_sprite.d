@@ -12,11 +12,18 @@ import model.battler;
 
 /// displays a single frame of a texture
 class CharacterSprite : Sprite {
-  this(string model, BattleTeam team = BattleTeam.ally) {
+  this(Character character, BattleTeam team = BattleTeam.ally) {
     auto spriteSheet = (team == BattleTeam.ally) ? _blueSpriteSheet : _redSpriteSheet;
+    auto model = character.model;
     assert(model in _spriteData.entries["rows"], "cannot find character sprite model " ~ model);
     int row = to!int(_spriteData.entries["rows"][model]);
-    int col = 1; // TODO: set based on talents
+    int col = 0;
+    if (character.hasTalent("armor2")) {
+      col = 2;
+    }
+    else if (character.hasTalent("armor1")) {
+      col = 1;
+    }
     super(spriteSheet, row, col);
   }
 

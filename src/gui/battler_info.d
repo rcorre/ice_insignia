@@ -30,7 +30,7 @@ class BattlerInfoBox {
     _healthBar = new ProgressBar!int(healthArea, b.hp, b.maxHp, healthFg, healthBg);
     auto xpArea = Rect2i(pos + xpBarOffset, xpBarSize);
     _xpBar = new ProgressBar!int(xpArea, b.xp, b.xpLimit, xpFg, xpBg);
-    _sprite = new CharacterSprite(b.model, b.team);
+    _sprite = new CharacterSprite(b.character, b.team);
   }
 
   this(Vector2i pos, Wall wall) {

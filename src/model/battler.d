@@ -40,7 +40,7 @@ class Battler : Attackable {
     _row = row;
     _col = col;
     _pos = pos;
-    _sprite = new CharacterSprite(c.model, team);
+    _sprite = new CharacterSprite(c, team);
     this.team = team;
     _hp = c.maxHp;
     _aiType = aiType;

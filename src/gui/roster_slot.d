@@ -33,7 +33,7 @@ class RosterSlot : GUIElement {
     auto character() { return _character; }
     void character(Character newChar) {
       _character = newChar;
-      _sprite = newChar ? new CharacterSprite(newChar.model) : null;
+      _sprite = newChar ? new CharacterSprite(newChar) : null;
       if (_sprite) {
         _sprite.tint = active ? activeShade : inactiveShade;
       }

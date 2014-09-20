@@ -67,7 +67,7 @@ class CharacterSheet {
   {
     _topLeft = topLeft;
     _character = character;
-    _sprite = new CharacterSprite(character.model);
+    _sprite = new CharacterSprite(character);
     populate(character.maxHp, showPotential, inventoryAction, talentAction);
   }
 
