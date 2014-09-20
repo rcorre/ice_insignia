@@ -19,18 +19,29 @@ class CharacterSprite : Sprite {
     int row = to!int(_spriteData.entries["rows"][model]);
     int col = 0;
     if (character.hasTalent("armor2")) {
-      col = 2;
+      col = to!int(_spriteData.entries["cols"]["armor1"]);
     }
     else if (character.hasTalent("armor1")) {
-      col = 1;
+      col = to!int(_spriteData.entries["cols"]["armor2"]);
     }
     super(spriteSheet, row, col);
+    if (character.isArmed) {
+      string type = to!string(character.equippedWeapon.type);
+      assert(type in _spriteData.entries["cols"], "no sprite for weapon type " ~ type);
+      int weaponRow = to!int(_spriteData.entries["rows"]["weapon"]);
+      int weaponCol = to!int(_spriteData.entries["cols"][type]);
+      _weaponSprite = new Sprite(spriteSheet, weaponRow, weaponCol);
+    }
   }
 
   override void draw(Vector2i pos) {
     super.draw(pos);
-    // TODO: overlay weapon sprite
+    if (_weaponSprite) {
+      _weaponSprite.draw(pos);
+    }
   }
+
+  private Sprite _weaponSprite;
 }
 
 private:

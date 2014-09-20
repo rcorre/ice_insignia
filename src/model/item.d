@@ -18,9 +18,6 @@ enum ItemType {
   axe,
   lance,
   bow,
-  anima,
-  light,
-  dark,
   magic,
 }
 

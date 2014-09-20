@@ -215,8 +215,4 @@ enum advantageMap = [
   ItemType.sword : ItemType.axe,
   ItemType.axe   : ItemType.lance,
   ItemType.lance : ItemType.sword,
-
-  ItemType.anima : ItemType.light,
-  ItemType.light : ItemType.dark,
-  ItemType.dark  : ItemType.anima,
 ];
