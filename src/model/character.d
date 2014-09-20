@@ -124,7 +124,7 @@ class Character {
 
   bool canWield(Item item) {
     return item !is null && item.type != ItemType.magic && _talents.canFind!(x => x.weaponSkill ==
-        item.type && x.weaponTier == item.tier); 
+        item.type && x.weaponTier == item.tier);
   }
 
   ref Item itemAt(ulong slot) {
@@ -136,6 +136,9 @@ class Character {
     foreach(ref item ; _items) { // look for empty slot to place item in
       if (item is null) {
         item = newItem;
+        if (!isArmed) {
+          equippedWeapon = newItem;
+        }
         return true;
       }
     }

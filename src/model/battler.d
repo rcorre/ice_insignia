@@ -71,6 +71,14 @@ class Battler : Attackable {
       }
     }
 
+    Item equippedWeapon() {
+      return character.equippedWeapon;
+    }
+    void equippedWeapon(Item item) {
+      character.equippedWeapon = item;
+      _sprite = new CharacterSprite(character, team);
+    }
+
     BattlerInfoBox infoBox() { return _infoBox; }
     bool isHpTransitioning() { return _infoBox.healthBar.isTransitioning; }
     bool isXpTransitioning() { return _infoBox.xpBar.isTransitioning; }
