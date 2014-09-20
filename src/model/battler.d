@@ -233,6 +233,11 @@ class Battler : Attackable {
     return hasPickpocket && dist == 1 && !other.stealableItems.empty;
   }
 
+  Item[] weaponOptions(Attackable other) {
+    int dist = abs(row - other.row) + abs(col - other.col);
+    return array(items[].filter!(a => character.canWield(a) && a.minRange <= dist && dist <= a.maxRange));
+  }
+
   Item[] magicOptions(Battler target) {
     return array(items[].filter!(a => canMagic(target, a)));
   }

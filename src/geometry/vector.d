@@ -60,6 +60,17 @@ struct Vector2(T : real) {
     auto unit() const {
       return len == 0 ? Zero : Vector2!(T)(x / len, y / len);
     }
+
+    /// vector with x coordinate negated
+    auto mirroredH() {
+      return Vector2!T(-x, y);
+    }
+
+    /// vector with y coordinate negated
+    auto mirroredV() {
+      return Vector2!T(x, -y);
+    }
+
     /// replace unit with normalized eventually
     alias normalized = unit;
   }

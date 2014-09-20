@@ -9,6 +9,7 @@ import graphics.all;
 import state.combat_calc;
 import tilemap.object;
 import model.battler;
+import gui.input_icon;
 
 private enum {
   offsetSprite       = Vector2i(25, 49),
@@ -18,6 +19,7 @@ private enum {
   offsetDamage       = Vector2i(81, 137),
   offsetHit          = Vector2i(81, 169),
   offsetCrit         = Vector2i(81, 201),
+  offsetInputIcon    = Vector2i(-10, -20),
   multOffset         = Vector2f(8, 0),
   multRotation       = 2.0,
   spacing            = Vector2i(193, 0),
@@ -54,7 +56,7 @@ abstract class CombatView {
 
   void update(float time) { }
 
-  void draw() {
+  void draw(bool gamepad) {
     _texture.draw(area.center);
   }
 
@@ -76,10 +78,13 @@ class BattlerCombatView : CombatView {
     _disadvantageSprite.update(time);
   }
 
-  override void draw() {
-    super.draw();
+  override void draw(bool gamepad) {
+    super.draw(gamepad);
     drawPrediction(_attack, _area.topLeft);
     drawPrediction(_counter, _area.topLeft + spacing);
+    drawInputIcon("previous", _area.topLeft + offsetWeaponSprite + offsetInputIcon, gamepad,
+        "previous");
+    drawInputIcon("next", _area.topLeft + offsetWeaponSprite + offsetInputIcon.mirroredH, gamepad, "next");
   }
 
   private:
@@ -115,8 +120,8 @@ class WallCombatView : CombatView {
     _wall = wall;
   }
 
-  override void draw() {
-    super.draw();
+  override void draw(bool gamepad) {
+    super.draw(gamepad);
     auto offset = area.topLeft;
     // draw attacker
     _attacker.sprite.draw(offset + offsetSprite);

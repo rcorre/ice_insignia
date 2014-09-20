@@ -707,15 +707,24 @@ class Battle : GameState {
       else if (_input.selectRight) {
         setTarget(_targets.reverse);
       }
+      else if (_input.next) {
+        _attacker.equippedWeapon = _itemChoices.advance;
+        setTarget(_targets.front);
+      }
+      else if (_input.next) {
+        _attacker.equippedWeapon = _itemChoices.reverse;
+        setTarget(_targets.front);
+      }
     }
 
     override void draw() {
       _tileCursor.draw();
-      _view.draw();
+      _view.draw(_input.gamepadConnected);
     }
 
     private:
     Bicycle!(Variant[]) _targets;
+    Bicycle!(Item[]) _itemChoices;
     Battler _attacker;
     Attackable _defender;
     Tile _attackTerrain, _defendTerrain;
@@ -737,6 +746,7 @@ class Battle : GameState {
       _tileCursor.place(_map.tileAt(target.row, target.col));
       auto pos = _map.tileCoordToPos(target.row, target.col);
       _view = new WallCombatView(pos - _camera.topLeft, _attacker, target);
+      _itemChoices = bicycle(_attacker.weaponOptions(target));
     }
 
     void setBattlerTarget(Battler target) {
@@ -747,6 +757,7 @@ class Battle : GameState {
       _counter = new CombatPrediction(defender, _attacker, _attackTerrain, true);
       _view = new BattlerCombatView(defender.pos - _camera.topLeft, _attack, _counter);
       _tileCursor.place(_defendTerrain);
+      _itemChoices = bicycle(_attacker.weaponOptions(defender));
     }
   }
 
