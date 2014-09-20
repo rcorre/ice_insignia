@@ -34,14 +34,14 @@ abstract class CombatView {
       pos.x -= (buffer + width / 2);
     }
     else {
-      pos.x += buffer;
+      pos.x += buffer + width / 2;
     }
 
     if (pos.y > Settings.screenH / 2) {
       pos.y -= (buffer + height / 2);
     }
     else {
-      pos.y += buffer;
+      pos.y += buffer + height / 2;
     }
     _area = Rect2i.CenteredAt(pos, width, height);
   }
