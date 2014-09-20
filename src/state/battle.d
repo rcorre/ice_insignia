@@ -318,7 +318,9 @@ class Battle : GameState {
       if (_selectedPath) {
         auto nodes = array(_selectedPath.map!(t => _map.tileToPos(t) - _camera.topLeft));
         nodes.draw(lineWidth, lineTint);
+        drawInputIcon("confirm", nodes.back, _input.gamepadConnected, "move");
       }
+      drawInputIcon("cancel", _battler.pos - _camera.topLeft, _input.gamepadConnected, "back");
     }
 
     private:
