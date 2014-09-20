@@ -37,6 +37,7 @@ class CharacterSprite : Sprite {
   override void draw(Vector2i pos) {
     super.draw(pos);
     if (_weaponSprite) {
+      _weaponSprite.tint = tint;
       _weaponSprite.draw(pos);
     }
   }
