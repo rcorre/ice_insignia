@@ -77,6 +77,7 @@ class Battler : Attackable {
 
     /// get an item this battler could open a door with
     Item getDoorOpener(TileObject door) {
+      if (cast(Door) door is null) { return null; } // not a door
       int dist = abs(door.row - row) + abs(door.col - col);
       auto knock = findItem("Knock");
       if (dist == 2) {

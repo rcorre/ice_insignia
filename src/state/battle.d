@@ -402,11 +402,11 @@ class Battle : GameState {
       if (cast(Chest) currentTile.object && _battler.getChestOpener(currentTile.object) !is null) {
         _chestTile = currentTile;
       }
-      auto neighbors = _map.neighbors(currentTile);
-      auto doorTile = neighbors.find!(x => (cast(Door) x.object) !is null);
-      if (!doorTile.empty && battler.getDoorOpener(doorTile.front.object) !is null) {
-        _doorTile = doorTile.front;
+      auto door = _objects.find!(x => battler.getDoorOpener(x) !is null);
+      if (!door.empty) {
+        _doorTile = _map.tileAt(door.front.row, door.front.col);
       }
+      auto neighbors = _map.neighbors(currentTile);
       _adjacentAllies = array(_map.neighbors(currentTile).map!(a => a.battler)
           .filter!(a => a !is null && a.team == BattleTeam.ally));
       // create menu
