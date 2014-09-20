@@ -43,6 +43,10 @@ class ItemView {
     _area.keepInside(camera, buffer);
   }
 
+  static auto size() {
+    return Vector2i(_texture.width, _texture.height);
+  }
+
   private:
   Item _item;
   Rect2i _area;
