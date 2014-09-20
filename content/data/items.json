@@ -217,7 +217,7 @@
     "maxUses"  : 20,
     "damage"   : 12,
     "hit"      : 75,
-    "crit"     : 10,
+    "crit"     : 0,
     "minRange" : 1,
     "maxRange" : 1,
     "weight"   : 9,

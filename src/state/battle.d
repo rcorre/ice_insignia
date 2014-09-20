@@ -1010,11 +1010,14 @@ class Battle : GameState {
         auto attackDirection = (_defender.pos - _attacker.pos).normalized;
         _attacker.sprite.shift(attackDirection * attackShiftDist, attackSpeed);
         if (_result.hit) {
+          _defender.dealDamage(_result.damageDealt);
+          if (_attacker.equippedWeapon.effect == ItemEffect.drain) {
+            _attacker.heal(_result.damageDealt / 2);
+          }
           bool itemDestroyed = _attacker.useItem(_attacker.equippedWeapon);
           if (itemDestroyed) { // remove all further attacks from this character
             _attacks = _attacks.remove!(x => x.attacker == _attacker);
           }
-          _defender.dealDamage(_result.damageDealt);
         }
         else {
           _defender.playMissSound();
