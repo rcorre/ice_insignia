@@ -98,6 +98,7 @@ class CharacterSheet {
     _inventoryMenu = new InventoryMenu(_topLeft + equipmentPos, _character.items,
         inventoryAction, onHover, InventoryMenu.ShowPrice.no, false);
     _inventoryMenu.hasFocus = true;
+    _sprite = new CharacterSprite(_character);
   }
 
   void handleInput(InputManager input) {

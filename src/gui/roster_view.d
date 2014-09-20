@@ -224,6 +224,7 @@ class RosterView : GUIContainer {
         saveGame(_data);
       }
     }
+    slot.character = character; // regenerate sprite
   }
 
   void takeItem(Item item) {
@@ -241,6 +242,7 @@ class RosterView : GUIContainer {
         saveGame(_data);
       }
     }
+    slot.character = character; // regenerate sprite
   }
 }
 
