@@ -557,13 +557,17 @@ class Battle : GameState {
 
     override void onStart() {
       _battler.applyStatEffects(_item.statEffects);
-      _battler.useItem(_item);
+      bool _consumed = _battler.useItem(_item);
     }
 
     override void update(float time) {
       popState();
       pushState((_battler.team == BattleTeam.ally ? new PlayerTurn : new EnemyTurn));
       _battler.moved = true;
+      if (_consumed) {
+        auto notification = new ItemNotification(screenCenter, _item, " consumed");
+        pushState(new ShowItemNotification(notification));
+      }
       if (_item.heal > 0) {
         pushState(new RestoreHealth(_battler, _item.heal));
       }
@@ -572,6 +576,7 @@ class Battle : GameState {
     private:
     Battler _battler;
     Item _item;
+    bool _consumed;
   }
 
   class RestoreHealth : State {

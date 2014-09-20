@@ -36,10 +36,9 @@ class Item {
 
   mixin JsonizeMe;
 
-  @jsonize this(string name, bool drop = false, int uses = -1) {
-    name = name.toLower;
-    assert(name in _itemData, "could not load item named " ~ name);
-    data = _itemData[name];
+  @jsonize this(string key, bool drop = false, int uses = -1) {
+    assert(key in _itemData, "could not load item named " ~ key);
+    data = _itemData[key];
     this.uses = (uses == -1) ? data.maxUses : uses;
     _sprite = new Sprite(data.name);
     this.drop = drop;
@@ -47,7 +46,7 @@ class Item {
 
   @jsonize { // json output
     int uses;
-    @property string name() { return data.name; }
+    string key;
   }
 
   @property {
