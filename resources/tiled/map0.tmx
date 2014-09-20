@@ -1259,10 +1259,6 @@
     <property name="hp" value="20"/>
    </properties>
   </object>
-  <object type="wall" gid="45" x="288" y="416">
-   <properties>
-    <property name="hp" value="20"/>
-   </properties>
-  </object>
+  <object type="door" gid="44" x="352" y="576"/>
  </objectgroup>
 </map>

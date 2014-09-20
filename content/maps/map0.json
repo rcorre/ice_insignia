@@ -263,19 +263,19 @@
                  "y":256
                 }, 
                 {
-                 "gid":45,
+                 "gid":44,
                  "height":0,
                  "name":"",
                  "properties":
                     {
-                     "hp":"20"
+
                     },
                  "rotation":0,
-                 "type":"wall",
+                 "type":"door",
                  "visible":true,
                  "width":0,
-                 "x":288,
-                 "y":416
+                 "x":352,
+                 "y":576
                 }],
          "opacity":1,
          "type":"objectgroup",

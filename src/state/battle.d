@@ -399,17 +399,13 @@ class Battle : GameState {
       _targetSprite = new AnimatedSprite("target", targetShade);
       _magicableAllies = array(_allies.filter!(a => !_battler.magicOptions(a).empty));
       // find openable object
-      if (_battler.canOpenChest) {
-        if (cast(Chest) currentTile.object) {
-          _chestTile = currentTile;
-        }
+      if (cast(Chest) currentTile.object && _battler.getChestOpener(currentTile.object) !is null) {
+        _chestTile = currentTile;
       }
-      if (_battler.canOpenDoor) {
-        auto neighbors = _map.neighbors(currentTile);
-        auto tile = neighbors.find!(x => (cast(Door) x.object) !is null);
-        if (!tile.empty) {
-          _doorTile = tile.front;
-        }
+      auto neighbors = _map.neighbors(currentTile);
+      auto doorTile = neighbors.find!(x => (cast(Door) x.object) !is null);
+      if (!doorTile.empty && battler.getDoorOpener(doorTile.front.object) !is null) {
+        _doorTile = doorTile.front;
       }
       _adjacentAllies = array(_map.neighbors(currentTile).map!(a => a.battler)
           .filter!(a => a !is null && a.team == BattleTeam.ally));
@@ -585,21 +581,6 @@ class Battle : GameState {
       _battler = battler;
       _tile = tile;
       _sprite = tile.object.sprite;
-      int dist = abs(battler.row - tile.row) + abs(battler.col - tile.col);
-
-      if (battler.canPickLocks && dist == 1) {
-        auto item = battler.items[].find!(x => x.name == "Lockpick").front;
-        battler.useItem(item);
-        _awardXp = true;
-      }
-      else if (dist == 1 && battler.items[].canFind!(a => a.name == "Door Key")) {
-        auto item = battler.items[].find!(x => x.name == "Door Key").front;
-        battler.useItem(item);
-      }
-      else {
-        auto item = battler.items[].find!(x => x.name == "Knock").front;
-        battler.useItem(item);
-      }
     }
 
     override void onStart() {
@@ -610,17 +591,22 @@ class Battle : GameState {
     override void update(float time) {
       _sprite.update(time);
       if (!_sprite.isFlashing) {
+        popState();
+
+        Item item = _battler.getDoorOpener(_tile.object);
+        bool broke = _battler.useItem(item);
+
+        _battler.moved = true;
         if (_battler.team == BattleTeam.ally) {
-          if (_awardXp) {
-            int xp = computeLockpickXp(_battler);
-            setState(new AwardXp(_battler, xp, true));
-          }
-          else {
-            setState(new PlayerTurn);
-          }
+          int xp = computeLockpickXp(_battler);
+          pushState(new AwardXp(_battler, xp, true));
         }
         else {
-          setState(new EnemyTurn);
+          pushState(new EnemyTurn);
+        }
+        if (broke) {
+          auto notification = new ItemNotification(screenCenter, item, " consumed");
+          pushState(new ShowItemNotification(notification));
         }
       }
     }
@@ -629,7 +615,25 @@ class Battle : GameState {
     Battler _battler;
     Tile _tile;
     Sprite _sprite;
-    bool _awardXp;
+    Item _brokenItem;
+  }
+
+  class ShowItemNotification : State {
+    this(ItemNotification notification) {
+      _notification = notification;
+    }
+
+    override void draw() {
+      _notification.draw();
+    }
+
+    override void update(float time) {
+      if (_input.confirm) {
+        popState();
+      }
+    }
+
+    private ItemNotification _notification;
   }
 
   class OpenChest : State {
@@ -643,30 +647,26 @@ class Battle : GameState {
 
     override void onStart() {
       _chest.sprite.fade(chestFadeTime, Color.clear);
-      if (_battler.canPickLocks) {
-        auto lockPick = _battler.items[].find!(a => a.name == "Lockpick");
-        assert(!lockPick.empty, "expected battler " ~ _battler.name ~ " to have a lockpick");
-        _battler.useItem(lockPick.front);
-        _pickedLock = true;
-      }
-      else {
-        auto chestKey = _battler.items[].find!(a => a.name == "Chest Key");
-        assert(!chestKey.empty, "expected battler " ~ _battler.name ~ " to have a chest key");
-        _battler.useItem(chestKey.front);
-      }
     }
 
     override void update(float time) {
       _chest.sprite.update(time);
       if (!_chest.sprite.isFlashing) {
+        popState();
         _battler.moved = true;
         _tile.object = null;
+        auto item = _battler.getChestOpener(_chest);
+        bool broke = _battler.useItem(item);
+        if (_broke) {
+          auto notification = new ItemNotification(screenCenter, item, " consumed");
+          pushState(new ShowItemNotification(notification));
+        }
         if (_battler.team == BattleTeam.ally) {
           int xp = computeLockpickXp(_battler);
-          setState(new AwardXp(_battler, xp, true, _chest.item));
+          pushState(new AwardXp(_battler, xp, true, _chest.item));
         }
         else {
-          setState(new EnemyTurn);
+          pushState(new EnemyTurn);
         }
       }
     }
@@ -675,7 +675,7 @@ class Battle : GameState {
     Battler _battler;
     Chest _chest;
     Tile _tile;
-    bool _pickedLock;
+    bool _broke;
   }
 
   class ConsiderAttack : State {

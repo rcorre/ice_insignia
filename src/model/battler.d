@@ -75,24 +75,40 @@ class Battler : Attackable {
     bool isHpTransitioning() { return _infoBox.healthBar.isTransitioning; }
     bool isXpTransitioning() { return _infoBox.xpBar.isTransitioning; }
 
-    bool canPickLocks() {
-      return talents.canFind!(x => x.key == "lockpicking") &&
-        items[].canFind!(x => x !is null && x.name == "Lockpick");
+    /// get an item this battler could open a door with
+    Item getDoorOpener(TileObject door) {
+      int dist = abs(door.row - row) + abs(door.col - col);
+      auto knock = findItem("Knock");
+      if (dist == 2) {
+        if (knock !is null && canWieldMagic(knock)) {
+          return knock;
+        }
+      }
+      else if (dist == 1) {
+        if (knock !is null && canWieldMagic(knock)) {
+          return knock;
+        }
+        auto lockpick = findItem("Lockpick");
+        if (lockpick !is null && hasTalent("lockpicking")) {
+          return lockpick;
+        }
+        auto doorKey = findItem("Door Key");
+        return doorKey;
+      }
+      return null;
     }
 
-    bool canKnock() {
-      auto knock = items[].find!(a => a.name == "Knock");
-      return knock.empty ? false : canWieldMagic(knock.front);
-    }
-
-    bool canOpenDoor() {
-      return items[].canFind!(x => x !is null && x.name == "Door Key") || canPickLocks;
-    }
-
-    bool canOpenChest() {
-      bool hasChestKey = items[].canFind!(x => x !is null && x.name == "Chest Key");
-      bool hasSpace = items[].canFind!(x => x is null);
-      return hasSpace && (hasChestKey || canPickLocks);
+    /// get an item this battler could open a chest with
+    Item getChestOpener(TileObject chest) {
+      if (chest.row != row || chest.col != col) { // must be on same tile
+        return null;
+      }
+      auto lockpick = findItem("Lockpick");
+      if (lockpick !is null && hasTalent("lockpicking")) {
+        return lockpick;
+      }
+      auto doorKey = findItem("Door Key");
+      return doorKey;
     }
 
     /// return true if item totally consumed

@@ -150,6 +150,11 @@ class Character {
     return true;
   }
 
+  Item findItem(string name) {
+    auto item = _items[].find!(a => a !is null && a.name == name);
+    return item.empty ? null : item.front;
+  }
+
   /// access an attribute by name
   int opDispatch(string m)() const if (hasMember!(Attribute, m)) {
     return _attributes.opDispatch!m;
@@ -185,6 +190,10 @@ class Character {
     _talents ~= talent;
     _attributes = _attributes + talent.bonus;
     _potential = _potential + talent.potential;
+  }
+
+  bool hasTalent(string key) {
+    return _talents.canFind!(a => a.key == key);
   }
 
   void applyStatEffects(AttributeSet effects) {
