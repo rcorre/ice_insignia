@@ -23,7 +23,7 @@ enum ItemType {
 
 enum ItemEffect {
   none,
-  // weapon
+  drain,
   antiArmor,
   counter,
 }

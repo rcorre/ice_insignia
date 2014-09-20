@@ -204,6 +204,9 @@ class Battle : GameState {
         _inspectJumpList = cycle(_allies ~ _enemies);
         _tileCursor.active = true;
       }
+      foreach(battler ; _battlers) {
+        battler.hideInfoBox;
+      }
     }
 
     override void update(float time) {
@@ -550,30 +553,47 @@ class Battle : GameState {
     this(Battler battler, Item item) {
       _battler = battler;
       _item = item;
-      _battler.showInfoBox(screenCenter);
     }
 
     override void onStart() {
-      if (_item.heal > 0) {
-        _battler.heal(_item.heal);
-      }
       _battler.applyStatEffects(_item.statEffects);
       _battler.useItem(_item);
     }
 
     override void update(float time) {
-      if (!(_battler.isHpTransitioning || _battler.sprite.isFlashing)) {
-        _battler.moved = true;
-        setState(_battler.team == BattleTeam.ally ? new PlayerTurn : new EnemyTurn);
+      popState();
+      pushState((_battler.team == BattleTeam.ally ? new PlayerTurn : new EnemyTurn));
+      _battler.moved = true;
+      if (_item.heal > 0) {
+        pushState(new RestoreHealth(_battler, _item.heal));
       }
-    }
-
-    override void draw() {
     }
 
     private:
     Battler _battler;
     Item _item;
+  }
+
+  class RestoreHealth : State {
+    this(Battler battler, int amount) {
+      _battler = battler;
+      _amount = amount;
+    }
+
+    override void onStart() {
+      _battler.showInfoBox(screenCenter);
+      _battler.heal(_amount);
+    }
+
+    override void update(float time) {
+      if (!(_battler.isHpTransitioning || _battler.sprite.isFlashing)) {
+        popState();
+      }
+    }
+
+    private:
+    Battler _battler;
+    int _amount;
   }
 
   class OpenDoor : State {
@@ -1414,6 +1434,12 @@ class Battle : GameState {
       else {
         _battler = findReady.front;
         _behavior = getAI(_battler, _map, _allies, _enemies);
+      }
+    }
+
+    override void onStart() {
+      foreach(battler ; _battlers) {
+        battler.hideInfoBox;
       }
     }
 
