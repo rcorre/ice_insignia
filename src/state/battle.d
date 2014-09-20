@@ -730,7 +730,7 @@ class Battle : GameState {
         _attacker.equippedWeapon = _itemChoices.advance;
         setTarget(_targets.front);
       }
-      else if (_input.next) {
+      else if (_input.previous) {
         _attacker.equippedWeapon = _itemChoices.reverse;
         setTarget(_targets.front);
       }
