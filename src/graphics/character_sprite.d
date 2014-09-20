@@ -33,20 +33,6 @@ class CharacterSprite : Sprite {
   }
 }
 
-// used to palette swap the spritesheet
-Color blueToRed(Color color) {
-  if (isBluish(color)) {
-    auto r = color.r;
-    color.r = color.b;
-    color.b = r;
-  }
-  return color;
-}
-
-bool isBluish(ALLEGRO_COLOR c) {
-  return c.b > 0.5 && c.r < 0.5 && c.g < 0.5;
-}
-
 private:
 ConfigData _spriteData;
 Texture _redSpriteSheet;
