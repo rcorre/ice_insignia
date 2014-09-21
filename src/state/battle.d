@@ -595,6 +595,8 @@ class Battle : GameState {
     override void onStart() {
       _battler.showInfoBox(screenCenter);
       _battler.heal(_amount);
+      string text = format("+%d hp", _amount);
+      _textPop = new TextPopup(_battler.pos - _camera.topLeft, text, Color.green);
     }
 
     override void update(float time) {
@@ -603,9 +605,14 @@ class Battle : GameState {
       }
     }
 
+    override void draw() {
+      _textPop.draw();
+    }
+
     private:
     Battler _battler;
     int _amount;
+    TextPopup _textPop;
   }
 
   class OpenDoor : State {

@@ -93,3 +93,27 @@ class Door : TileObject {
     override string name() { return "Door"; }
   }
 }
+
+class Banner : TileObject {
+  this(Sprite sprite, int row, int col) {
+    super(sprite, row, col);
+  }
+
+  @property {
+    override bool impassable() { return false; }
+    override string name() { return "Banner"; }
+  }
+}
+
+class Pedestal : TileObject {
+  this(Sprite sprite, int row, int col, bool hasRelic) {
+    super(sprite, row, col);
+  }
+
+  @property {
+    override bool impassable() { return false; }
+    override string name() { return _hasRelic ? "Relic" : "Pedestal"; }
+  }
+
+  private bool _hasRelic;
+}

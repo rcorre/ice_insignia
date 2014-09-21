@@ -21,3 +21,4 @@ public import gui.input_icon;
 public import gui.level_up_view;
 public import gui.item_notification;
 public import gui.textbox;
+public import gui.textpop;

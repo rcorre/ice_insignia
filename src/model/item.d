@@ -38,6 +38,7 @@ class Item {
 
   @jsonize this(string key, bool drop = false, int uses = -1) {
     assert(key in _itemData, "could not load item named " ~ key);
+    this.key = key;
     data = _itemData[key];
     this.uses = (uses == -1) ? data.maxUses : uses;
     _sprite = new Sprite(data.name);
@@ -46,7 +47,7 @@ class Item {
 
   @jsonize { // json output
     int uses;
-    string key;
+    const string key;
   }
 
   @property {
