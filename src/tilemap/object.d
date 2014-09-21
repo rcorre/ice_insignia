@@ -6,6 +6,7 @@ import geometry.all;
 import model.item;
 import model.attackable;
 import tilemap.tile;
+import util.sound;
 
 abstract class TileObject {
   this(Sprite sprite, int row, int col) {
@@ -71,6 +72,7 @@ class Wall : TileObject, Attackable {
   void dealDamage(int amount) {
     _hp = max(hp - amount, 0);
     sprite.flash(damageFlashTime, damageFlashColor);
+    playSound("hit");
   }
 
   private:

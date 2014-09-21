@@ -42,7 +42,7 @@ class Battler : Attackable {
     _pos = pos;
     _sprite = new CharacterSprite(c, team);
     this.team = team;
-    _hp = c.maxHp / 2;
+    _hp = c.maxHp;
     _aiType = aiType;
 
     _healSound = new SoundSample("heal");
