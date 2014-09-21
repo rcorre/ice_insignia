@@ -8,7 +8,7 @@ import geometry.all;
 import graphics.all;
 import util.math;
 import util.sound;
-import gui.battler_info;
+import gui.all;
 import model.character;
 import model.item;
 import model.attackable;

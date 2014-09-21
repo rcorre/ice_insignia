@@ -16,6 +16,7 @@ import model.item;
 import graphics.sprite;
 import graphics.texture;
 import geometry.vector;
+import state.battle;
 
 enum mapFormat = Paths.mapDir ~ "/map%d.json";
 
@@ -184,6 +185,9 @@ class MapObject {
       case "wall":
         int hp = properties.get("hp", "20").to!int;
         obj = new Wall(sprite, hp, row, col);
+        break;
+      case "banner":
+        obj = new Banner(sprite, row, col);
         break;
       default:
         assert(0, type ~ " is not a valid TileObject type");

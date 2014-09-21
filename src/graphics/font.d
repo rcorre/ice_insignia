@@ -3,6 +3,7 @@ module graphics.font;
 import std.string;
 import std.conv;
 import std.range;
+import std.algorithm;
 import allegro;
 import geometry.all;
 import graphics.color;
@@ -15,6 +16,14 @@ class Font {
     int bbx, bby, bbw, bbh, ascent, descent;
     al_get_text_dimensions(_font, toStringz(to!string(text)), &bbx, &bby, &bbw, &bbh, &ascent, &descent);
     return Rect2i(bbx, bby, bbw, bbh);
+  }
+
+  int widthOf(string[] text) {
+    return reduce!((a, b) => a + widthOf(b))(0, text);
+  }
+
+  int heightOf(string[] text) {
+    return reduce!((a, b) => max(a, heightOf(b)))(0, text);
   }
 
   /// return the width the passed string would have if rendered in this font
