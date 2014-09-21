@@ -1031,9 +1031,11 @@ class Battle : GameState {
       _initialAttacker = initialAttacker;
       showBattlerInfoBoxes(_attacker, _defender);
       _playerXp = playerXp;
+      _anim = new AnimatedSprite(format("%sAttack", _attacker.equippedWeapon.type));
     }
 
     override void update(float time) {
+      _anim.update(time);
       if (!_started) {
         auto attackDirection = (_defender.pos - _attacker.pos).normalized;
         _attacker.sprite.shift(attackDirection * attackShiftDist, attackSpeed);
@@ -1080,6 +1082,10 @@ class Battle : GameState {
       }
     }
 
+    override void draw() {
+      _anim.draw(_defender.pos - _camera.topLeft);
+    }
+
     private:
     CombatResult[] _attacks;
     CombatResult _result;
@@ -1087,6 +1093,7 @@ class Battle : GameState {
     Battler _initialAttacker;
     bool _started;
     int _playerXp;
+    AnimatedSprite _anim;
 
     // these methods try to place info boxes so they are visible and next to the battler they represent
     void showBattlerInfoBoxes(Battler b1, Battler b2) {
