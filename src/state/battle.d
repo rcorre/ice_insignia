@@ -590,6 +590,7 @@ class Battle : GameState {
     this(Battler battler, int amount) {
       _battler = battler;
       _amount = amount;
+      _anim = new AnimatedSprite("buff");
     }
 
     override void onStart() {
@@ -600,19 +601,22 @@ class Battle : GameState {
     }
 
     override void update(float time) {
-      if (!(_battler.isHpTransitioning || _battler.sprite.isFlashing)) {
+      _anim.update(time);
+      if (_anim.isStopped && !(_battler.isHpTransitioning || _battler.sprite.isFlashing)) {
         popState();
       }
     }
 
     override void draw() {
       _textPop.draw();
+      _anim.draw(_battler.pos - _camera.topLeft);
     }
 
     private:
     Battler _battler;
     int _amount;
     TextPopup _textPop;
+    AnimatedSprite _anim;
   }
 
   class OpenDoor : State {
@@ -940,25 +944,29 @@ class Battle : GameState {
       _target.heal(_magic.heal);
       _target.applyStatEffects(_magic.statEffects);
       _caster.useItem(_magic);
+      _castAnim = new AnimatedSprite("castMagic");
     }
 
     override void update(float time) {
-      if (!(_target.sprite.isFlashing || _target.isHpTransitioning)) {
+      _castAnim.update(time);
+      if (_castAnim.isStopped) {
         bool wasPlayerTurn = _caster.team == BattleTeam.ally;
-        _target.hideInfoBox();
         _caster.moved = true;
         popState();
         pushState(new AwardXp(_caster, computeCastXp(_caster, _target), wasPlayerTurn));
         pushState(new Wait(pauseTime));
+        pushState(new RestoreHealth(_target, _magic.heal));
       }
     }
 
     override void draw() {
+      _castAnim.draw(_caster.pos - _camera.topLeft);
     }
 
     private:
     Battler _caster, _target;
     Item _magic;
+    AnimatedSprite _castAnim;
   }
 
   class ExecuteSteal : State {
