@@ -19,6 +19,13 @@ import graphics.all;
 import tilemap.all;
 import geometry.all;
 
+enum VictoryCondition {
+  defeatAll,
+  defeatBoss,
+  siezeFlag,
+  captureRelic,
+}
+
 private enum {
   scrollSpeed = 12,       /// camera scroll rate (pixels/sec)
   battlerMoveSpeed = 300, /// battler move speed (pixels/sec)
@@ -622,6 +629,7 @@ class Battle : GameState {
         bool broke = _battler.useItem(item);
 
         _battler.moved = true;
+        _tile.object = null; // remove door
         if (_battler.team == BattleTeam.ally) {
           int xp = computeLockpickXp(_battler);
           pushState(new AwardXp(_battler, xp, true));

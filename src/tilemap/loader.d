@@ -36,6 +36,7 @@ class LevelData {
   Battler[] enemies;
   Battler[] neutrals;
   TileObject[] objects;
+  VictoryCondition victoryCondition;
 }
 
 private:
