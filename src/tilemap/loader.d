@@ -162,8 +162,9 @@ class MapObject {
     auto pos = Vector2i(x, y) + Vector2i(tileWidth, tileHeight) / 2;
 
     auto aiType = properties.get("ai", "agressive");
+    bool isBoss = properties.get("isBoss", "false").to!bool;
 
-    return new Battler(character, row, col, pos, BattleTeam.enemy, aiType);
+    return new Battler(character, row, col, pos, BattleTeam.enemy, aiType, isBoss);
   }
 
   TileObject generateObject(TileMap map, TileSet[] tilesets) {

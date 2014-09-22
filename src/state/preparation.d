@@ -25,6 +25,7 @@ class Preparation : GameState {
     if (newMission) {
       data.advanceMission;
     }
+    _data.saveGame;
     auto forSale = [
       new Item("dirk"),
       new Item("broadsword"),
@@ -100,7 +101,7 @@ class Preparation : GameState {
   }
 
   void startMission(Character[] party) {
-    _startBattle = new Battle(_levelData, party);
+    _startBattle = new Battle(_levelData, party, _data);
   }
 
   private:

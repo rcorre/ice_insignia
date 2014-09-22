@@ -9,9 +9,8 @@ import std.variant;
 import allegro;
 import state.gamestate;
 import state.combat_calc;
-import util.input;
-import util.bicycle;
-import util.sound;
+import state.preparation;
+import util.all;
 import model.all;
 import gui.all;
 import ai.all;
@@ -48,15 +47,16 @@ private enum {
 }
 
 class Battle : GameState {
-  this(LevelData data, Character[] playerUnits) {
-    _map = data.map;
-    _enemies = data.enemies;
-    _objects = data.objects;
+  this(LevelData levelData, Character[] playerUnits, SaveData saveData) {
+    _saveData = saveData;
+    _map = levelData.map;
+    _enemies = levelData.enemies;
+    _objects = levelData.objects;
     foreach(enemy ; _enemies) { // place enemies
       placeBattler(enemy, _map.tileAt(enemy.row, enemy.col));
     }
-    foreach(idx, character ; playerUnits.take(data.spawnPoints.length)) { // place player units at spawn points
-      auto pos = data.spawnPoints[idx];
+    foreach(idx, character ; playerUnits.take(levelData.spawnPoints.length)) { // place player units at spawn points
+      auto pos = levelData.spawnPoints[idx];
       auto tile = _map.tileAtPos(pos);
       Battler b = new Battler(character, tile.row, tile.col, pos, BattleTeam.ally);
       _allies ~= b;
@@ -68,6 +68,7 @@ class Battle : GameState {
     _camera = Rect2i(0, 0, Settings.screenW, Settings.screenH);
     _input = new InputManager;
     _tileCursor = new TileCursor;
+    _victoryCond = levelData.victoryCondition;
     pushState(new PlayerTurn);
   }
 
@@ -100,7 +101,11 @@ class Battle : GameState {
       _tileInfoBox = null;
       _battlerInfoBox = null;
     }
-    return null;
+    return _nextState;
+  }
+
+  void endBattle(bool victory) {
+    _nextState = new Preparation(_saveData, victory);
   }
 
   override void handleEvent(ALLEGRO_EVENT ev) {
@@ -142,18 +147,16 @@ class Battle : GameState {
   private:
   TileMap _map;
   Rect2i _camera;
-  Vector2i _scrollVelocity;
   InputManager _input;
-  Battler[] _battlers;
-  Battler[] _allies;
-  Battler[] _enemies;
-  Battler[] _neutrals;
+  Battler[] _battlers, _allies, _enemies, _neutrals;
   TileObject[] _objects;
   SList!State _stateStack;
   TileInfoBox _tileInfoBox;
   BattlerInfoBox _battlerInfoBox;
-  int _cursorRow, _cursorCol;
   TileCursor _tileCursor;
+  VictoryCondition _victoryCond;
+  GameState _nextState;
+  SaveData _saveData;
 
   // state management
   @property auto currentState() { return _stateStack.front; }
@@ -224,9 +227,6 @@ class Battle : GameState {
         }
         setState(new EnemyTurn);
       }
-
-      _cursorRow = cast(int) clamp(_cursorRow, 0, _map.numRows - 1);
-      _cursorCol = cast(int) clamp(_cursorCol, 0, _map.numCols - 1);
 
       // select unit under cursor
       if (_input.confirm) {
@@ -1531,6 +1531,17 @@ class Battle : GameState {
     private:
     Battler _battler;
     AI _behavior;
+  }
+
+  class Victory : State {
+    this() {
+    }
+
+    override void update(float time) {
+      if (_input.confirm) {
+        endBattle(true);
+      }
+    }
   }
 
   private class TileCursor {

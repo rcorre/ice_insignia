@@ -35,7 +35,9 @@ enum BattleTeam {
 class Battler : Attackable {
   alias character this;
 
-  this(Character c, int row, int col, Vector2i pos, BattleTeam team, string aiType = "agressive") {
+  this(Character c, int row, int col, Vector2i pos, BattleTeam team, 
+      string aiType = "agressive", bool isBoss = false) 
+  {
     character = c;
     _row = row;
     _col = col;
@@ -44,6 +46,7 @@ class Battler : Attackable {
     this.team = team;
     _hp = c.maxHp;
     _aiType = aiType;
+    this.isBoss = isBoss;
 
     _healSound = new SoundSample("heal");
     _hitSound = new SoundSample("hit");
@@ -263,6 +266,7 @@ class Battler : Attackable {
   }
 
   const BattleTeam team;
+  const bool isBoss;
   Character character;
 
   private:
