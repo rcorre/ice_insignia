@@ -64,3 +64,9 @@ static this() {
     _samples[key] = al_load_sample(path.toStringz);
   }
 }
+
+static ~this() {
+  foreach(key , sample ; _samples) {
+    al_destroy_sample(sample);
+  }
+}

@@ -50,6 +50,7 @@ enum Paths {
   backgroundDir       = "content/image/background/",
   mapDir              = "content/maps",
   soundData           = "content/sounds.cfg",
+  musicData           = "content/music.cfg",
   characterData       = "content/data/characters.json",
   itemData            = "content/data/items.json",
   talentData          = "content/data/talents.json",

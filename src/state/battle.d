@@ -70,6 +70,7 @@ class Battle : GameState {
     _tileCursor = new TileCursor;
     _victoryCond = levelData.victoryCondition;
     pushState(new PlayerTurn);
+    playBgMusic("battle1");
   }
 
   override GameState update(float time) {
