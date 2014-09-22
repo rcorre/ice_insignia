@@ -142,7 +142,8 @@ class RosterView : GUIContainer {
         break;
       case "equipment":
         _state = State.editInventory;
-        _inventoryMenu = new InventoryMenu(inventoryPos, _data.items, &giveItem, &itemHover);
+        _inventoryMenu = new InventoryMenu(inventoryPos, _data.items, &giveItem, &itemHover,
+            x => "give");
         _inventoryMenu.hasFocus = true;
         showCursor = false;
         break;

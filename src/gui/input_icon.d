@@ -31,6 +31,8 @@ void drawInputIcon(string action, Vector2i pos, bool gamepad, string cmd = null)
   sprite.draw(pos);
 }
 
+auto inputIconSize() { return Vector2i(32, 32); }
+
 private static Sprite[string] _sprites360, _spritesKbd;
 private static Font _font;
 

@@ -32,10 +32,11 @@ class StoreView : GUIContainer {
     _storeStock = forSale;
     _categorySelector = bicycle([EnumMembers!ItemType][]);
     with(InventoryMenu.ShowPrice) {
-      _storageMenu = new InventoryMenu(storagePos, _data.items, &sellItem, &storageHover, resale,
-          true);
+      _storageMenu = new InventoryMenu(storagePos, _data.items, &sellItem, &storageHover,
+          x => "sell", resale, true);
       auto items = itemsForSale(_categorySelector.front);
-      _shopMenu = new InventoryMenu(shopPos, items, &purchaseItem, &shopHover, full, false);
+      _shopMenu = new InventoryMenu(shopPos, items, &purchaseItem, &shopHover, 
+          x => "buy", full, false);
     }
   }
 
@@ -62,12 +63,12 @@ class StoreView : GUIContainer {
       else if (input.previous && _shopMenu.hasFocus) {
         auto stock = itemsForSale(_categorySelector.reverse);
         _shopMenu = new InventoryMenu(shopPos, stock, &purchaseItem, &shopHover,
-            InventoryMenu.ShowPrice.full, true);
+            x => "buy", InventoryMenu.ShowPrice.full, true);
       }
       else if (input.next && _shopMenu.hasFocus) {
         auto stock = itemsForSale(_categorySelector.advance);
         _shopMenu = new InventoryMenu(shopPos, stock, &purchaseItem, &shopHover,
-            InventoryMenu.ShowPrice.full, true);
+            x => "buy", InventoryMenu.ShowPrice.full, true);
       }
       else {
         _storageMenu.handleInput(input);

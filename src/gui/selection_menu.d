@@ -16,9 +16,10 @@ private enum {
 abstract class SelectionMenu(T) {
   alias Action = void delegate(T);
   alias HoverAction = void delegate(T, Rect2i);
+  alias InputString = string delegate(T);
 
-  this(Vector2i pos, T[] selections, Action onChoose, HoverAction onHover = null, bool hasFocus = true,
-      bool drawBackButton = false) 
+  this(Vector2i pos, T[] selections, Action onChoose, HoverAction onHover = null,
+      InputString inputString = null, bool hasFocus = true, bool drawBackButton = false)
   {
     // the width/height of each entry is normalized to the largest entry
     if (selections is null || selections.empty) {
@@ -35,6 +36,7 @@ abstract class SelectionMenu(T) {
     _selections = selections;
     _onChoose = onChoose;
     _onHover = onHover;
+    _inputString = inputString;
     _drawBackButton = drawBackButton;
     this.hasFocus = hasFocus;
   }
@@ -88,6 +90,18 @@ abstract class SelectionMenu(T) {
     foreach(idx, entry ; _selections) {
       bool isSelected = _hasFocus && idx == _cursorIdx;
       drawEntry(entry, rect, isSelected);
+      if (isSelected && hasFocus && entry !is null) {
+        Vector2i iconPos = rect.topRight + inputIconSize / 2;
+        if (_inputString) {
+          auto str =  _inputString(entry);
+          if (str !is null) {
+            drawInputIcon("confirm", iconPos, _gamepadConnected, str);
+          }
+        }
+        else {
+          drawInputIcon("confirm", iconPos, _gamepadConnected);
+        }
+      }
       rect.y += _entryHeight + spacingY;
     }
     if (_drawBackButton) {
@@ -109,6 +123,7 @@ abstract class SelectionMenu(T) {
   T[] _selections;
   int _cursorIdx;
   HoverAction _onHover;
+  InputString _inputString;
   Action _onChoose;
   bool _hasFocus, _drawBackButton;
 

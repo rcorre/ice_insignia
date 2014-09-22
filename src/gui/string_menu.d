@@ -11,10 +11,10 @@ private enum {
 
 /// display a list of string options
 class StringMenu : SelectionMenu!string {
-  this(Vector2i pos, string[] selections, Action onChoose, HoverAction onHover = null, bool focus =
-      true, bool showCancel = true) 
+  this(Vector2i pos, string[] selections, Action onChoose, HoverAction onHover = null, 
+      InputString inputString = null, bool focus = true, bool showCancel = true) 
   {
-    super(pos, selections, onChoose, onHover, focus, showCancel);
+    super(pos, selections, onChoose, onHover, inputString, focus, showCancel);
   }
 
   protected override:

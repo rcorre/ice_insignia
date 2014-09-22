@@ -96,7 +96,7 @@ class CharacterSheet {
       InventoryMenu.HoverAction onHover = null)
   {
     _inventoryMenu = new InventoryMenu(_topLeft + equipmentPos, _character.items,
-        inventoryAction, onHover, InventoryMenu.ShowPrice.no, false);
+        inventoryAction, onHover, x => "take", InventoryMenu.ShowPrice.no, false);
     _inventoryMenu.hasFocus = true;
     _sprite = new CharacterSprite(_character);
   }
@@ -185,7 +185,7 @@ class CharacterSheet {
     makeXpAndHpBars(hp);
     makeAttributeBars(showPotential);
     _inventoryMenu = new InventoryMenu(_topLeft + equipmentPos, _character.items,
-        inventoryAction, null, InventoryMenu.ShowPrice.no, false);
+        inventoryAction, null, x => "take", InventoryMenu.ShowPrice.no, false);
     _talentMenu = new TalentMenu(_topLeft + talentPos, _character.talents, talentAction, false);
   }
 

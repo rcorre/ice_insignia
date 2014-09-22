@@ -16,18 +16,20 @@ private enum {
 
 class InventoryMenu : SelectionMenu!Item {
   enum ShowPrice { no, full, resale }
-  this(Vector2i pos, Item[] items, Action onChoose, HoverAction onHover = null,
-      ShowPrice showPrice = ShowPrice.no, bool focus = true, bool drawBackButton = false)
+  this(Vector2i pos, Item[] items, Action onChoose, HoverAction onHover = null, 
+      InputString inputString = null, ShowPrice showPrice = ShowPrice.no, bool focus = true, 
+      bool drawBackButton = false)
   {
     _showPrice = showPrice;
-    super(pos, items, onChoose, onHover, focus, drawBackButton);
+    super(pos, items, onChoose, onHover, inputString, focus, drawBackButton);
   }
 
   this(Vector2i pos, Item[5] items, Action onChoose, HoverAction onHover = null,
-      ShowPrice showPrice = ShowPrice.no, bool focus = true, bool drawBackButton = false)
+      InputString inputString = null, ShowPrice showPrice = ShowPrice.no, bool focus = true, 
+      bool drawBackButton = false)
   {
     _showPrice = showPrice;
-    super(pos, items.dup, onChoose, onHover, focus, drawBackButton);
+    super(pos, items.dup, onChoose, onHover, inputString, focus, drawBackButton);
   }
 
   protected override {

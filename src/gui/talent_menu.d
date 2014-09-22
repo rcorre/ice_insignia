@@ -13,7 +13,7 @@ import model.talent;
 class TalentMenu : SelectionMenu!Talent {
   this(Vector2i pos, Talent[] talents, Action onChoose, bool focus = false)
   {
-    super(pos, talents, onChoose, &showTalentDetail, focus);
+    super(pos, talents, onChoose, &showTalentDetail, null, focus);
   }
 
   protected override {

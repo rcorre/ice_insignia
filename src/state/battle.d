@@ -513,8 +513,8 @@ class Battle : GameState {
           _requestedState = new ConsiderAttack(_battler, _targetsInRange);
           break;
         case "Inventory":
-          _inventoryView = new InventoryMenu(screenCenter, _battler.items, &selectItem, &showItemInfo,
-              InventoryMenu.ShowPrice.no, true, true);
+          _inventoryView = new InventoryMenu(screenCenter, _battler.items, &selectItem,
+              &showItemInfo, &itemInputString, InventoryMenu.ShowPrice.no, true, true);
           break;
         case "Wait":
           _battler.moved = true;
@@ -553,6 +553,16 @@ class Battle : GameState {
       if (_itemView) {
         _itemView.keepInside(Rect2i(0, 0, _camera.width, _camera.height));
       }
+    }
+
+    string itemInputString(Item item) {
+      if (_battler.canWield(item)) {
+        return "equip";
+      }
+      else if (item.useOnSelf) {
+        return "use";
+      }
+      return null;
     }
   }
 
@@ -838,11 +848,16 @@ class Battle : GameState {
     void setTarget(Battler target) {
       _tileCursor.place(_map.tileAtPos(target.pos));
       auto items = array(_targets.front.items[].filter!(x => x !is null).drop(1));
-      _menu = new InventoryMenu(screenCenter, items, &onChoose, null, InventoryMenu.ShowPrice.no, true, true);
+      _menu = new InventoryMenu(screenCenter, items, &onChoose, null, &iconString,
+          InventoryMenu.ShowPrice.no, true, true);
     }
 
     void onChoose(Item item) {
       _selectedItem = item;
+    }
+
+    string iconString(Item item) {
+      return "steal";
     }
   }
 
@@ -890,7 +905,7 @@ class Battle : GameState {
     void setTarget(Battler b) {
       showBattlerInfoBoxes(_battler, b);
       _magicMenu = new InventoryMenu(screenCenter, _battler.magicOptions(b), &onChoose, null,
-          InventoryMenu.ShowPrice.no, true, true);
+          x => "cast", InventoryMenu.ShowPrice.no, true, true);
     }
 
     void onChoose(Item magic) {
@@ -1350,19 +1365,21 @@ class Battle : GameState {
 
     override void onStart() {
       _traderMenu = new InventoryMenu(traderPos, _trader.items, &chooseGive, null,
-          InventoryMenu.ShowPrice.no, false, true);
+          x => "give", InventoryMenu.ShowPrice.no, false, true);
       _otherMenu = new InventoryMenu(otherPos, _others.front.items, &chooseReceive, null,
-          InventoryMenu.ShowPrice.no, true, true);
+          x => "take", InventoryMenu.ShowPrice.no, true, true);
     }
 
     override void update(float time) {
       if (_input.next) {
         auto other = _others.advance;
-        _otherMenu = new InventoryMenu(otherPos, other.items, &chooseReceive);
+        _otherMenu = new InventoryMenu(otherPos, other.items, &chooseReceive, null,
+            x => "take", InventoryMenu.ShowPrice.no, true, true);
       }
       else if (_input.previous) {
         auto other = _others.reverse;
-        _otherMenu = new InventoryMenu(otherPos, other.items, &chooseReceive);
+        _otherMenu = new InventoryMenu(otherPos, other.items, &chooseReceive, null,
+            x => "take", InventoryMenu.ShowPrice.no, true, true);
       }
       else if (_input.selectLeft || _input.selectRight) {
         swapFocus();
