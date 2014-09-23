@@ -35,7 +35,7 @@ ALLEGRO_TIMER* frame_timer;
 
 /// global settings
 enum Settings {
-  fps     = 30,   /// frames-per-second of update/draw loop
+  fps     = 60,   /// frames-per-second of update/draw loop
   screenW = 800,  /// screen width
   screenH = 600,  /// screen height
   numAudioSamples = 4,  /// number of audio samples to reserve

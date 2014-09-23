@@ -55,6 +55,14 @@ class Font {
     }
   }
 
+  void drawCentered(string[] lines, Vector2i pos, Color color = Color.black) {
+    foreach(line ; lines) {
+      auto textArea = Rect2i.CenteredAt(pos, widthOf(line), heightOf(line));
+      al_draw_text(_font, color, textArea.x, textArea.y, 0, toStringz(line));
+      pos.y += textArea.height;
+    }
+  }
+
   /// return an array of text lines wrapped at the specified width (in pixels). Split text elements on whitespace
   string[] wrapText(string text, int maxLineWidth) {
     string currentLine;

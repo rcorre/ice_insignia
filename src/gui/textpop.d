@@ -5,8 +5,8 @@ import graphics.all;
 import gui.textbox;
 
 private enum {
-  velocity = Vector2f(0, -20),
-  duration = 1f,
+  velocity = Vector2f(0, -3000),
+  duration = 3f,
   fontName = "textPop"
 }
 
@@ -18,6 +18,8 @@ class TextPopup : Textbox {
   this(Vector2i pos, string[] text, Color textColor = Color.black, Color bgColor = Color.clear) {
     super(pos, text, fontName, textColor, bgColor);
   }
+
+  @property bool expired() { return _timer <= 0; }
 
   void update(float time) {
     _area.center += velocity * time;

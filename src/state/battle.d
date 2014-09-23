@@ -576,20 +576,17 @@ class Battle : GameState {
     }
 
     override void onStart() {
-      _battler.applyStatEffects(_item.statEffects);
       bool _consumed = _battler.useItem(_item);
     }
 
     override void update(float time) {
       popState();
-      pushState((_battler.team == BattleTeam.ally ? new PlayerTurn : new EnemyTurn));
       _battler.moved = true;
+      pushState((_battler.team == BattleTeam.ally ? new PlayerTurn : new EnemyTurn));
+      pushState(new RestoreHealth(_battler, _item.heal, _item.statEffects));
       if (_consumed) {
         auto notification = new ItemNotification(screenCenter, _item, " consumed");
         pushState(new ShowItemNotification(notification));
-      }
-      if (_item.heal > 0) {
-        pushState(new RestoreHealth(_battler, _item.heal));
       }
     }
 
@@ -600,23 +597,34 @@ class Battle : GameState {
   }
 
   class RestoreHealth : State {
-    this(Battler battler, int amount) {
+    this(Battler battler, int amount, AttributeSet statEffects) {
       _battler = battler;
       _amount = amount;
+      _statEffects = statEffects;
       _anim = new AnimatedSprite("buff");
     }
 
     override void onStart() {
       _battler.showInfoBox(screenCenter);
       _battler.heal(_amount);
-      string text = format("+%d hp", _amount);
-      _textPop = new TextPopup(_battler.pos - _camera.topLeft, text, Color.green);
+      _battler.applyStatEffects(_statEffects);
+      string[] text = [format("%+d hp", _amount)];
+      foreach(attr ; EnumMembers!Attribute) {
+        int val = _statEffects[attr];
+        if (attr != 0) {
+          text ~= format("%+d %s", val, attr);
+        }
+      }
+      _textPop = new TextPopup(_battler.pos - _camera.topLeft, text, Color.green, Color.gray);
       playSound("heal");
     }
 
     override void update(float time) {
+      _textPop.update(time);
       _anim.update(time);
-      if (_anim.isStopped && !(_battler.isHpTransitioning || _battler.sprite.isFlashing)) {
+      if (_anim.isStopped && _textPop.expired && 
+          !(_battler.isHpTransitioning || _battler.sprite.isFlashing)) 
+      {
         popState();
       }
     }
@@ -631,6 +639,7 @@ class Battle : GameState {
     int _amount;
     TextPopup _textPop;
     AnimatedSprite _anim;
+    AttributeSet _statEffects;
   }
 
   class OpenDoor : State {
@@ -974,7 +983,7 @@ class Battle : GameState {
         popState();
         pushState(new AwardXp(_caster, computeCastXp(_caster, _target), wasPlayerTurn));
         pushState(new Wait(pauseTime));
-        pushState(new RestoreHealth(_target, _magic.heal));
+        pushState(new RestoreHealth(_target, _magic.heal, _magic.statEffects));
       }
     }
 
