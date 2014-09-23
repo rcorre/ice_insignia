@@ -47,6 +47,9 @@ class Battler : Attackable {
     _hp = c.maxHp;
     _aiType = aiType;
     this.isBoss = isBoss;
+    if (isBoss) {
+      _bossIcon = new AnimatedSprite("bossIcon");
+    }
   }
 
   @property {
@@ -144,10 +147,16 @@ class Battler : Attackable {
     if (_infoBox) {
       _infoBox.update(time);
     }
+    if (isBoss) {
+      _bossIcon.update(time);
+    }
   }
 
   void draw(Vector2i offset) {
     _sprite.draw(pos - offset);
+    if (isBoss) {
+      _bossIcon.draw(pos - offset);
+    }
   }
 
   void drawInfoBox() {
@@ -248,6 +257,7 @@ class Battler : Attackable {
 
   private:
   CharacterSprite _sprite;
+  AnimatedSprite _bossIcon;
   int _row, _col;
   Vector2i _pos;
   int _hp;
