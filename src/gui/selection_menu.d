@@ -5,7 +5,7 @@ import std.array : empty;
 import std.algorithm : map, reduce, max;
 import graphics.all;
 import geometry.all;
-import util.input;
+import util.all;
 import gui.input_icon;
 
 private enum {
@@ -65,12 +65,14 @@ abstract class SelectionMenu(T) {
       movedSelection = true;
     }
     if (movedSelection) {
+      playSound("cursor");
       // add length so negative values wrap
       _cursorIdx = cast(int) ((_cursorIdx + _selections.length) % _selections.length);
       callHoverAction;
     }
 
     if (input.confirm && _onChoose !is null) {
+      playSound("select");
       _onChoose(_selections[_cursorIdx]);
     }
 
