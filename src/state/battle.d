@@ -1047,7 +1047,7 @@ class Battle : GameState {
       _initialAttacker = initialAttacker;
       showBattlerInfoBoxes(_attacker, _defender);
       _playerXp = playerXp;
-      _anim = _result.crit ? new AnimatedSprite("critAttack") :
+      _anim = _result.critted ? new AnimatedSprite("critAttack") :
         new AnimatedSprite(format("%sAttack", _attacker.equippedWeapon.type));
     }
 
