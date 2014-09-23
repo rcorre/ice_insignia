@@ -71,6 +71,7 @@ class Battle : GameState {
     _victoryCond = levelData.victoryCondition;
     pushState(new PlayerTurn);
     playBgMusic("battle1");
+    _walkSound = new SoundSample("walk");
   }
 
   override GameState update(float time) {
@@ -158,6 +159,7 @@ class Battle : GameState {
   VictoryCondition _victoryCond;
   GameState _nextState;
   SaveData _saveData;
+  SoundSample _walkSound;
 
   // state management
   @property auto currentState() { return _stateStack.front; }
@@ -355,7 +357,7 @@ class Battle : GameState {
       _originTile = currentTile;
       _endTile = path.back;
       currentTile.battler = null;  // remove battler from current tile
-      _battler.playWalkSound();
+      _walkSound.play();
     }
 
     override void onStart() {
@@ -363,7 +365,7 @@ class Battle : GameState {
 
     override void update(float time) {
       if (_path.empty) { /// completed move
-        _battler.stopWalkSound();
+        _walkSound.stop();
         placeBattler(_battler, _endTile); // place battler on final tile
         if (_battler.team == BattleTeam.ally) {
           setState(new ChooseBattlerAction(_battler, _endTile, _originTile));

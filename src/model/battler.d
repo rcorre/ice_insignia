@@ -47,8 +47,6 @@ class Battler : Attackable {
     _hp = c.maxHp;
     _aiType = aiType;
     this.isBoss = isBoss;
-
-    _walkSound = new SoundSample("step");
   }
 
   @property {
@@ -146,14 +144,6 @@ class Battler : Attackable {
     if (_infoBox) {
       _infoBox.update(time);
     }
-  }
-
-  void playWalkSound() {
-    _walkSound.play();
-  }
-
-  void stopWalkSound() {
-    _walkSound.stop();
   }
 
   void draw(Vector2i offset) {
@@ -264,5 +254,4 @@ class Battler : Attackable {
   bool _moved;
   BattlerInfoBox _infoBox;
   string _aiType;
-  SoundSample _walkSound;
 }
