@@ -615,29 +615,23 @@ class Battle : GameState {
           text ~= format("%+d %s", val, attr);
         }
       }
-      _textPop = new TextPopup(_battler.pos - _camera.topLeft, text, Color.green, Color.gray);
       playSound("heal");
     }
 
     override void update(float time) {
-      _textPop.update(time);
       _anim.update(time);
-      if (_anim.isStopped && _textPop.expired && 
-          !(_battler.isHpTransitioning || _battler.sprite.isFlashing)) 
-      {
+      if (_anim.isStopped && !(_battler.isHpTransitioning || _battler.sprite.isFlashing)) {
         popState();
       }
     }
 
     override void draw() {
-      _textPop.draw();
       _anim.draw(_battler.pos - _camera.topLeft);
     }
 
     private:
     Battler _battler;
     int _amount;
-    TextPopup _textPop;
     AnimatedSprite _anim;
     AttributeSet _statEffects;
   }
