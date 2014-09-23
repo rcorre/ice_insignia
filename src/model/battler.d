@@ -48,9 +48,6 @@ class Battler : Attackable {
     _aiType = aiType;
     this.isBoss = isBoss;
 
-    _healSound = new SoundSample("heal");
-    _hitSound = new SoundSample("hit");
-    _missSound = new SoundSample("miss");
     _walkSound = new SoundSample("step");
   }
 
@@ -151,14 +148,6 @@ class Battler : Attackable {
     }
   }
 
-  void playHealSound() {
-    _healSound.play();
-  }
-
-  void playMissSound() {
-    _missSound.play();
-  }
-
   void playWalkSound() {
     _walkSound.play();
   }
@@ -202,7 +191,6 @@ class Battler : Attackable {
     if (_hp <= 0) {
       _sprite.fade(fadeTime, fadeSpectrum);
     }
-    _hitSound.play();
   }
 
   void heal(int amount) {
@@ -212,7 +200,6 @@ class Battler : Attackable {
       _infoBox.healthBar.transition(_hp, _hp + amount, hpTransitionRate);
     }
     _hp += amount;
-    _healSound.play();
   }
 
   bool awardXp(int amount, out AttributeSet bonuses, out int leftover) {
@@ -277,5 +264,5 @@ class Battler : Attackable {
   bool _moved;
   BattlerInfoBox _infoBox;
   string _aiType;
-  SoundSample _hitSound, _healSound, _walkSound, _missSound;
+  SoundSample _walkSound;
 }

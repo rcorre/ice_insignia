@@ -609,6 +609,7 @@ class Battle : GameState {
       _battler.heal(_amount);
       string text = format("+%d hp", _amount);
       _textPop = new TextPopup(_battler.pos - _camera.topLeft, text, Color.green);
+      playSound("heal");
     }
 
     override void update(float time) {
@@ -1057,8 +1058,10 @@ class Battle : GameState {
         auto attackDirection = (_defender.pos - _attacker.pos).normalized;
         _attacker.sprite.shift(attackDirection * attackShiftDist, attackSpeed);
         if (_result.hit) {
+          playSound(_result.critted ? "crit" : "hit");
           _defender.dealDamage(_result.damageDealt);
           if (_attacker.equippedWeapon.effect == ItemEffect.drain) {
+            playSound("heal");
             _attacker.heal(_result.damageDealt / 2);
           }
           bool itemDestroyed = _attacker.useItem(_attacker.equippedWeapon);
@@ -1067,7 +1070,7 @@ class Battle : GameState {
           }
         }
         else {
-          _defender.playMissSound();
+          playSound("miss");
         }
         _started = true;
       }
