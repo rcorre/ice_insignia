@@ -1560,15 +1560,25 @@ class Battle : GameState {
     AI _behavior;
   }
 
-  class Victory : State {
-    this() {
+  class BattleOver : State {
+    this(bool victory) {
+      _victory = victory;
+      _splash = getTexture(victory ? "victorySplash" : "defeatSplash");
     }
 
     override void update(float time) {
       if (_input.confirm) {
-        endBattle(true);
+        endBattle(_victory);
       }
     }
+
+    override void draw() {
+      _splash.draw(Vector2i.Zero);
+    }
+
+    private:
+    Texture _splash;
+    bool _victory;
   }
 
   private class TileCursor {
