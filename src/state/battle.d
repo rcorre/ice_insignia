@@ -581,7 +581,7 @@ class Battle : GameState {
     }
 
     void showItemInfo(Item item ,Rect2i rect) {
-      _itemView = item ? new ItemView(item, rect.topRight + ItemView.size / 2) : null;
+      _itemView = item ? new ItemView(item, rect.topLeft - ItemView.size / 2) : null;
       if (_itemView) {
         _itemView.keepInside(Rect2i(0, 0, _camera.width, _camera.height));
       }
