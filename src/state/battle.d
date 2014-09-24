@@ -200,6 +200,10 @@ class Battle : GameState {
     }
   }
 
+  bool defeatCondMet() {
+    return _allies.all!(x => !x.alive);  // all allies defeated
+  }
+
   abstract class State {
     private bool _started;
     final void updateState(float time) {
@@ -227,7 +231,7 @@ class Battle : GameState {
     override void onStart() {
       auto moveableAllies = _allies.filter!"!a.moved";
       _turnOver = moveableAllies.empty;
-      if (!_turnOver) {
+      if (!_turnOver && !moveableAllies.empty) {
         _unitJumpList = cycle(array(moveableAllies));
         _inspectJumpList = cycle(_allies ~ _enemies);
         _tileCursor.active = true;
@@ -235,10 +239,20 @@ class Battle : GameState {
       foreach(battler ; _battlers) {
         battler.hideInfoBox;
       }
+      _victorious = victoryCondMet();
+      _defeated = defeatCondMet();
     }
 
     override void update(float time) {
       _tileCursor.handleInput(_input);
+      if (_victorious) {
+        setState(new BattleOver(true));
+        return;
+      }
+      else if (_victorious) {
+        setState(new BattleOver(false));
+        return;
+      }
       if (_turnOver || _input.endTurn) {
         foreach(battler ; _allies) {
           battler.passTurn();
@@ -302,7 +316,7 @@ class Battle : GameState {
     }
 
     private:
-    bool _turnOver;
+    bool _turnOver, _victorious, _defeated;
     ulong _unitJumpIdx, _inspectJumpIdx;
     Cycle!(Battler[]) _unitJumpList, _inspectJumpList;
     CharacterSheet _characterSheet;
