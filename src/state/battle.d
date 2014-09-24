@@ -185,6 +185,21 @@ class Battle : GameState {
     b.pos = _map.tileCoordToPos(t.row, t.col);
   }
 
+  bool victoryCondMet() {
+    final switch (_victoryCond) with (VictoryCondition) {
+      case defeatAll:
+        return _enemies.all!(x => !x.alive);
+      case defeatBoss:
+        return !_enemies.canFind!(x => x.isBoss && x.alive);
+      case siezeFlag:
+        return _objects.map!(x => cast(Banner) x)
+          .filter!(x => x !is null)
+          .all!(x => x.team == BattleTeam.ally);
+      case captureRelic:
+        assert(0, "captureRelic not implemented");
+    }
+  }
+
   abstract class State {
     private bool _started;
     final void updateState(float time) {

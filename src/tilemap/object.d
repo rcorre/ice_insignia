@@ -5,6 +5,7 @@ import graphics.all;
 import geometry.all;
 import model.item;
 import model.attackable;
+import model.battler;
 import tilemap.tile;
 import util.sound;
 
@@ -100,6 +101,8 @@ class Banner : TileObject {
   this(Sprite sprite, int row, int col) {
     super(sprite, row, col);
   }
+
+  BattleTeam team;
 
   @property {
     override bool impassable() { return false; }
