@@ -90,9 +90,9 @@ class Sprite {
     /// unique name used to look up sprite data
     string name() { return _name; }
     /// width of the sprite after scaling (px)
-    int width() { return cast(int) (_texture.frameWidth * totalScale); }
+    int width() { return cast(int) (_texture.frameWidth * totalScale.x); }
     /// height of the sprite after scaling (px)
-    int height() { return cast(int) (_texture.frameHeight * totalScale); }
+    int height() { return cast(int) (_texture.frameHeight * totalScale.y); }
     /// width and height of sprite after scaling
     auto size() { return Vector2i(width, height); }
     /// tint color of the sprite
@@ -106,7 +106,8 @@ class Sprite {
     auto angle(float angle) { return _angle = angle; }
     /// the scale factor of the sprite
     auto scale()            { return _scaleFactor; }
-    auto scale(float scale) { return _scaleFactor = scale; }
+    auto scale(float scale) { return _scaleFactor = Vector2f(scale, scale); }
+    auto scale(Vector2f val) { return _scaleFactor = val; }
     /// the total scale factor from the original image
     auto totalScale() { return _scaleFactor * _baseScale; }
 
@@ -121,7 +122,7 @@ class Sprite {
   string _name;
   Texture _texture;
   const float _baseScale;
-  float _scaleFactor  = 1;
+  Vector2f _scaleFactor  = Vector2f(1, 1);
   float _angle        = 0;
   Color _tint = Color.white;
 

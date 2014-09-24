@@ -19,9 +19,6 @@ class StringMenu : SelectionMenu!string {
 
   protected override:
   void drawEntry(string entry, Rect2i rect, bool isSelected) {
-    if (isSelected) {
-      rect.drawFilled(Color.white, 5, 5);
-    }
     _font.draw(entry, rect.topLeft);
   }
 

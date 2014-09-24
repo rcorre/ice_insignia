@@ -10,7 +10,8 @@ import gui.input_icon;
 
 private enum {
   fontName = "selection_font",
-  spacingY = 5
+  spacingY = 5,
+  buffer = Vector2i(10, 4)
 }
 
 abstract class SelectionMenu(T) {
@@ -39,6 +40,12 @@ abstract class SelectionMenu(T) {
     _inputString = inputString;
     _drawBackButton = drawBackButton;
     this.hasFocus = hasFocus;
+    _texture = new Sprite("selectionBox");
+    _textureSelected = new Sprite("selectionBoxSelected");
+    auto scale = Vector2f(cast(float) (_entryWidth + buffer.x) / _texture.width, cast(float)
+        (_entryHeight + buffer.y) / _texture.height);
+    _texture.scale = scale;
+    _textureSelected.scale = scale;
   }
 
   @property bool hasFocus() { return _hasFocus; }
@@ -87,12 +94,12 @@ abstract class SelectionMenu(T) {
   }
 
   void draw() {
-    _totalArea.draw(); // TODO: draw bg texture
     auto rect = Rect2i(_totalArea.topLeft, _entryWidth, _entryHeight);
     foreach(idx, entry ; _selections) {
       bool isSelected = _hasFocus && idx == _cursorIdx;
-      drawEntry(entry, rect, isSelected);
+      (isSelected ? _textureSelected : _texture).draw(rect.center);
       if (isSelected && hasFocus && entry !is null) {
+        _textureSelected.draw(rect.center);
         Vector2i iconPos = rect.topRight + inputIconSize / 2;
         if (_inputString) {
           auto str =  _inputString(entry);
@@ -104,6 +111,7 @@ abstract class SelectionMenu(T) {
           drawInputIcon("confirm", iconPos, _gamepadConnected);
         }
       }
+      drawEntry(entry, rect, isSelected);
       rect.y += _entryHeight + spacingY;
     }
     if (_drawBackButton) {
@@ -128,6 +136,7 @@ abstract class SelectionMenu(T) {
   InputString _inputString;
   Action _onChoose;
   bool _hasFocus, _drawBackButton;
+  Sprite _texture, _textureSelected;
 
   static this() {
     _font = getFont(fontName);

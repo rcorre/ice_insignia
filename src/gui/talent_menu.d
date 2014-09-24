@@ -18,12 +18,6 @@ class TalentMenu : SelectionMenu!Talent {
 
   protected override {
     void drawEntry(Talent talent, Rect2i rect, bool isSelected) {
-      if (isSelected) {
-        rect.drawFilled(Color.white, 5, 5);
-      }
-      else {
-        rect.drawFilled(Color.gray, 5, 5);
-      }
       if (talent) {
         Vector2i size = talent.sprite.size;
         talent.sprite.draw(rect.topLeft + size / 2);

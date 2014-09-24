@@ -34,12 +34,6 @@ class InventoryMenu : SelectionMenu!Item {
 
   protected override {
     void drawEntry(Item item, Rect2i rect, bool isSelected) {
-      if (isSelected) {
-        rect.drawFilled(Color.white, 5, 5);
-      }
-      else {
-        rect.drawFilled(Color.gray, 5, 5);
-      }
       if (item) {
         auto color = (item.drop) ? dropColor : normColor;
         Vector2i size = item.sprite.size;
