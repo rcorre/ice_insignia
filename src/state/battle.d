@@ -82,6 +82,7 @@ class Battle : GameState {
     pushState(new PlayerTurn);
     playBgMusic("battle1");
     _walkSound = new SoundSample("walk");
+    _xpSound = new SoundSample("experience");
   }
 
   override GameState update(float time) {
@@ -169,7 +170,7 @@ class Battle : GameState {
   VictoryCondition _objective;
   GameState _nextState;
   SaveData _saveData;
-  SoundSample _walkSound;
+  SoundSample _walkSound, _xpSound;
 
   // state management
   @property auto currentState() { return _stateStack.front; }
@@ -1294,10 +1295,12 @@ class Battle : GameState {
     void begin() {
       _leveled = _battler.awardXp(_xp, _awards, _leftoverXp);
       _started = true;
+      _xpSound.play();
     }
 
     void end() {
       _battler.hideInfoBox;
+      _xpSound.stop();
     }
 
     override void update(float time) {
