@@ -16,14 +16,16 @@ import util.savegame;
 import tilemap.loader;
 
 private enum {
-  goldOffset     = Vector2i(120, 25),
-  rosterStartPos = Vector2i(113, 105),
-  countOffset    = Vector2i(419, 449),
-  startOffset    = Vector2i(311, 457),
-  cursorShade    = Color(0, 0, 0.5, 0.8),
-  numRecruitCols = 3,
-  rosterSpacingX = 64,
-  rosterSpacingY = 64,
+  goldOffset       = Vector2i(120, 25),
+  rosterStartPos   = Vector2i(113, 105),
+  countOffset      = Vector2i(419, 449),
+  startOffset      = Vector2i(311, 457),
+  overviewTitlePos = Vector2i(447, 102),
+  overviewStatsPos = Vector2i(447, 183),
+  cursorShade      = Color(0, 0, 0.5, 0.8),
+  numRecruitCols   = 3,
+  rosterSpacingX   = 64,
+  rosterSpacingY   = 64,
 }
 
 class MissionView : GUIContainer {
@@ -47,6 +49,11 @@ class MissionView : GUIContainer {
     _unitsAllowedOnMission = cast(int) mapData.spawnPoints.length;
     _startCmd = startCmd;
     _mapData = mapData;
+
+    _overviewStats ~= mapData.description;
+    _overviewStats ~= format("Number of Enemies: %d", mapData.enemies.length);
+    _overviewStats ~= format("Average Enemy Level: %d", mapData.avgLevel);
+    _overviewStats ~= format("Reward: %d", mapData.goldReward);
   }
 
   override {
@@ -56,6 +63,8 @@ class MissionView : GUIContainer {
       _countFont.draw(format("%d / %d Units", _numActiveUnits, _unitsAllowedOnMission),
           bounds.topLeft + countOffset);
       drawInputIcon("start", bounds.topLeft + startOffset, _gamepadConnected);
+      _titleFont.draw(format("Mission %d", _data.mission), overviewTitlePos);
+      _statsFont.draw(_overviewStats, overviewStatsPos);
     }
 
     bool handleInput(InputManager input) {
@@ -101,11 +110,14 @@ class MissionView : GUIContainer {
   StartCommand _startCmd;
   LevelData _mapData;
   bool _gamepadConnected;
+  string[] _overviewStats;
 }
 
-private static Font _goldFont, _countFont;
+private static Font _goldFont, _countFont, _titleFont, _statsFont;
 
 static this() {
   _goldFont = getFont("rosterGold");
   _countFont = getFont("activeUnitCount");
+  _titleFont = getFont("missionTitle");
+  _statsFont = getFont("missionStats");
 }

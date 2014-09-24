@@ -272,7 +272,7 @@
  "orientation":"orthogonal",
  "properties":
     {
-     "victory":"siezeFlag"
+     "objective":"seizeFlag"
     },
  "renderorder":"right-down",
  "tileheight":32,

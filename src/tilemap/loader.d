@@ -18,7 +18,11 @@ import graphics.texture;
 import geometry.vector;
 import state.battle;
 
-enum mapFormat = Paths.mapDir ~ "/map%d.json";
+enum {
+  mapFormat = Paths.mapDir ~ "/map%d.json",
+  baseReward = 200,
+  rewardBonus = 50
+}
 
 LevelData loadLevel(int mapNumber) {
   string path = format(mapFormat, mapNumber);
@@ -28,6 +32,21 @@ LevelData loadLevel(int mapNumber) {
   level.enemies = mapData.constructEnemies();
   level.objects = mapData.constructObjects(level.map);
   level.spawnPoints = mapData.getSpawnPoints();
+  level.goldReward = 200 + 50 * mapNumber;
+  assert("objective" in mapData.properties, "no victory condition specified in map %d".format(mapNumber));
+  level.objective = mapData.properties["objective"].to!VictoryCondition;
+  final switch (level.objective) with (VictoryCondition) {
+    case defeatBoss:
+      level.victoryValue = cast(int) level.enemies.count!(x => x.isBoss);
+      break;
+    case seizeFlag:
+      level.victoryValue = cast(int) level.objects.count!(x => cast(Banner) x !is null);
+      break;
+    case survive:
+      assert("turnsToSurvive" in mapData.properties, "turnsToSurvive not specified in map %d".format(mapNumber));
+      level.victoryValue = mapData.properties["turnsToSurvive"].to!int;
+      break;
+  }
   return level;
 }
 
@@ -37,7 +56,15 @@ class LevelData {
   Battler[] enemies;
   Battler[] neutrals;
   TileObject[] objects;
-  VictoryCondition victoryCondition;
+  VictoryCondition objective;
+  int goldReward;
+  int victoryValue; // count of bosses to defeat, banners to take, or turns to survive
+
+  @property {
+    int numEnemies() { return cast(int) enemies.length; }
+    int avgLevel() { return enemies.map!(x => x.level).sum / numEnemies; }
+    string description() { return victoryDescription(objective, victoryValue); }
+  }
 }
 
 private:

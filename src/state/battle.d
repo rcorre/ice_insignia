@@ -19,10 +19,20 @@ import tilemap.all;
 import geometry.all;
 
 enum VictoryCondition {
-  defeatAll,
   defeatBoss,
-  siezeFlag,
-  captureRelic,
+  seizeFlag,
+  survive,
+}
+
+string victoryDescription(VictoryCondition cond, int number) {
+  final switch (cond) with (VictoryCondition) {
+    case defeatBoss:
+      return number > 1 ? format("defeat %d champions", number) : "defeat the champion";
+    case seizeFlag:
+      return number > 1 ? format("sieze %d banners", number) : "sieze the banner";
+    case survive:
+      return format("survive for %d turns", number);
+  }
 }
 
 private enum {
@@ -68,7 +78,7 @@ class Battle : GameState {
     _camera = Rect2i(0, 0, Settings.screenW, Settings.screenH);
     _input = new InputManager;
     _tileCursor = new TileCursor;
-    _victoryCond = levelData.victoryCondition;
+    _objective = levelData.objective;
     pushState(new PlayerTurn);
     playBgMusic("battle1");
     _walkSound = new SoundSample("walk");
@@ -156,7 +166,7 @@ class Battle : GameState {
   TileInfoBox _tileInfoBox;
   BattlerInfoBox _battlerInfoBox;
   TileCursor _tileCursor;
-  VictoryCondition _victoryCond;
+  VictoryCondition _objective;
   GameState _nextState;
   SaveData _saveData;
   SoundSample _walkSound;
@@ -186,17 +196,15 @@ class Battle : GameState {
   }
 
   bool victoryCondMet() {
-    final switch (_victoryCond) with (VictoryCondition) {
-      case defeatAll:
-        return _enemies.all!(x => !x.alive);
+    final switch (_objective) with (VictoryCondition) {
       case defeatBoss:
         return !_enemies.canFind!(x => x.isBoss && x.alive);
-      case siezeFlag:
+      case seizeFlag:
         return _objects.map!(x => cast(Banner) x)
           .filter!(x => x !is null)
           .all!(x => x.team == BattleTeam.ally);
-      case captureRelic:
-        assert(0, "captureRelic not implemented");
+      case survive:
+        assert(0, "survive not implemented");
     }
   }
 
