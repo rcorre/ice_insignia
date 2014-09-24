@@ -464,6 +464,10 @@ class Battle : GameState {
       auto selectPos = _battler.pos - _camera.topLeft - Vector2i(50, 50);
       _selectionView = new StringMenu(selectPos, getActions(), &handleSelection);
       _selectionView.keepInside(Rect2i(0, 0, _camera.width, _camera.height));
+      auto banner = cast(Banner) currentTile.object;
+      if (banner !is null && banner.team != _battler.team) { // is there a banner to be seized?
+        _bannerTile = currentTile;
+      }
     }
 
     override void update(float time) {
@@ -514,7 +518,7 @@ class Battle : GameState {
     Battler[] _adjacentAllies;
     Battler[] _magicableAllies;
     Variant[] _targetsInRange;
-    Tile _doorTile, _chestTile; // tile holding door or chest that is available to open
+    Tile _doorTile, _chestTile, _bannerTile; // tile holding object of interest
     Tile _currentTile, _prevTile;
     StringMenu _selectionView;
     InventoryMenu _inventoryView;
@@ -535,6 +539,9 @@ class Battle : GameState {
       }
       if (_chestTile !is null) {
         actions ~= "Chest";
+      }
+      if (_bannerTile !is null) {
+        actions ~= "Seize";
       }
       if (!_adjacentAllies.empty) {
         actions ~= "Trade";
@@ -564,6 +571,9 @@ class Battle : GameState {
           _requestedState = new ConsiderSteal(_battler, _stealableEnemies);
           break;
         case "Chest":
+          _requestedState = new OpenChest(_battler);
+          break;
+        case "Seize":
           _requestedState = new OpenChest(_battler);
           break;
         case "Door":

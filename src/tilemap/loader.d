@@ -215,7 +215,8 @@ class MapObject {
         obj = new Wall(sprite, hp, row, col);
         break;
       case "banner":
-        obj = new Banner(sprite, row, col);
+        assert("team" in properties, "banner at %d, %d must specify 'team'".format(row, col));
+        obj = new Banner(properties["team"].to!BattleTeam, row, col);
         break;
       default:
         assert(0, type ~ " is not a valid TileObject type");

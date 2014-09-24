@@ -16,6 +16,10 @@
          "height":19,
          "name":"Features",
          "opacity":1,
+         "properties":
+            {
+             "objective":"seizeFlag"
+            },
          "type":"tilelayer",
          "visible":true,
          "width":25,
@@ -253,7 +257,7 @@
                  "name":"Banner",
                  "properties":
                     {
-
+                     "team":"enemy"
                     },
                  "rotation":0,
                  "type":"banner",

@@ -743,6 +743,9 @@
   </data>
  </layer>
  <layer name="Features" width="25" height="19">
+  <properties>
+   <property name="objective" value="seizeFlag"/>
+  </properties>
   <data>
    <tile gid="59"/>
    <tile gid="59"/>
@@ -1267,6 +1270,10 @@
     <property name="hp" value="20"/>
    </properties>
   </object>
-  <object name="Banner" type="banner" gid="61" x="160" y="128"/>
+  <object name="Banner" type="banner" gid="61" x="160" y="128">
+   <properties>
+    <property name="team" value="enemy"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

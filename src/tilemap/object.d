@@ -30,8 +30,9 @@ abstract class TileObject {
     sprite.draw(pos);
   }
 
-  private:
+  protected:
   Sprite _sprite;
+  private:
   int _row, _col;
 }
 
@@ -98,7 +99,9 @@ class Door : TileObject {
 }
 
 class Banner : TileObject {
-  this(Sprite sprite, int row, int col) {
+  this(BattleTeam team, int row, int col) {
+    auto sprite = new Sprite(team == BattleTeam.ally ? "bannerBlue" : "bannerRed");
+    this.team = team;
     super(sprite, row, col);
   }
 
