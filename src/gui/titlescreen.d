@@ -5,13 +5,15 @@ import gui.element;
 import gui.container;
 import gui.saveslot;
 import gui.input_icon;
+import gui.button;
 import graphics.all;
 import geometry.all;
 import util.savegame;
 
 enum {
   firstSavePos = Vector2i(161, 120),
-  saveSpacing = 50,
+  saveSpacing = 30,
+  prefsPos = Vector2i(405, 550),
 }
 
 class TitleScreen : GUIContainer {
@@ -25,6 +27,10 @@ class TitleScreen : GUIContainer {
       addElement(slot);
       pos += Vector2i(0, saveSpacing + slot.height);
     }
+    addElement(new Button(prefsPos, &displayPrefs, "preferencesButton"));
+  }
+
+  void displayPrefs() {
   }
 
   private:

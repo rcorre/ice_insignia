@@ -25,3 +25,5 @@ public import gui.textpop;
 public import gui.titlescreen;
 public import gui.saveslot;
 public import gui.notification;
+public import gui.prefmenu;
+public import gui.button;

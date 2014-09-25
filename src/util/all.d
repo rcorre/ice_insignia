@@ -10,3 +10,4 @@ public import util.removal_list;
 public import util.savegame;
 public import util.sound;
 public import util.music;
+public import util.preferences;
