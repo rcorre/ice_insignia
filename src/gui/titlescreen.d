@@ -4,6 +4,7 @@ import std.range;
 import gui.element;
 import gui.container;
 import gui.saveslot;
+import gui.input_icon;
 import graphics.all;
 import geometry.all;
 import util.savegame;
