@@ -12,7 +12,6 @@ import model.item;
 import model.valueset;
 import model.talent;
 import model.character_spec;
-import graphics.sprite;
 public import model.attribute;
 
 private enum {

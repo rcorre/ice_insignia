@@ -28,17 +28,17 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.8298755"
-     inkscape:cx="177.88095"
-     inkscape:cy="49"
+     inkscape:cx="230.78474"
+     inkscape:cy="16.46942"
      inkscape:document-units="px"
-     inkscape:current-layer="layer4"
+     inkscape:current-layer="layer1"
      showgrid="false"
      fit-margin-top="0"
      fit-margin-left="0"
      fit-margin-right="0"
      fit-margin-bottom="0"
-     inkscape:window-width="1598"
-     inkscape:window-height="879"
+     inkscape:window-width="1918"
+     inkscape:window-height="1059"
      inkscape:window-x="0"
      inkscape:window-y="19"
      inkscape:window-maximized="0" />
@@ -50,7 +50,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -70,33 +70,51 @@
        style="opacity:0.8;fill:#297fff;fill-opacity:0.74901961;fill-rule:nonzero;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
        id="rect3013"
        width="200"
-       height="64"
+       height="50.088757"
        x="91.428558"
        y="107.21932"
-       ry="24" />
+       ry="18.783283" />
     <path
-       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 315.42856,107.21933 0,96"
+       style="fill:none;stroke:#000000;stroke-width:0.99999994px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 315.42856,107.21933 0,62.29256"
        id="path3019"
        inkscape:connector-curvature="0" />
+    <rect
+       style="opacity:0.8;fill:#297fff;fill-opacity:0.74901961;fill-rule:nonzero;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect3055"
+       width="390.18173"
+       height="32"
+       x="178.87436"
+       y="171.27567"
+       ry="0" />
+    <text
+       xml:space="preserve"
+       style="font-size:20.14556503px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Press Start;-inkscape-font-specification:Press Start"
+       x="106.04823"
+       y="193.57019"
+       id="text3059"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3061"
+         x="106.04823"
+         y="193.57019">Roster</tspan></text>
   </g>
   <g
      inkscape:groupmode="layer"
      id="layer4"
      inkscape:label="overlay"
-     style="display:inline">
+     style="display:none">
     <text
-       transform="translate(-90.4375,-106.21875)"
        xml:space="preserve"
        style="font-size:40px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Press Start;-inkscape-font-specification:Press Start"
-       x="123.76254"
-       y="153.77988"
+       x="33.325043"
+       y="41.790707"
        id="text3009"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3011"
-         x="123.76254"
-         y="153.77988">Save 1</tspan></text>
+         x="33.325043"
+         y="41.790707">Save 1</tspan></text>
     <text
        transform="translate(-90.4375,-106.21875)"
        sodipodi:linespacing="125%"
