@@ -10,8 +10,7 @@ import util.savegame;
 
 private enum {
   namePos = Vector2i(40, 0),
-  idxPos  = Vector2i(248, 0),
-  goldPos = Vector2i(248, 32),
+  infoPos  = Vector2i(248, 0),
 }
 
 class SaveSlot : GUIElement {
@@ -20,6 +19,11 @@ class SaveSlot : GUIElement {
     _onSelect = onSelect;
     _data = data;
     _name = "Save %d".format(data.idx);
+    _info = [
+      "Mission: %d".format(_data.mission),
+      "Gold: %d".format(_data.gold),
+      "Roster: %d/%d".format(_data.roster.length, rosterSize),
+    ];
   }
 
   override {
@@ -30,8 +34,7 @@ class SaveSlot : GUIElement {
     void draw() {
       _texture.draw(center);
       _nameFont.draw(_name, topLeft + namePos);
-      _infoFont.draw("Mission: %d".format(_data.mission), topLeft + idxPos);
-      _infoFont.draw("Gold: %d".format(_data.gold), topLeft + goldPos);
+      _infoFont.draw(_info, topLeft + infoPos);
     }
 
     @property {
@@ -44,6 +47,7 @@ class SaveSlot : GUIElement {
   SaveData _data;
   void delegate(SaveData) _onSelect;
   string _name;
+  string[] _info;
 }
 
 private:
