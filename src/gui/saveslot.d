@@ -11,8 +11,8 @@ import geometry.all;
 import util.savegame;
 
 private enum {
-  namePos = Vector2i(40, 0),
-  infoPos  = Vector2i(248, 0),
+  namePos = Vector2i(40, 5),
+  infoPos  = Vector2i(248, 10),
   rosterPos  = Vector2i(106, 80),
 }
 

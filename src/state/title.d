@@ -10,7 +10,6 @@ import state.preparation;
 
 private enum {
   loadIconOffset = Vector2i(25, 25),
-  iconSpacing = Vector2i(0, 30),
 }
 
 class Title : GameState {
@@ -30,8 +29,6 @@ class Title : GameState {
 
       auto pos = _titleScreen.selectedElement.bounds.topRight + loadIconOffset;
       drawInputIcon("confirm", pos, _input.gamepadConnected, "Load");
-      pos += iconSpacing;
-      drawInputIcon("cancel", pos, _input.gamepadConnected, "Delete");
     }
 
     void onExit() {
