@@ -10,13 +10,12 @@ import util.savegame;
 
 enum {
   firstSavePos = Vector2i(161, 120),
-  cursorShade = Color(0, 0, 0.5, 0.8),
   saveSpacing = 50,
 }
 
 class TitleScreen : GUIContainer {
   this(SaveData[] saveData, void delegate(SaveData) selectSave) {
-    auto cursor = new AnimatedSprite("target", cursorShade);
+    auto cursor = new Sprite("saveCursor");
     super(Vector2i.Zero, Anchor.topLeft, "titleScreen", cursor);
     _saveData = saveData;
     auto pos = firstSavePos;
