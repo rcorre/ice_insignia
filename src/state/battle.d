@@ -329,8 +329,11 @@ class Battle : GameState {
         _characterSheet.draw();
       }
       auto battler = _tileCursor.battler;
-      if (battler !is null) {
-        auto pos = cast(Vector2i) _tileCursor.pos - _camera.topLeft + inspectIconOffset;
+      auto pos = cast(Vector2i) _tileCursor.pos - _camera.topLeft + inspectIconOffset;
+      if (battler is null) {
+        drawInputIcon("start", pos, _input.gamepadConnected, "  Menu");
+      }
+      else {
         drawInputIcon("inspect", pos, _input.gamepadConnected, "inspect");
         if (battler.team == BattleTeam.ally) {
           pos = cast(Vector2i) _tileCursor.pos - _camera.topLeft + selectIconOffset;
