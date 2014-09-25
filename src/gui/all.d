@@ -24,3 +24,4 @@ public import gui.textbox;
 public import gui.textpop;
 public import gui.titlescreen;
 public import gui.saveslot;
+public import gui.notification;

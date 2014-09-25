@@ -17,7 +17,7 @@
    inkscape:export-filename="/home/erethar/project/ice_insignia/content/image/saveslot.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90"
-   sodipodi:docname="New document 3">
+   sodipodi:docname="saveslot.svg">
   <defs
      id="defs3027" />
   <sodipodi:namedview
@@ -27,9 +27,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.5881743"
-     inkscape:cx="279.85859"
-     inkscape:cy="128.27833"
+     inkscape:zoom="1.8298755"
+     inkscape:cx="177.88095"
+     inkscape:cy="49"
      inkscape:document-units="px"
      inkscape:current-layer="layer4"
      showgrid="false"
@@ -37,8 +37,8 @@
      fit-margin-left="0"
      fit-margin-right="0"
      fit-margin-bottom="0"
-     inkscape:window-width="958"
-     inkscape:window-height="1059"
+     inkscape:window-width="1598"
+     inkscape:window-height="879"
      inkscape:window-x="0"
      inkscape:window-y="19"
      inkscape:window-maximized="0" />
@@ -50,7 +50,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -84,7 +84,7 @@
      inkscape:groupmode="layer"
      id="layer4"
      inkscape:label="overlay"
-     style="display:none">
+     style="display:inline">
     <text
        transform="translate(-90.4375,-106.21875)"
        xml:space="preserve"
@@ -121,5 +121,11 @@
          id="tspan3023"
          x="331.42856"
          y="195.21933">Gold: 255</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M -1.6394558,-0.36734694 244.82539,54.827664"
+       id="path3103"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
   </g>
 </svg>

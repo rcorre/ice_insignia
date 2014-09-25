@@ -77,7 +77,7 @@ class InputManager {
 
     bool confirm() { return keyPressed(Keymap.confirm)   || _gamePad.pressed(Button360.a); }
     bool cancel()  { return keyPressed(Keymap.cancel)    || _gamePad.pressed(Button360.b); }
-    bool endTurn() { return keyPressed(Keymap.end)       || _gamePad.pressed(Button360.x); }
+    bool endTurn() { return keyPressed(Keymap.end)       || _gamePad.pressed(Button360.back); }
     bool inspect() { return keyPressed(Keymap.inspect)   || _gamePad.pressed(Button360.y); }
 
     bool next() { return keyPressed(Keymap.next) || _gamePad.pressed(Button360.rb); }

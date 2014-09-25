@@ -30,6 +30,7 @@ class Textbox {
       _text = s;
       _area = Rect2i.CenteredAt(_area.center, _font.widthOf(s), _font.heightOf(s));
     }
+    auto area() { return _area; }
   }
 
   void draw() {
