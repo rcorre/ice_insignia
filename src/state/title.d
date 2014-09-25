@@ -27,8 +27,14 @@ class Title : GameState {
     void draw() {
       _titleScreen.draw();
 
-      auto pos = _titleScreen.selectedElement.bounds.topRight + loadIconOffset;
-      drawInputIcon("confirm", pos, _input.gamepadConnected, "Load");
+      auto element = _titleScreen.selectedElement;
+      auto pos = element.bounds.topRight + loadIconOffset;
+      if (cast(Button) element) {
+        drawInputIcon("confirm", pos, _input.gamepadConnected, "Edit");
+      }
+      else {
+        drawInputIcon("confirm", pos, _input.gamepadConnected, "Load");
+      }
     }
 
     void onExit() {
