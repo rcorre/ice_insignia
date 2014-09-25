@@ -17,7 +17,7 @@ class SaveSlot : GUIElement {
     }
 
     void draw() {
-      _texture.draw(topLeft);
+      _texture.draw(center);
     }
 
     @property {

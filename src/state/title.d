@@ -9,8 +9,8 @@ import state.gamestate;
 
 class Title : GameState {
   this() {
-    _saves = loadAllSaves();
     _input = new InputManager;
+    _titleScreen = new TitleScreen(loadAllSaves());
   }
 
   override {
@@ -36,7 +36,6 @@ class Title : GameState {
   }
 
   private:
-  SaveData[] _saves;
   TitleScreen _titleScreen;
   InputManager _input;
 }

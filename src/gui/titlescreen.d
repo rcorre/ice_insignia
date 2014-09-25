@@ -11,7 +11,7 @@ import util.savegame;
 enum {
   firstSavePos = Vector2i(161, 185),
   cursorShade = Color(0, 0, 0.5, 0.8),
-  saveSpacing = Vector2i(0, 50),
+  saveSpacing = 50,
 }
 
 class TitleScreen : GUIContainer {
@@ -21,8 +21,9 @@ class TitleScreen : GUIContainer {
     _saveData = saveData;
     auto pos = firstSavePos;
     foreach(i ; iota(0, numSaveSlots)) {
-      addElement(new SaveSlot(pos, i));
-      pos += saveSpacing;
+      auto slot = new SaveSlot(pos, i);
+      addElement(slot);
+      pos += Vector2i(0, saveSpacing + slot.height);
     }
   }
 

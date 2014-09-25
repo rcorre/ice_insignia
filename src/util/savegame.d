@@ -113,5 +113,7 @@ private @property string savePath() {
 */
 
 static this() {
-  mkdir(saveDir);
+  if (!saveDir.exists) {
+    mkdir(saveDir);
+  }
 }
