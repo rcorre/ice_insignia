@@ -68,8 +68,8 @@ class Preparation : GameState {
 
   /// returns a GameState to request a state transition, null otherwise
   override GameState update(float time) {
-    _views.front.update(time);
     _input.update(time);
+    _views.front.update(time);
     if (_views.front.handleInput(_input)) {
       return _startBattle;
     }

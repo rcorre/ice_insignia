@@ -35,6 +35,7 @@ private enum {
 class InputManager {
   this() {
     _gamePad = new GamePad(0);
+    update(0);
   }
 
   void reconfigureGamepad() {
