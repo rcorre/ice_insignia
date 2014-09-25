@@ -15,13 +15,13 @@ enum {
 }
 
 class TitleScreen : GUIContainer {
-  this(SaveData[] saveData) {
+  this(SaveData[] saveData, void delegate(SaveData) selectSave) {
     auto cursor = new AnimatedSprite("target", cursorShade);
     super(Vector2i.Zero, Anchor.topLeft, "titleScreen", cursor);
     _saveData = saveData;
     auto pos = firstSavePos;
-    foreach(i ; iota(0, numSaveSlots)) {
-      auto slot = new SaveSlot(pos, i);
+    foreach(data ; saveData) {
+      auto slot = new SaveSlot(pos, data, selectSave);
       addElement(slot);
       pos += Vector2i(0, saveSpacing + slot.height);
     }

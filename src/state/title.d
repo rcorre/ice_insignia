@@ -6,36 +6,38 @@ import util.all;
 import graphics.all;
 import geometry.all;
 import state.gamestate;
+import state.preparation;
 
 class Title : GameState {
   this() {
     _input = new InputManager;
-    _titleScreen = new TitleScreen(loadAllSaves());
+    _titleScreen = new TitleScreen(loadAllSaves(), &startGame);
   }
 
   override {
     GameState update(float time) {
       _input.update(time);
-      return null;
+      return _nextState;
     }
 
     void draw() {
       _titleScreen.draw();
     }
 
-    void onExit() { 
+    void onExit() {
     }
 
-    void handleEvent(ALLEGRO_EVENT event) { 
+    void handleEvent(ALLEGRO_EVENT event) {
       _titleScreen.handleInput(_input);
     }
   }
 
-  void startGame() {
-    //new Preparation(data, false);
+  void startGame(SaveData data) {
+    _nextState = new Preparation(data, false);
   }
 
   private:
   TitleScreen _titleScreen;
   InputManager _input;
+  GameState _nextState;
 }

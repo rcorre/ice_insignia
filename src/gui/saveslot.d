@@ -8,12 +8,15 @@ import geometry.all;
 import util.savegame;
 
 class SaveSlot : GUIElement {
-  this(Vector2i topLeft, int idx) {
+  this(Vector2i topLeft, SaveData data, void delegate(SaveData) onSelect) {
     super(topLeft, Anchor.topLeft);
+    _onSelect = onSelect;
+    _data = data;
   }
 
   override {
     void handleSelect() {
+      _onSelect(_data);
     }
 
     void draw() {
@@ -25,6 +28,10 @@ class SaveSlot : GUIElement {
       int height() { return _texture.height; }
     }
   }
+
+  private:
+  SaveData _data;
+  void delegate(SaveData) _onSelect;
 }
 
 private:
