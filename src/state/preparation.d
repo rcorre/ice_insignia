@@ -55,15 +55,21 @@ class Preparation : GameState {
       new Item("doorkey"),
       new Item("chestkey"),
       new Item("lockpick"),
+      new Item("elixir"),
       new Item("heal"),
+      new Item("surestrike"),
+      new Item("cure"),
+      new Item("stoneskin"),
+      new Item("respite"),
     ];
     _levelData = loadLevel(data.mission);
     auto rosterView = new RosterView(Vector2i.Zero, data, data.forHire);
-    auto storeView = new StoreView(Vector2i.Zero, data, forSale);
+    auto storeView = new StoreView(Vector2i.Zero, data, forSale, &showInput);
     _missionView = new MissionView(Vector2i.Zero, data, _levelData, &startMission);
     GUIContainer[] views = [rosterView, storeView, _missionView];
     _views = bicycle(views);
     _input = new InputManager;
+    showInput(true);
   }
 
   /// returns a GameState to request a state transition, null otherwise
@@ -87,8 +93,10 @@ class Preparation : GameState {
   /// render game state to screen
   override void draw() {
     _views.front.draw();
-    drawInputIcon("previous", lbButtonPos, _input.gamepadConnected);
-    drawInputIcon("next", rbButtonPos, _input.gamepadConnected);
+    if (_showInput) {
+      drawInputIcon("previous", lbButtonPos, _input.gamepadConnected);
+      drawInputIcon("next", rbButtonPos, _input.gamepadConnected);
+    }
   }
 
   override void handleEvent(ALLEGRO_EVENT ev) {
@@ -98,6 +106,10 @@ class Preparation : GameState {
   }
 
   override void onExit() {
+  }
+
+  void showInput(bool val) {
+    _showInput = val;
   }
 
   void startMission(Character[] party) {
@@ -111,4 +123,5 @@ class Preparation : GameState {
   Battle _startBattle;
   LevelData _levelData;
   MissionView _missionView;
+  bool _showInput;
 }

@@ -25,7 +25,7 @@ private enum {
 }
 
 class StoreView : GUIContainer {
-  this(Vector2i pos, SaveData data, Item[] forSale) {
+  this(Vector2i pos, SaveData data, Item[] forSale, void delegate(bool) showInput) {
     _data = data;
     auto cursor = new AnimatedSprite("target", cursorShade);
     super(pos, Anchor.topLeft, "store_view", cursor);
@@ -38,6 +38,7 @@ class StoreView : GUIContainer {
       _shopMenu = new InventoryMenu(shopPos, items, &purchaseItem, &shopHover, 
           x => "buy", full, false);
     }
+    _showInput = showInput;
   }
 
   override {
@@ -59,6 +60,7 @@ class StoreView : GUIContainer {
       if (input.selectLeft || input.selectRight) {
         _storageMenu.hasFocus = !_storageMenu.hasFocus;
         _shopMenu.hasFocus = !_shopMenu.hasFocus;
+        _showInput(_storageMenu.hasFocus);
       }
       else if (input.previous && _shopMenu.hasFocus) {
         auto stock = itemsForSale(_categorySelector.reverse);
@@ -106,6 +108,7 @@ class StoreView : GUIContainer {
       _data.gold += item.resalePrice;
       saveGame(_data);
     }
+    _itemView = null;
   }
 
   private:
@@ -115,6 +118,7 @@ class StoreView : GUIContainer {
   SaveData _data;
   bool _gamepadConnected;
   Item[] _storeStock;
+  void delegate(bool) _showInput;
 
   Item[] itemsForSale(ItemType type) {
     return array(_storeStock.filter!(x => x.type == type));
