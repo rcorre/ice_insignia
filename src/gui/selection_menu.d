@@ -111,9 +111,6 @@ abstract class SelectionMenu(T) {
             drawInputIcon("confirm", iconPos, _gamepadConnected, str);
           }
         }
-        else {
-          drawInputIcon("confirm", iconPos, _gamepadConnected);
-        }
       }
       drawEntry(entry, rect, isSelected);
       rect.y += _entryHeight + spacingY;

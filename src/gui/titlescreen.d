@@ -5,10 +5,11 @@ import gui.element;
 import gui.container;
 import gui.saveslot;
 import gui.input_icon;
+import gui.prefmenu;
 import gui.button;
 import graphics.all;
 import geometry.all;
-import util.savegame;
+import util.all;
 
 enum {
   firstSavePos = Vector2i(161, 120),
@@ -40,10 +41,29 @@ class TitleScreen : GUIContainer {
     }
   }
 
+  override void draw() {
+    super.draw();
+    if (_menu !is null) {
+      _menu.draw();
+    }
+  }
+
+  override bool handleInput(InputManager input) {
+    if (_menu !is null) {
+      _menu.handleInput(input);
+    }
+    else {
+      super.handleInput(input);
+    }
+    return false;
+  }
+
   void displayPrefs() {
+    _menu = new PreferencesMenu(bounds.center);
   }
 
   private:
   SaveData[] _saveData;
   Sprite _cursor;
+  PreferencesMenu _menu;
 }
