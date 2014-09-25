@@ -86,6 +86,11 @@ class Sprite {
     _texture.draw(_row, _col, adjustedPos, totalScale, _tint, _angle);
   }
 
+  void draw(Vector2i pos, float scale) {
+    auto adjustedPos = pos + _jiggleEffect.offset;
+    _texture.draw(_row, _col, adjustedPos, Vector2f(scale, scale), _tint, _angle);
+  }
+
   @property {
     /// unique name used to look up sprite data
     string name() { return _name; }

@@ -10,7 +10,7 @@ private enum {
   offsetX = 5
 }
 
-void drawInputIcon(string action, Vector2i pos, bool gamepad, string cmd = null) {
+void drawInputIcon(string action, Vector2i pos, bool gamepad, string cmd = null, float scale = 1f) {
   Sprite sprite;
   if (gamepad) {
     assert(action in _sprites360, "no gamepad sprite named " ~ action);
@@ -28,7 +28,7 @@ void drawInputIcon(string action, Vector2i pos, bool gamepad, string cmd = null)
     auto textPos = area.topLeft;
     _font.draw(cmd, textPos, Color.white);
   }
-  sprite.draw(pos);
+  sprite.draw(pos, scale);
 }
 
 auto inputIconSize() { return Vector2i(32, 32); }
