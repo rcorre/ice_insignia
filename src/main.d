@@ -3,7 +3,6 @@ import allegro;
 import state.title;
 import state.gamestate;
 import util.config;
-import util.savegame;
 import model.character;
 
 private bool _run = true;        /// if false, shutdown game

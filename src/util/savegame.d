@@ -74,8 +74,8 @@ SaveData loadSave(int idx) {
     auto data = new SaveData;
     data.gold = startingGold;
     data.generateNewRecruits(1);
-    data.saveGame;
     data.idx = idx;
+    data.saveGame;
     return data;
   }
   return savePath.readJSON!SaveData;
