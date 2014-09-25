@@ -1,7 +1,7 @@
 import std.file;
 import allegro;
+import state.title;
 import state.gamestate;
-import state.preparation;
 import util.config;
 import util.savegame;
 import model.character;
@@ -12,8 +12,7 @@ private bool _frameTick = false; /// if true, time for an update/draw cycle
 private GameState _currentState;
 
 int main(char[][] args) {
-  auto data = loadSave();
-  _currentState = new Preparation(data, false);
+  _currentState = new Title();
 
   return al_run_allegro({
       al_hide_mouse_cursor(display);

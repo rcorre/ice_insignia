@@ -22,3 +22,5 @@ public import gui.level_up_view;
 public import gui.item_notification;
 public import gui.textbox;
 public import gui.textpop;
+public import gui.titlescreen;
+public import gui.saveslot;

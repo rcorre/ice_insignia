@@ -14,10 +14,12 @@ enum {
   rosterSize = 12,
   numRecruits = 6,
   recruitModels = ["mercenary", "fighter", "soldier", "hunter"],
+  numSaveSlots = 3
 }
 
 private enum {
-  fileName = "ice_insignia_save.json",
+  saveDir = "save",
+  fileFormat = "%s/save%d.json",
   startingGold = 1000,
 }
 
@@ -29,6 +31,7 @@ class SaveData {
     Item[itemStorageSize] items;
     int gold;
     int mission;
+    int idx;
   }
 
   bool addItem(Item item) {
@@ -65,21 +68,28 @@ class SaveData {
   }
 }
 
-SaveData loadSave() {
+SaveData loadSave(int idx) {
+  auto savePath = fileFormat.format(saveDir, idx);
   if (!savePath.exists) {  // no save yet
     auto data = new SaveData;
     data.gold = startingGold;
     data.generateNewRecruits(1);
     data.saveGame;
+    data.idx = idx;
     return data;
   }
   return savePath.readJSON!SaveData;
 }
 
-void saveGame(SaveData data) {
-  data.writeJSON(savePath);
+SaveData[] loadAllSaves() {
+  return array(iota(0, numSaveSlots).map!(i => loadSave(i)));
 }
 
+void saveGame(SaveData data) {
+  data.writeJSON(fileFormat.format(saveDir, data.idx));
+}
+
+/*
 private @property string savePath() {
   string dir;
   debug {
@@ -99,4 +109,9 @@ private @property string savePath() {
   }
 
   return dir ~ "/" ~ fileName;
+}
+*/
+
+static this() {
+  mkdir(saveDir);
 }
