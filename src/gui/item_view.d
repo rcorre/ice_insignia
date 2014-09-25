@@ -17,6 +17,7 @@ private enum {
   hitOffset    = Vector2i(-57,  17),
   wgtOffset    = Vector2i(  0,  17),
   typOffset    = Vector2i( 55,  17),
+  infoOffset   = Vector2i(-81, 41),
 }
 
 /// display info about an item
@@ -37,6 +38,7 @@ class ItemView {
     _font.draw(_item.weight, pos + wgtOffset);
     _font.draw(format("%d-%d", _item.minRange, _item.maxRange), pos + rngOffset);
     _font.draw(_item.type  , pos + typOffset);
+    _font.draw(_item.text  , pos + infoOffset);
   }
 
   void keepInside(Rect2i camera, int buffer = 0) {

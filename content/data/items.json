@@ -208,7 +208,7 @@
         "strength" : 3
       }
     },
-    "text"     : "inflict weakness"
+    "text"     : "Inflict weakness"
   },
 
   "lifebane": {
@@ -224,7 +224,7 @@
     "price"    : 600,
     "tier"     : 3,
     "effect"   : "drain",
-    "text"     : "drains life"
+    "text"     : "Drains life"
   },
 
   "mace": {
@@ -239,7 +239,7 @@
     "weight"   : 6,
     "price"    : 110,
     "effect"   : "antiArmor",
-    "text"     : "penetrate 1/2 armor"
+    "text"     : "Penetrate 1/2 armor"
   },
 
   "battleaxe": {
@@ -269,7 +269,7 @@
     "price"    : 250,
     "tier"     : 1,
     "effect"   : "counter",
-    "text"   : "powerful counter-attack"
+    "text"   : "Powerful counter-attack"
   },
 
   "crescentaxe": {
@@ -299,7 +299,7 @@
     "price"    : 290,
     "tier"     : 2,
     "effect"   : "antiArmor",
-    "text"     : "penetrate 1/2 armor"
+    "text"     : "Penetrate 1/2 armor"
   },
 
   "tomahawk": {
@@ -343,7 +343,7 @@
     "price"    : 420,
     "tier"     : 3,
     "effect"   : "antiArmor",
-    "text"     : "penetrate 1/2 armor"
+    "text"     : "Penetrate 1/2 armor"
   },
 
   "shortbow": {
@@ -461,7 +461,7 @@
   "heal": {
     "name"     : "Heal",
     "type"     : "magic",
-    "text"     : "minor healing",
+    "text"     : "Minor healing",
     "maxUses"  : 25,
     "minRange" : 1,
     "maxRange" : 1,
@@ -474,7 +474,7 @@
   "surestrike": {
     "name"     : "Surestrike",
     "type"     : "magic",
-    "text"     : "improve accuracy",
+    "text"     : "Improve accuracy",
     "maxUses"  : 15,
     "minRange" : 1,
     "maxRange" : 1,
@@ -491,7 +491,7 @@
   "knock": {
     "name"     : "Knock",
     "type"     : "magic",
-    "text"     : "unlock doors",
+    "text"     : "Unlock doors",
     "maxUses"  : 10,
     "minRange" : 1,
     "maxRange" : 1,
@@ -502,7 +502,7 @@
   "cure": {
     "name"     : "Cure",
     "type"     : "magic",
-    "text"     : "major healing",
+    "text"     : "Major healing",
     "maxUses"  : 15,
     "minRange" : 1,
     "maxRange" : 1,
@@ -515,7 +515,7 @@
   "stoneskin": {
     "name"     : "Stoneskin",
     "type"     : "magic",
-    "text"     : "increase armor",
+    "text"     : "Increase armor",
     "stateffects" : {
       "valueset" : {
         "defense" : 3
@@ -531,7 +531,7 @@
   "respite": {
     "name"     : "Respite",
     "type"     : "magic",
-    "text"     : "distance healing",
+    "text"     : "Distance healing",
     "maxUses"  : 10,
     "minRange" : 1,
     "maxRange" : 5,
@@ -544,7 +544,7 @@
   "fate": {
     "name"     : "Fate",
     "type"     : "magic",
-    "text"     : "bestow luck",
+    "text"     : "Bestow luck",
     "maxUses"  : 10,
     "minRange" : 1,
     "maxRange" : 1,
@@ -560,6 +560,7 @@
 
   "poultice"  : {
     "name"      : "Poultice",
+    "text"      : "Heal 10hp",
     "maxUses"   : 3,
     "price"     : 100,
     "heal"      : 10,
@@ -568,6 +569,7 @@
 
   "elixir"  : {
     "name"      : "Elixir",
+    "text"      : "Heal 25hp",
     "maxUses"   : 3,
     "price"     : 400,
     "heal"      : 25,
@@ -603,19 +605,22 @@
 
   "doorkey" : {
     "name"  : "Door Key",
+    "text"  : "Unlock 1 door",
     "maxUses"  : 1,
     "price" : 100
   },
 
   "chestkey": {
     "name"     : "Chest Key",
+    "text"  : "Unlock 1 chest",
     "maxUses"     : 1,
     "price"    : 200
   },
 
   "lockpick": {
-    "name"     : "Lockpick",
-    "maxUses"     : 10,
-    "price"    : 250
+    "name"    : "Lockpick",
+    "text"    : "Pick locks",
+    "maxUses" : 10,
+    "price"   : 250
   }
 }

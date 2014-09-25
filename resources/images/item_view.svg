@@ -27,14 +27,14 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.0742188"
-     inkscape:cx="148.26265"
-     inkscape:cy="64"
+     inkscape:zoom="8.2968752"
+     inkscape:cx="82.969833"
+     inkscape:cy="28.678125"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
-     inkscape:snap-global="true"
-     inkscape:window-width="958"
+     inkscape:snap-global="false"
+     inkscape:window-width="1918"
      inkscape:window-height="1059"
      inkscape:window-x="0"
      inkscape:window-y="19"
@@ -57,7 +57,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -67,7 +67,7 @@
      id="layer1"
      transform="translate(0,-924.36218)">
     <rect
-       style="opacity:0.8;fill:#e9c6af;stroke:#28170b;stroke-width:3.53553391;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       style="opacity:0.9;fill:#e9c6af;stroke:#28170b;stroke-width:3.53553390999999984;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
        id="rect2987"
        width="200"
        height="128"
@@ -75,7 +75,7 @@
        y="924.36218"
        ry="16" />
     <rect
-       style="opacity:0.8;fill:#ffb380;stroke:#552200;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       style="opacity:0.99;fill:#ffb380;stroke:#552200;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
        id="rect2991"
        width="48"
        height="16"
@@ -84,7 +84,7 @@
        rx="4.4887781" />
     <text
        xml:space="preserve"
-       style="font-size:8px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       style="font-size:8px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;opacity:0.99"
        x="19.214844"
        y="990.44617"
        id="text2993"
@@ -94,7 +94,7 @@
          x="19.214844"
          y="990.44617">Dmg</tspan></text>
     <path
-       style="fill:none;stroke:#552200;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="fill:none;stroke:#552200;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;opacity:0.99"
        d="m 40,980.36218 0,16"
        id="path2997"
        inkscape:connector-curvature="0" />
@@ -105,13 +105,13 @@
        height="16"
        width="48"
        id="rect2999"
-       style="opacity:0.8;fill:#ffb380;stroke:#552200;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+       style="opacity:0.99;fill:#ffb380;stroke:#552200;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
     <text
        sodipodi:linespacing="125%"
        id="text3001"
        y="1014.4462"
        x="19.214844"
-       style="font-size:8px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       style="font-size:8px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;opacity:0.99"
        xml:space="preserve"><tspan
          y="1014.4462"
          x="19.214844"
@@ -121,7 +121,7 @@
        inkscape:connector-curvature="0"
        id="path3005"
        d="m 40,1004.3622 0,16"
-       style="fill:none;stroke:#552200;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+       style="fill:none;stroke:#552200;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;opacity:0.99" />
     <rect
        rx="4.4887781"
        y="980.36218"
@@ -129,13 +129,13 @@
        height="16"
        width="48"
        id="rect3007"
-       style="opacity:0.8;fill:#ffb380;stroke:#552200;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+       style="opacity:0.99;fill:#ffb380;stroke:#552200;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
     <text
        sodipodi:linespacing="125%"
        id="text3009"
        y="990.44617"
        x="76.214844"
-       style="font-size:8px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       style="font-size:8px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;opacity:0.99"
        xml:space="preserve"><tspan
          y="990.44617"
          x="76.214844"
@@ -145,9 +145,9 @@
        inkscape:connector-curvature="0"
        id="path3013"
        d="m 97,980.36218 0,16.00002"
-       style="fill:none;stroke:#552200;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+       style="fill:none;stroke:#552200;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;opacity:0.99" />
     <rect
-       style="opacity:0.8;fill:#ffb380;stroke:#552200;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       style="opacity:0.99;fill:#ffb380;stroke:#552200;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
        id="rect3015"
        width="48"
        height="16"
@@ -156,7 +156,7 @@
        rx="4.4887781" />
     <text
        xml:space="preserve"
-       style="font-size:8px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       style="font-size:8px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;opacity:0.99"
        x="76.214844"
        y="1014.4462"
        id="text3017"
@@ -166,7 +166,7 @@
          x="76.214844"
          y="1014.4462">Wgt</tspan></text>
     <path
-       style="fill:none;stroke:#552200;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="fill:none;stroke:#552200;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;opacity:0.99"
        d="m 97,1004.3622 0,16"
        id="path3021"
        inkscape:connector-curvature="0" />
@@ -177,13 +177,13 @@
        height="16"
        width="64"
        id="rect3023"
-       style="opacity:0.8;fill:#ffb380;stroke:#552200;stroke-width:2.30940104;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+       style="opacity:0.99;fill:#ffb380;stroke:#552200;stroke-width:2.30940104000000002;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
     <text
        sodipodi:linespacing="125%"
        id="text3025"
        y="990.44623"
        x="131.21484"
-       style="font-size:8px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       style="font-size:8px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;opacity:0.99"
        xml:space="preserve"><tspan
          y="990.44623"
          x="131.21484"
@@ -193,7 +193,7 @@
        inkscape:connector-curvature="0"
        id="path3029"
        d="m 152,980.36218 0,16.00002"
-       style="fill:none;stroke:#552200;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+       style="fill:none;stroke:#552200;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;opacity:0.99" />
     <rect
        ry="0"
        rx="8"
@@ -204,7 +204,7 @@
        id="rect3031"
        style="opacity:0.8;fill:none;stroke:#28170b;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
     <rect
-       style="opacity:0.8;fill:#ffb380;stroke:#552200;stroke-width:2.30940104;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       style="opacity:0.99;fill:#ffb380;stroke:#552200;stroke-width:2.30940104000000002;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
        id="rect3035"
        width="64"
        height="16"
@@ -212,13 +212,13 @@
        y="1004.3622"
        rx="5.9850373" />
     <path
-       style="fill:none;stroke:#552200;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="fill:none;stroke:#552200;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;opacity:0.99"
        d="m 152,1004.3622 0,16"
        id="path3037"
        inkscape:connector-curvature="0" />
     <text
        xml:space="preserve"
-       style="font-size:8px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       style="font-size:8px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;opacity:0.99"
        x="131.21484"
        y="1014.4462"
        id="text3039"
@@ -227,12 +227,13 @@
          id="tspan3041"
          x="131.21484"
          y="1014.4462">Type</tspan></text>
-    <path
-       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 160,64 96,64"
-       id="path3135"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cc"
-       transform="translate(0,924.36218)" />
+    <rect
+       style="opacity:0.98999999;fill:#ffb380;stroke:#552200;stroke-width:1.99999988;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect3190"
+       width="176"
+       height="16"
+       x="16"
+       y="1028.3622"
+       rx="4.1431265" />
   </g>
 </svg>

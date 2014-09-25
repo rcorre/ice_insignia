@@ -76,16 +76,19 @@
        ry="18.783283" />
     <path
        style="fill:none;stroke:#000000;stroke-width:0.99999994px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 315.42856,107.21933 0,62.29256"
+       d="m 315.42856,107.21933 0,59.58172"
        id="path3019"
-       inkscape:connector-curvature="0" />
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/erethar/project/ice_insignia/content/image/path3019.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <rect
        style="opacity:0.8;fill:#297fff;fill-opacity:0.74901961;fill-rule:nonzero;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
        id="rect3055"
        width="390.18173"
-       height="32"
+       height="35.278912"
        x="178.87436"
-       y="171.27567"
+       y="167.99675"
        ry="0" />
     <text
        xml:space="preserve"
@@ -98,6 +101,12 @@
          id="tspan3061"
          x="106.04823"
          y="193.57019">Roster</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 0,0.17913732 90.170069,65.757369"
+       id="path3063"
+       inkscape:connector-curvature="0"
+       transform="translate(90.4375,106.21875)" />
   </g>
   <g
      inkscape:groupmode="layer"
