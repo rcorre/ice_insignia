@@ -54,6 +54,9 @@ private enum {
   talentMenuPos = Vector2i(600, 40),
   screenCenter = Vector2i(Settings.screenW, Settings.screenH) / 2,
   hpTransitionRate = 20,
+
+  inspectIconOffset = Vector2i(16, -20),
+  selectIconOffset = Vector2i(16, 20),
 }
 
 class Battle : GameState {
@@ -271,7 +274,8 @@ class Battle : GameState {
       // select unit under cursor
       if (_input.confirm) {
         auto tile = _tileCursor.tile;
-        if (tile && tile.battler && !tile.battler.moved) {
+        auto battler = _tileCursor.battler;
+        if (tile && battler && !battler.moved && battler.team == BattleTeam.ally) {
           setState(new PlayerUnitSelected(tile.battler, tile));
         }
       }
@@ -323,6 +327,15 @@ class Battle : GameState {
     override void draw() {
       if (_characterSheet) {
         _characterSheet.draw();
+      }
+      auto battler = _tileCursor.battler;
+      if (battler !is null) {
+        auto pos = cast(Vector2i) _tileCursor.pos - _camera.topLeft + inspectIconOffset;
+        drawInputIcon("inspect", pos, _input.gamepadConnected, "inspect");
+        if (battler.team == BattleTeam.ally) {
+          pos = cast(Vector2i) _tileCursor.pos - _camera.topLeft + selectIconOffset;
+          drawInputIcon("confirm", pos, _input.gamepadConnected, "select");
+        }
       }
     }
 
@@ -1667,6 +1680,8 @@ class Battle : GameState {
     /// tile under cursor
     @property {
       Tile tile() { return active ? _map.tileAt(_row, _col) : null; }
+      auto battler() { return active ? tile.battler : null; }
+      auto pos() { return _pos; }
 
       int left()   { return cast(int) (_pos.x - _map.tileWidth / 2); }
       int right()  { return cast(int) (_pos.x + _map.tileWidth / 2); }
