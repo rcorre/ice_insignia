@@ -9,7 +9,7 @@ import geometry.all;
 import util.savegame;
 
 enum {
-  firstSavePos = Vector2i(161, 185),
+  firstSavePos = Vector2i(161, 120),
   cursorShade = Color(0, 0, 0.5, 0.8),
   saveSpacing = 50,
 }

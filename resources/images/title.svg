@@ -27,14 +27,14 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.0025"
-     inkscape:cx="284.78803"
+     inkscape:zoom="0.6025"
+     inkscape:cx="208.29876"
      inkscape:cy="300"
      inkscape:document-units="px"
-     inkscape:current-layer="layer3"
+     inkscape:current-layer="layer2"
      showgrid="true"
-     inkscape:window-width="958"
-     inkscape:window-height="1059"
+     inkscape:window-width="1038"
+     inkscape:window-height="879"
      inkscape:window-x="0"
      inkscape:window-y="19"
      inkscape:window-maximized="0">
@@ -77,25 +77,24 @@
      inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="feature"
-     sodipodi:insensitive="true"
      style="display:inline">
     <text
        xml:space="preserve"
        style="font-size:72px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono"
        x="139.63281"
-       y="142.39632"
+       y="90.396317"
        id="text2995"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan2997"
          x="139.63281"
-         y="142.39632">Ice Insignia</tspan></text>
+         y="90.396317">Ice Insignia</tspan></text>
   </g>
   <g
      inkscape:groupmode="layer"
      id="layer3"
      inkscape:label="overlay"
-     style="display:inline">
+     style="display:none">
     <rect
        style="opacity:0.5;fill:#2a7fff;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
        id="rect3005"
