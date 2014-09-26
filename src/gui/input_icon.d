@@ -2,6 +2,7 @@ module gui.input_icon;
 
 import geometry.all;
 import graphics.all;
+import util.all;
 
 private enum {
   // text rect roundness
@@ -11,6 +12,7 @@ private enum {
 }
 
 void drawInputIcon(string action, Vector2i pos, bool gamepad, string cmd = null, float scale = 1f) {
+  if (!userPreferences.showInputIcons) { return; }
   Sprite sprite;
   if (gamepad) {
     assert(action in _sprites360, "no gamepad sprite named " ~ action);
