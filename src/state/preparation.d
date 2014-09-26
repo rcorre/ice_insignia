@@ -17,6 +17,7 @@ private enum {
   // button sprites
   lbButtonPos = Vector2i(36, 70),
   rbButtonPos = Vector2i(36, 560),
+  startButtonPos = Vector2i(250, 580),
 }
 
 class Preparation : GameState {
@@ -28,40 +29,40 @@ class Preparation : GameState {
     _data.saveGame;
     auto forSale = [
       new Item("dirk"),
-      new Item("broadsword"),
-      new Item("falchion"),
-      new Item("sabre"),
-      new Item("claymore"),
-      new Item("katana"),
-      new Item("quarterstaff"),
-      new Item("spear"),
-      new Item("pike"),
-      new Item("javelin"),
-      new Item("glaive"),
-      new Item("halberd"),
-      new Item("mace"),
-      new Item("battleaxe"),
-      new Item("crescentaxe"),
-      new Item("tomahawk"),
-      new Item("greataxe"),
-      new Item("warhammer"),
-      new Item("shortbow"),
-      new Item("crossbow"),
-      new Item("longbow"),
-      new Item("barbedbow"),
-      new Item("greatbow"),
-      new Item("arbalest"),
-      new Item("poultice"),
-      new Item("doorkey"),
-      new Item("chestkey"),
-      new Item("lockpick"),
-      new Item("elixir"),
-      new Item("heal"),
-      new Item("surestrike"),
-      new Item("cure"),
-      new Item("stoneskin"),
-      new Item("respite"),
-    ];
+          new Item("broadsword"),
+          new Item("falchion"),
+          new Item("sabre"),
+          new Item("claymore"),
+          new Item("katana"),
+          new Item("quarterstaff"),
+          new Item("spear"),
+          new Item("pike"),
+          new Item("javelin"),
+          new Item("glaive"),
+          new Item("halberd"),
+          new Item("mace"),
+          new Item("battleaxe"),
+          new Item("crescentaxe"),
+          new Item("tomahawk"),
+          new Item("greataxe"),
+          new Item("warhammer"),
+          new Item("shortbow"),
+          new Item("crossbow"),
+          new Item("longbow"),
+          new Item("barbedbow"),
+          new Item("greatbow"),
+          new Item("arbalest"),
+          new Item("poultice"),
+          new Item("doorkey"),
+          new Item("chestkey"),
+          new Item("lockpick"),
+          new Item("elixir"),
+          new Item("heal"),
+          new Item("surestrike"),
+          new Item("cure"),
+          new Item("stoneskin"),
+          new Item("respite"),
+          ];
     _levelData = loadLevel(data.mission);
     auto rosterView = new RosterView(Vector2i.Zero, data, data.forHire);
     auto storeView = new StoreView(Vector2i.Zero, data, forSale, &showInput);
@@ -77,16 +78,24 @@ class Preparation : GameState {
   override GameState update(float time) {
     _input.update(time);
     _views.front.update(time);
-    if (_views.front.handleInput(_input)) {
-      return _startBattle;
+    if (_menu) {
+      _menu.handleInput(_input);
     }
-    if (_input.next) {
-      _views.advance;
-      _missionView.regenerateRoster;
-    }
-    else if (_input.previous) {
-      _views.reverse;
-      _missionView.regenerateRoster;
+    else {
+      if (_views.front.handleInput(_input)) {
+        return _startBattle;
+      }
+      if (_input.next) {
+        _views.advance;
+        _missionView.regenerateRoster;
+      }
+      else if (_input.previous) {
+        _views.reverse;
+        _missionView.regenerateRoster;
+      }
+      else if (_input.start) {
+        _menu = new PreferencesMenu(screenCenter - Vector2i(50, 50));
+      }
     }
     return _startBattle;
   }
@@ -97,7 +106,9 @@ class Preparation : GameState {
     if (_showInput) {
       drawInputIcon("previous", lbButtonPos, _input.gamepadConnected);
       drawInputIcon("next", rbButtonPos, _input.gamepadConnected);
+      drawInputIcon("start", startButtonPos, _input.gamepadConnected, "  Options");
     }
+    if (_menu) { _menu.draw(); }
   }
 
   override void handleEvent(ALLEGRO_EVENT ev) {
@@ -124,5 +135,6 @@ class Preparation : GameState {
   Battle _startBattle;
   LevelData _levelData;
   MissionView _missionView;
+  PreferencesMenu _menu;
   bool _showInput;
 }
