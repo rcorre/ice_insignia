@@ -57,6 +57,8 @@ private enum {
 
   inspectIconOffset = Vector2i(16, -20),
   selectIconOffset = Vector2i(16, 20),
+
+  targetShade = Color.red,
 }
 
 class Battle : GameState {
@@ -840,11 +842,13 @@ class Battle : GameState {
       _attacker = attacker;
       _targets = bicycle(targets);
       _attackTerrain = _map.tileAt(attacker.row, attacker.col);
+      _target = new AnimatedSprite("target", targetShade);
       setTarget(targets[0]);
     }
 
     override void update(float time) {
       _view.update(time);
+      _target.update(time);
       if (_input.confirm) {
         if (_targets.front.type == typeid(Battler)) {
           auto series = constructAttackSeries(_attack, _counter);
@@ -873,7 +877,15 @@ class Battle : GameState {
     }
 
     override void draw() {
-      _tileCursor.draw();
+      Vector2i pos;
+      if (_targets.front.type == typeid(Battler)) {
+        pos = _targets.front.get!Battler.pos;
+      }
+      else {
+        auto obj = _targets.front.get!TileObject;
+        pos = _map.tileCoordToPos(obj.row, obj.col);
+      }
+      _target.draw(pos - _camera.topLeft);
       _view.draw(_input.gamepadConnected);
     }
 
@@ -885,6 +897,7 @@ class Battle : GameState {
     Tile _attackTerrain, _defendTerrain;
     CombatPrediction _attack, _counter;
     CombatView _view;
+    AnimatedSprite _target;
 
     void setTarget(Variant target) {
       if (target.type == typeid(Battler)) {
@@ -1242,7 +1255,7 @@ class Battle : GameState {
       auto size = Vector2i(BattlerInfoBox.width, BattlerInfoBox.height);
       auto shift = Vector2i(-size.x, size.y) / 2 + Vector2i(-battleInfoOffset.x, battleInfoOffset.y);
       auto area = Rect2i.CenteredAt(b.pos + shift - _camera.topLeft, size.x, size.y);
-      if (area.left < 0) { area.x += shift.x; }
+      if (area.left < 0) { area.x -= shift.x; }
       if (area.bottom > _camera.height) { area.y -= shift.y; }
 
       b.showInfoBox(area.topLeft);
