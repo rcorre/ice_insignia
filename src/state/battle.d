@@ -1197,7 +1197,6 @@ class Battle : GameState {
       _attacks.popFront;
       if (_attacks.empty || !_attacker.alive || !_defender.alive) { // no attacks left to show
         Battler enemy = _attacker.team == BattleTeam.ally ? _defender : _attacker;
-        enemy.hideInfoBox;
         _initialAttacker.moved = true; // end attacker's turn
         Battler friendly = _attacker.team == BattleTeam.ally ? _attacker : _defender;
         bool wasPlayerTurn = _initialAttacker.team == BattleTeam.ally;
@@ -1206,7 +1205,6 @@ class Battle : GameState {
           setState(new Wait(pauseTime, new AwardXp(friendly, _playerXp, wasPlayerTurn, item)));
         }
         else {
-          friendly.hideInfoBox;
           setState(new Wait(pauseTime, wasPlayerTurn ? new PlayerTurn : new EnemyTurn));
         }
       }
@@ -1402,6 +1400,10 @@ class Battle : GameState {
       _battler = battler;
       _awards = awards;
       _leftoverXp = leftoverXp;
+    }
+
+    override void onStart() {
+      playSound("levelup");
     }
 
     override void update(float time) {
