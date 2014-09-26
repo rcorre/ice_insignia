@@ -14,11 +14,12 @@ import gui.input_icon;
 private enum {
   offsetSprite       = Vector2i(25, 49),
   offsetName         = Vector2i(49, 41),
-  offsetWeaponSprite = Vector2i(25, 113),
-  offsetWeaponName   = Vector2i(49, 105),
-  offsetDamage       = Vector2i(81, 137),
-  offsetHit          = Vector2i(81, 169),
-  offsetCrit         = Vector2i(81, 201),
+  offsetWeaponSprite = Vector2i(25, 81),
+  offsetWeaponName   = Vector2i(49, 73),
+  offsetDamage       = Vector2i(81, 105),
+  offsetHit          = Vector2i(81, 137),
+  offsetCrit         = Vector2i(81, 169),
+  offsetDescription  = Vector2i(41, 201),
   offsetInputIcon    = Vector2i(-20, -20),
   multOffset         = Vector2f(8, 0),
   multRotation       = 2.0,
@@ -93,13 +94,15 @@ class BattlerCombatView : CombatView {
 
   void drawPrediction(CombatPrediction pred, Vector2i offset) {
     auto unit = pred.attacker;
+    auto weapon = unit.equippedWeapon;
     unit.sprite.draw(offset + offsetSprite);
-    unit.equippedWeapon.sprite.draw(offset + offsetWeaponSprite);
-    _font.draw(unit.name                , offset + offsetName);
-    _font.draw(unit.equippedWeapon.name , offset + offsetWeaponName);
-    _font.draw(pred.damage              , offset + offsetDamage);
-    _font.draw(pred.hit                 , offset + offsetHit);
-    _font.draw(pred.crit                , offset + offsetCrit);
+    weapon.sprite.draw(offset + offsetWeaponSprite);
+    _font.draw(unit.name   , offset + offsetName);
+    _font.draw(weapon.name , offset + offsetWeaponName);
+    _font.draw(pred.damage , offset + offsetDamage);
+    _font.draw(pred.hit    , offset + offsetHit);
+    _font.draw(pred.crit   , offset + offsetCrit);
+    _font.draw(weapon.text , offset + offsetDescription);
     if (pred.doubleHit) {
       _font.draw("x2", cast(Vector2i) (offset + offsetDamage + _multOffset), Color.green);
     }
