@@ -322,6 +322,9 @@ class Battle : GameState {
         _characterSheet = null;
         _tileCursor.active = true;
       }
+      else if (_input.start) {
+        pushState(new ShowMenu);
+      }
     }
 
     override void draw() {
@@ -347,6 +350,33 @@ class Battle : GameState {
     ulong _unitJumpIdx, _inspectJumpIdx;
     Cycle!(Battler[]) _unitJumpList, _inspectJumpList;
     CharacterSheet _characterSheet;
+  }
+
+  class ShowMenu : State {
+    this() {
+      _menu = new PreferencesMenu(screenCenter - Vector2i(50, 50));
+    }
+
+    override {
+      void onStart() {
+        _tileCursor.active = false;
+      }
+
+      void update(float time) {
+        _menu.handleInput(_input);
+        if (_input.cancel) {
+          _tileCursor.active = true;
+          popState();
+        }
+      }
+
+      void draw() {
+        _menu.draw();
+      }
+    }
+
+    private:
+    PreferencesMenu _menu;
   }
 
   class PlayerUnitSelected : State {
