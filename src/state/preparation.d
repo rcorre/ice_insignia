@@ -79,7 +79,12 @@ class Preparation : GameState {
     _input.update(time);
     _views.front.update(time);
     if (_menu) {
-      _menu.handleInput(_input);
+      if (_input.cancel) {
+        _menu = null;
+      }
+      else {
+        _menu.handleInput(_input);
+      }
     }
     else {
       if (_views.front.handleInput(_input)) {
