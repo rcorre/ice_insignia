@@ -3,18 +3,20 @@ module util.music;
 import std.conv;
 import std.string;
 import allegro;
-import util.config;
+import util.all;
 
 alias Sample = ALLEGRO_SAMPLE*;
 alias SampleInstance = ALLEGRO_SAMPLE_INSTANCE*;
 
-void setMusicMute(bool mute) {
-  _muted = mute;
-  if (mute && _musicSample !is null) {
-    al_stop_sample(&_id);
-  }
-  else if (!mute && _musicSample !is null) {
-    al_play_sample(_musicSample, _gain, 0f, 1f, ALLEGRO_PLAYMODE.ALLEGRO_PLAYMODE_LOOP, &_id);
+@property int musicVolume() {
+  return userPreferences.musicVolume;
+}
+
+@property void musicVolume(int val) {
+  val = val.clamp(0, 100);
+  userPreferences.musicVolume = val;
+  if (_instance !is null) {
+    al_set_sample_instance_gain(_instance, val / 100.0);
   }
 }
 
@@ -34,15 +36,14 @@ void playBgMusic(string key) {
   assert(_instance !is null, "failed to load music instance for " ~ key);
   al_set_sample_instance_playmode(_instance, ALLEGRO_PLAYMODE.ALLEGRO_PLAYMODE_LOOP);
   al_attach_sample_instance_to_mixer(_instance, al_get_default_mixer());
+  al_set_sample_instance_gain(_instance, musicVolume / 100.0);
   al_play_sample_instance(_instance);
-  //al_play_sample_instance(_musicSample, _gain, 0f, 1f, ALLEGRO_PLAYMODE.ALLEGRO_PLAYMODE_LOOP, &_id);
 }
 
 private:
 Sample _musicSample;
 SampleInstance _instance;
 string[string] _musicPaths;
-float _gain;
 bool _muted;
 ALLEGRO_SAMPLE_ID _id;
 
@@ -54,7 +55,6 @@ static this() {
     assert(path, "no music file at " ~ path);
     _musicPaths[key] = path;
   }
-  _gain = musicData.globals.get("gain", "1").to!float;
 }
 
 static ~this() {

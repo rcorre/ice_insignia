@@ -4,7 +4,7 @@ import std.string;
 import std.conv;
 import std.file;
 import allegro;
-import util.config;
+import util.all;
 
 enum Playmode {
   once  = ALLEGRO_PLAYMODE.ALLEGRO_PLAYMODE_ONCE,
@@ -31,7 +31,8 @@ class SoundSample {
   }
 
   void play() {
-    bool ok = al_play_sample(_sample, _gain, _pan, _speed, _loop, &_id);
+    float gain = _gain * userPreferences.soundVolume / 100f;
+    bool ok = al_play_sample(_sample, gain, _pan, _speed, _loop, &_id);
     assert(ok, "a sound sample failed to play");
   }
 

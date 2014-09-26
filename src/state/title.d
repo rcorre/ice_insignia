@@ -16,6 +16,7 @@ class Title : GameState {
   this() {
     _input = new InputManager;
     _titleScreen = new TitleScreen(loadAllSaves(), &startGame);
+    playBgMusic("battle1");
   }
 
   override {

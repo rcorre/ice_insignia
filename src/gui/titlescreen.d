@@ -50,7 +50,12 @@ class TitleScreen : GUIContainer {
 
   override bool handleInput(InputManager input) {
     if (_menu !is null) {
-      _menu.handleInput(input);
+      if (input.cancel) {
+        _menu = null;
+      }
+      else {
+        _menu.handleInput(input);
+      }
     }
     else {
       super.handleInput(input);

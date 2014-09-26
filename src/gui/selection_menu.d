@@ -75,6 +75,12 @@ abstract class SelectionMenu(T) {
       ++_cursorIdx;
       movedSelection = true;
     }
+    else if (input.selectRight) {
+      handleSideMovement(selection, 1);
+    }
+    else if (input.selectLeft) {
+      handleSideMovement(selection, -1);
+    }
     if (movedSelection) {
       playSound("cursor");
       // add length so negative values wrap
@@ -119,6 +125,8 @@ abstract class SelectionMenu(T) {
       drawInputIcon("cancel", rect.center, _gamepadConnected, "back");
     }
   }
+
+  void handleSideMovement(T entry, int direction) { }
 
   protected:
   void drawEntry(T entry, Rect2i rect, bool isSelected);

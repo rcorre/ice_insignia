@@ -7,9 +7,9 @@ import util.jsonizer;
 class Preferences {
   mixin JsonizeMe;
   @jsonize {
-    float musicVolume;
-    float soundVolume;
-    bool showInputIcons;
+    int musicVolume = 50;
+    int soundVolume = 50;
+    bool showInputIcons = true;
   }
 }
 
