@@ -5,7 +5,7 @@ import allegro;
 import state.gamestate;
 import gui.all;
 import geometry.all;
-import util.input;
+import util.all;
 import model.character;
 import model.item;
 import util.savegame;
@@ -70,6 +70,7 @@ class Preparation : GameState {
     _views = bicycle(views);
     _input = new InputManager;
     showInput(true);
+    playBgMusic("preparation");
   }
 
   /// returns a GameState to request a state transition, null otherwise
