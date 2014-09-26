@@ -93,5 +93,77 @@
       "bow3"
     ],
     "names" : ["Neebs", "Wil"]
+  },
+
+  "mage" : {
+    "model" : "mage",
+    "attributes" : {
+      "valueSet" : {
+        "maxHp"        : 15,
+        "strength"     : 4,
+        "skill"        : 4,
+        "speed"        : 4,
+        "defense"      : 0,
+        "luck"         : 2,
+        "move"         : 5,
+        "constitution" : 4
+      }
+    },
+    "talentKeys" : [
+      "magic1",
+      "lightweight",
+      "magic2",
+      "bow1",
+      "magic3"
+    ],
+    "names" : ["Aren"]
+  },
+
+  "theif" : {
+    "model" : "theif",
+    "attributes" : {
+      "valueSet" : {
+        "maxHp"        : 11,
+        "strength"     : 3,
+        "skill"        : 4,
+        "speed"        : 5,
+        "defense"      : 0,
+        "luck"         : 4,
+        "move"         : 6,
+        "constitution" : 3
+      }
+    },
+    "talentKeys" : [
+      "lockpicking",
+      "sword1",
+      "theft",
+      "lightweight",
+      "sword2"
+    ],
+    "names" : ["Matthew"]
+  },
+
+  "assasin" : {
+    "model" : "assasin",
+    "attributes" : {
+      "valueSet" : {
+        "maxHp"        : 13,
+        "strength"     : 5,
+        "skill"        : 5,
+        "speed"        : 4,
+        "defense"      : 0,
+        "luck"         : 4,
+        "move"         : 5,
+        "constitution" : 3
+      }
+    },
+    "talentKeys" : [
+      "lockpicking",
+      "sword1",
+      "theft",
+      "lightweight",
+      "sword2"
+    ],
+    "names" : ["Matthew"]
   }
 }
