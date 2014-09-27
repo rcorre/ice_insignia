@@ -84,6 +84,7 @@ class Battle : GameState {
     _input = new InputManager;
     _tileCursor = new TileCursor;
     _objective = levelData.objective;
+    _victoryCounter = levelData.victoryValue;
     pushState(new PlayerTurn);
     playBgMusic("battle1");
     _walkSound = new SoundSample("walk");
@@ -176,6 +177,7 @@ class Battle : GameState {
   GameState _nextState;
   SaveData _saveData;
   SoundSample _walkSound, _xpSound;
+  int _victoryCounter;
 
   // state management
   @property auto currentState() { return _stateStack.front; }
@@ -210,7 +212,7 @@ class Battle : GameState {
           .filter!(x => x !is null)
           .all!(x => x.team == BattleTeam.ally);
       case survive:
-        assert(0, "survive not implemented");
+        return _victoryCounter == 0;
     }
   }
 
@@ -269,6 +271,9 @@ class Battle : GameState {
       if (_turnOver) {
         foreach(battler ; _allies) {
           battler.passTurn();
+        }
+        if (_objective == VictoryCondition.survive) {
+          --_victoryCounter;
         }
         setState(new EnemyTurn);
       }
