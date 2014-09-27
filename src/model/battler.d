@@ -99,7 +99,7 @@ class Battler : Attackable {
           return knock;
         }
         auto lockpick = findItem("Lockpick");
-        if (lockpick !is null && hasTalent("lockpicking")) {
+        if (lockpick !is null && hasTalent("theft")) {
           return lockpick;
         }
         auto doorKey = findItem("Door Key");
@@ -114,7 +114,7 @@ class Battler : Attackable {
         return null;
       }
       auto lockpick = findItem("Lockpick");
-      if (lockpick !is null && hasTalent("lockpicking")) {
+      if (lockpick !is null && hasTalent("theft")) {
         return lockpick;
       }
       auto chestKey = findItem("Chest Key");

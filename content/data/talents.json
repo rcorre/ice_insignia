@@ -3,20 +3,14 @@
     "key" : "sword1",
     "title" : "Blade Proficiency",
     "description" : "Wield Tier 1 swords",
-    "bonus" : {
-      "valueSet" : {
-        "skill" : 2,
-        "speed" : 1
-      }
-    },
     "potential" : {
       "valueSet" : {
         "maxHp"        : 0,
-        "strength"     : 5,
-        "skill"        : 15,
-        "speed"        : 10,
+        "strength"     : 0,
+        "skill"        : 10,
+        "speed"        : 5,
         "defense"      : 0,
-        "luck"         : 10,
+        "luck"         : 0,
         "move"         : 0,
         "constitution" : 0
       }
@@ -29,20 +23,14 @@
     "title" : "Blade Expertise",
     "description" : "Wield Tier 2 swords",
     "prerequisite" : "sword1",
-    "bonus" : {
-      "valueSet" : {
-        "skill" : 2,
-        "speed" : 1
-      }
-    },
     "potential" : {
       "valueSet" : {
         "maxHp"        : 0,
-        "strength"     : 5,
-        "skill"        : 15,
-        "speed"        : 10,
+        "strength"     : 0,
+        "skill"        : 10,
+        "speed"        : 5,
         "defense"      : 0,
-        "luck"         : 10,
+        "luck"         : 0,
         "move"         : 0,
         "constitution" : 0
       }
@@ -55,20 +43,14 @@
     "title" : "Blade Mastery",
     "description" : "Wield Tier 3 swords",
     "prerequisite" : "sword2",
-    "bonus" : {
-      "valueSet" : {
-        "skill" : 2,
-        "speed" : 1
-      }
-    },
     "potential" : {
       "valueSet" : {
         "maxHp"        : 0,
-        "strength"     : 5,
-        "skill"        : 15,
-        "speed"        : 10,
+        "strength"     : 0,
+        "skill"        : 10,
+        "speed"        : 5,
         "defense"      : 0,
-        "luck"         : 10,
+        "luck"         : 0,
         "move"         : 0,
         "constitution" : 0
       }
@@ -80,18 +62,12 @@
     "key" : "axe1",
     "title" : "Axe Proficiency",
     "description" : "Wield Tier 1 axes",
-    "bonus" : {
-      "valueSet" : {
-        "strength" : 2,
-        "speed" : 1
-      }
-    },
     "potential" : {
       "valueSet" : {
-        "maxHp"        : 10,
-        "strength"     : 15,
+        "maxHp"        : 0,
+        "strength"     : 5,
         "skill"        : 0,
-        "speed"        : 5,
+        "speed"        : 0,
         "defense"      : 0,
         "luck"         : 0,
         "move"         : 0,
@@ -105,25 +81,19 @@
     "key" : "axe2",
     "title" : "Axe Expertise",
     "description" : "Wield Tier 2 axes",
-    "prerequisite" : "axe1",
-    "bonus" : {
-      "valueSet" : {
-        "strength" : 2,
-        "speed" : 1
-      }
-    },
     "potential" : {
       "valueSet" : {
-        "maxHp"        : 10,
-        "strength"     : 15,
+        "maxHp"        : 0,
+        "strength"     : 5,
         "skill"        : 0,
-        "speed"        : 5,
+        "speed"        : 0,
         "defense"      : 0,
         "luck"         : 0,
         "move"         : 0,
         "constitution" : 10
       }
     },
+    "prerequisite" : "axe1",
     "weaponSkill" : "axe",
     "weaponTier" : 2
   },
@@ -131,25 +101,19 @@
     "key" : "axe3",
     "title" : "Axe Mastery",
     "description" : "Wield Tier 3 axes",
-    "prerequisite" : "axe2",
-    "bonus" : {
-      "valueSet" : {
-        "strength" : 2,
-        "speed" : 1
-      }
-    },
     "potential" : {
       "valueSet" : {
-        "maxHp"        : 10,
-        "strength"     : 15,
+        "maxHp"        : 0,
+        "strength"     : 5,
         "skill"        : 0,
-        "speed"        : 5,
+        "speed"        : 0,
         "defense"      : 0,
         "luck"         : 0,
         "move"         : 0,
         "constitution" : 10
       }
     },
+    "prerequisite" : "axe2",
     "weaponSkill" : "axe",
     "weaponTier" : 3
   },
@@ -157,20 +121,13 @@
     "key" : "lance1",
     "title" : "Lance Proficiency",
     "description" : "Wield Tier 1 lances",
-    "bonus" : {
-      "valueSet" : {
-        "skill"    : 1,
-        "strength" : 1,
-        "speed"    : 1
-      }
-    },
     "potential" : {
       "valueSet" : {
-        "maxHp"        : 5,
-        "strength"     : 10,
-        "skill"        : 10,
+        "maxHp"        : 0,
+        "strength"     : 5,
+        "skill"        : 5,
         "speed"        : 0,
-        "defense"      : 10,
+        "defense"      : 0,
         "luck"         : 0,
         "move"         : 0,
         "constitution" : 5
@@ -184,20 +141,13 @@
     "title" : "Lance Expertise",
     "description" : "Wield Tier 2 lances",
     "prerequisite" : "lance1",
-    "bonus" : {
-      "valueSet" : {
-        "skill"    : 1,
-        "strength" : 1,
-        "speed"    : 1
-      }
-    },
     "potential" : {
       "valueSet" : {
-        "maxHp"        : 5,
-        "strength"     : 10,
-        "skill"        : 10,
+        "maxHp"        : 0,
+        "strength"     : 5,
+        "skill"        : 5,
         "speed"        : 0,
-        "defense"      : 10,
+        "defense"      : 0,
         "luck"         : 0,
         "move"         : 0,
         "constitution" : 5
@@ -211,20 +161,13 @@
     "title" : "Lance Mastery",
     "description" : "Wield Tier 3 lances",
     "prerequisite" : "lance2",
-    "bonus" : {
-      "valueSet" : {
-        "skill"    : 1,
-        "strength" : 1,
-        "speed"    : 1
-      }
-    },
     "potential" : {
       "valueSet" : {
-        "maxHp"        : 5,
-        "strength"     : 10,
-        "skill"        : 10,
+        "maxHp"        : 0,
+        "strength"     : 5,
+        "skill"        : 5,
         "speed"        : 0,
-        "defense"      : 10,
+        "defense"      : 0,
         "luck"         : 0,
         "move"         : 0,
         "constitution" : 5
@@ -237,21 +180,14 @@
     "key" : "bow1",
     "title" : "Bow Proficiency",
     "description" : "Wield Tier 1 bows",
-    "bonus" : {
-      "valueSet" : {
-        "skill"    : 1,
-        "strength" : 1,
-        "speed"    : 1
-      }
-    },
     "potential" : {
       "valueSet" : {
         "maxHp"        : 0,
         "strength"     : 5,
-        "skill"        : 15,
-        "speed"        : 5,
+        "skill"        : 10,
+        "speed"        : 0,
         "defense"      : 0,
-        "luck"         : 5,
+        "luck"         : 0,
         "move"         : 0,
         "constitution" : 0
       }
@@ -261,23 +197,17 @@
   },
   "bow2" : {
     "key" : "bow2",
+    "prerequisite" : "bow1",
     "title" : "Bow Expertise",
     "description" : "Wield Tier 2 bows",
-    "bonus" : {
-      "valueSet" : {
-        "skill"    : 1,
-        "strength" : 1,
-        "speed"    : 1
-      }
-    },
     "potential" : {
       "valueSet" : {
         "maxHp"        : 0,
         "strength"     : 5,
-        "skill"        : 15,
-        "speed"        : 5,
+        "skill"        : 10,
+        "speed"        : 0,
         "defense"      : 0,
-        "luck"         : 5,
+        "luck"         : 0,
         "move"         : 0,
         "constitution" : 0
       }
@@ -287,23 +217,17 @@
   },
   "bow3" : {
     "key" : "bow3",
+    "prerequisite" : "bow2",
     "title" : "Bow Mastery",
     "description" : "Wield Tier 3 bows",
-    "bonus" : {
-      "valueSet" : {
-        "skill"    : 1,
-        "strength" : 1,
-        "speed"    : 1
-      }
-    },
     "potential" : {
       "valueSet" : {
         "maxHp"        : 0,
         "strength"     : 5,
-        "skill"        : 15,
-        "speed"        : 5,
+        "skill"        : 10,
+        "speed"        : 0,
         "defense"      : 0,
-        "luck"         : 5,
+        "luck"         : 0,
         "move"         : 0,
         "constitution" : 0
       }
@@ -316,12 +240,11 @@
     "key" : "magic1",
     "title" : "Magic Proficiency",
     "description" : "Wield Tier 1 magic",
-    "bonus" : {
-      "valueSet" : {
-      }
-    },
     "potential" : {
       "valueSet" : {
+        "strength" : 5,
+        "skill"    : 5,
+        "luck"     : 5
       }
     },
     "weaponSkill" : "magic",
@@ -330,13 +253,13 @@
 
   "magic2" : {
     "key" : "magic2",
+    "prerequisite" : "magic1",
     "title" : "Magic Expertise",
-    "bonus" : {
-      "valueSet" : {
-      }
-    },
     "potential" : {
       "valueSet" : {
+        "strength" : 5,
+        "skill"    : 5,
+        "luck"     : 5
       }
     },
     "description" : "Wield Tier 2 magic",
@@ -345,14 +268,14 @@
   },
 
   "magic3" : {
-    "key" : "magic1",
+    "key" : "magic3",
+    "prerequisite" : "magic2",
     "title" : "Magic Mastery",
-    "bonus" : {
-      "valueSet" : {
-      }
-    },
     "potential" : {
       "valueSet" : {
+        "strength" : 5,
+        "skill"    : 5,
+        "luck"     : 5
       }
     },
     "description" : "Wield Tier 3 magic",
@@ -366,7 +289,6 @@
     "description" : "Greater mobility at the cost of constitution",
     "bonus" : {
       "valueSet" : {
-        "speed"        : 2,
         "move"         : 1,
         "constitution" : -1
       }
@@ -375,34 +297,27 @@
       "valueSet" : {
         "maxHp"        : 0,
         "strength"     : 0,
-        "skill"        : 5,
+        "skill"        : 0,
         "speed"        : 20,
         "defense"      : 0,
-        "luck"         : 5,
+        "luck"         : 0,
         "move"         : 0,
-        "constitution" : 0
+        "constitution" : -5
       }
     }
   },
-  "lockpicking" : {
-    "key" : "lockpicking",
-    "title" : "Lockpicking",
-    "description" : "Use lockpicks to open doors and chests",
-    "bonus" : {
-      "valueSet" : {
-        "speed" : 1,
-        "luck"  : 1,
-        "skill" : 1
-      }
-    },
+  "theft" : {
+    "key" : "theft",
+    "title" : "Theft",
+    "description" : "Pick locks and pockets",
     "potential" : {
       "valueSet" : {
         "maxHp"        : 0,
         "strength"     : 0,
-        "skill"        : 5,
+        "skill"        : 0,
         "speed"        : 10,
         "defense"      : 0,
-        "luck"         : 15,
+        "luck"         : 5,
         "move"         : 0,
         "constitution" : 0
       }
@@ -411,49 +326,21 @@
   "fortitude" : {
     "key" : "fortitude",
     "title" : "Fortitude",
-    "description" : "Greater constitution and health",
-    "bonus" : {
-      "valueSet" : {
-        "maxHp" : 5,
-        "constitution" : 2
-      }
-    },
+    "description" : "Regenerate health",
     "potential" : {
       "valueSet" : {
-        "maxHp"        : 15,
+        "maxHp"        : 10,
         "strength"     : 0,
         "skill"        : 0,
-        "speed"        : 0,
+        "speed"        : -5,
         "defense"      : 0,
         "luck"         : 0,
         "move"         : 0,
-        "constitution" : 15
+        "constitution" : 10
       }
     }
   },
-  "theft" : {
-    "key" : "theft",
-    "title" : "Theft",
-    "description" : "Pickpocket small items",
-    "bonus" : {
-      "valueSet" : {
-        "luck" : 2,
-        "skill" : 1
-      }
-    },
-    "potential" : {
-      "valueSet" : {
-        "maxHp"        : 0,
-        "strength"     : 0,
-        "skill"        : 10,
-        "speed"        : 10,
-        "defense"      : 0,
-        "luck"         : 10,
-        "move"         : 0,
-        "constitution" : 0
-      }
-    }
-  },
+
   "armor1" : {
     "key" : "armor1",
     "title" : "Armor",
@@ -469,17 +356,17 @@
         "strength"     : 0,
         "skill"        : 0,
         "speed"        : 0,
-        "defense"      : 20,
+        "defense"      : 10,
         "luck"         : 0,
         "move"         : 0,
-        "constitution" : 10
+        "constitution" : 5
       }
     }
   },
   "armor2" : {
     "key" : "armor2",
     "title" : "Heavy Armor",
-    "description" : "Don a massive suit of armor",
+    "description" : "Heavy but movement-limiting",
     "prerequisite" : "armor1",
     "bonus" : {
       "valueSet" : {
@@ -493,10 +380,10 @@
         "strength"     : 0,
         "skill"        : 0,
         "speed"        : 0,
-        "defense"      : 20,
+        "defense"      : 10,
         "luck"         : 0,
         "move"         : 0,
-        "constitution" : 10
+        "constitution" : 5
       }
     }
   },
@@ -508,14 +395,14 @@
     "prerequisite" : "fortitude",
     "potential" : {
       "valueSet" : {
-        "maxHp"        : 0,
+        "maxHp"        : 10,
         "strength"     : 10,
-        "skill"        : 0,
+        "skill"        : -5,
         "speed"        : 0,
         "defense"      : -5,
-        "luck"         : -5,
+        "luck"         : 0,
         "move"         : 0,
-        "constitution" : 0
+        "constitution" : 10
       }
     }
   },
@@ -527,11 +414,11 @@
     "potential" : {
       "valueSet" : {
         "maxHp"        : 0,
-        "strength"     : -5,
+        "strength"     : 0,
         "skill"        : 10,
-        "speed"        : -5,
+        "speed"        : 0,
         "defense"      : 0,
-        "luck"         : 0,
+        "luck"         : 5,
         "move"         : 0,
         "constitution" : 0
       }
