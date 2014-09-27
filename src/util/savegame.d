@@ -66,7 +66,26 @@ class SaveData {
     foreach(i ; iota(0, numRecruits)) {
       auto model = models.randomSample(1).front;
       int level = uniform!"[]"(1, maxLevel);
-      forHire ~= generateCharacter(model, level);
+      auto recruit = generateCharacter(model, level);
+      switch(recruit.talents.front.key) {
+        case "sword1":
+          recruit.addItem(new Item("dirk"));
+          break;
+        case "lance1":
+          recruit.addItem(new Item("quarterstaff"));
+          break;
+        case "axe1":
+          recruit.addItem(new Item("mace"));
+          break;
+        case "magic1":
+          recruit.addItem(new Item("heal"));
+          break;
+        case "theft":
+          recruit.addItem(new Item("lockpick"));
+          break;
+        default:
+      }
+      forHire ~= recruit;
     }
   }
 }

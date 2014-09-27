@@ -17,14 +17,14 @@ public import model.attribute;
 private enum {
   talentAwardLevels = [1, 3, 6, 10, 15, 20],
   basePotential = [
-    "maxHp"        : 60,
-    "strength"     : 40,
-    "skill"        : 40,
-    "speed"        : 40,
-    "defense"      : 40,
-    "luck"         : 40,
+    "maxHp"        : 50,
+    "strength"     : 35,
+    "skill"        : 35,
+    "speed"        : 35,
+    "defense"      : 35,
+    "luck"         : 35,
     "move"         : 0,
-    "constitution" : 10
+    "constitution" : 20
   ]
 }
 
