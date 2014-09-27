@@ -27,7 +27,8 @@ class LevelUpView : CharacterSheet {
   {
     super(topLeft, battler, true);
     _bonuses = bonuses;
-    _attributesToLevel = array([EnumMembers!Attribute].filter!(a => bonuses[a] != 0));
+    _attributesToLevel = array([EnumMembers!Attribute]
+        .filter!(a => bonuses[a] != 0 || potentials[a] != 0));
     _bonusText = array(_attributesToLevel.map!(a => format("%+d", bonuses[a])));
     _potentials = potentials;
   }
