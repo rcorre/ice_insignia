@@ -55,14 +55,16 @@ class SaveData {
 
   void advanceMission() {
     ++mission;
-    generateNewRecruits(mission + 1);
+    generateNewRecruits();
     saveGame(this);
   }
 
-  void generateNewRecruits(int maxLevel) {
+  void generateNewRecruits() {
     forHire = null;
+    int maxLevel = reduce!((a,b) => max(a, b.level))(1, roster);
+    auto models = maxLevel == 1 ? startingRecruitModels : recruitModels;
     foreach(i ; iota(0, numRecruits)) {
-      auto model = recruitModels.randomSample(1).front;
+      auto model = models.randomSample(1).front;
       int level = uniform!"[]"(1, maxLevel);
       forHire ~= generateCharacter(model, level);
     }
@@ -74,7 +76,7 @@ SaveData loadSave(int idx) {
   if (!savePath.exists) {  // no save yet
     auto data = new SaveData;
     data.gold = startingGold;
-    data.generateNewRecruits(1);
+    data.generateNewRecruits();
     data.idx = idx;
     data.saveGame;
     return data;
