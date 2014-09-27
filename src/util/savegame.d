@@ -14,7 +14,7 @@ enum {
   rosterSize = 12,
   numRecruits = 6,
   startingRecruitModels = ["mercenary", "fighter", "soldier", "hunter"],
-  recruitModels = startingRecruitModels ~ ["mage", "theif"],
+  recruitModels = startingRecruitModels ~ ["mage", "theif", "samurai", "assassin", "battlemage"],
   numSaveSlots = 3
 }
 

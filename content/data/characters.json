@@ -4,21 +4,22 @@
     "attributes" : {
       "valueSet" : {
         "maxHp"        : 14,
-        "strength"     : 2,
+        "strength"     : 4,
         "skill"        : 4,
-        "speed"        : 3,
+        "speed"        : 4,
         "defense"      : 2,
-        "luck"         : 1,
+        "luck"         : 2,
         "move"         : 5,
         "constitution" : 4
       }
     },
     "talentKeys" : [
       "sword1",
+      "axe1",
       "sword2",
-      "lockpicking",
-      "sword3",
-      "armor1"
+      "armor1",
+      "axe2",
+      "sword3"
     ],
     "names" : ["William", "Cecil", "Foltest", "Roderick", "Markham", "Doralingus", "Vyse"]
   },
@@ -28,10 +29,10 @@
     "attributes" : {
       "valueSet" : {
         "maxHp"        : 17,
-        "strength"     : 4,
+        "strength"     : 5,
         "skill"        : 3,
-        "speed"        : 2,
-        "defense"      : 2,
+        "speed"        : 4,
+        "defense"      : 1,
         "luck"         : 0,
         "move"         : 5,
         "constitution" : 6
@@ -41,8 +42,9 @@
       "axe1",
       "fortitude",
       "axe2",
-      "axe3",
-      "armor1"
+      "berserk",
+      "armor1",
+      "axe3"
     ],
     "names" : ["Hector", "Golbez", "Zoltan", "Frunkwad", "Dorcas"]
   },
@@ -52,10 +54,10 @@
     "attributes" : {
       "valueSet" : {
         "maxHp"        : 15,
-        "strength"     : 3,
-        "skill"        : 3,
+        "strength"     : 4,
+        "skill"        : 4,
         "speed"        : 3,
-        "defense"      : 2,
+        "defense"      : 3,
         "luck"         : 0,
         "move"         : 5,
         "constitution" : 5
@@ -66,16 +68,42 @@
       "armor1",
       "lance2",
       "armor2",
+      "sword1",
       "lance3"
     ],
-    "names" : ["Liemry", "Kain", "Marcus", "Cid"]
+    "names" : ["Marcus", "Cid", "Oswin"]
+  },
+
+  "dragoon" : {
+    "model" : "soldier",
+    "attributes" : {
+      "valueSet" : {
+        "maxHp"        : 14,
+        "strength"     : 4,
+        "skill"        : 4,
+        "speed"        : 5,
+        "defense"      : 2,
+        "luck"         : 0,
+        "move"         : 5,
+        "constitution" : 5
+      }
+    },
+    "talentKeys" : [
+      "lance1",
+      "lightweight",
+      "armor1",
+      "lance2",
+      "axe1",
+      "lance3"
+    ],
+    "names" : ["Liemry", "Kain"]
   },
 
   "hunter" : {
     "model" : "hunter",
     "attributes" : {
       "valueSet" : {
-        "maxHp"        : 11,
+        "maxHp"        : 14,
         "strength"     : 4,
         "skill"        : 5,
         "speed"        : 4,
@@ -89,7 +117,7 @@
       "bow1",
       "lightweight",
       "bow2",
-      "theft",
+      "precision",
       "bow3"
     ],
     "names" : ["Neebs", "Wil"]
@@ -103,7 +131,7 @@
         "strength"     : 4,
         "skill"        : 4,
         "speed"        : 4,
-        "defense"      : 0,
+        "defense"      : 1,
         "luck"         : 2,
         "move"         : 5,
         "constitution" : 4
@@ -111,10 +139,36 @@
     },
     "talentKeys" : [
       "magic1",
-      "lightweight",
+      "lance1",
       "magic2",
+      "lightweight",
       "bow1",
       "magic3"
+    ],
+    "names" : ["Aren"]
+  },
+
+  "battlemage" : {
+    "model" : "mage",
+    "attributes" : {
+      "valueSet" : {
+        "maxHp"        : 15,
+        "strength"     : 4,
+        "skill"        : 4,
+        "speed"        : 4,
+        "defense"      : 2,
+        "luck"         : 0,
+        "move"         : 5,
+        "constitution" : 5
+      }
+    },
+    "talentKeys" : [
+      "lance1",
+      "armor1",
+      "lance2",
+      "armor2",
+      "lance3",
+      "berserk"
     ],
     "names" : ["Aren"]
   },
@@ -123,7 +177,7 @@
     "model" : "theif",
     "attributes" : {
       "valueSet" : {
-        "maxHp"        : 11,
+        "maxHp"        : 12,
         "strength"     : 3,
         "skill"        : 4,
         "speed"        : 5,
@@ -134,13 +188,39 @@
       }
     },
     "talentKeys" : [
-      "lockpicking",
-      "sword1",
       "theft",
+      "sword1",
       "lightweight",
-      "sword2"
+      "sword2",
+      "fortitude",
+      "precision"
     ],
     "names" : ["Matthew"]
+  },
+
+  "samurai" : {
+    "model" : "theif",
+    "attributes" : {
+      "valueSet" : {
+        "maxHp"        : 15,
+        "strength"     : 4,
+        "skill"        : 4,
+        "speed"        : 4,
+        "defense"      : 0,
+        "luck"         : 4,
+        "move"         : 5,
+        "constitution" : 5
+      }
+    },
+    "talentKeys" : [
+      "sword1",
+      "armor1",
+      "lance1",
+      "sword2",
+      "bow2",
+      "armor2"
+    ],
+    "names" : ["Guy"]
   },
 
   "assassin" : {
@@ -148,9 +228,9 @@
     "attributes" : {
       "valueSet" : {
         "maxHp"        : 13,
-        "strength"     : 5,
+        "strength"     : 4,
         "skill"        : 5,
-        "speed"        : 4,
+        "speed"        : 5,
         "defense"      : 0,
         "luck"         : 4,
         "move"         : 5,
@@ -158,12 +238,38 @@
       }
     },
     "talentKeys" : [
-      "lockpicking",
       "sword1",
-      "theft",
-      "lightweight",
-      "sword2"
+      "armor1",
+      "bow1",
+      "sword2",
+      "precision",
+      "bow2"
     ],
-    "names" : ["Matthew"]
+    "names" : ["Jaffar"]
+  },
+
+  "swordmaster" : {
+    "model" : "theif",
+    "attributes" : {
+      "valueSet" : {
+        "maxHp"        : 13,
+        "strength"     : 4,
+        "skill"        : 5,
+        "speed"        : 5,
+        "defense"      : 0,
+        "luck"         : 4,
+        "move"         : 5,
+        "constitution" : 3
+      }
+    },
+    "talentKeys" : [
+      "sword1",
+      "sword2",
+      "sword3",
+      "armor1",
+      "precision",
+      "fortitude"
+    ],
+    "names" : ["Guy"]
   }
 }
