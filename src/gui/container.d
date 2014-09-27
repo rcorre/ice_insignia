@@ -5,6 +5,7 @@ import std.array;
 import gui.element;
 import geometry.all;
 import graphics.all;
+import util.all;
 
 class GUIContainer : GUIElement {
   this(Vector2i pos, Anchor anchorType, string textureName, Sprite cursorSprite) {
@@ -65,6 +66,7 @@ class GUIContainer : GUIElement {
           r = _elements.filter!(x => x.bounds.bottom < _selectedElement.bounds.top).array;
         }
         if (!r.empty) {
+          playSound("cursor");
           auto pos = _selectedElement.center;
           r.sort!((a,b) => distance(pos, a.bounds.center) < distance(pos, b.bounds.center));
           _selectedElement = r.front;
