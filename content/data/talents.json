@@ -499,5 +499,42 @@
         "constitution" : 10
       }
     }
+  },
+
+  "berserk" : {
+    "key" : "berserk",
+    "title" : "Berserk",
+    "description" : "Greater strength when injured",
+    "prerequisite" : "fortitude",
+    "potential" : {
+      "valueSet" : {
+        "maxHp"        : 0,
+        "strength"     : 10,
+        "skill"        : 0,
+        "speed"        : 0,
+        "defense"      : -5,
+        "luck"         : -5,
+        "move"         : 0,
+        "constitution" : 0
+      }
+    }
+  },
+
+  "precision" : {
+    "key" : "precision",
+    "title" : "Precision",
+    "description" : "Improved critical chance",
+    "potential" : {
+      "valueSet" : {
+        "maxHp"        : 0,
+        "strength"     : -5,
+        "skill"        : 10,
+        "speed"        : -5,
+        "defense"      : 0,
+        "luck"         : 0,
+        "move"         : 0,
+        "constitution" : 0
+      }
+    }
   }
 }

@@ -13,7 +13,8 @@ enum {
   itemStorageSize = 10,
   rosterSize = 12,
   numRecruits = 6,
-  recruitModels = ["mercenary", "fighter", "soldier", "hunter"],
+  startingRecruitModels = ["mercenary", "fighter", "soldier", "hunter"],
+  recruitModels = startingRecruitModels ~ ["mage", "theif"],
   numSaveSlots = 3
 }
 

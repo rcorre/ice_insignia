@@ -27,6 +27,9 @@ private enum {
   triangleBonus = 1.2,
   trianglePenalty = 0.8,
   counterBonus = 0.4,     /// counterattack bonus for weapon with counter ability
+
+  berserkDamageFactor = 1f, /// damage + (1 - hp / maxHp) * berserkDamageFactor
+  precisionCritBonus = 15, /// constant added to crit
 }
 
 // speed after adjustment for weapon weight
@@ -39,12 +42,17 @@ int attackDamage(Character c) {
   return c.equippedWeapon.damage + c.strength;
 }
 
+int attackDamage(Battler c) {
+  return c.equippedWeapon.damage + c.strength + c.berserkDamageBonus;
+}
+
 int attackHit(Character c) {
   return c.equippedWeapon.hit + c.skill * 4;
 }
 
 int attackCrit(Character c) {
-  return c.equippedWeapon.crit + c.luck * 2;
+  float base = c.equippedWeapon.crit + (c.hasTalent("precision") ? precisionCritBonus : 0);
+  return cast(int) (base * c.luck / 4f);
 }
 
 int avoid(Character c) {
@@ -202,6 +210,10 @@ private:
 // how much level difference influences xp
 float levelFactor(Battler player, Battler enemy) {
     return cast(float) (enemy.level + levelXpFactor) / (player.level + levelXpFactor);
+}
+
+int berserkDamageBonus(Battler c) {
+  return cast(int) ((1 - cast(float) c.hp / c.maxHp) * berserkDamageFactor);
 }
 
 bool wouldKillEnemy(CombatResult[] series) {
