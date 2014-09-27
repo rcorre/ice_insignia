@@ -175,13 +175,17 @@ class MapObject {
     // type is used to store level
     auto character = generateCharacter(name, to!int(type));
 
-    int dropItem = to!int(properties.get("drop", "-1")); // index of item to drop, if any
     foreach(i ; iota(0, Character.itemCapacity)) {
       auto key = format("item%d", i);
       if (key in properties) {
         auto itemName = properties[key];
-        character.addItem(new Item(itemName, dropItem == i));
+        character.addItem(new Item(itemName, false));
       }
+    }
+
+    if ("dropItem" in properties) {
+      auto itemName = properties[key];
+      character.addItem(new Item(itemName, true));
     }
 
     int col = x / tileWidth;

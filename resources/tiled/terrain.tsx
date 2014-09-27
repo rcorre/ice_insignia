@@ -245,4 +245,14 @@
    <property name="name" value="Shore"/>
   </properties>
  </tile>
+ <tile id="65">
+  <properties>
+   <property name="name" value="Bridge"/>
+  </properties>
+ </tile>
+ <tile id="66">
+  <properties>
+   <property name="name" value="Bridge"/>
+  </properties>
+ </tile>
 </tileset>
