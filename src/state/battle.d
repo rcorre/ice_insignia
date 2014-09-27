@@ -579,7 +579,6 @@ class Battle : GameState {
     StringMenu _selectionView;
     InventoryMenu _inventoryView;
     ItemView _itemView;
-    AnimatedSprite _targetSprite;
     State _requestedState;
 
     string[] getActions() {
