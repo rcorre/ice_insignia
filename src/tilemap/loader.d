@@ -183,8 +183,8 @@ class MapObject {
       }
     }
 
-    if ("dropItem" in properties) {
-      auto itemName = properties[key];
+    if ("dropitem" in properties) {
+      auto itemName = properties["dropitem"];
       character.addItem(new Item(itemName, true));
     }
 
