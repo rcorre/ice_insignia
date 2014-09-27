@@ -612,7 +612,7 @@ class Battle : GameState {
     void handleSelection(string action) {
       switch(action) {
         case "Attack":
-          _requestedState = new ConsiderAttack(_battler, _targetsInRange);
+          _requestedState = new ConsiderAttack(_battler, _targetsInRange, _prevTile);
           break;
         case "Inventory":
           _inventoryView = new InventoryMenu(screenCenter, _battler.items, &selectItem,
@@ -842,8 +842,9 @@ class Battle : GameState {
   }
 
   class ConsiderAttack : State {
-    this(Battler attacker, Variant[] targets) {
+    this(Battler attacker, Variant[] targets, Tile prevTile) {
       assert(!targets.empty);
+      _prevTile = prevTile;
       _attacker = attacker;
       _targets = bicycle(targets);
       _attackTerrain = _map.tileAt(attacker.row, attacker.col);
@@ -877,6 +878,9 @@ class Battle : GameState {
         _attacker.equippedWeapon = _itemChoices.reverse;
         setTarget(_targets.front);
       }
+      else if (_input.cancel) {
+        setState(new ChooseBattlerAction(_attacker, _attackTerrain, _prevTile));
+      }
     }
 
     override void draw() {
@@ -897,7 +901,7 @@ class Battle : GameState {
     Bicycle!(Item[]) _itemChoices;
     Battler _attacker;
     Attackable _defender;
-    Tile _attackTerrain, _defendTerrain;
+    Tile _attackTerrain, _defendTerrain, _prevTile;
     CombatPrediction _attack, _counter;
     CombatView _view;
 
