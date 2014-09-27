@@ -2,7 +2,7 @@
   "dirk": {
     "name"     : "Dirk",
     "type"     : "sword",
-    "maxUses"  : 30,
+    "maxUses"  : 35,
     "damage"   : 4,
     "hit"      : 85,
     "crit"     : 10,
@@ -15,7 +15,7 @@
   "broadsword": {
     "name"     : "Broadsword",
     "type"     : "sword",
-    "maxUses"  : 40,
+    "maxUses"  : 35,
     "damage"   : 6,
     "hit"      : 80,
     "crit"     : 0,
@@ -28,7 +28,7 @@
   "falchion": {
     "name"     : "Falchion",
     "type"     : "sword",
-    "maxUses"  : 30,
+    "maxUses"  : 25,
     "damage"   : 8,
     "hit"      : 75,
     "crit"     : 15,
@@ -57,7 +57,7 @@
   "claymore": {
     "name"     : "Claymore",
     "type"     : "sword",
-    "maxUses"  : 30,
+    "maxUses"  : 25,
     "damage"   : 13,
     "hit"      : 75,
     "crit"     : 10,
@@ -259,7 +259,7 @@
   "vengeance": {
     "name"     : "Vengeance",
     "type"     : "axe",
-    "maxUses"  : 20,
+    "maxUses"  : 30,
     "damage"   : 6,
     "hit"      : 80,
     "crit"     : 0,
@@ -319,7 +319,7 @@
   "greataxe": {
     "name"     : "Greataxe",
     "type"     : "axe",
-    "maxUses"  : 35,
+    "maxUses"  : 30,
     "damage"   : 15,
     "hit"      : 75,
     "crit"     : 0,
@@ -333,7 +333,7 @@
   "warhammer": {
     "name"     : "Warhammer",
     "type"     : "axe",
-    "maxUses"  : 40,
+    "maxUses"  : 30,
     "damage"   : 13,
     "hit"      : 70,
     "crit"     : 0,
@@ -349,7 +349,7 @@
   "shortbow": {
     "name"     : "Shortbow",
     "type"     : "bow",
-    "maxUses"  : 40,
+    "maxUses"  : 30,
     "damage"   : 5,
     "hit"      : 75,
     "crit"     : 0,
@@ -377,7 +377,7 @@
   "barbedbow": {
     "name"     : "Barbed Bow",
     "type"     : "bow",
-    "maxUses"  : 30,
+    "maxUses"  : 25,
     "damage"   : 8,
     "hit"      : 75,
     "crit"     : 10,
@@ -563,7 +563,7 @@
     "name"      : "Poultice",
     "text"      : "Heal 10hp",
     "maxUses"   : 3,
-    "price"     : 80,
+    "price"     : 60,
     "heal"      : 10,
     "useOnSelf" : true
   },
@@ -580,7 +580,7 @@
   "might"  : {
     "name"      : "Giant's Might",
     "text"      : "Bestow temporary strength",
-    "maxUses"   : 2,
+    "maxUses"   : 3,
     "price"     : 300,
     "useOnSelf" : true,
     "statEffects" : {
@@ -593,7 +593,7 @@
   "haste"  : {
     "name"      : "Haste",
     "text"      : "Bestow temporary agility",
-    "maxUses"   : 2,
+    "maxUses"   : 3,
     "price"     : 370,
     "useOnSelf" : true,
     "statEffects" : {
@@ -605,24 +605,24 @@
   },
 
   "doorkey" : {
-    "name"  : "Door Key",
-    "text"  : "Unlock 1 door",
-    "maxUses"  : 1,
-    "price" : 100
+    "name"    : "Door Key",
+    "text"    : "Unlock 1 door",
+    "maxUses" : 1,
+    "price"   : 70
   },
 
   "chestkey": {
-    "name"     : "Chest Key",
-    "text"  : "Unlock 1 chest",
-    "maxUses"     : 1,
-    "price"    : 200
+    "name"    : "Chest Key",
+    "text"    : "Unlock 1 chest",
+    "maxUses" : 1,
+    "price"   : 100
   },
 
   "lockpick": {
     "name"    : "Lockpick",
     "text"    : "Pick locks",
     "maxUses" : 10,
-    "price"   : 250
+    "price"   : 180
   },
 
   "ruby": {
