@@ -623,5 +623,26 @@
     "text"    : "Pick locks",
     "maxUses" : 10,
     "price"   : 250
+  },
+
+  "ruby": {
+    "name"    : "Ruby",
+    "text"    : "A valuable gem",
+    "maxUses" : 1,
+    "price"   : 400
+  },
+
+  "emerald": {
+    "name"    : "Emerald",
+    "text"    : "A very valuable gem",
+    "maxUses" : 1,
+    "price"   : 700
+  },
+
+  "sapphire": {
+    "name"    : "Sapphire",
+    "text"    : "An extremely valuable gem",
+    "maxUses" : 1,
+    "price"   : 1000
   }
 }
