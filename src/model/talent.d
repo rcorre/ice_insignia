@@ -9,9 +9,10 @@ import model.item;
 import model.attribute;
 
 class Talent {
-  @jsonize this(string key, string title, string description, ValueSet!Attribute bonus,
-      ValueSet!Attribute potential, ItemType weaponSkill = ItemType.other, int weaponTier = 0,
-      string prerequisite = null)
+  @jsonize this(string key, string title, string description, 
+      ValueSet!Attribute potential = ValueSet!Attribute(), 
+      ValueSet!Attribute bonus = ValueSet!Attribute(), ItemType weaponSkill = ItemType.other, 
+      int weaponTier = 0, string prerequisite = null)
   {
     this.key = key;
     this.title = title;
