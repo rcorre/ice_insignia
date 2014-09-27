@@ -89,11 +89,13 @@ class Battle : GameState {
     playBgMusic("battle1");
     _walkSound = new SoundSample("walk");
     _xpSound = new SoundSample("experience");
+    _targetSprite = new AnimatedSprite("target", targetShade);
   }
 
   override GameState update(float time) {
     _input.update(time);
     _tileCursor.update(time, _input);
+    _targetSprite.update(time);
 
     foreach(battler ; _battlers) {
       battler.update(time);
@@ -178,6 +180,7 @@ class Battle : GameState {
   SaveData _saveData;
   SoundSample _walkSound, _xpSound;
   int _victoryCounter;
+  AnimatedSprite _targetSprite;
 
   // state management
   @property auto currentState() { return _stateStack.front; }
@@ -502,7 +505,6 @@ class Battle : GameState {
       auto wallsInRange = array(_objects.filter!(a => _battler.canAttack(a)).map!(a => Variant(a)));
       _targetsInRange = enemiesInRange ~ wallsInRange;
       _stealableEnemies = array(_enemies.filter!(a => _battler.canStealFrom(a)));
-      _targetSprite = new AnimatedSprite("target", targetShade);
       _magicableAllies = array(_allies.filter!(a => !_battler.magicOptions(a).empty));
       // find openable object
       if (cast(Chest) currentTile.object && _battler.getChestOpener(currentTile.object) !is null) {
@@ -531,7 +533,6 @@ class Battle : GameState {
         return;
       }
 
-      _targetSprite.update(time);
       if (_inventoryView) {
         _inventoryView.handleInput(_input);
       }
@@ -847,13 +848,11 @@ class Battle : GameState {
       _attacker = attacker;
       _targets = bicycle(targets);
       _attackTerrain = _map.tileAt(attacker.row, attacker.col);
-      _target = new AnimatedSprite("target", targetShade);
       setTarget(targets[0]);
     }
 
     override void update(float time) {
       _view.update(time);
-      _target.update(time);
       if (_input.confirm) {
         if (_targets.front.type == typeid(Battler)) {
           auto series = constructAttackSeries(_attack, _counter);
@@ -890,7 +889,7 @@ class Battle : GameState {
         auto obj = _targets.front.get!TileObject;
         pos = _map.tileCoordToPos(obj.row, obj.col);
       }
-      _target.draw(pos - _camera.topLeft);
+      _targetSprite.draw(pos - _camera.topLeft);
       _view.draw(_input.gamepadConnected);
     }
 
@@ -902,7 +901,6 @@ class Battle : GameState {
     Tile _attackTerrain, _defendTerrain;
     CombatPrediction _attack, _counter;
     CombatView _view;
-    AnimatedSprite _target;
 
     void setTarget(Variant target) {
       if (target.type == typeid(Battler)) {
@@ -957,6 +955,7 @@ class Battle : GameState {
 
     override void draw() {
       _menu.draw();
+      _targetSprite.draw(_targets.front.pos);
     }
 
     private:
@@ -998,7 +997,7 @@ class Battle : GameState {
         auto newTarget = _targets.reverse;
         setTarget(newTarget);
       }
-      else if (_input.selectLeft) {
+      else if (_input.selectRight) {
         _targets.front.hideInfoBox;
         auto newTarget = _targets.advance;
         setTarget(newTarget);
@@ -1014,6 +1013,7 @@ class Battle : GameState {
 
     override void draw() {
       _magicMenu.draw();
+      _targetSprite.draw(_targets.front.pos - _camera.topLeft);
     }
 
     private:
@@ -1529,6 +1529,7 @@ class Battle : GameState {
     override void draw() {
       _traderMenu.draw();
       _otherMenu.draw();
+      _targetSprite.draw(_others.front.pos - _camera.topLeft);
     }
 
     private:
