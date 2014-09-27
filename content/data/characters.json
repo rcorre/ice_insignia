@@ -18,8 +18,8 @@
       "axe1",
       "sword2",
       "armor1",
-      "axe2",
-      "sword3"
+      "sword3",
+      "axe2"
     ],
     "names" : ["William", "Cecil", "Foltest", "Roderick", "Markham", "Doralingus", "Vyse"]
   },
@@ -43,7 +43,6 @@
       "fortitude",
       "axe2",
       "berserk",
-      "armor1",
       "axe3"
     ],
     "names" : ["Hector", "Golbez", "Zoltan", "Frunkwad", "Dorcas"]
@@ -68,8 +67,8 @@
       "armor1",
       "lance2",
       "armor2",
-      "sword1",
-      "lance3"
+      "lance3",
+      "fortitude"
     ],
     "names" : ["Marcus", "Cid", "Oswin"]
   },
@@ -265,9 +264,9 @@
     "talentKeys" : [
       "sword1",
       "sword2",
+      "precision",
       "sword3",
       "armor1",
-      "precision",
       "fortitude"
     ],
     "names" : ["Guy"]
