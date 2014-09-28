@@ -27,10 +27,12 @@ class LevelUpView : CharacterSheet {
   {
     super(topLeft, battler, true);
     _bonuses = bonuses;
-    _attributesToLevel = array([EnumMembers!Attribute]
-        .filter!(a => bonuses[a] != 0 || potentials[a] != 0));
+    _attributesToLevel = array([EnumMembers!Attribute].filter!(a => bonuses[a] != 0));
     _bonusText = array(_attributesToLevel.map!(a => format("%+d", bonuses[a])));
-    _potentials = potentials;
+    foreach(attribute ; EnumMembers!Attribute) {
+      auto potentialBar = potentialBarFor(attribute);
+      potentialBar.transition(potentialBar.val + potentials[attribute], potentialTransitionSpeed);
+    }
   }
 
   @property {
@@ -67,8 +69,6 @@ class LevelUpView : CharacterSheet {
     auto sprite = new AnimatedSprite(animationName, &endAnimation);
     _arrowAnimations ~= sprite;
     sprite.tint = _bonuses[attribute] > 0 ? Color.green : Color.red;
-    auto potentialBar = potentialBarFor(attribute);
-    potentialBar.transition(potentialBar.val + _potentials[attribute], potentialTransitionSpeed);
     playSound("statUp");
   }
 
@@ -85,7 +85,7 @@ class LevelUpView : CharacterSheet {
   }
 
   private:
-  AttributeSet _bonuses, _potentials;
+  AttributeSet _bonuses;
   Attribute[] _attributesToLevel;
   AnimatedSprite[] _arrowAnimations;
   string[] _bonusText;

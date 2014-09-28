@@ -12,6 +12,7 @@ import gui.all;
 import model.character;
 import model.item;
 import model.attackable;
+import model.talent;
 import tilemap.object;
 
 private enum {
@@ -249,6 +250,11 @@ class Battler : Attackable {
   bool canWieldMagic(Item item) {
     return item !is null && item.type == ItemType.magic &&
       talents.canFind!(a => a.weaponSkill == ItemType.magic && a.weaponTier >= item.tier);
+  }
+
+  void addTalent(Talent t) {
+    character.addTalent(t);
+    _sprite = new CharacterSprite(this);
   }
 
   const BattleTeam team;
