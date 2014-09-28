@@ -88,6 +88,7 @@ class SaveData {
           break;
         default:
       }
+      recruit.addItem(new Item("poultice"));
       forHire ~= recruit;
     }
   }
