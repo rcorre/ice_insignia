@@ -69,19 +69,22 @@ class SaveData {
       auto recruit = generateCharacter(model, level);
       switch(recruit.talents.front.key) {
         case "sword1":
-          recruit.addItem(new Item("dirk"));
+          recruit.addItem(new Item("dagger"));
           break;
         case "lance1":
-          recruit.addItem(new Item("quarterstaff"));
+          recruit.addItem(new Item("shortstaff"));
           break;
         case "axe1":
-          recruit.addItem(new Item("mace"));
+          recruit.addItem(new Item("hatchet"));
+          break;
+        case "bow1":
+          recruit.addItem(new Item("crudebow"));
           break;
         case "magic1":
-          recruit.addItem(new Item("heal"));
+          recruit.addItem(new Item("aid"));
           break;
         case "theft":
-          recruit.addItem(new Item("lockpick"));
+          recruit.addItem(new Item("lockpick", false, 3));
           break;
         default:
       }

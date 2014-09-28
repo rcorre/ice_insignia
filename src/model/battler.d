@@ -37,8 +37,8 @@ enum BattleTeam {
 class Battler : Attackable {
   alias character this;
 
-  this(Character c, int row, int col, Vector2i pos, BattleTeam team, 
-      string aiType = "agressive", bool isBoss = false) 
+  this(Character c, int row, int col, Vector2i pos, BattleTeam team,
+      string aiType = "agressive", bool isBoss = false)
   {
     character = c;
     _row = row;

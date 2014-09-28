@@ -1,4 +1,69 @@
 {
+  "dagger": {
+    "name"     : "Dagger",
+    "type"     : "sword",
+    "maxUses"  : 20,
+    "damage"   : 3,
+    "hit"      : 85,
+    "crit"     : 0,
+    "minRange" : 1,
+    "maxRange" : 1,
+    "weight"   : 2,
+    "price"    : 50
+  },
+
+  "hatchet": {
+    "name"     : "Hatchet",
+    "type"     : "axe",
+    "maxUses"  : 20,
+    "damage"   : 4,
+    "hit"      : 80,
+    "crit"     : 0,
+    "minRange" : 1,
+    "maxRange" : 1,
+    "weight"   : 4,
+    "price"    : 50
+  },
+
+  "shortstaff": {
+    "name"     : "Short Staff",
+    "type"     : "lance",
+    "maxUses"  : 20,
+    "damage"   : 3,
+    "hit"      : 85,
+    "crit"     : 0,
+    "minRange" : 1,
+    "maxRange" : 1,
+    "weight"   : 2,
+    "price"    : 50
+  },
+
+  "crudebow": {
+    "name"     : "Crude Bow",
+    "type"     : "bow",
+    "maxUses"  : 20,
+    "damage"   : 4,
+    "hit"      : 70,
+    "crit"     : 0,
+    "minRange" : 2,
+    "maxRange" : 2,
+    "weight"   : 3,
+    "price"    : 50
+  },
+
+  "aid": {
+    "name"     : "Aid",
+    "type"     : "magic",
+    "text"     : "Minor healing",
+    "maxUses"  : 10,
+    "minRange" : 1,
+    "maxRange" : 1,
+    "price"    : 150,
+    "heal"     : 5,
+    "useOnAlly": true,
+    "tier"     : 1
+  },
+
   "dirk": {
     "name"     : "Dirk",
     "type"     : "sword",
@@ -462,12 +527,12 @@
   "heal": {
     "name"     : "Heal",
     "type"     : "magic",
-    "text"     : "Minor healing",
+    "text"     : "Major healing",
     "maxUses"  : 25,
     "minRange" : 1,
     "maxRange" : 1,
     "price"    : 150,
-    "heal"     : 8,
+    "heal"     : 10,
     "useOnAlly": true,
     "tier"     : 1
   },
@@ -503,12 +568,12 @@
   "cure": {
     "name"     : "Cure",
     "type"     : "magic",
-    "text"     : "Major healing",
+    "text"     : "Critical healing",
     "maxUses"  : 15,
     "minRange" : 1,
     "maxRange" : 1,
     "price"    : 300,
-    "heal"     : 18,
+    "heal"     : 20,
     "useOnAlly": true,
     "tier"     : 2
   },
@@ -532,7 +597,7 @@
   "respite": {
     "name"     : "Respite",
     "type"     : "magic",
-    "text"     : "Distance healing",
+    "text"     : "Ranged healing",
     "maxUses"  : 10,
     "minRange" : 1,
     "maxRange" : 5,
