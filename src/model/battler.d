@@ -16,15 +16,16 @@ import model.talent;
 import tilemap.object;
 
 private enum {
-  movedTint = Color(0.6,0.6,0.6,0.9),
-  damageFlashTime = 0.22,/// duration of flash used to indicate damage
-  fadeTime = 0.5,/// duration of flash used to indicate damage
+  movedTint        = Color(0.6,0.6,0.6,0.9),
+  damageFlashTime  = 0.22, /// duration of flash used to indicate damage
+  fadeTime         = 0.5,  /// duration of flash used to indicate damage
   damageFlashColor = Color(0.5, 0, 0),
-  fadeSpectrum = [Color.red, Color.clear],
-  healFlashColor = Color(0.0, 1.0, 0),
-  healFlashTime = 0.42,
+  fadeSpectrum     = [Color.red, Color.clear],
+  healFlashColor   = Color(0.0, 1.0, 0),
+  healFlashTime    = 0.42,
   hpTransitionRate = 20,
   xpTransitionRate = 80,
+  fortitudeRegen   = 2 /// health restored per turn by fortitude
 }
 
 enum BattleTeam {
@@ -178,6 +179,9 @@ class Battler : Attackable {
 
   void passTurn() {
     moved = false;
+    if (hasTalent("fortitude")) {
+      heal(fortitudeRegen);
+    }
     character.passTurn();
   }
 
