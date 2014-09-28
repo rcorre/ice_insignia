@@ -3,3 +3,4 @@ obj
 bin
 doc/*.html
 save/*
+*.mmpz.bak
