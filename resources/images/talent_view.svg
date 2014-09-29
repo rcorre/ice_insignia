@@ -9,15 +9,15 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="202.65164"
-   height="193.73262"
+   width="202.625"
+   height="97.78125"
    id="svg2"
    version="1.1"
    inkscape:version="0.48.5 r10040"
    sodipodi:docname="talent_view.svg"
    inkscape:export-filename="/home/erethar/project/ice_insignia/content/image/talent_view.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   inkscape:export-xdpi="180.40268"
+   inkscape:export-ydpi="180.40268">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -27,9 +27,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.0742188"
-     inkscape:cx="-51.429989"
-     inkscape:cy="131.9431"
+     inkscape:zoom="3.167998"
+     inkscape:cx="101.3125"
+     inkscape:cy="0.90986988"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -52,8 +52,8 @@
        snapvisiblegridlinesonly="true"
        spacingx="8px"
        spacingy="8px"
-       originx="1.3258253px"
-       originy="64.406764px" />
+       originx="1.3125px"
+       originy="-31.549676px" />
   </sodipodi:namedview>
   <metadata
      id="metadata7">
@@ -71,22 +71,22 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(1.3258253,-923.03632)">
+     transform="translate(1.3125,-923.03125)">
     <rect
-       style="opacity:0.8;fill:#ffffff;stroke:#28170b;stroke-width:4.28367901;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       style="opacity:0.8;fill:#ffffff;stroke:#28170b;stroke-width:3.03866673;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
        id="rect2987"
-       width="198.36797"
-       height="189.44894"
-       x="0.81601423"
-       y="925.17816"
-       ry="23.68112" />
+       width="199.61298"
+       height="94.734299"
+       x="0.19350809"
+       y="924.55566"
+       ry="11.841788" />
   </g>
   <g
      inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="overlay"
      style="display:none"
-     transform="translate(7.3990631e-8,3.7883148e-5)">
+     transform="translate(-0.01332523,0.00510788)">
     <text
        transform="translate(1.3258252,-923.03636)"
        xml:space="preserve"

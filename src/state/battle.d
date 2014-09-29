@@ -59,6 +59,8 @@ private enum {
   selectIconOffset = Vector2i(16, 20),
 
   targetShade = Color.red,
+  menuIconPos = cast(Vector2i) Vector2f(Settings.screenW * 0.3, Settings.screenH * 0.98f),
+  fastIconPos = cast(Vector2i) Vector2f(Settings.screenW * 0.6, Settings.screenH * 0.98f),
 }
 
 class Battle : GameState {
@@ -343,16 +345,15 @@ class Battle : GameState {
       }
       auto battler = _tileCursor.battler;
       auto pos = cast(Vector2i) _tileCursor.pos - _camera.topLeft + inspectIconOffset;
-      if (battler is null) {
-        drawInputIcon("start", pos, _input.gamepadConnected, "  Menu");
-      }
-      else {
+      if (battler !is null) {
         drawInputIcon("inspect", pos, _input.gamepadConnected, "inspect");
         if (battler.team == BattleTeam.ally) {
           pos = cast(Vector2i) _tileCursor.pos - _camera.topLeft + selectIconOffset;
           drawInputIcon("confirm", pos, _input.gamepadConnected, "select");
         }
       }
+      drawInputIcon("start", menuIconPos, _input.gamepadConnected, "  menu");
+      drawInputIcon("cancel", fastIconPos, _input.gamepadConnected, " faster");
     }
 
     private:
