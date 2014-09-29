@@ -1703,6 +1703,11 @@ class Battle : GameState {
   }
 
   class ConsiderSkip : State {
+    private enum {
+      confirmOffset = Vector2i(-24, 20),
+      cancelOffset = Vector2i(-24, 40),
+    }
+
     this() {
       _notification = new Notification(screenCenter, "Skip Turn?");
     }
@@ -1721,6 +1726,8 @@ class Battle : GameState {
 
     override void draw() {
       _notification.draw();
+      drawInputIcon("confirm", screenCenter + confirmOffset, _input.gamepadConnected, "confirm");
+      drawInputIcon("cancel", screenCenter + cancelOffset, _input.gamepadConnected, "cancel");
     }
 
     private:

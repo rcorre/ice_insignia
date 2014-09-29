@@ -5,7 +5,7 @@ import graphics.all;
 
 private enum {
   bgColor = Color(0, 0, 0.9, 0.6),
-  textColor = Color(0.9, 0.9, 0.9),
+  textColor = Color.black,
 }
 
 class Notification {
