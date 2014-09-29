@@ -201,7 +201,9 @@ class Battler : Attackable {
     amount = amount.clamp(0, maxHp - _hp);
     if (amount > 0) {
       _sprite.flash(healFlashTime, healFlashColor);
-      _infoBox.healthBar.transition(_hp, _hp + amount, hpTransitionRate);
+      if (_infoBox !is null) {
+        _infoBox.healthBar.transition(_hp, _hp + amount, hpTransitionRate);
+      }
     }
     _hp += amount;
   }

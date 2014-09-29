@@ -73,11 +73,11 @@ class RosterView : GUIContainer {
         _menu.draw();
       }
       _goldFont.draw(format("%dG", _data.gold), bounds.topLeft + goldOffset);
-      if (_itemView) {
-        _itemView.draw;
-      }
       if (_inventoryMenu) {
         _inventoryMenu.draw;
+      }
+      if (_itemView) {
+        _itemView.draw;
       }
     }
 
