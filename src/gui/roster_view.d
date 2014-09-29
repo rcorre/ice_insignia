@@ -28,7 +28,7 @@ private enum {
   characterSheetPos = Vector2i(288, 57),
   hireCostPerLevel = 200,
   inventoryPos = Vector2i(360, 177),
-  itemInfoOffset = Vector2i(-100, 0),
+  itemInfoOffset = Vector2i(85, -70),
 }
 
 class RosterView : GUIContainer {
@@ -43,7 +43,7 @@ class RosterView : GUIContainer {
         slotPos.x = recruitStartPos.x;
         slotPos.y += rosterSpacingY;
       }
-      addElement(new RosterSlot(slotPos, character, &selectRecruit, &rosterHover));
+      addElement(new RosterSlot(slotPos, character, &selectRecruit, &recruitHover));
       slotPos.x += rosterSpacingX;
     }
   }
@@ -83,6 +83,18 @@ class RosterView : GUIContainer {
 
     bool handleInput(InputManager input) {
       final switch(_state) with (State) {
+        case viewInventory:
+          if (input.cancel) {
+            _state = State.viewRoster;
+            showCursor = true;
+            _characterSheet.mode = CharacterSheet.Mode.idle;
+            _itemView = null;
+          }
+          else if (input.selectDown || input.selectUp) {
+            _characterSheet.handleInput(input);
+          }
+          break;
+
         case editInventory:
           if (input.cancel) {
             _state = State.viewRoster;
@@ -173,6 +185,17 @@ class RosterView : GUIContainer {
   void rosterHover(Character character) {
     if (character) {
       _characterSheet = new CharacterSheet(characterSheetPos, character, true, &takeItem);
+      _characterSheet.regenerateInventoryMenu(&takeItem, &itemHover);
+    }
+    else {
+      _characterSheet = null;
+    }
+  }
+
+  void recruitHover(Character character) {
+    if (character) {
+      _characterSheet = new CharacterSheet(characterSheetPos, character, true, null);
+      _characterSheet.regenerateInventoryMenu(null, &itemHover);
     }
     else {
       _characterSheet = null;
@@ -180,7 +203,17 @@ class RosterView : GUIContainer {
   }
 
   void recruitCommand(string cmd) {
-    if (cmd != "cancel") { // other command is recruit
+    if (cmd == "talents") {
+      _state = State.editTalents;
+      _characterSheet.mode = CharacterSheet.Mode.editTalents;
+      showCursor = false;
+    }
+    else if (cmd == "equipment") {
+      _state = State.viewInventory;
+      showCursor = false;
+      _characterSheet.mode = CharacterSheet.Mode.editInventory;
+    }
+    else if (cmd != "cancel") { // other command is recruit
       auto slot = cast(RosterSlot) selectedElement;
       auto character = slot.character;
       auto cost = character.level * hireCostPerLevel;
@@ -207,7 +240,12 @@ class RosterView : GUIContainer {
   void selectRecruit(Character character) {
     if (character) {
       auto pos = selectedElement.bounds.center;
-      auto selections = [format("recruit (%dG)", character.level * hireCostPerLevel), "cancel"];
+      auto selections = [
+        format("recruit (%dG)", character.level * hireCostPerLevel), 
+        "equipment",
+        "talents",
+        "cancel"
+      ];
       _menu = new StringMenu(pos, selections, &recruitCommand, &slotHover);
     }
   }
@@ -221,7 +259,7 @@ class RosterView : GUIContainer {
     if (itemIdx >= 0) {
       if (character.addItem(item)) {
         _data.items[itemIdx] = null;
-        _characterSheet.regenerateInventoryMenu(&takeItem);
+        _characterSheet.regenerateInventoryMenu(&takeItem, &itemHover);
         saveGame(_data);
       }
     }
@@ -239,7 +277,8 @@ class RosterView : GUIContainer {
       if (hadRoom) {
         character.itemAt(itemIdx) = null;
         assert(&takeItem !is null);
-        _characterSheet.regenerateInventoryMenu(&takeItem);
+        _characterSheet.regenerateInventoryMenu(&takeItem, &itemHover);
+        _characterSheet.mode = CharacterSheet.Mode.editInventory;
         saveGame(_data);
       }
     }
@@ -258,6 +297,7 @@ RosterSlot[] _rosterSlots;
 
 enum State {
   viewRoster,
+  viewInventory,
   editInventory,
   editTalents
 }

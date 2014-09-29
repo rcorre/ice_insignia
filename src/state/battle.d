@@ -514,6 +514,10 @@ class Battle : GameState {
       if (!door.empty) {
         _doorTile = _map.tileAt(door.front.row, door.front.col);
       }
+      auto banner = cast(Banner) currentTile.object;
+      if (banner !is null && banner.team != _battler.team) { // is there a banner to be seized?
+        _bannerTile = currentTile;
+      }
       auto neighbors = _map.neighbors(currentTile);
       _adjacentAllies = array(_map.neighbors(currentTile).map!(a => a.battler)
           .filter!(a => a !is null && a.team == BattleTeam.ally));
@@ -521,10 +525,6 @@ class Battle : GameState {
       auto selectPos = _battler.pos - _camera.topLeft - Vector2i(50, 50);
       _selectionView = new StringMenu(selectPos, getActions(), &handleSelection);
       _selectionView.keepInside(Rect2i(0, 0, _camera.width, _camera.height));
-      auto banner = cast(Banner) currentTile.object;
-      if (banner !is null && banner.team != _battler.team) { // is there a banner to be seized?
-        _bannerTile = currentTile;
-      }
     }
 
     override void update(float time) {
