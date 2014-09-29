@@ -9,8 +9,8 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="202.65166"
-   height="74.651649"
+   width="202.65164"
+   height="193.73262"
    id="svg2"
    version="1.1"
    inkscape:version="0.48.5 r10040"
@@ -28,14 +28,14 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="2.0742188"
-     inkscape:cx="41.858144"
-     inkscape:cy="-7.8685315"
+     inkscape:cx="-51.429989"
+     inkscape:cy="131.9431"
      inkscape:document-units="px"
-     inkscape:current-layer="svg2"
+     inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:snap-global="false"
-     inkscape:window-width="958"
-     inkscape:window-height="1059"
+     inkscape:window-width="1598"
+     inkscape:window-height="879"
      inkscape:window-x="0"
      inkscape:window-y="19"
      inkscape:window-maximized="0"
@@ -52,8 +52,8 @@
        snapvisiblegridlinesonly="true"
        spacingx="8px"
        spacingy="8px"
-       originx="1.3258252px"
-       originy="-54.674172px" />
+       originx="1.3258253px"
+       originy="64.406764px" />
   </sodipodi:namedview>
   <metadata
      id="metadata7">
@@ -71,21 +71,22 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(1.3258252,-923.03636)">
+     transform="translate(1.3258253,-923.03632)">
     <rect
-       style="opacity:0.80000000000000004;fill:#e9c6af;stroke:#28170b;stroke-width:2.65165043000000011;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       style="opacity:0.8;fill:#ffffff;stroke:#28170b;stroke-width:4.28367901;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
        id="rect2987"
-       width="200"
-       height="72"
-       x="0"
-       y="924.36218"
-       ry="9" />
+       width="198.36797"
+       height="189.44894"
+       x="0.81601423"
+       y="925.17816"
+       ry="23.68112" />
   </g>
   <g
      inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="overlay"
-     style="display:inline">
+     style="display:none"
+     transform="translate(7.3990631e-8,3.7883148e-5)">
     <text
        transform="translate(1.3258252,-923.03636)"
        xml:space="preserve"
@@ -121,10 +122,4 @@
        id="rect3031"
        style="opacity:0.8;fill:none;stroke:#28170b;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
   </g>
-  <path
-     style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-     d="M -0.48210922,-0.55738826 17.838041,52.474625"
-     id="path3045"
-     inkscape:connector-curvature="0"
-     sodipodi:nodetypes="cc" />
 </svg>

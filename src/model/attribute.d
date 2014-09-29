@@ -25,3 +25,18 @@ enum AttributeCaps = [
   Attribute.move         : 10,
   Attribute.constitution : 15,
 ];
+
+enum AttributeAbbreviation = [
+  Attribute.maxHp        : "HP",
+  Attribute.strength     : "str",
+  Attribute.skill        : "skl",
+  Attribute.speed        : "spd",
+  Attribute.luck         : "lck",
+  Attribute.defense      : "def",
+  Attribute.move         : "mov",
+  Attribute.constitution : "con",
+];
+
+string abbreviation(Attribute att) {
+  return AttributeAbbreviation[att];
+}
