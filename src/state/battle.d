@@ -86,7 +86,7 @@ class Battle : GameState {
     _objective = levelData.objective;
     _victoryCounter = levelData.victoryValue;
     pushState(new PlayerTurn);
-    playBgMusic("battle1");
+    playBgMusic("battle");
     _walkSound = new SoundSample("walk");
     _xpSound = new SoundSample("experience");
     _targetSprite = new AnimatedSprite("target", targetShade);
