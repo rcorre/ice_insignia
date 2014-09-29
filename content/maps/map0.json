@@ -154,7 +154,7 @@
                  "properties":
                     {
                      "dropitem":"doorkey",
-                     "item0":"quarterstaff"
+                     "item0":"shortstaff"
                     },
                  "rotation":0,
                  "type":"1",
@@ -169,7 +169,7 @@
                  "name":"fighter",
                  "properties":
                     {
-                     "item0":"mace"
+                     "item0":"hatchet"
                     },
                  "rotation":0,
                  "type":"1",
@@ -185,7 +185,7 @@
                  "properties":
                     {
                      "dropitem":"poultice",
-                     "item0":"dirk"
+                     "item0":"dagger"
                     },
                  "rotation":0,
                  "type":"1",

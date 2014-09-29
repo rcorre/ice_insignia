@@ -987,18 +987,18 @@
   <object name="soldier" type="1" gid="108" x="416" y="192">
    <properties>
     <property name="dropitem" value="doorkey"/>
-    <property name="item0" value="quarterstaff"/>
+    <property name="item0" value="shortstaff"/>
    </properties>
   </object>
   <object name="fighter" type="1" gid="102" x="320" y="192">
    <properties>
-    <property name="item0" value="mace"/>
+    <property name="item0" value="hatchet"/>
    </properties>
   </object>
   <object name="mercenary" type="1" gid="114" x="0" y="320">
    <properties>
     <property name="dropitem" value="poultice"/>
-    <property name="item0" value="dirk"/>
+    <property name="item0" value="dagger"/>
    </properties>
   </object>
   <object name="hunter" type="2" gid="120" x="192" y="160">
