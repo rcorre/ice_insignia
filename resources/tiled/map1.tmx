@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="26" height="26" tilewidth="32" tileheight="32">
+ <properties>
+  <property name="objective" value="defeatBoss"/>
+ </properties>
  <tileset firstgid="1" source="terrain.tsx"/>
  <tileset firstgid="101" name="units" tilewidth="32" tileheight="32">
   <image source="../../content/image/units_red.png" width="192" height="224"/>

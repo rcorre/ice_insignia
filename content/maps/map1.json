@@ -24,19 +24,19 @@
         }, 
         {
          "draworder":"topdown",
-         "height":26,
+         "height":0,
          "name":"Allies",
          "objects":[],
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
-         "width":26,
+         "width":0,
          "x":0,
          "y":0
         }, 
         {
          "draworder":"topdown",
-         "height":26,
+         "height":0,
          "name":"Enemies",
          "objects":[
                 {
@@ -222,13 +222,13 @@
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
-         "width":26,
+         "width":0,
          "x":0,
          "y":0
         }, 
         {
          "draworder":"topdown",
-         "height":26,
+         "height":0,
          "name":"Objects",
          "objects":[
                 {
@@ -324,21 +324,21 @@
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
-         "width":26,
+         "width":0,
          "x":0,
          "y":0
         }],
  "orientation":"orthogonal",
  "properties":
     {
-
+     "objective":"defeatBoss"
     },
  "renderorder":"right-down",
  "tileheight":32,
  "tilesets":[
         {
          "firstgid":1,
-         "image":"..\/image\/terrain.png",
+         "image":"..\/..\/..\/..\/..\/..\/data\/project\/ice_insignia\/content\/image\/terrain.png",
          "imageheight":320,
          "imagewidth":320,
          "margin":0,
@@ -563,7 +563,7 @@
         }, 
         {
          "firstgid":101,
-         "image":"..\/image\/units_red.png",
+         "image":"..\/..\/..\/..\/..\/..\/data\/project\/ice_insignia\/content\/image\/units_red.png",
          "imageheight":224,
          "imagewidth":192,
          "margin":0,

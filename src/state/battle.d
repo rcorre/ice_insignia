@@ -93,6 +93,7 @@ class Battle : GameState {
     _walkSound = new SoundSample("walk");
     _xpSound = new SoundSample("experience");
     _targetSprite = new AnimatedSprite("target", targetShade);
+    _goldReward = levelData.goldReward;
   }
 
   override GameState update(float time) {
@@ -129,6 +130,9 @@ class Battle : GameState {
   }
 
   void endBattle(bool victory) {
+    if (victory) {
+      _saveData.gold += _goldReward;
+    }
     _nextState = new Preparation(_saveData, victory);
   }
 
@@ -184,6 +188,7 @@ class Battle : GameState {
   SoundSample _walkSound, _xpSound;
   int _victoryCounter;
   AnimatedSprite _targetSprite;
+  int _goldReward;
 
   // state management
   @property auto currentState() { return _stateStack.front; }
