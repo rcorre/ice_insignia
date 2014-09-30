@@ -21,7 +21,7 @@ enum {
 private enum {
   saveDir = "save",
   fileFormat = "%s/save%d.json",
-  startingGold = 1000,
+  startingGold = 800,
 }
 
 class SaveData {

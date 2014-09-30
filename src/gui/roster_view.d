@@ -26,7 +26,6 @@ private enum {
   numRecruitCols = 3,
   cursorShade = Color(0, 0, 0.5, 0.8),
   characterSheetPos = Vector2i(288, 57),
-  hireCostPerLevel = 200,
   inventoryPos = Vector2i(360, 177),
   itemInfoOffset = Vector2i(85, -70),
 }
@@ -216,13 +215,12 @@ class RosterView : GUIContainer {
     else if (cmd != "cancel") { // other command is recruit
       auto slot = cast(RosterSlot) selectedElement;
       auto character = slot.character;
-      auto cost = character.level * hireCostPerLevel;
-      if (cost <= _data.gold) {
+      if (character.hireCost <= _data.gold) {
         slot.character = null;
         // add character to roster
         _data.roster ~= character;
         generateRoster;
-        _data.gold -= cost;
+        _data.gold -= character.hireCost;
         saveGame(_data);
         _characterSheet = null;
       }
@@ -241,7 +239,7 @@ class RosterView : GUIContainer {
     if (character) {
       auto pos = selectedElement.bounds.center;
       auto selections = [
-        format("recruit (%dG)", character.level * hireCostPerLevel), 
+        format("recruit (%dG)", character.hireCost), 
         "equipment",
         "talents",
         "cancel"

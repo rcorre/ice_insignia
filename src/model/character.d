@@ -25,7 +25,9 @@ private enum {
     "luck"         : 35,
     "move"         : 0,
     "constitution" : 20
-  ]
+  ],
+  baseHireCost = 100,
+  hireCostPerLevel = 50,
 }
 
 class Character {
@@ -72,6 +74,8 @@ class Character {
       auto items() { return _items; }
       auto talentKeys() { return array(_talents.map!"a.key"); }
     }
+
+    int hireCost() { return baseHireCost + _level * hireCostPerLevel; }
 
     auto talents() { return _talents; }
 
