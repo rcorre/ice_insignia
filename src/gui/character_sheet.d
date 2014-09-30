@@ -16,7 +16,7 @@ protected enum {
   textureName        = "character_view",
   spritePos          = Vector2i(51, 51),
   namePos            = Vector2i(81, 40),
-  lvlPos             = Vector2i(260, 38),
+  lvlPos             = Vector2i(260, 40),
   hpBarPos           = Vector2i(71, 106),
   hpBarWidth         = 96,
   hpBarHeight        = 16,
@@ -43,7 +43,7 @@ protected enum {
   equipmentSep       = 32,
   talentPos         = Vector2i(350, 100),
   talentsSep         = 32,
-  combatStatsPos     = Vector2i(271, 125),
+  combatStatsPos     = Vector2i(271, 120),
   combatStatsSep     = 32
 }
 
