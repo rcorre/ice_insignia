@@ -169,11 +169,11 @@ class WallCombatView : CombatView {
     _font.draw(_attacker.attackHit           , offset + leftOffsetHit);
     _font.draw(_attacker.attackCrit          , offset + leftOffsetCrit);
 
-    _font.draw(_wall.name , offset + rightOffsetName       + spacing);
-    _font.draw("none"     , offset + rightOffsetWeaponName + spacing);
-    _font.draw(0          , offset + rightOffsetDamage     + spacing);
-    _font.draw(0          , offset + rightOffsetHit        + spacing);
-    _font.draw(0          , offset + rightOffsetCrit       + spacing);
+    _font.draw(_wall.name , offset + rightOffsetName      );
+    _font.draw("none"     , offset + rightOffsetWeaponName);
+    _font.draw(0          , offset + rightOffsetDamage    );
+    _font.draw(0          , offset + rightOffsetHit       );
+    _font.draw(0          , offset + rightOffsetCrit      );
   }
 
   private:

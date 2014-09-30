@@ -957,7 +957,7 @@ class Battle : GameState {
         _itemChoices = bicycle(_attacker.weaponOptions(target.get!Battler));
       }
       else {
-        _itemChoices = bicycle(_attacker.weaponOptions(target.get!Wall));
+        _itemChoices = bicycle(_attacker.weaponOptions(cast(Wall) target.get!TileObject));
       }
     }
   }
@@ -1744,6 +1744,7 @@ class Battle : GameState {
     override void update(float time) {
       if (_input.confirm) {
         if (_awardStarted) {
+          stopAllSounds();
           endBattle(_victory);
         }
         else {

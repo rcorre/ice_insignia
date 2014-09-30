@@ -18,6 +18,10 @@ void playSound(string key) {
   sample.play();
 }
 
+void stopAllSounds() {
+  al_stop_samples();
+}
+
 class SoundSample {
   this(string key) {
     assert(key in _soundData.entries, "could not find sound data for " ~ key);
