@@ -864,7 +864,7 @@ class Battle : GameState {
       _targets = bicycle(targets);
       _attackTerrain = _map.tileAt(attacker.row, attacker.col);
       setTarget(targets[0]);
-      _itemChoices = bicycle(_attacker.weaponOptions(targets[0].get!Attackable));
+      setWeaponOptions(targets[0]);
     }
 
     override void update(float time) {
@@ -883,12 +883,12 @@ class Battle : GameState {
       else if (_input.selectLeft) {
         auto target = _targets.advance;
         setTarget(target);
-        _itemChoices = bicycle(_attacker.weaponOptions(target.get!Attackable));
+        setWeaponOptions(target);
       }
       else if (_input.selectRight) {
         auto target = _targets.advance;
         setTarget(target);
-        _itemChoices = bicycle(_attacker.weaponOptions(target.get!Attackable));
+        setWeaponOptions(target);
       }
       else if (_input.next) {
         _attacker.equippedWeapon = _itemChoices.advance;
@@ -940,7 +940,6 @@ class Battle : GameState {
       _tileCursor.place(_map.tileAt(target.row, target.col));
       auto pos = _map.tileCoordToPos(target.row, target.col);
       _view = new WallCombatView(pos - _camera.topLeft, _attacker, target);
-      _itemChoices = bicycle(_attacker.weaponOptions(target));
     }
 
     void setBattlerTarget(Battler target) {
@@ -951,6 +950,15 @@ class Battle : GameState {
       _counter = new CombatPrediction(defender, _attacker, _attackTerrain, true);
       _view = new BattlerCombatView(defender.pos - _camera.topLeft, _attack, _counter);
       _tileCursor.place(_defendTerrain);
+    }
+
+    void setWeaponOptions(Variant target) {
+      if (target.type == typeid(Battler)) {
+        _itemChoices = bicycle(_attacker.weaponOptions(target.get!Battler));
+      }
+      else {
+        _itemChoices = bicycle(_attacker.weaponOptions(target.get!Wall));
+      }
     }
   }
 
