@@ -632,7 +632,7 @@ class Battle : GameState {
           _requestedState = new OpenChest(_battler);
           break;
         case "Seize":
-          _requestedState = new OpenChest(_battler);
+          _requestedState = new SeizeBanner(_battler, _bannerTile);
           break;
         case "Door":
           _requestedState = new OpenDoor(_battler, _doorTile);
@@ -1684,6 +1684,26 @@ class Battle : GameState {
     private:
     Battler _battler;
     AI _behavior;
+  }
+
+  class SeizeBanner : State {
+    this(Battler battler, Tile bannerTile) {
+      _battler = battler;
+      _banner = cast(Banner) bannerTile.object;
+      assert(_banner !is null, "SeizeBanner did not get a banner");
+    }
+
+    override void onStart() {
+      _banner.team = BattleTeam.ally;
+    }
+
+    override void update(float time) {
+      setState(new PlayerTurn);
+    }
+
+    private:
+    Battler _battler;
+    Banner _banner;
   }
 
   class BattleOver : State {

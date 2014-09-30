@@ -101,16 +101,22 @@ class Door : TileObject {
 class Banner : TileObject {
   this(BattleTeam team, int row, int col) {
     auto sprite = new Sprite(team == BattleTeam.ally ? "bannerBlue" : "bannerRed");
-    this.team = team;
+    _team = team;
     super(sprite, row, col);
   }
-
-  BattleTeam team;
 
   @property {
     override bool impassable() { return false; }
     override string name() { return "Banner"; }
+
+    BattleTeam team() { return _team; }
+    void team(BattleTeam val) {
+      _team = val;
+      _sprite = new Sprite(_team == BattleTeam.ally ? "bannerRed" : "bannerBlue");
+    }
   }
+
+  private BattleTeam _team;
 }
 
 class Pedestal : TileObject {
