@@ -26,20 +26,22 @@ class TalentView {
     _area = Rect2i(topLeft, _texture.width, _texture.height);
     auto pos = bonusOffset;
     foreach(att ; EnumMembers!Attribute) {
-      BonusText text;
-      if (_talent.potential[att] > 0) {
-        text.text = att.abbreviation ~ " +";
-        text.color = bonusColor;
+      if (_talent.potential[att] != 0) {
+        BonusText text;
+        if (_talent.potential[att] > 0) {
+          text.text = att.abbreviation ~ " +";
+          text.color = bonusColor;
+        }
+        else if (_talent.potential[att] < 0) {
+          text.text = att.abbreviation ~ " -";
+          text.color = penaltyColor;
+        }
+        text.pos = pos;
+        auto height = _bonusFont.heightOf(text.text);
+        pos.y += height;
+        //_area.height += height;
+        _bonusInfo ~= text;
       }
-      else if (_talent.potential[att] < 0) {
-        text.text = att.abbreviation ~ " -";
-        text.color = penaltyColor;
-      }
-      text.pos = pos;
-      auto height = _bonusFont.heightOf(text.text);
-      pos.y += height;
-      //_area.height += height;
-      _bonusInfo ~= text;
     }
     //_scale = Vector2f(1f, _area.height / _texture.height);
     _scale = Vector2f(1f, 1f);
