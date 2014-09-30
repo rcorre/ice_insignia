@@ -1719,7 +1719,7 @@ class Battle : GameState {
     }
 
     override void draw() {
-      _splash.draw(Vector2i.Zero);
+      _splash.draw(screenCenter);
     }
 
     private:
