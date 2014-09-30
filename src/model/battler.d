@@ -79,7 +79,9 @@ class Battler : Attackable {
     }
     void equippedWeapon(Item item) {
       character.equippedWeapon = item;
+      auto tint = _sprite.tint; // preserve tint
       _sprite = new CharacterSprite(character, team);
+      _sprite.tint = tint;
     }
 
     BattlerInfoBox infoBox() { return _infoBox; }
@@ -260,7 +262,9 @@ class Battler : Attackable {
 
   void addTalent(Talent t) {
     character.addTalent(t);
+    auto tint = _sprite.tint; // preserve tint
     _sprite = new CharacterSprite(this);
+    _sprite.tint = tint;
   }
 
   const BattleTeam team;

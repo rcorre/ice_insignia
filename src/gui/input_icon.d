@@ -46,6 +46,7 @@ static this() {
     "previous" : new Sprite("button_lb"),
     "next"     : new Sprite("button_rb"),
     "start"    : new Sprite("button_start"),
+    "end"      : new Sprite("button_back"),
   ];
 
   _spritesKbd = [
@@ -55,6 +56,7 @@ static this() {
     "previous" : new Sprite("keyboard_q"),
     "next"     : new Sprite("keyboard_e"),
     "start"    : new Sprite("keyboard_enter"),
+    "end"      : new Sprite("keyboard_space"),
   ];
 
   _font = getFont("buttonSprite");

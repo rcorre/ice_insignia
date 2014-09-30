@@ -60,6 +60,7 @@ private enum {
 
   targetShade = Color.red,
   menuIconPos = cast(Vector2i) Vector2f(Settings.screenW * 0.3, Settings.screenH * 0.98f),
+  skipIconPos = cast(Vector2i) Vector2f(Settings.screenW * 0.45, Settings.screenH * 0.98f),
   fastIconPos = cast(Vector2i) Vector2f(Settings.screenW * 0.6, Settings.screenH * 0.98f),
 }
 
@@ -353,6 +354,7 @@ class Battle : GameState {
         }
       }
       drawInputIcon("start", menuIconPos, _input.gamepadConnected, "  menu");
+      drawInputIcon("end", skipIconPos, _input.gamepadConnected, "  skip");
       drawInputIcon("cancel", fastIconPos, _input.gamepadConnected, " faster");
     }
 
@@ -648,6 +650,8 @@ class Battle : GameState {
     void selectItem(Item item) {
       if (_battler.canWield(item)) {
         _battler.equippedWeapon = item;
+        _inventoryView = new InventoryMenu(screenCenter, _battler.items, &selectItem,
+            &showItemInfo, &itemInputString, InventoryMenu.ShowPrice.no, true, true);
       }
       else if (item.useOnSelf) {
         setState(new UseItem(_battler, item));

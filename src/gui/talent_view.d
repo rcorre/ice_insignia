@@ -10,12 +10,13 @@ private enum {
   textureName       = "talent_view",
   titleFont         = "talentName",
   descriptionFont   = "talentDescription",
+  bonusFont         = "talentBonus",
   spriteOffset      = Vector2i(30, 27),
   titleOffset       = Vector2i(56, 18),
   descriptionOffset = Vector2i(15, 50),
-  bonusOffset = Vector2i(15, 55),
-  bonusColor = Color(0, 0.5, 0.2),
-  penaltyColor = Color(0.6, 0.0, 0.0),
+  bonusOffset       = Vector2i(15, 55),
+  bonusColor        = Color(0, 0.5, 0.2),
+  penaltyColor      = Color(0.6, 0.0, 0.0),
 }
 
 /// display info about an item
@@ -35,7 +36,7 @@ class TalentView {
         text.color = penaltyColor;
       }
       text.pos = pos;
-      auto height = _descriptionFont.heightOf(text.text);
+      auto height = _bonusFont.heightOf(text.text);
       pos.y += height;
       //_area.height += height;
       _bonusInfo ~= text;
@@ -51,7 +52,7 @@ class TalentView {
     _titleFont.draw(_talent.title, pos + titleOffset);
     _descriptionFont.draw(_talent.description, pos + descriptionOffset);
     foreach (bonus ; _bonusInfo) {
-      _descriptionFont.draw(bonus.text, bonus.pos + pos, bonus.color);
+      _bonusFont.draw(bonus.text, bonus.pos + pos, bonus.color);
     }
   }
 
@@ -68,12 +69,13 @@ class TalentView {
   BonusText[] _bonusInfo;
 
   static Texture _texture;
-  static Font _descriptionFont, _titleFont;
+  static Font _descriptionFont, _titleFont, _bonusFont;
 
   static this() {
     _texture = getTexture(textureName);
     _titleFont = getFont(titleFont);
     _descriptionFont = getFont(descriptionFont);
+    _bonusFont = getFont(bonusFont);
   }
 }
 
