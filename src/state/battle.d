@@ -62,6 +62,11 @@ private enum {
   menuIconPos = cast(Vector2i) Vector2f(Settings.screenW * 0.3, Settings.screenH * 0.98f),
   skipIconPos = cast(Vector2i) Vector2f(Settings.screenW * 0.45, Settings.screenH * 0.98f),
   fastIconPos = cast(Vector2i) Vector2f(Settings.screenW * 0.6, Settings.screenH * 0.98f),
+
+  victoryRewardPos = Vector2i(321, 216),
+  victoryGoldPos = Vector2i(321, 246),
+  endBattleInputPos = Vector2i(321, 454),
+  victoryGoldRate = 30f,  /// gold awarded per second while ticking down
 }
 
 class Battle : GameState {
@@ -1718,22 +1723,51 @@ class Battle : GameState {
   class BattleOver : State {
     this(bool victory) {
       _victory = victory;
+      _awardStarted = !_victory;
+      _rewardLeft = _goldReward;
+      _currentGold = _saveData.gold;
       _splash = getTexture(victory ? "victorySplash" : "defeatSplash");
+    }
+
+    override void onStart() {
+      playSound("gold");
     }
 
     override void update(float time) {
       if (_input.confirm) {
-        endBattle(_victory);
+        if (_awardStarted) {
+          endBattle(_victory);
+        }
+        else {
+          _awardStarted = true;
+        }
+      }
+      if (_rewardLeft > 0) {
+        auto amount = min(_rewardLeft, victoryGoldRate * time);
+        _rewardLeft -= amount;
+        _currentGold += amount;
       }
     }
 
     override void draw() {
       _splash.draw(screenCenter);
+      if (_victory) {
+        _font.draw(format("Reward: %4.0fG", _rewardLeft), victoryRewardPos);
+        _font.draw(format("Stores: %4.0fG", _currentGold), victoryGoldPos);
+      }
+      drawInputIcon("confirm", endBattleInputPos, _input.gamepadConnected, "continue");
     }
 
     private:
+    bool _awardStarted;
+    float _rewardLeft, _currentGold;
     Texture _splash;
     bool _victory;
+    static Font _font;
+
+    static this() {
+      _font = getFont("victoryReward");
+    }
   }
 
   class ConsiderSkip : State {

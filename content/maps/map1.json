@@ -26,7 +26,97 @@
          "draworder":"topdown",
          "height":0,
          "name":"Allies",
-         "objects":[],
+         "objects":[
+                {
+                 "gid":64,
+                 "height":0,
+                 "name":"Spawn",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"spawn",
+                 "visible":true,
+                 "width":0,
+                 "x":32,
+                 "y":640
+                }, 
+                {
+                 "gid":64,
+                 "height":0,
+                 "name":"Spawn",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"spawn",
+                 "visible":true,
+                 "width":0,
+                 "x":64,
+                 "y":608
+                }, 
+                {
+                 "gid":64,
+                 "height":0,
+                 "name":"Spawn",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"spawn",
+                 "visible":true,
+                 "width":0,
+                 "x":96,
+                 "y":640
+                }, 
+                {
+                 "gid":64,
+                 "height":0,
+                 "name":"Spawn",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"spawn",
+                 "visible":true,
+                 "width":0,
+                 "x":128,
+                 "y":608
+                }, 
+                {
+                 "gid":64,
+                 "height":0,
+                 "name":"Spawn",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"spawn",
+                 "visible":true,
+                 "width":0,
+                 "x":160,
+                 "y":640
+                }, 
+                {
+                 "gid":64,
+                 "height":0,
+                 "name":"Spawn",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"spawn",
+                 "visible":true,
+                 "width":0,
+                 "x":192,
+                 "y":608
+                }],
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
@@ -338,7 +428,7 @@
  "tilesets":[
         {
          "firstgid":1,
-         "image":"..\/..\/..\/..\/..\/..\/data\/project\/ice_insignia\/content\/image\/terrain.png",
+         "image":"..\/image\/terrain.png",
          "imageheight":320,
          "imagewidth":320,
          "margin":0,
@@ -563,7 +653,7 @@
         }, 
         {
          "firstgid":101,
-         "image":"..\/..\/..\/..\/..\/..\/data\/project\/ice_insignia\/content\/image\/units_red.png",
+         "image":"..\/image\/units_red.png",
          "imageheight":224,
          "imagewidth":192,
          "margin":0,

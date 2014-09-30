@@ -1367,7 +1367,14 @@
    <tile gid="0"/>
   </data>
  </layer>
- <objectgroup name="Allies"/>
+ <objectgroup name="Allies">
+  <object name="Spawn" type="spawn" gid="64" x="32" y="640"/>
+  <object name="Spawn" type="spawn" gid="64" x="64" y="608"/>
+  <object name="Spawn" type="spawn" gid="64" x="96" y="640"/>
+  <object name="Spawn" type="spawn" gid="64" x="128" y="608"/>
+  <object name="Spawn" type="spawn" gid="64" x="160" y="640"/>
+  <object name="Spawn" type="spawn" gid="64" x="192" y="608"/>
+ </objectgroup>
  <objectgroup name="Enemies">
   <object name="soldier" type="2" gid="107" x="352" y="608">
    <properties>
@@ -1398,6 +1405,7 @@
    <properties>
     <property name="ai" value="territorial"/>
     <property name="dropItem" value="poultice"/>
+    <property name="isBoss" value="true"/>
     <property name="item0" value="broadsword"/>
    </properties>
   </object>
