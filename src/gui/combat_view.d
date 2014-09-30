@@ -12,15 +12,28 @@ import model.battler;
 import gui.input_icon;
 
 private enum {
-  offsetSprite       = Vector2i(25, 49),
-  offsetName         = Vector2i(49, 41),
-  offsetWeaponSprite = Vector2i(25, 81),
-  offsetWeaponName   = Vector2i(49, 73),
-  offsetDamage       = Vector2i(81, 105),
-  offsetHit          = Vector2i(81, 137),
-  offsetCrit         = Vector2i(81, 169),
-  offsetDescription  = Vector2i(41, 201),
-  offsetInputIcon    = Vector2i(-20, -20),
+  leftOffsetSprite       = Vector2i(25, 25),
+  leftOffsetName         = Vector2i(49, 9),
+  leftOffsetHealth       = Vector2i(49, 25),
+  leftOffsetWeaponSprite = Vector2i(20, 65),
+  leftOffsetWeaponName   = Vector2i(40, 53),
+  leftOffsetDescription  = Vector2i(9, 89),
+  leftOffsetDamage       = Vector2i(73, 110),
+  leftOffsetHit          = Vector2i(73, 134),
+  leftOffsetCrit         = Vector2i(73, 158),
+
+  rightOffsetSprite       = Vector2i(193, 25),
+  rightOffsetName         = Vector2i(113, 9),
+  rightOffsetHealth       = Vector2i(113, 25),
+  rightOffsetWeaponSprite = Vector2i(196, 65),
+  rightOffsetWeaponName   = Vector2i(116, 53),
+  rightOffsetDescription  = Vector2i(117, 89),
+  rightOffsetDamage       = Vector2i(137, 108),
+  rightOffsetHit          = Vector2i(137, 132),
+  rightOffsetCrit         = Vector2i(137, 156),
+
+  prevItemOffset     = Vector2i(100, -16),
+  nextItemOffset     = Vector2i(132, -16),
   multOffset         = Vector2f(8, 0),
   multRotation       = 2.0,
   spacing            = Vector2i(193, 0),
@@ -81,10 +94,10 @@ class BattlerCombatView : CombatView {
 
   override void draw(bool gamepad) {
     super.draw(gamepad);
-    drawPrediction(_attack, _area.topLeft);
-    drawPrediction(_counter, _area.topLeft + spacing);
-    drawInputIcon("previous", _area.topLeft + offsetWeaponSprite + offsetInputIcon, gamepad);
-    drawInputIcon("next", _area.topLeft + offsetWeaponSprite + offsetInputIcon.mirroredH, gamepad);
+    drawLeftPrediction(_attack, _area.topLeft);
+    drawRightPrediction(_counter, _area.topLeft);
+    drawInputIcon("previous", _area.topLeft + prevItemOffset, gamepad);
+    drawInputIcon("next", _area.topLeft + nextItemOffset, gamepad, "cycle weapon");
   }
 
   private:
@@ -92,25 +105,47 @@ class BattlerCombatView : CombatView {
   Vector2f _multOffset = multOffset;
   AnimatedSprite _advantageSprite, _disadvantageSprite;
 
-  void drawPrediction(CombatPrediction pred, Vector2i offset) {
+  void drawLeftPrediction(CombatPrediction pred, Vector2i offset) {
     auto unit = pred.attacker;
     auto weapon = unit.equippedWeapon;
-    unit.sprite.draw(offset + offsetSprite);
-    weapon.sprite.draw(offset + offsetWeaponSprite);
-    _font.draw(unit.name   , offset + offsetName);
-    _font.draw(weapon.name , offset + offsetWeaponName);
-    _font.draw(pred.damage , offset + offsetDamage);
-    _font.draw(pred.hit    , offset + offsetHit);
-    _font.draw(pred.crit   , offset + offsetCrit);
-    _font.draw(weapon.text , offset + offsetDescription);
+    unit.sprite.draw(offset + leftOffsetSprite);
+    weapon.sprite.draw(offset + leftOffsetWeaponSprite);
+    _font.draw(unit.name   , offset + leftOffsetName);
+    _font.draw(weapon.name , offset + leftOffsetWeaponName);
+    _font.draw(pred.damage , offset + leftOffsetDamage);
+    _font.draw(pred.hit    , offset + leftOffsetHit);
+    _font.draw(pred.crit   , offset + leftOffsetCrit);
+    _font.draw(weapon.text , offset + leftOffsetDescription);
     if (pred.doubleHit) {
-      _font.draw("x2", cast(Vector2i) (offset + offsetDamage + _multOffset), Color.green);
+      _font.draw("x2", cast(Vector2i) (offset + leftOffsetDamage + _multOffset), Color.green);
     }
     if (pred.triangleAdvantage) {
-      _advantageSprite.draw(offset + offsetWeaponSprite);
+      _advantageSprite.draw(offset + leftOffsetWeaponSprite);
     }
     else if (pred.triangleDisadvantage) {
-      _disadvantageSprite.draw(offset + offsetWeaponSprite);
+      _disadvantageSprite.draw(offset + leftOffsetWeaponSprite);
+    }
+  }
+
+  void drawRightPrediction(CombatPrediction pred, Vector2i offset) {
+    auto unit = pred.attacker;
+    auto weapon = unit.equippedWeapon;
+    unit.sprite.draw(offset + rightOffsetSprite);
+    weapon.sprite.draw(offset + rightOffsetWeaponSprite);
+    _font.draw(unit.name   , offset + rightOffsetName);
+    _font.draw(weapon.name , offset + rightOffsetWeaponName);
+    _font.draw(pred.damage , offset + rightOffsetDamage);
+    _font.draw(pred.hit    , offset + rightOffsetHit);
+    _font.draw(pred.crit   , offset + rightOffsetCrit);
+    _font.draw(weapon.text , offset + rightOffsetDescription);
+    if (pred.doubleHit) {
+      _font.draw("x2", cast(Vector2i) (offset + rightOffsetDamage + _multOffset), Color.green);
+    }
+    if (pred.triangleAdvantage) {
+      _advantageSprite.draw(offset + rightOffsetWeaponSprite);
+    }
+    else if (pred.triangleDisadvantage) {
+      _disadvantageSprite.draw(offset + rightOffsetWeaponSprite);
     }
   }
 }
@@ -126,19 +161,19 @@ class WallCombatView : CombatView {
     super.draw(gamepad);
     auto offset = area.topLeft;
     // draw attacker
-    _attacker.sprite.draw(offset + offsetSprite);
-    _attacker.equippedWeapon.sprite.draw(offset + offsetWeaponSprite);
-    _font.draw(_attacker.name                , offset + offsetName);
-    _font.draw(_attacker.equippedWeapon.name , offset + offsetWeaponName);
-    _font.draw(_attacker.attackDamage        , offset + offsetDamage);
-    _font.draw(_attacker.attackHit           , offset + offsetHit);
-    _font.draw(_attacker.attackCrit          , offset + offsetCrit);
+    _attacker.sprite.draw(offset + leftOffsetSprite);
+    _attacker.equippedWeapon.sprite.draw(offset + leftOffsetWeaponSprite);
+    _font.draw(_attacker.name                , offset + leftOffsetName);
+    _font.draw(_attacker.equippedWeapon.name , offset + leftOffsetWeaponName);
+    _font.draw(_attacker.attackDamage        , offset + leftOffsetDamage);
+    _font.draw(_attacker.attackHit           , offset + leftOffsetHit);
+    _font.draw(_attacker.attackCrit          , offset + leftOffsetCrit);
 
-    _font.draw(_wall.name , offset + offsetName       + spacing);
-    _font.draw("none"     , offset + offsetWeaponName + spacing);
-    _font.draw(0          , offset + offsetDamage     + spacing);
-    _font.draw(0          , offset + offsetHit        + spacing);
-    _font.draw(0          , offset + offsetCrit       + spacing);
+    _font.draw(_wall.name , offset + rightOffsetName       + spacing);
+    _font.draw("none"     , offset + rightOffsetWeaponName + spacing);
+    _font.draw(0          , offset + rightOffsetDamage     + spacing);
+    _font.draw(0          , offset + rightOffsetHit        + spacing);
+    _font.draw(0          , offset + rightOffsetCrit       + spacing);
   }
 
   private:

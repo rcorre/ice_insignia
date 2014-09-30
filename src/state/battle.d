@@ -859,6 +859,7 @@ class Battle : GameState {
       _targets = bicycle(targets);
       _attackTerrain = _map.tileAt(attacker.row, attacker.col);
       setTarget(targets[0]);
+      _itemChoices = bicycle(_attacker.weaponOptions(targets[0].get!Attackable));
     }
 
     override void update(float time) {
@@ -875,10 +876,14 @@ class Battle : GameState {
         }
       }
       else if (_input.selectLeft) {
-        setTarget(_targets.advance);
+        auto target = _targets.advance;
+        setTarget(target);
+        _itemChoices = bicycle(_attacker.weaponOptions(target.get!Attackable));
       }
       else if (_input.selectRight) {
-        setTarget(_targets.reverse);
+        auto target = _targets.advance;
+        setTarget(target);
+        _itemChoices = bicycle(_attacker.weaponOptions(target.get!Attackable));
       }
       else if (_input.next) {
         _attacker.equippedWeapon = _itemChoices.advance;
@@ -941,7 +946,6 @@ class Battle : GameState {
       _counter = new CombatPrediction(defender, _attacker, _attackTerrain, true);
       _view = new BattlerCombatView(defender.pos - _camera.topLeft, _attack, _counter);
       _tileCursor.place(_defendTerrain);
-      _itemChoices = bicycle(_attacker.weaponOptions(defender));
     }
   }
 

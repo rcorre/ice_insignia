@@ -289,7 +289,7 @@
     "price"    : 600,
     "tier"     : 3,
     "effect"   : "drain",
-    "text"     : "Drains life"
+    "text"     : "Drain life"
   },
 
   "mace": {
@@ -304,7 +304,7 @@
     "weight"   : 6,
     "price"    : 120,
     "effect"   : "antiArmor",
-    "text"     : "Penetrate 1/2 armor"
+    "text"     : "Pierce 1/2 armor"
   },
 
   "battleaxe": {
@@ -321,7 +321,7 @@
     "tier"     : 1
   },
 
-  "vengeance": {
+  "vengeance"  : {
     "name"     : "Vengeance",
     "type"     : "axe",
     "maxUses"  : 30,
@@ -334,7 +334,7 @@
     "price"    : 250,
     "tier"     : 1,
     "effect"   : "counter",
-    "text"   : "Powerful counter-attack"
+    "text"     : "Strong counter"
   },
 
   "crescentaxe": {
@@ -364,7 +364,7 @@
     "price"    : 290,
     "tier"     : 2,
     "effect"   : "antiArmor",
-    "text"     : "Penetrate 1/2 armor"
+    "text"     : "Pierce 1/2 armor"
   },
 
   "tomahawk": {
@@ -408,7 +408,7 @@
     "price"    : 420,
     "tier"     : 3,
     "effect"   : "antiArmor",
-    "text"     : "Penetrate 1/2 armor"
+    "text"     : "Pierce 1/2 armor"
   },
 
   "shortbow": {
@@ -424,7 +424,7 @@
     "price"    : 120
   },
 
-  "crossbow": {
+  "crossbow"   : {
     "name"     : "Crossbow",
     "type"     : "bow",
     "maxUses"  : 30,
@@ -436,6 +436,7 @@
     "weight"   : 7,
     "price"    : 160,
     "effect"   : "antiArmor",
+    "text"     : "Pierce 1/2 armor",
     "tier"     : 1
   },
 
