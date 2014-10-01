@@ -45,7 +45,6 @@ class ItemView {
     _font.draw(_item.crit  , pos + crtOffset);
     _font.draw(_item.weight, pos + wgtOffset);
     _font.draw(format("%d-%d", _item.minRange, _item.maxRange), pos + rngOffset);
-    _font.draw(_item.type  , pos + typOffset);
     _font.draw(_item.text  , pos + infoOffset);
   }
 
