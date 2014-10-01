@@ -547,22 +547,27 @@
                 },
              "35":
                 {
+                 "moveCost":"20",
                  "name":"Shore"
                 },
              "36":
                 {
+                 "moveCost":"20",
                  "name":"Shore"
                 },
              "37":
                 {
+                 "moveCost":"20",
                  "name":"Shore"
                 },
              "38":
                 {
+                 "moveCost":"20",
                  "name":"Shore"
                 },
              "39":
                 {
+                 "moveCost":"20",
                  "name":"Shore"
                 },
              "4":
@@ -591,22 +596,27 @@
                 },
              "45":
                 {
+                 "moveCost":"20",
                  "name":"Shore"
                 },
              "46":
                 {
+                 "moveCost":"20",
                  "name":"Shore"
                 },
              "47":
                 {
+                 "moveCost":"20",
                  "name":"Shore"
                 },
              "48":
                 {
+                 "moveCost":"20",
                  "name":"Water"
                 },
              "49":
                 {
+                 "moveCost":"20",
                  "name":"Shore"
                 },
              "5":
@@ -615,14 +625,17 @@
                 },
              "57":
                 {
+                 "moveCost":"20",
                  "name":"Shore"
                 },
              "58":
                 {
+                 "moveCost":"20",
                  "name":"Shore"
                 },
              "59":
                 {
+                 "moveCost":"20",
                  "name":"Shore"
                 },
              "6":
