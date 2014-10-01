@@ -14,23 +14,23 @@ import gui.input_icon;
 private enum {
   leftOffsetSprite       = Vector2i(25, 25),
   leftOffsetName         = Vector2i(49, 9),
-  leftOffsetHealth       = Vector2i(49, 25),
+  leftOffsetHp           = Vector2i(73, 29),
   leftOffsetWeaponSprite = Vector2i(20, 65),
   leftOffsetWeaponName   = Vector2i(36, 53),
-  leftOffsetDescription  = Vector2i(9, 89),
-  leftOffsetDamage       = Vector2i(73, 110),
-  leftOffsetHit          = Vector2i(73, 134),
-  leftOffsetCrit         = Vector2i(73, 158),
+  leftOffsetDescription  = Vector2i(9,  73),
+  leftOffsetDamage       = Vector2i(73, 94),
+  leftOffsetHit          = Vector2i(73, 118),
+  leftOffsetCrit         = Vector2i(73, 142),
 
   rightOffsetSprite       = Vector2i(193, 25),
   rightOffsetName         = Vector2i(113, 9),
-  rightOffsetHealth       = Vector2i(113, 25),
+  rightOffsetHp           = Vector2i(133, 29),
   rightOffsetWeaponSprite = Vector2i(196, 65),
   rightOffsetWeaponName   = Vector2i(112, 53),
-  rightOffsetDescription  = Vector2i(117, 89),
-  rightOffsetDamage       = Vector2i(137, 108),
-  rightOffsetHit          = Vector2i(137, 132),
-  rightOffsetCrit         = Vector2i(137, 156),
+  rightOffsetDescription  = Vector2i(117, 73),
+  rightOffsetDamage       = Vector2i(137, 92),
+  rightOffsetHit          = Vector2i(137, 116),
+  rightOffsetCrit         = Vector2i(137, 140),
 
   prevItemOffset     = Vector2i(100, -16),
   nextItemOffset     = Vector2i(132, -16),
@@ -116,6 +116,7 @@ class BattlerCombatView : CombatView {
     _font.draw(pred.hit    , offset + leftOffsetHit);
     _font.draw(pred.crit   , offset + leftOffsetCrit);
     _font.draw(weapon.text , offset + leftOffsetDescription);
+    _font.draw("%2d".format(unit.hp), offset + leftOffsetHp);
     if (pred.doubleHit) {
       _font.draw("x2", cast(Vector2i) (offset + leftOffsetDamage + _multOffset), Color.green);
     }
@@ -138,6 +139,7 @@ class BattlerCombatView : CombatView {
     _font.draw(pred.hit    , offset + rightOffsetHit);
     _font.draw(pred.crit   , offset + rightOffsetCrit);
     _font.draw(weapon.text , offset + rightOffsetDescription);
+    _font.draw("%2d".format(unit.hp), offset + rightOffsetHp);
     if (pred.doubleHit) {
       _font.draw("x2", cast(Vector2i) (offset + rightOffsetDamage + _multOffset), Color.green);
     }
@@ -168,12 +170,14 @@ class WallCombatView : CombatView {
     _font.draw(_attacker.attackDamage        , offset + leftOffsetDamage);
     _font.draw(_attacker.attackHit           , offset + leftOffsetHit);
     _font.draw(_attacker.attackCrit          , offset + leftOffsetCrit);
+    _font.draw("%2d".format(_attacker.hp)    , offset + leftOffsetHp);
 
     _font.draw(_wall.name , offset + rightOffsetName      );
     _font.draw("none"     , offset + rightOffsetWeaponName);
     _font.draw(0          , offset + rightOffsetDamage    );
     _font.draw(0          , offset + rightOffsetHit       );
     _font.draw(0          , offset + rightOffsetCrit      );
+    _font.draw("%2d".format(_wall.hp), offset + rightOffsetHp);
   }
 
   private:
