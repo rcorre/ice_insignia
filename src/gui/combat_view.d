@@ -39,7 +39,10 @@ private enum {
   spacing            = Vector2i(193, 0),
   buffer             = 20, // distance between view and sprite
   advantageSprite    = "upArrow",
-  disadvantageSprite = "downArrow"
+  disadvantageSprite = "downArrow",
+
+  leftWeaponFmt = "%11s",
+  rightWeaponFmt = "%11s",
 }
 
 abstract class CombatView {
@@ -111,7 +114,7 @@ class BattlerCombatView : CombatView {
     unit.sprite.draw(offset + leftOffsetSprite);
     weapon.sprite.draw(offset + leftOffsetWeaponSprite);
     _font.draw(unit.name   , offset + leftOffsetName);
-    _font.draw(weapon.name , offset + leftOffsetWeaponName);
+    _font.draw(leftWeaponFmt.format(weapon.name), offset + leftOffsetWeaponName);
     _font.draw(pred.damage , offset + leftOffsetDamage);
     _font.draw(pred.hit    , offset + leftOffsetHit);
     _font.draw(pred.crit   , offset + leftOffsetCrit);
@@ -134,7 +137,7 @@ class BattlerCombatView : CombatView {
     unit.sprite.draw(offset + rightOffsetSprite);
     weapon.sprite.draw(offset + rightOffsetWeaponSprite);
     _font.draw(unit.name   , offset + rightOffsetName);
-    _font.draw(weapon.name , offset + rightOffsetWeaponName);
+    _font.draw(rightWeaponFmt.format(weapon.name) , offset + rightOffsetWeaponName);
     _font.draw(pred.damage , offset + rightOffsetDamage);
     _font.draw(pred.hit    , offset + rightOffsetHit);
     _font.draw(pred.crit   , offset + rightOffsetCrit);
